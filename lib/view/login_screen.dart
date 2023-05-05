@@ -1,163 +1,194 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:table_menu_customer/utils/validation/validation.dart';
+import 'package:table_menu_customer/view/registration_screen.dart';
+import 'package:table_menu_customer/view/verify_user_screen.dart';
 import '../utils/widgets/custom_button.dart';
+import '../utils/widgets/forgot_pass_email_widget.dart';
+import '../utils/widgets/custom_text.dart';
+import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController phoneController = TextEditingController();
-
-  final _formKey_auth = GlobalKey<FormState>();
-
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey_login = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context, listen: true);
-
+    ValueNotifier<bool> obsecurePassword = ValueNotifier<bool>(true);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 35),
-              child: Column(
-                children: [
-                  Container(
-                    width: 200,
-                    height: 200,
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.purple.shade50,
-                    ),
-                    child: Image.asset(
-                      "assets/images/mobile_login.png",
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Register",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Add your phone number. We'll send you a verification code",
-                    style: TextStyle(
+              padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
+              child: Column(children: [
+                Container(
+                  width: 200,
+                  height: 200,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Image.asset("assets/images/mobile_login.png"),
+                ),
+                const Text(
+                  "Login",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Text(
+                  "Enter Your Credentials",
+                  style: TextStyle(
                       fontSize: 14,
                       color: Colors.black38,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 20),
-                  Form(
-                    key: _formKey_auth,
+                      fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Form(
+                  key: _formKey_login,
+                  child: Container(
+                    margin: const EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        TextFormField(
-                            cursorColor: Colors.purple,
-                            controller: phoneController,
-                            maxLength: 10,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              String regexPattern =
-                                  r'^(?:[+0][1-9])?[0-9]{10}$';
-                              RegExp regex = new RegExp(regexPattern);
-                              if (!regex.hasMatch(value!)) {
-                                return "enter valid phone no";
-                              }
-                            },
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.red, width: 3),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
+                        CustomTextFormField().getCustomEditTextArea(
+                          labelValue: "Email",
+                          hintValue: "Enter Email",
+                          obscuretext: false,
+                          maxLines: 1,
+                          keyboardType: TextInputType.emailAddress,
+                          prefixicon: const Icon(
+                            Icons.email_outlined,
+                            color: Colors.black,
+                          ),
+                          controller: auth_provider.emailLoginController,
+                          validator: emailValidator,
+                          onchanged: (newValue) {},
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: obsecurePassword,
+                          builder: (context, value, child) {
+                            return CustomTextFormField().getCustomEditTextArea(
+                              labelValue: "Password",
+                              hintValue: "Enter Password",
+                              obscuretext: obsecurePassword.value,
+                              maxLines: 1,
+                              prefixicon: const Icon(
+                                Icons.password_outlined,
+                                color: Colors.black,
                               ),
-                              hintText: "Enter phone number",
-                              border:OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide:
-                                  const BorderSide(color: Colors.black12)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide:
-                                      const BorderSide(color: Colors.black12)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                  borderSide:
-                                      const BorderSide(color: Colors.black12)),
-                              prefixIcon: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 8.0,
-                                    right: 8.0,
-                                    top: 12.0,
-                                    bottom: 12.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    showCountryPicker(
-                                        context: context,
-                                        countryListTheme:
-                                            const CountryListThemeData(
-                                          bottomSheetHeight: 550,
-                                        ),
-                                        onSelect: (value) {
-                                          auth_provider.setCountry(value);
-                                        });
-                                  },
-                                  child: Text(
-                                    "${auth_provider.selectedCountry.flagEmoji} + ${auth_provider.selectedCountry.phoneCode}",
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                              controller: auth_provider.passwordLoginController,
+                              validator: passwordValidator,
+                              onchanged: (newValue) {},
+                              iconButton: IconButton(
+                                onPressed: () {
+                                  obsecurePassword.value = !obsecurePassword.value;
+                                },
+                                icon: obsecurePassword.value ?
+                                const Icon(
+                                  Icons.visibility_off_outlined,
+                                  color: Colors.black,
+                                ) :
+                                const Icon(
+                                  Icons.visibility_outlined,
+                                  color: Colors.black,
+                                ),
+                              )
+                            );
+                          },
+                        ),
+                        SizedBox(height: 8,),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(context: context, builder: (context){
+                                    return ForgotPassEmailWidget();
+                                  });
+                                },
+                                child: CustomText(
+                                  text: "Forgot Password",
+                                  color: Colors.purple,
+                                  size: 14,
                                 ),
                               ),
-                            )),
-                        SizedBox(height: 20),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 8,),
                         SizedBox(
-                          width: double.infinity,
                           height: 50,
+                          width: double.infinity,
                           child: CustomButton(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(fontSize: 16),
+                            onPressed: () async {
+                              if (_formKey_login.currentState!
+                                  .validate()) {
+                                var data = {
+                                  "email" : auth_provider.emailLoginController.text,
+                                  "password" : auth_provider.passwordLoginController.text
+                                };
+                                auth_provider.userLogin(data, context);
+                              }
+                            },
+                            child: auth_provider.loading ?
+                            const CircularProgressIndicator(color: Colors.white,)
+                                : const CustomText(
+                              text: "Login",
+                              size: 18,
+                              color: Colors.white,
+                              weight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8,),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              CustomText(
+                                text: "Don't have an account?",
+                                color: Colors.black,
+                                size: 14,
                               ),
-                              onPressed: () {
-                                if (_formKey_auth.currentState!.validate()) {
-                                  sendPhoneNumber();
-                                }
-                              }),
-                        )
+                              SizedBox(width: 6,),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationScreen(),));
+                                },
+                                child: CustomText(
+                                  text: "Register",
+                                  color: Colors.purple,
+                                  size: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ]),
             ),
           ),
-        ),
+        )
       ),
     );
-  }
-
-  void sendPhoneNumber() {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-    String phoneNumber = phoneController.text.trim();
-    // auth_provider.signInWithPhone(
-    //     context, "+${auth_provider.selectedCountry.phoneCode}$phoneNumber");
   }
 }

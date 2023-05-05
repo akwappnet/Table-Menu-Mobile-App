@@ -1,18 +1,24 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/view/welcome_screen.dart';
+import 'package:table_menu_customer/view/registration_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
 import 'package:table_menu_customer/view_model/nav_provider.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
+import 'firebase_options.dart';
 
-import 'model/cart_model.dart';
-import 'model/category_model.dart';
-import 'model/menuItem_model.dart';
-
-void main() {
+Future<void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // final AuthRepository _authRepository = AuthRepository();
+  // bool loggedIn = await _authRepository.isLoggedIn();
+  // runApp(MyApp(loggedIn: loggedIn,));
   runApp(const MyApp());
 }
 
@@ -24,7 +30,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-       // StreamProvider<List<CategoryModel>>(create: (_) => FireStoreService().getCategories(), initialData: const [],),
+        //StreamProvider<List<CategoryModel>>(create: (_) => FireStoreService().getCategories(), initialData: const [],),
         //StreamProvider<List<MenuItemModel>>(create: (_) => FireStoreService().getMenuItems(), initialData: const [],),
         //StreamProvider<List<CartModel>>(create: (_) => FireStoreService().getCartItems(), initialData: const [],),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
@@ -42,8 +48,22 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Roboto'
         ),
         debugShowCheckedModeBanner: false,
-        home: WelcomeScreen(),
-      ),
+        home: AnimatedSplashScreen(
+          duration: 3000,
+          splashTransition: SplashTransition.scaleTransition,
+          backgroundColor: Colors.white,
+          animationDuration: const Duration(seconds: 1),
+          splashIconSize: 300,
+          splash: Center(
+            child: Image.asset(
+              'assets/images/table-menu-logo.png',
+              height: 300,
+              width: 300,
+            ),
+          ),
+          nextScreen: const RegistrationScreen(),
+        )
+      )
     );
   }
 }

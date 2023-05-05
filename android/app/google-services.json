@@ -1,0 +1,154 @@
+{
+  "project_info": {
+    "project_number": "940032387389",
+    "project_id": "resturantapp-a6df7",
+    "storage_bucket": "resturantapp-a6df7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940032387389:android:9822ac78d46815adb7bd54",
+        "android_client_info": {
+          "package_name": "com.example.chef_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0BgyRzBAKGmUmEFGQZkNlP2DMvPh3GgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940032387389-58adub0872ooa504rd4hbrhidm8i80ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wappnet.tableMenuCustomer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940032387389:android:fa7e9dea0adfe8eeb7bd54",
+        "android_client_info": {
+          "package_name": "com.example.restaurant_admin_panel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0BgyRzBAKGmUmEFGQZkNlP2DMvPh3GgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940032387389-58adub0872ooa504rd4hbrhidm8i80ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wappnet.tableMenuCustomer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940032387389:android:46b2df3973c09107b7bd54",
+        "android_client_info": {
+          "package_name": "com.wappnet.table_menu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0BgyRzBAKGmUmEFGQZkNlP2DMvPh3GgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940032387389-58adub0872ooa504rd4hbrhidm8i80ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wappnet.tableMenuCustomer"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940032387389:android:ac02857c4c75cd29b7bd54",
+        "android_client_info": {
+          "package_name": "com.wappnet.table_menu_customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0BgyRzBAKGmUmEFGQZkNlP2DMvPh3GgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940032387389-bcn3l1dk4ta2886jtkabfadlr3h8r5ud.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "940032387389-58adub0872ooa504rd4hbrhidm8i80ub.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wappnet.tableMenuCustomer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

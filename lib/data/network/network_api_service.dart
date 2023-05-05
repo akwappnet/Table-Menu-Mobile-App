@@ -22,10 +22,14 @@ class NetworkApiService {
       };
 
       final response = await
-      _dio.get(url, queryParameters: headers)
+      _dio.get(url, options: Options(
+        headers: headers,
+      ))
           .timeout(const Duration(seconds: 10));
-
-      //responseJson = returnResponse(response);
+      //print(response.data);
+      return response;
+      // responseJson = returnResponse(response);
+      // return responseJson;
     } on SocketException {
       throw FetchDataExceptions('No Internet Connection');
     }
@@ -39,7 +43,7 @@ class NetworkApiService {
     try {
 
       var response = await _dio
-          .post(url, data: jsonEncode(data),)
+          .post(url, data: data,)
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -83,8 +87,7 @@ class NetworkApiService {
     return responseJson;
   }
 
-
-  Future<Response> getPutApiResponse(String url, dynamic data) async {
+  Future<Response> getPatchApiResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
 
@@ -92,12 +95,17 @@ class NetworkApiService {
       final token = prefs.getString('token');
 
       var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Token $token'
+        'Authorization': 'Token $token',
+        'Accept': 'application/json'
       };
 
       var response = await _dio
-          .put(url, data: jsonEncode(data), queryParameters: headers)
+          .patch(url, data: data, options: Options(
+        headers: headers,
+        validateStatus: (_) => true,
+        contentType: Headers.jsonContentType,
+        responseType:ResponseType.json,
+      ))
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -108,7 +116,6 @@ class NetworkApiService {
     }
     return responseJson;
   }
-
 
   Future<Response> getDeleteApiResponse(String url) async {
     dynamic responseJson;
@@ -123,7 +130,12 @@ class NetworkApiService {
       };
 
       var response = await _dio
-          .delete(url, queryParameters: headers)
+          .delete(url, options: Options(
+        headers: headers,
+        validateStatus: (_) => true,
+        contentType: Headers.jsonContentType,
+        responseType:ResponseType.json,
+      ))
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -134,7 +146,6 @@ class NetworkApiService {
     }
     return responseJson;
   }
-
 
   dynamic returnResponse(Response response) {
     switch (response.statusCode) {
@@ -149,5 +160,6 @@ class NetworkApiService {
             'Error Occured While Communicating with Server');
     }
   }
+
 
 }

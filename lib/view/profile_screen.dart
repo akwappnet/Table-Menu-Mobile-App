@@ -29,18 +29,18 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CircleAvatar(
-                backgroundColor: Colors.purple,
-                backgroundImage: NetworkImage(auth_provider.userModel.profilePic),
-                radius: 50,
-              ),
-              const SizedBox(height: 20),
-              Text(auth_provider.userModel.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
-              Text(auth_provider.userModel.phoneNumber, style: TextStyle(fontSize: 18),),
-              Text(auth_provider.userModel.email, style: TextStyle(fontSize: 18),),
-            ],
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            // children: [
+            //   CircleAvatar(
+            //     backgroundColor: Colors.purple,
+            //     backgroundImage: NetworkImage(auth_provider.userModel.profilePic),
+            //     radius: 50,
+            //   ),
+            //   const SizedBox(height: 20),
+            //   Text(auth_provider.userModel.name, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+            //   Text(auth_provider.userModel.phoneNumber, style: TextStyle(fontSize: 18),),
+            //   Text(auth_provider.userModel.email, style: TextStyle(fontSize: 18),),
+            // ],
           )),
     );
   }

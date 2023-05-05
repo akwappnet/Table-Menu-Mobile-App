@@ -14,18 +14,6 @@ class OrderProvider extends ChangeNotifier {
         List<Map<String,dynamic>>? cartItemList,
       String? createdAt
       }) async{
-
-    // await fireStoreService.saveOrderItem(
-    //   OrderModel(
-    //       orderId: orderId,
-    //       orderStatus: orderStatus,
-    //       userId: userId,
-    //       tableNo: tableNo,
-    //       createdAt: createdAt,
-    //       paymentStatus: paymentStatus,
-    //     cartItemList: cartItemList
-    //   )
-    // );
     notifyListeners();
   }
 

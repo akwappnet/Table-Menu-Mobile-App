@@ -9,6 +9,8 @@ class CustomTextFormField {
         TextInputType? keyboardType,
         required Icon prefixicon,
          TextStyle? textStyle,
+        IconButton? iconButton,
+        required bool obscuretext,
         required FormFieldSetter onchanged,
         required String? Function(String?)? validator,
          int? maxLines,}) {
@@ -19,8 +21,10 @@ class CustomTextFormField {
       style: textStyle,
       controller: controller,
       onChanged: onchanged,
+      obscureText: obscuretext,
       validator: validator,
       decoration: InputDecoration(
+        suffixIcon: iconButton,
         prefixIcon: prefixicon,
           labelText: labelValue,
           hintText: hintValue,

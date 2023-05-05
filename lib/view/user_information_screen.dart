@@ -8,7 +8,6 @@ import '../model/user_model.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
-import 'home_screen.dart';
 
 class UserInfromationScreen extends StatefulWidget {
   const UserInfromationScreen({super.key});
@@ -73,12 +72,10 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
   final GlobalKey<FormState> _form_key_userinfo = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isLoading;
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: SafeArea(
-        child: isLoading == true
+        child: false
             ? const Center(
                 child: CircularProgressIndicator(
                   color: Colors.purple,
@@ -171,6 +168,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                             child: Column(
                               children: [
                                 CustomTextFormField().getCustomEditTextArea(
+                                  obscuretext: false,
                                   labelValue: "Name",
                                   hintValue: "Enter Name",
                                   onchanged: (value) {
@@ -188,6 +186,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                                 ),
                                 SizedBox(height: 15,),
                                 CustomTextFormField().getCustomEditTextArea(
+                                  obscuretext: false,
                                   labelValue: "Email",
                                   hintValue: "Enter Email",
                                   onchanged: (value) {

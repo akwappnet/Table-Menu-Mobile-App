@@ -36,7 +36,7 @@ class _MenuScreenState extends State<MenuScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hello, ${auth_provider.userModel.name}",
+              "Hello, ",
               style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

@@ -1,216 +1,171 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:country_picker/country_picker.dart';
+
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../model/user_model.dart';
+import 'package:table_menu_customer/model/auth_model.dart';
+import 'package:table_menu_customer/view/home_screen.dart';
+import 'package:table_menu_customer/view/login_screen.dart';
+import 'package:table_menu_customer/view/reset_password_screen.dart';
+import 'package:table_menu_customer/view/verify_user_screen.dart';
+import '../repository/auth_repository.dart';
+import '../utils/widgets/custom_dialog.dart';
 
 class AuthProvider extends ChangeNotifier {
-  bool _isSignedIn = false;
-  bool get isSignedIn => _isSignedIn;
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-  String? _uid;
-  String get uid => _uid!;
-  UserModel? _userModel;
-  UserModel get userModel => _userModel!;
 
-  Country selectedCountry = Country(
-    phoneCode: "91",
-    countryCode: "IN",
-    e164Sc: 0,
-    geographic: true,
-    level: 1,
-    name: "India",
-    example: "India",
-    displayName: "India",
-    displayNameNoCountryCode: "IN",
-    e164Key: "",
-  );
+  final AuthRepository _authRepository = AuthRepository();
 
+  // login controllers
+  final TextEditingController emailLoginController = TextEditingController();
+  final TextEditingController passwordLoginController = TextEditingController();
+
+  // register controllers
+  final TextEditingController emailRegisterController = TextEditingController();
+  final TextEditingController passwordRegisterController = TextEditingController();
+  final TextEditingController repeatePasswordRegisterController = TextEditingController();
+
+  // verify user Controller
+  final TextEditingController activationOTPController = TextEditingController();
+
+  // forgot password Controller
+  final TextEditingController forgotPassEmailController = TextEditingController();
+  final TextEditingController forgotPassOTPController = TextEditingController();
+  final TextEditingController resetPassController = TextEditingController();
+  final TextEditingController resetrepeatPassController = TextEditingController();
 
 
-  AuthProvider() {
-    checkSign();
-  }
+  bool _loading = false;
+  bool get loading => _loading;
 
-  void setCountry(Country value){
-    selectedCountry = value;
+  setLoading(bool value) {
+    _loading = value;
     notifyListeners();
   }
 
-  void checkSign() async {
-    final SharedPreferences s = await SharedPreferences.getInstance();
-    _isSignedIn = s.getBool("is_signedin") ?? false;
-    notifyListeners();
+  Future<void> userRegisteration(String email, String password, BuildContext context) async {
+      FirebaseMessaging messaging = FirebaseMessaging.instance;
+      String? fcmToken = await messaging.getToken();
+      String deviceType = '';
+      if (!kIsWeb) {
+        // Get the device type for non-web platforms
+
+        if (Platform.isIOS) {
+          deviceType = 'iOS';
+        } else if (Platform.isAndroid) {
+          deviceType = 'Android';
+        } else if (Platform.isLinux){
+          deviceType = 'Linux';
+        } else if (Platform.isMacOS) {
+          deviceType = 'MacOS';
+        } else if (Platform.isWindows) {
+          deviceType = 'Windows';
+        } else if (Platform.isFuchsia) {
+          deviceType = 'Fuchsia';
+        }else {
+          deviceType = '';
+        }
+        print('Device Type: $deviceType');
+      }
+      print('FCM Token: $fcmToken');
+
+
+      var data = AuthModel(
+        email: email,
+        password: password,
+        deviceType: deviceType,
+        fcmToken: fcmToken
+      );
+      var result = await _authRepository.registrationUser(data.toJson());
+
+      if(result.data['status'] == true && result.statusCode == 200) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => VerifyUserScreen(),));
+      }else if (result.data['status'] == false){
+        print("status : ${result.data['data']['status']}");
+      }
   }
 
-  Future setSignIn() async {
-    final SharedPreferences s = await SharedPreferences.getInstance();
-    s.setBool("is_signedin", true);
-    _isSignedIn = true;
-    notifyListeners();
+  Future<void> userLogin(dynamic data, BuildContext context) async {
+    setLoading(true);
+
+    var result = await _authRepository.loginUser(data);
+
+    if(result.data['status'] == true && result.statusCode == 200){
+      setLoading(false);
+      String token = result.data['token'];
+      print(token);
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+
+    } else if (result.data['status'] == false) {
+      showDialog(
+          barrierDismissible: true,
+          barrierLabel: '',
+          barrierColor: Colors.black38,
+          context: context,
+          builder: (BuildContext context) {
+            return CustomDialogBox(
+              heading: "Verification",
+              icon: Icon(Icons.not_listed_location),
+              backgroundColor: Colors.red,
+              title: result.data['message']['errors'][0].toString(),
+              descriptions: "", //
+              btn1Text: "",
+              btn2Text: "",
+            );
+          });
+      await Future.delayed(const Duration(seconds: 3))
+          .then((value) => Navigator.of(context).pop());
+    }
   }
 
-  // // signin
-  // void signInWithPhone(BuildContext context, String phoneNumber) async {
-  //   try {
-  //     await _firebaseAuth.verifyPhoneNumber(
-  //         phoneNumber: phoneNumber,
-  //         verificationCompleted:
-  //             (PhoneAuthCredential phoneAuthCredential) async {
-  //           await _firebaseAuth.signInWithCredential(phoneAuthCredential);
-  //         },
-  //         verificationFailed: (error) {
-  //           throw Exception(error.message);
-  //         },
-  //         codeSent: (verificationId, forceResendingToken) {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => OtpScreen(verificationId: verificationId),
-  //             ),
-  //           );
-  //         },
-  //         codeAutoRetrievalTimeout: (verificationId) {});
-  //   } on FirebaseAuthException catch (e) {
-  //     showsnackbar(context, e.message.toString());
-  //   }
-  // }
-  //
-  // // verify otp
-  // void verifyOtp({
-  //   required BuildContext context,
-  //   required String verificationId,
-  //   required String userOtp,
-  //   required Function onSuccess,
-  // }) async {
-  //   _isLoading = true;
-  //   notifyListeners();
-  //
-  //   try {
-  //     PhoneAuthCredential creds = PhoneAuthProvider.credential(
-  //         verificationId: verificationId, smsCode: userOtp);
-  //
-  //     User? user = (await _firebaseAuth.signInWithCredential(creds)).user;
-  //
-  //     if (user != null) {
-  //       // carry our logic
-  //       _uid = user.uid;
-  //       onSuccess();
-  //     }
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   } on FirebaseAuthException catch (e) {
-  //     showsnackbar(context, e.message.toString());
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // // DATABASE OPERTAIONS
-  // Future<bool> checkExistingUser() async {
-  //   DocumentSnapshot snapshot =
-  //       await _firebaseFirestore.collection("users").doc(_uid).get();
-  //   if (snapshot.exists) {
-  //     print("USER EXISTS");
-  //     return true;
-  //   } else {
-  //     print("NEW USER");
-  //     return false;
-  //   }
-  // }
-  //
-  // File? _temp_image;
-  //
-  // get temp_image => _temp_image;
-  //
-  // void setImagetemp(File tempImage) {
-  //   _temp_image = tempImage;
-  //   notifyListeners();
-  // }
-  //
-  // void saveUserDataToFirebase({
-  //   required BuildContext context,
-  //   required UserModel userModel,
-  //   required File profilePic,
-  //   required Function onSuccess,
-  // }) async {
-  //   _isLoading = true;
-  //   notifyListeners();
-  //   try {
-  //     // uploading image to firebase storage.
-  //     await storeFileToStorage("profilePic/$_uid", profilePic).then((value) {
-  //       userModel.profilePic = value;
-  //       userModel.createdAt = DateTime.now().toString();
-  //       userModel.phoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
-  //       userModel.uid = _firebaseAuth.currentUser!.uid;
-  //     });
-  //     _userModel = userModel;
-  //
-  //     // uploading to database
-  //     await _firebaseFirestore
-  //         .collection("users")
-  //         .doc(_uid)
-  //         .set(userModel.toMap())
-  //         .then((value) {
-  //       onSuccess();
-  //       _isLoading = false;
-  //       notifyListeners();
-  //     });
-  //   } on FirebaseAuthException catch (e) {
-  //     showsnackbar(context, e.message.toString());
-  //     _isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-  //
-  // Future<String> storeFileToStorage(String ref, File file) async {
-  //   UploadTask uploadTask = _firebaseStorage.ref().child(ref).putFile(file);
-  //   TaskSnapshot snapshot = await uploadTask;
-  //   String downloadUrl = await snapshot.ref.getDownloadURL();
-  //   return downloadUrl;
-  // }
-  //
-  // Future getDataFromFirestore() async {
-  //   await _firebaseFirestore
-  //       .collection("users")
-  //       .doc(_firebaseAuth.currentUser!.uid)
-  //       .get()
-  //       .then((DocumentSnapshot snapshot) {
-  //     _userModel = UserModel(
-  //       name: snapshot['name'],
-  //       email: snapshot['email'],
-  //       createdAt: snapshot['createdAt'],
-  //       uid: snapshot['uid'],
-  //       profilePic: snapshot['profilePic'],
-  //       phoneNumber: snapshot['phoneNumber'],
-  //       customerRating: "",
-  //       customerReview: "",
-  //     );
-  //     _uid = userModel.uid;
-  //   });
-  // }
-  //
-  // // STORING DATA LOCALLY
-  // Future saveUserDataToSP() async {
-  //   SharedPreferences s = await SharedPreferences.getInstance();
-  //   await s.setString("user_model", jsonEncode(userModel.toMap()));
-  // }
-  //
-  // Future getDataFromSP() async {
-  //   SharedPreferences s = await SharedPreferences.getInstance();
-  //   String data = s.getString("user_model") ?? '';
-  //   _userModel = UserModel.fromMap(jsonDecode(data));
-  //   _uid = _userModel!.uid;
-  //   notifyListeners();
-  // }
-  //
-  // Future userSignOut() async {
-  //   SharedPreferences s = await SharedPreferences.getInstance();
-  //   await _firebaseAuth.signOut();
-  //   _isSignedIn = false;
-  //   notifyListeners();
-  //   s.clear();
-  // }
+  Future<void> verifyUser (String otp, BuildContext context, String checkRequest) async{
+
+    Map<String,dynamic> data = {
+      'otp' : otp
+    };
+    var result = await _authRepository.verifyUser(data);
+
+    if(checkRequest == "userActivation"){
+      if(result.data['status'] == true){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      }
+    }else {
+      if(result.data['status'] == true){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResetPasswordScreen(otp: otp,),));
+      }
+    }
+
+  }
+
+  Future<void> sendVerifiactionMail(String email, BuildContext context) async{
+
+    Map<String,dynamic> data = {
+      'email' : email
+    };
+    var result = await _authRepository.sendForgotPasswordOTP(data);
+
+    if(result.data['status'] == true){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => VerifyUserScreen(true),));
+    }
+  }
+
+  Future<void> resetPasswordUser(String email, String password, String otp, BuildContext context) async{
+
+    Map<String,dynamic> data = {
+      "email": email,
+      "otp": otp,
+      "password": password
+    };
+    var result = await _authRepository.resetPassword(data);
+
+    if(result.data['status'] == true){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+    }
+
+  }
+
+
 }

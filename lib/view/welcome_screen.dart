@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../utils/widgets/custom_button.dart';
 import '../view_model/auth_provider.dart';
-import 'home_screen.dart';
 import 'login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -16,7 +15,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -53,23 +51,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 50,
                   child: CustomButton(
                     onPressed: () async {
-                      if (auth_provider.isSignedIn == true) {
-                        // await auth_provider.getDataFromSP().whenComplete(
-                        //       () => Navigator.pushReplacement(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //           builder: (context) => const HomeScreen(),
-                        //         ),
-                        //       ),
-                        //     );
-                      } else {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
-                      }
                     },
                     child: const Text("Get started", style: TextStyle(fontSize: 16,),),
                   ),

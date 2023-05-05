@@ -2,34 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 import '../utils/widgets/custom_button.dart';
-import '../utils/widgets/custom_snack_bar.dart';
 import '../view_model/auth_provider.dart';
-import 'home_screen.dart';
 
-class OtpScreen extends StatefulWidget {
-  final String verificationId;
-  const OtpScreen({super.key, required this.verificationId});
+class VerifyUserScreen extends StatefulWidget {
+
+  final bool? isRequestForForgotPassword;
+
+  const VerifyUserScreen([this.isRequestForForgotPassword]);
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<VerifyUserScreen> createState() => _VerifyUserScreenState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
-  String? otpCode;
+class _VerifyUserScreenState extends State<VerifyUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        Provider.of<AuthProvider>(context, listen: true).isLoading;
+    final auth_provider = Provider.of<AuthProvider>(context, listen: true);
     return Scaffold(
       body: SafeArea(
-        child: isLoading == true
-            ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.purple,
-                ),
-              )
-            : SingleChildScrollView(
+        child: SingleChildScrollView(
               child: Center(
                   child: Padding(
                     padding:
@@ -65,7 +57,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          "Enter the OTP send to your phone number",
+                          "Enter the OTP send to your Email Address",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.black38,
@@ -77,6 +69,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         Pinput(
                           length: 6,
                           showCursor: true,
+                          controller: auth_provider.activationOTPController,
                           defaultPinTheme: PinTheme(
                             width: 60,
                             height: 60,
@@ -91,11 +84,6 @@ class _OtpScreenState extends State<OtpScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          onCompleted: (value) {
-                            setState(() {
-                              otpCode = value;
-                            });
-                          },
                         ),
                         const SizedBox(height: 25),
                         SizedBox(
@@ -104,10 +92,12 @@ class _OtpScreenState extends State<OtpScreen> {
                           child: CustomButton(
                             child: Text("Verify", style: TextStyle(fontSize: 16),),
                             onPressed: () {
-                              if (otpCode != null) {
-                               // verifyOtp(context, otpCode!);
-                              } else {
-                                showsnackbar(context, "Enter 6-Digit code");
+                              String activationOtp = auth_provider.activationOTPController.text;
+                              String forgotPassOtp = auth_provider.forgotPassOTPController.text;
+                              if(widget.isRequestForForgotPassword == true){
+                                auth_provider.verifyUser(forgotPassOtp, context, "forgotPass");
+                              }else {
+                               auth_provider.verifyUser(activationOtp, context, "userActivation");
                               }
                             },
                           ),
@@ -121,43 +111,4 @@ class _OtpScreenState extends State<OtpScreen> {
       ),
     );
   }
-
-  // verify otp
-  // void verifyOtp(BuildContext context, String userOtp) {
-  //   final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-  //   auth_provider.verifyOtp(
-  //     context: context,
-  //     verificationId: widget.verificationId,
-  //     userOtp: userOtp,
-  //     onSuccess: () {
-  //       // checking whether user exists in the db
-  //       auth_provider.checkExistingUser().then(
-  //         (value) async {
-  //           if (value == true) {
-  //             // user exists in our app
-  //             auth_provider.getDataFromFirestore().then(
-  //                   (value) => auth_provider.saveUserDataToSP().then(
-  //                         (value) => auth_provider.setSignIn().then(
-  //                               (value) => Navigator.pushAndRemoveUntil(
-  //                                   context,
-  //                                   MaterialPageRoute(
-  //                                     builder: (context) => const HomeScreen(),
-  //                                   ),
-  //                                   (route) => false),
-  //                             ),
-  //                       ),
-  //                 );
-  //           } else {
-  //             // new user
-  //             Navigator.pushAndRemoveUntil(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                     builder: (context) => const UserInfromationScreen()),
-  //                 (route) => false);
-  //           }
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 }
