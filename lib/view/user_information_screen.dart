@@ -3,6 +3,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/utils/validation/validation.dart';
 import 'package:table_menu_customer/view/select_photo_options_screen.dart';
 import '../model/user_model.dart';
 import '../utils/widgets/custom_button.dart';
@@ -10,16 +11,14 @@ import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
 
 class UserInfromationScreen extends StatefulWidget {
-  const UserInfromationScreen({super.key});
+  final UserData? userData;
+  UserInfromationScreen([this.userData]);
 
   @override
   State<UserInfromationScreen> createState() => _UserInfromationScreenState();
 }
 
 class _UserInfromationScreenState extends State<UserInfromationScreen> {
-
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
 
   Future _pickImage(ImageSource source) async {
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
@@ -28,7 +27,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
 
       final imageTemporary = File(image!.path);
 
-      //auth_provider.setImagetemp(imageTemporary);
+      auth_provider.setImagetemp(imageTemporary);
       Navigator.of(context).pop();
     } on Exception catch (e) {
       print(e);
@@ -64,8 +63,6 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
   @override
   void dispose() {
     super.dispose();
-    nameController.dispose();
-    emailController.dispose();
   }
 
 
@@ -126,8 +123,8 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                                     shape: BoxShape.rectangle,
                                   ),
                                   child: Center(
-                                    child: //auth_provider.temp_image == null
-                                        true ? Column(
+                                    child: auth_provider.temp_image == null
+                                         ? Column(
                                       children: const [
                                         SizedBox(height: 6,),
                                          CircleAvatar(
@@ -150,7 +147,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                                       ],
                                     )
                                         : CircleAvatar(
-                                      //backgroundImage: FileImage(auth_provider.temp_image),
+                                      backgroundImage: FileImage(auth_provider.temp_image),
                                       radius: 80,
                                     ),
                                   )
@@ -177,7 +174,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                                     Icons.drive_file_rename_outline,
                                     color: Colors.black,
                                   ),
-                                  controller: nameController,
+                                  controller: auth_provider.nameController,
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return "Name Field is Required";
@@ -187,26 +184,18 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                                 SizedBox(height: 15,),
                                 CustomTextFormField().getCustomEditTextArea(
                                   obscuretext: false,
-                                  labelValue: "Email",
-                                  hintValue: "Enter Email",
+                                  labelValue: "Phone No",
+                                  hintValue: "Enter Phone No",
                                   onchanged: (value) {
                                   },
+                                  maxLength: 10,
                                   prefixicon: const Icon(
-                                    Icons.email_outlined,
+                                    Icons.phone,
                                     color: Colors.black,
                                   ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: emailController,
-                                  validator: (value) {
-                                    String regex_pattern =
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                                    RegExp regex = new RegExp(regex_pattern);
-                                    if (value!.isEmpty) {
-                                      return "Email Field is Required";
-                                    }else if(!regex.hasMatch(value)){
-                                      return "enter valid email";
-                                    }
-                                  },
+                                  keyboardType: TextInputType.phone,
+                                  controller: auth_provider.phoneNoController,
+                                  validator: phoneValidator,
                                 ),
                               ],
                             ),
@@ -220,7 +209,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                             child: Text("Save", style: TextStyle(fontSize: 16),),
                             onPressed: () {
                         if (_form_key_userinfo.currentState!.validate()) {
-                          storeData();
+                            auth_provider.saveUserInfo(context);
                         }
                             }
                           ),
@@ -232,43 +221,5 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
               ),
       ),
     );
-  }
-
-
-
-  // store user data to database
-  void storeData() async {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-    UserModel userModel = UserModel(
-      name: nameController.text.trim(),
-      email: emailController.text.trim(),
-      profilePic: "",
-      createdAt: "",
-      phoneNumber: "",
-      uid: "",
-      customerReview: "",
-      customerRating: ""
-    );
-    // if (auth_provider.temp_image != null) {
-    //   auth_provider.saveUserDataToFirebase(
-    //     context: context,
-    //     userModel: userModel,
-    //     profilePic: auth_provider.temp_image,
-    //     onSuccess: () {
-    //       auth_provider.saveUserDataToSP().then(
-    //             (value) => auth_provider.setSignIn().then(
-    //                   (value) => Navigator.pushAndRemoveUntil(
-    //                       context,
-    //                       MaterialPageRoute(
-    //                         builder: (context) => const HomeScreen(),
-    //                       ),
-    //                       (route) => false),
-    //                 ),
-    //           );
-    //     },
-    //   );
-    // } else {
-    //   showsnackbar(context, "Please upload your profile photo");
-    // }
   }
 }

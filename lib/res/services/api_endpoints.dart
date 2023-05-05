@@ -1,7 +1,7 @@
 
 class ApiEndPoint {
    static const String baseUrl = "http://192.168.10.179:8001/api/";
-   static String baseImageUrl = "";
+   static String baseImageUrl = "http://192.168.10.179:8001/";
    static _AuthEndPoint authEndPoints = _AuthEndPoint();
    static _UserInfoEndPoint userInfoEndPoint = _UserInfoEndPoint();
 }
@@ -16,6 +16,5 @@ class _AuthEndPoint {
 }
 
 class _UserInfoEndPoint {
-
-
+  final String userInfoEndpoint = "customer/userinfo/";
 }

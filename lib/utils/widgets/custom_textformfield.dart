@@ -10,6 +10,7 @@ class CustomTextFormField {
         required Icon prefixicon,
          TextStyle? textStyle,
         IconButton? iconButton,
+        int? maxLength,
         required bool obscuretext,
         required FormFieldSetter onchanged,
         required String? Function(String?)? validator,
@@ -23,6 +24,7 @@ class CustomTextFormField {
       onChanged: onchanged,
       obscureText: obscuretext,
       validator: validator,
+      maxLength: maxLength,
       decoration: InputDecoration(
         suffixIcon: iconButton,
         prefixIcon: prefixicon,

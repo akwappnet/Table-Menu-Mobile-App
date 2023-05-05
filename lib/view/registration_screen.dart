@@ -159,7 +159,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 SizedBox(width: 6,),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                                    Navigator.pop(context);
                                   },
                                   child: CustomText(
                                     text: "Login",

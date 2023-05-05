@@ -18,13 +18,14 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
 
-  //FireStoreService fireStoreService = FireStoreService();
+
 
   @override
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-    final menu_provider = Provider.of<MenuProvider>(context, listen: true);
-    final cart_provider = Provider.of<CartProvider>(context, listen: true);
+    auth_provider.getUserInfo();
+    final menu_provider = Provider.of<MenuProvider>(context, listen: false);
+    final cart_provider = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -36,7 +37,7 @@ class _MenuScreenState extends State<MenuScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hello, ",
+              "Hello, ${auth_provider.userModel?.userData?.name}",
               style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

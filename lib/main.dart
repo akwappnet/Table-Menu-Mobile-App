@@ -2,7 +2,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/view/registration_screen.dart';
+import 'package:table_menu_customer/view/login_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               width: 300,
             ),
           ),
-          nextScreen: const RegistrationScreen(),
+          nextScreen: LoginScreen(),
         )
       )
     );
