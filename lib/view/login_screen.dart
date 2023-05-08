@@ -114,7 +114,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-
                               GestureDetector(
                                 onTap: () {
                                   showDialog(context: context, builder: (context){

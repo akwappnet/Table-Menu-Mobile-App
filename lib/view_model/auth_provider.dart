@@ -9,6 +9,7 @@ import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/login_screen.dart';
+import 'package:table_menu_customer/view/reset_password_screen.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
 import '../repository/auth_repository.dart';
 import '../view/user_information_screen.dart';
@@ -44,12 +45,17 @@ class AuthProvider extends ChangeNotifier {
   bool _loading = false;
   bool get loading => _loading;
 
-  UserModel? _userModel;
-  UserModel? get userModel => _userModel;
+  UserData? _userData;
+  UserData? get userData => _userData;
 
   setLoading(bool value) {
     _loading = value;
     notifyListeners();
+  }
+
+  loadValues(UserData userData){
+    nameController.text = userData.name!;
+    phoneNoController.text = userData.phoneNumber!;
   }
 
   Future<void> userRegisteration(String email, String password, BuildContext context) async {
@@ -106,19 +112,19 @@ class AuthProvider extends ChangeNotifier {
       print(token);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
-      if(userModel == null){
+      if(_userData != null){
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => HomeScreen(),));
       }else {
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => UserInfromationScreen(),));
+            MaterialPageRoute(builder: (context) => UserInfoScreen(),));
       }
     } else if (result.data['status'] == "False") {
       // TODO show error message to user
     }
   }
 
-  Future<void> verifyUser (String otp, BuildContext context, String checkRequest) async{
+  Future<void> verifyUser (String otp, BuildContext context) async{
 
     Map<String,dynamic> data = {
       'otp' : otp
@@ -127,6 +133,21 @@ class AuthProvider extends ChangeNotifier {
 
     if(result.data['status'] == true){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+    }else if(result.data['status'] == "False"){
+      // TODO show error to user
+    }
+
+  }
+
+  Future<void> verifyForgotOtp (String otp, BuildContext context) async{
+
+    Map<String,dynamic> data = {
+      'otp' : otp
+    };
+    var result = await _authRepository.verifyForgotOtp(data);
+
+    if(result.data['status'] == true){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResetPasswordScreen(),));
     }else if(result.data['status'] == "False"){
       // TODO show error to user
     }
@@ -147,11 +168,10 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> resetPasswordUser(String email, String password, String otp, BuildContext context) async{
+  Future<void> resetPasswordUser(String email, String password, BuildContext context) async{
 
     Map<String,dynamic> data = {
       "email": email,
-      "otp": otp,
       "password": password
     };
     var result = await _authRepository.resetPassword(data);
@@ -164,15 +184,17 @@ class AuthProvider extends ChangeNotifier {
 
   }
 
-
   Future<void> saveUserInfo(BuildContext context) async{
 
     var userData = UserData(
       name: nameController.text,
       phoneNumber: phoneNoController.text,
-      profilePhoto: await MultipartFile.fromFile(temp_image!.path),
+      profilePhoto: await MultipartFile.fromFile(_temp_image!.path),
       accountCreatedDate: DateTime.now().toString(),
       email: emailLoginController.text,
+      customerReview: "",
+      totalOrders: 0,
+      customerRating: 0.0
     );
 
     FormData formData = userData.toFormData();
@@ -186,25 +208,25 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getUserInfo() async{
+  Future<UserModel> getUserInfo() async{
     var response = await _userInfoRepository.getUserInfo();
 
     if(response != null){
       if(response.data['status'] == true && response.statusCode == 200){
-        var userData = UserModel.fromJson(response.data);
-        _userModel = userData;
-        notifyListeners();
+        var userModel = UserModel.fromJson(response.data);
+        return userModel;
       }else if(response.data['status'] == "False"){
         // TODO show error message to user
       }
     }
+    return UserModel();
   }
 
   Future<void> updateUserInfo(BuildContext context) async{
     var userData = UserData(
       name: nameController.text,
       phoneNumber: phoneNoController.text,
-      profilePhoto: await MultipartFile.fromFile(temp_image!.path),
+      profilePhoto: await MultipartFile.fromFile(_temp_image!.path),
       accountCreatedDate: DateTime.now().toString(),
       email: emailLoginController.text,
     );
@@ -220,12 +242,12 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteUserInfo() async{
+  Future<void> deleteUserInfo(BuildContext context) async{
     var response = await _userInfoRepository.deleteUserInfo();
 
     if(response != null){
       if(response.data['status'] == true && response.statusCode == 200){
-        // TODO delete token and take user to login
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
       }else if(response.data['status'] == "False"){
         // TODO show error message to user
       }
@@ -240,5 +262,4 @@ class AuthProvider extends ChangeNotifier {
     _temp_image = temp_image;
     notifyListeners();
   }
-
 }

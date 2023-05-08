@@ -58,7 +58,7 @@ class UserData {
     formData.fields
         .add(MapEntry<String, String>('phone_number', this.phoneNumber!));
     formData.files.add(MapEntry<String, MultipartFile>(
-        'image', this.profilePhoto != null ? this.profilePhoto! : this.profilePhoto!));
+        'profile_photo', this.profilePhoto!));
     return formData;
   }
 
@@ -67,10 +67,10 @@ class UserData {
     id = json['id'];
     name = json['name'];
     phoneNumber = json['phone_number'];
-    profilePhotoUrl = json['profile_photo'];
+    profilePhotoUrl = json['profile_photo'] ?? "";
     accountCreatedDate = json['account_created_date'];
-    customerRating = json['customer_rating'];
-    customerReview = json['customer_review'] ?? 0;
+    customerRating = json['customer_rating'] ?? 0.0;
+    customerReview = json['customer_review'] ?? "";
     email = json['email'];
     status = json['status'];
     totalOrders = json['total_orders'];

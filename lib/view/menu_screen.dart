@@ -18,12 +18,16 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
 
+  String user_name = "";
 
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-    auth_provider.getUserInfo();
     final menu_provider = Provider.of<MenuProvider>(context, listen: false);
     final cart_provider = Provider.of<CartProvider>(context, listen: false);
     return Scaffold(
@@ -37,7 +41,7 @@ class _MenuScreenState extends State<MenuScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Hello, ${auth_provider.userModel?.userData?.name}",
+              "Hello, $user_name",
               style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

@@ -9,8 +9,8 @@ import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  final String? otp;
-  const ResetPasswordScreen({Key? key, this.otp}) : super(key: key);
+
+  const ResetPasswordScreen({Key? key}) : super(key: key);
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -139,8 +139,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     showsnackbar(context, "Password doesn't match enter same password");
                                   }else {
                                     String password = auth_provider.resetPassController.text;
-                                    String otp = widget.otp!;
                                     String email = auth_provider.forgotPassEmailController.text;
+                                    auth_provider.resetPasswordUser(email, password,context);
                                   }
                                 }
                               },

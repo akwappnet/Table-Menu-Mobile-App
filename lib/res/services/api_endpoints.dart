@@ -11,6 +11,7 @@ class _AuthEndPoint {
   final String login = "auth/login/";
   final String verifyUser = "auth/verify-activationotp/";
   final String sendActivationOtp = "auth/send-activationotp/";
+  final String verifyForgotOtp = "auth/verify-forgetotp/";
   final String sendForgotOtp = "auth/send-forgetotp/";
   final String resetPassword = "auth/forget-password/";
 }

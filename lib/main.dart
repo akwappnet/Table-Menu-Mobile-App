@@ -2,6 +2,8 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/repository/auth_repository.dart';
+import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/login_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
@@ -16,15 +18,14 @@ Future<void> main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // final AuthRepository _authRepository = AuthRepository();
-  // bool loggedIn = await _authRepository.isLoggedIn();
-  // runApp(MyApp(loggedIn: loggedIn,));
-  runApp(const MyApp());
+  final AuthRepository _authRepository = AuthRepository();
+  bool loggedIn = await _authRepository.isLoggedIn();
+  runApp(MyApp(loggedIn: loggedIn,));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  const MyApp({super.key, required this.loggedIn});
+  final bool loggedIn;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -61,7 +62,7 @@ class MyApp extends StatelessWidget {
               width: 300,
             ),
           ),
-          nextScreen: LoginScreen(),
+          nextScreen: loggedIn ? HomeScreen() : LoginScreen(),
         )
       )
     );

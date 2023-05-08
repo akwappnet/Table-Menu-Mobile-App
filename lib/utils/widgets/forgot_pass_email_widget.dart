@@ -20,7 +20,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context);
     return AlertDialog(
-      title: Text("Forgot Password"),
+      title: Center(child: CustomText(text: "Forgot Password", size: 20, weight: FontWeight.w500,)),
       content: Wrap(
         runSpacing: 20.0,
         children: [
