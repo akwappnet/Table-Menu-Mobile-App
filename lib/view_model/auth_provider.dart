@@ -212,7 +212,7 @@ class AuthProvider extends ChangeNotifier {
     var response = await _userInfoRepository.getUserInfo();
 
     if(response != null){
-      if(response.data['status'] == true && response.statusCode == 200){
+      if(response.data['status'] == true){
         var userModel = UserModel.fromJson(response.data);
         return userModel;
       }else if(response.data['status'] == "False"){
@@ -246,7 +246,12 @@ class AuthProvider extends ChangeNotifier {
     var response = await _userInfoRepository.deleteUserInfo();
 
     if(response != null){
-      if(response.data['status'] == true && response.statusCode == 200){
+      if(response.statusCode == 204){
+        SharedPreferences preferences = await SharedPreferences
+            .getInstance();
+        await preferences.remove('token');
+        emailLoginController.text = "";
+        passwordLoginController.text = "";
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
       }else if(response.data['status'] == "False"){
         // TODO show error message to user

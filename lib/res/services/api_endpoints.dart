@@ -4,6 +4,7 @@ class ApiEndPoint {
    static String baseImageUrl = "http://192.168.10.179:8001/";
    static _AuthEndPoint authEndPoints = _AuthEndPoint();
    static _UserInfoEndPoint userInfoEndPoint = _UserInfoEndPoint();
+   static _MenuEndPoint menuEndPoint = _MenuEndPoint();
 }
 
 class _AuthEndPoint {
@@ -18,4 +19,9 @@ class _AuthEndPoint {
 
 class _UserInfoEndPoint {
   final String userInfoEndpoint = "customer/userinfo/";
+}
+
+class _MenuEndPoint {
+  final String categoryEndPoint = "customer/categories/";
+  final String menuItemEndPoint = "customer/menu_items/";
 }

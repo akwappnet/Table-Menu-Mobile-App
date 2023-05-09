@@ -40,9 +40,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future<void> handleClick(String value) async {
       switch (value) {
         case 'Delete Account':
-          SharedPreferences preferences = await SharedPreferences
-              .getInstance();
-          await preferences.remove('token');
           auth_provider.deleteUserInfo(context);
           break;
         case 'Exit':

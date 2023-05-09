@@ -2,16 +2,17 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:table_menu_customer/data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
 import '../res/services/api_endpoints.dart';
 
 class AuthRepository {
 
-  NetworkApiService _apiServices = NetworkApiService();
+  BaseApiService _apiService = NetworkApiService();
 
   Future<Response> loginUser(dynamic data) async {
     try {
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.login, data);
       print(response);
       return response;
@@ -23,7 +24,7 @@ class AuthRepository {
   Future<Response> registrationUser(dynamic data) async {
     try {
       print(data);
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.registrarion, data);
       print("response $response");
       return response;
@@ -35,7 +36,7 @@ class AuthRepository {
 
   Future<Response> verifyUser(dynamic data) async {
     try {
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyUser, data);
       print(response);
       return response;
@@ -46,7 +47,7 @@ class AuthRepository {
 
   Future<Response> verifyForgotOtp(dynamic data) async {
     try {
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyForgotOtp, jsonEncode(data));
       print(response);
       return response;
@@ -57,7 +58,7 @@ class AuthRepository {
 
   Future<Response> sendForgotPasswordOTP(dynamic data) async {
     try {
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
       ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.sendForgotOtp, data);
       return response;
     } catch (e) {
@@ -67,7 +68,7 @@ class AuthRepository {
 
   Future<Response> resetPassword(dynamic data) async {
     try {
-      Response response = await _apiServices.getAuthApiResponse(
+      Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.resetPassword, data);
       return response;
     } catch (e) {

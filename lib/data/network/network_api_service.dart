@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
+import 'package:table_menu_customer/data/network/base_api_service.dart';
 import '../app_exceptions.dart';
 
-class NetworkApiService {
+class NetworkApiService extends BaseApiService{
 
   final Dio _dio = Dio();
 
@@ -125,8 +126,8 @@ class NetworkApiService {
       final token = prefs.getString('token');
 
       var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Token $token'
+        'Authorization': 'Token $token',
+        'Accept': 'application/json'
       };
 
       var response = await _dio
@@ -138,6 +139,8 @@ class NetworkApiService {
       ))
           .timeout(Duration(seconds: 10));
 
+      print(response);
+      print(response.statusMessage);
       print(response.data);
       return response;
       // responseJson = returnResponse(response);
