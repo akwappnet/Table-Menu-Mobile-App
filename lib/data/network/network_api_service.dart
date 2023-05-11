@@ -18,8 +18,8 @@ class NetworkApiService extends BaseApiService{
       final token = prefs.getString('token');
 
       var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Token $token'
+        'Authorization': 'Token $token',
+        'Accept': 'application/json'
       };
 
       final response = await

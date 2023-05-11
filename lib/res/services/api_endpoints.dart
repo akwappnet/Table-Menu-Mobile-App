@@ -5,6 +5,8 @@ class ApiEndPoint {
    static _AuthEndPoint authEndPoints = _AuthEndPoint();
    static _UserInfoEndPoint userInfoEndPoint = _UserInfoEndPoint();
    static _MenuEndPoint menuEndPoint = _MenuEndPoint();
+   static _CartEndPoint cartEndPoint = _CartEndPoint();
+   static _OrderEndPoint orderEndPoint = _OrderEndPoint();
 }
 
 class _AuthEndPoint {
@@ -24,4 +26,12 @@ class _UserInfoEndPoint {
 class _MenuEndPoint {
   final String categoryEndPoint = "customer/categories/";
   final String menuItemEndPoint = "customer/menu_items/";
+}
+
+class _CartEndPoint {
+  final String cartEndPoint = "customer/cartitems/";
+}
+
+class _OrderEndPoint {
+  final String orderEndPoint = "customer/order/";
 }

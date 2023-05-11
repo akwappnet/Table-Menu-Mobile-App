@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/model/menuItem_model.dart';
+import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 
 import 'custom_button.dart';
@@ -10,18 +12,7 @@ class CustomBottomSheet {
   {
     required BuildContext context,
     required VoidCallback onPressed,
-    required String image_url,
-    required String menu_item_name,
-    required String menu_item_ingredients,
-    required String menu_item_description,
-    required String menu_item_price,
-    required bool isVeg,
-    required bool isNew,
-    required bool isSpicy,
-    required bool isJain,
-    required bool isSpecial,
-    required bool isSweet,
-    required bool isPopular}
+    required MenuData menuData}
       ){
     showModalBottomSheet(
         context: context,
@@ -35,74 +26,74 @@ class CustomBottomSheet {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.network(image_url,height: hp(30, context),width: wp(60, context),),
+                    Image.network(ApiEndPoint.baseImageUrl + menuData.image!,height: hp(30, context),width: wp(60, context),),
                   ],
                 ),
                 Row(
                   children: [
                     CustomText(
-                      text: menu_item_name,
+                      text: menuData.name!,
                       size: 22,
                       color: Colors.black,
                       weight: FontWeight.bold,
                     ),
-                    (isVeg == true) ? Image.asset("assets/images/veg-icon.png", height: 50,width: 50,) :
+                    (menuData.isVeg! == true) ? Image.asset("assets/images/veg-icon.png", height: 50,width: 50,) :
                     Image.asset("assets/images/non-veg-icon.png", height: 50,width: 50,)
                   ],
                 ),
                 CustomText(
-                  text: menu_item_ingredients,
+                  text: menuData.ingredients!,
                   size: 16,
                   color: Colors.black,
                 ),
                 CustomText(
-                  text: menu_item_description,
+                  text: menuData.description!,
                   size: 18,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ),
                 CustomText(
-                  text: menu_item_price,
+                  text: menuData.price!,
                   size: 20,
                   color: Colors.black,
                 ),
                 CustomText(
-                  text: menu_item_name,
+                  text: menuData.name!,
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ),
-                (isNew == true) ? const CustomText(
+                (menuData.isNew! == true) ? const CustomText(
                   text: "new",
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ) : Container(),
-                (isJain == true) ? const CustomText(
+                (menuData.isJain! == true) ? const CustomText(
                   text: "jain",
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ): Container(),
-                (isSpecial == true) ? const CustomText(
+                (menuData.isSpecial == true) ? const CustomText(
                   text: "special",
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ) : Container(),
-                (isSweet == true) ? const CustomText(
+                (menuData.isSweet == true) ? const CustomText(
                   text: "sweet",
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ): Container(),
-                (isSpicy == true) ? const CustomText(
+                (menuData.isSpicy == true) ? const CustomText(
                   text: "spicy",
                   size: 22,
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ): Container(),
-                (isPopular == true) ? const CustomText(
+                (menuData.isPopular == true) ? const CustomText(
                   text: "popular",
                   size: 22,
                   color: Colors.black,

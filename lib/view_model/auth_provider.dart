@@ -7,12 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/model/auth_model.dart';
 import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
-import 'package:table_menu_customer/view/home_screen.dart';
-import 'package:table_menu_customer/view/login_screen.dart';
-import 'package:table_menu_customer/view/reset_password_screen.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
 import '../repository/auth_repository.dart';
-import '../view/user_information_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
 
@@ -48,6 +45,14 @@ class AuthProvider extends ChangeNotifier {
   UserData? _userData;
   UserData? get userData => _userData;
 
+  String _user_name= "";
+  String get user_name => _user_name;
+
+  void setUserName(String value) {
+    _user_name = value;
+    notifyListeners();
+  }
+
   setLoading(bool value) {
     _loading = value;
     notifyListeners();
@@ -59,12 +64,12 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> userRegisteration(String email, String password, BuildContext context) async {
+      setLoading(true);
       FirebaseMessaging messaging = FirebaseMessaging.instance;
       String? fcmToken = await messaging.getToken();
       String deviceType = '';
       if (!kIsWeb) {
         // Get the device type for non-web platforms
-
         if (Platform.isIOS) {
           deviceType = 'iOS';
         } else if (Platform.isAndroid) {
@@ -94,8 +99,10 @@ class AuthProvider extends ChangeNotifier {
       var result = await _authRepository.registrationUser(data.toJson());
       print(result);
       if(result.data["status"] == true) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => VerifyUserScreen(),));
+        setLoading(false);
+        Navigator.pushReplacementNamed(context, RoutesName.VERIFY_USER_SCREEN_ROUTE);
       }else if (result.data['status'] == "False"){
+        setLoading(false);
         // TODO show error message to user
         print("status : ${result.data['data']['status']}");
       }
@@ -103,52 +110,56 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> userLogin(dynamic data, BuildContext context) async {
     setLoading(true);
-
     var result = await _authRepository.loginUser(data);
-
     if(result.data['status'] == true){
       setLoading(false);
       String token = result.data['data']['token'];
       print(token);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
-      if(_userData != null){
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => HomeScreen(),));
+
+      if(await prefs.getBool("userDataBool") == true){
+        setLoading(false);
+        Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
       }else {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => UserInfoScreen(),));
+        setLoading(false);
+        Navigator.pushReplacementNamed(context, RoutesName.USER_INFO_SCREEN_ROUTE);
       }
     } else if (result.data['status'] == "False") {
+      setLoading(false);
       // TODO show error message to user
     }
   }
 
   Future<void> verifyUser (String otp, BuildContext context) async{
-
+    setLoading(true);
     Map<String,dynamic> data = {
       'otp' : otp
     };
     var result = await _authRepository.verifyUser(data);
 
     if(result.data['status'] == true){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      setLoading(false);
+      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
     }else if(result.data['status'] == "False"){
+      setLoading(false);
       // TODO show error to user
     }
 
   }
 
   Future<void> verifyForgotOtp (String otp, BuildContext context) async{
-
+    setLoading(true);
     Map<String,dynamic> data = {
       'otp' : otp
     };
     var result = await _authRepository.verifyForgotOtp(data);
 
     if(result.data['status'] == true){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ResetPasswordScreen(),));
+      setLoading(false);
+      Navigator.pushReplacementNamed(context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
     }else if(result.data['status'] == "False"){
+      setLoading(false);
       // TODO show error to user
     }
 
@@ -162,14 +173,14 @@ class AuthProvider extends ChangeNotifier {
     var result = await _authRepository.sendForgotPasswordOTP(data);
 
     if(result.data['status'] == true){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => VerifyUserScreen(true),));
+      Navigator.pushReplacementNamed(context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: VerifyUserScreen(true));
     }else if(result.data['status'] == "False"){
       // TODO show error message to user
     }
   }
 
   Future<void> resetPasswordUser(String email, String password, BuildContext context) async{
-
+    setLoading(true);
     Map<String,dynamic> data = {
       "email": email,
       "password": password
@@ -177,15 +188,17 @@ class AuthProvider extends ChangeNotifier {
     var result = await _authRepository.resetPassword(data);
 
     if(result.data['status'] == true){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+      setLoading(false);
+      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
     }else if(result.data['status'] == "False") {
+      setLoading(false);
       // TODO show error message to user
     }
 
   }
 
   Future<void> saveUserInfo(BuildContext context) async{
-
+    setLoading(true);
     var userData = UserData(
       name: nameController.text,
       phoneNumber: phoneNoController.text,
@@ -201,8 +214,12 @@ class AuthProvider extends ChangeNotifier {
     var result = await _userInfoRepository.saveUserInfo(formData);
     print(result.data);
     if(result.data['status'] == true) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('userDataBool', true);
+      setLoading(false);
+      Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
     }else if (result.data['status'] == "False"){
+      setLoading(false);
       // TODO show error message to user
       print("status : ${result.data['status']}");
     }
@@ -210,10 +227,10 @@ class AuthProvider extends ChangeNotifier {
 
   Future<UserModel> getUserInfo() async{
     var response = await _userInfoRepository.getUserInfo();
-
     if(response != null){
       if(response.data['status'] == true){
         var userModel = UserModel.fromJson(response.data);
+        setUserName(userModel.userData!.name!);
         return userModel;
       }else if(response.data['status'] == "False"){
         // TODO show error message to user
@@ -223,6 +240,7 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> updateUserInfo(BuildContext context) async{
+    setLoading(true);
     var userData = UserData(
       name: nameController.text,
       phoneNumber: phoneNoController.text,
@@ -235,8 +253,10 @@ class AuthProvider extends ChangeNotifier {
     var result = await _userInfoRepository.updateUserInfo(formData);
     print(result.data);
     if(result.data['status'] == true) {
+      setLoading(false);
       Navigator.pop(context);
     }else if (result.data['status'] == "False"){
+      setLoading(false);
       // TODO show error message to user
       print("status : ${result.data['status']}");
     }
@@ -244,7 +264,6 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> deleteUserInfo(BuildContext context) async{
     var response = await _userInfoRepository.deleteUserInfo();
-
     if(response != null){
       if(response.statusCode == 204){
         SharedPreferences preferences = await SharedPreferences
@@ -252,7 +271,7 @@ class AuthProvider extends ChangeNotifier {
         await preferences.remove('token');
         emailLoginController.text = "";
         passwordLoginController.text = "";
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+        Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
       }else if(response.data['status'] == "False"){
         // TODO show error message to user
       }

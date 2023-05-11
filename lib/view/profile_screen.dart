@@ -1,15 +1,13 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
-import 'package:table_menu_customer/view/login_screen.dart';
-import 'package:table_menu_customer/view/user_information_screen.dart';
-
 import '../model/user_model.dart';
 import '../res/services/api_endpoints.dart';
 import '../view_model/auth_provider.dart';
@@ -83,71 +81,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ? ""
                       : ApiEndPoint
                       .baseImageUrl + userData!.profilePhotoUrl!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CachedNetworkImage(
-                        fit: BoxFit.fill,
-                        imageUrl: image_url,
-                        imageBuilder: (context, imageProvider) =>
-                            Container(
-                              width: 100.0,
-                              height: 100.0,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: imageProvider, fit: BoxFit.cover),
+                  return SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CachedNetworkImage(
+                          fit: BoxFit.fill,
+                          imageUrl: image_url,
+                          imageBuilder: (context, imageProvider) =>
+                              Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
                               ),
-                            ),
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) =>
-                            Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                        errorWidget: (context, url, error) {
-                          return Container();
-                        },
-                      ),
-                      const SizedBox(height: 20),
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) =>
+                              Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          errorWidget: (context, url, error) {
+                            return Container();
+                          },
+                        ),
+                        const SizedBox(height: 20),
 
-                      CustomText(text: userData.name!, size: 22,
-                        weight: FontWeight.bold,),
+                        CustomText(text: userData.name!, size: 22,
+                          weight: FontWeight.bold,),
 
-                      SizedBox(height: 8,),
+                        SizedBox(height: 8,),
 
-                      CustomText(text: userData.phoneNumber!, size: 18,
-                        weight: FontWeight.w400,),
-                      SizedBox(height: 8,),
-                      CustomText(text: userData.email!, size: 18,
-                        weight: FontWeight.w400,),
-                      SizedBox(height: 8,),
-                      SizedBox(
-                        height: 50,
-                        width: wp(80, context),
-                        child: CustomButton(
-                          child: CustomText(text: "Update Profile", size: 18, color: Colors.white,),
-                          onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => UserInfoScreen(userData),));
-                          },),
-                      ),
-                      SizedBox(height: 8,),
-                      SizedBox(
-                        height: 50,
-                        width: wp(80, context),
-                        child: CustomButton(
-                          child: CustomText(text: "Logout", size: 18, color: Colors.white,),
-                          onPressed: () async {
-                            SharedPreferences preferences = await SharedPreferences
-                                .getInstance();
-                            await preferences.remove('token');
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-                          },),
-                      )
-                    ],
+                        CustomText(text: userData.phoneNumber!, size: 18,
+                          weight: FontWeight.w400,),
+                        SizedBox(height: 8,),
+                        CustomText(text: userData.email!, size: 18,
+                          weight: FontWeight.w400,),
+                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 50,
+                          width: wp(80, context),
+                          child: CustomButton(
+                            child: CustomText(text: "Update Profile", size: 18, color: Colors.white,),
+                            onPressed: () {
+                              Navigator.pushNamed(context, RoutesName.USER_INFO_SCREEN_ROUTE, arguments: userData);
+                            },),
+                        ),
+                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 50,
+                          width: wp(80, context),
+                          child: CustomButton(
+                            child: CustomText(text: "Logout", size: 18, color: Colors.white,),
+                            onPressed: () async {
+                              SharedPreferences preferences = await SharedPreferences
+                                  .getInstance();
+                              await preferences.remove('token');
+                              Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+                            },),
+                        )
+                      ],
+                    ),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator(),);
+                  return Center(
+                    child: Lottie.asset(
+                      'assets/lotti_animation/loading_animation.json',
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.fill,
+                    ),
+                  );
                 }
               }
           )),

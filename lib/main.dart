@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
+import 'package:table_menu_customer/utils/routes/routes.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/login_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
@@ -31,9 +33,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        //StreamProvider<List<CategoryModel>>(create: (_) => FireStoreService().getCategories(), initialData: const [],),
-        //StreamProvider<List<MenuItemModel>>(create: (_) => FireStoreService().getMenuItems(), initialData: const [],),
-        //StreamProvider<List<CartModel>>(create: (_) => FireStoreService().getCartItems(), initialData: const [],),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => MenuProvider()),
@@ -63,7 +62,9 @@ class MyApp extends StatelessWidget {
             ),
           ),
           nextScreen: loggedIn ? HomeScreen() : LoginScreen(),
-        )
+        ),
+        initialRoute:  loggedIn ? RoutesName.HOME_SCREEN_ROUTE : RoutesName.LOGIN_SCREEN_ROUTE,
+        onGenerateRoute: Routes.generateRoute,
       )
     );
   }

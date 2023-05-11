@@ -1,61 +1,73 @@
-
 class CartModel {
-  final String? cartId;
-  final String? itemId;
-  final String? itemName;
-  final int? table_no;
-  final String? itemIngredients;
-  final String? itemDescription;
-  final String? itemImage;
-  final int? initialPrice;
-  final int? itemPrice;
-  final int? itemQuantity;
+  bool? status;
+  String? message;
+  List<CartData>? cartData;
 
+  CartModel({this.status, this.message, this.cartData});
 
-  CartModel(
-      {  this.cartId,
-         this.table_no,
-         this.itemId,
-         this.itemName,
-         this.initialPrice,
-         this.itemPrice,
-         this.itemQuantity,
-         this.itemImage,
-         this.itemDescription,
-         this.itemIngredients,
+  CartModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    if (json['data'] != null) {
+      cartData = <CartData>[];
+      json['data'].forEach((v) {
+        cartData?.add(CartData.fromJson(v));
       });
-
-  CartModel.fromMap(Map<dynamic, dynamic> data)
-      : cartId = data['cartId'],
-        table_no = data['table_no'],
-        itemId = data['itemId'],
-        itemName = data['itemName'],
-        initialPrice = data['initialPrice'],
-        itemPrice = data['itemPrice'],
-        itemQuantity = data['itemQuantity'],
-        itemImage = data['itemImage'],
-        itemIngredients = data['itemIngredients'],
-        itemDescription = data['itemDescription'];
-
-  Map<String, dynamic> toMap() {
-    return {
-      'cartId': cartId,
-      'table_no' : table_no,
-      'itemId': itemId,
-      'itemName': itemName,
-      'initialPrice': initialPrice,
-      'itemPrice': itemPrice,
-      'itemQuantity': itemQuantity,
-      'itemImage': itemImage,
-      'itemIngredients': itemIngredients,
-      'itemDescription': itemDescription,
-    };
+    }
   }
 
-  Map<String, dynamic> quantityMap() {
-    return {
-      'itemId': itemId,
-      'itemQuantity': itemQuantity,
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.cartData != null) {
+      data['data'] = this.cartData!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class CartData {
+  int? id;
+  int? user;
+  int? menuItem;
+  int? quantity;
+  String? totalPrice;
+  String? menuItemName;
+  double? menuItemPrice;
+  String? menuItemImage;
+
+  CartData(
+      {this.id,
+        this.user,
+        this.menuItem,
+        this.quantity,
+        this.totalPrice,
+        this.menuItemName,
+        this.menuItemPrice,
+        this.menuItemImage});
+
+  CartData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    user = json['user'];
+    menuItem = json['menu_item'];
+    quantity = json['quantity'];
+    totalPrice = json['total_price'];
+    menuItemName = json['menu_item_name'];
+    menuItemPrice = json['menu_item_price'];
+    menuItemImage = json['menu_item_image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['user'] = this.user;
+    data['menu_item'] = this.menuItem;
+    data['quantity'] = this.quantity;
+    data['total_price'] = this.totalPrice;
+    data['menu_item_name'] = this.menuItemName;
+    data['menu_item_price'] = this.menuItemPrice;
+    data['menu_item_image'] = this.menuItemImage;
+    return data;
   }
 }

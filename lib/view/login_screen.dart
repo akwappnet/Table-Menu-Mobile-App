@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
 import 'package:table_menu_customer/view/registration_screen.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
@@ -25,7 +27,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Center(
+          child: auth_provider.loading ?
+          Center(
+            child: Lottie.asset(
+              'assets/lotti_animation/loading_animation.json',
+              width: 100,
+              height: 100,
+              fit: BoxFit.fill,
+            ),
+          )
+              :Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
               child: Column(children: [
@@ -144,9 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 auth_provider.userLogin(data, context);
                               }
                             },
-                            child: auth_provider.loading ?
-                            const CircularProgressIndicator(color: Colors.white,)
-                                : const CustomText(
+                            child: const CustomText(
                               text: "Login",
                               size: 18,
                               color: Colors.white,
@@ -168,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(width: 6,),
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationScreen(),));
+                                  Navigator.pushNamed(context, RoutesName.REGISTER_SCREEN_ROUTE);
                                 },
                                 child: CustomText(
                                   text: "Register",

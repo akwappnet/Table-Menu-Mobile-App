@@ -1,84 +1,107 @@
 
 
 class MenuItemModel {
+  bool? status;
+  String? message;
+  List<MenuData>? menuData;
 
-  final String? createdAt;
-  final String? menuId;
-  final String? menuImage;
-  final String? menuName;
-  final String? menuCateory;
-  final String? menuIngredients;
-  final int? menuPrice;
-  final String? menuDescription;
-  final bool? isEnableNew;
-  final bool? isEnableVeg;
-  final bool? isEnableNonVeg;
-  final bool? isEnableSpicy;
-  final bool? isEnableJain;
-  final bool? isEnableSpecial;
-  final bool? isEnableSweet;
-  final bool? isEnablePopular;
+  MenuItemModel({this.status, this.message, this.menuData});
 
-
-  MenuItemModel({
-    this.createdAt,
-    this.menuId,
-    this.menuImage,
-    this.menuName,
-    this.menuCateory,
-    this.menuIngredients,
-    this.menuPrice,
-    this.menuDescription,
-    this.isEnableNew,
-    this.isEnableVeg,
-    this.isEnableNonVeg,
-    this.isEnableSpicy,
-    this.isEnableJain,
-    this.isEnableSpecial,
-    this.isEnableSweet,
-    this.isEnablePopular
-  });
-
-
-  Map<String, dynamic> toMap() {
-    return {
-      'createdAt' : createdAt,
-      'menu_id': menuId,
-      'menu_image' : menuImage,
-      'menu_name': menuName,
-      'menu_category': menuCateory,
-      'menu_ingredients': menuIngredients,
-      'menu_price': menuPrice,
-      'menu_description': menuDescription,
-      'is_new': isEnableNew,
-      'is_veg': isEnableVeg,
-      'is_nonveg': isEnableNonVeg,
-      'is_spicy': isEnableSpicy,
-      'is_jain': isEnableJain,
-      'is_special': isEnableSpecial,
-      'is_sweet': isEnableSweet,
-      'is_popular': isEnablePopular
-    };
+  MenuItemModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    if (json['data'] != null) {
+      menuData = <MenuData>[];
+      json['data'].forEach((v) {
+        menuData!.add(new MenuData.fromJson(v));
+      });
+    }
   }
 
-
-  MenuItemModel.fromFirestore(Map<String, dynamic> firestore)
-      : createdAt = firestore['createdAt'],
-        menuId = firestore['menu_id'],
-        menuImage = firestore['menu_image'],
-        menuName = firestore['menu_name'],
-        menuCateory = firestore['menu_category'],
-        menuIngredients = firestore['menu_ingredients'],
-        menuPrice = firestore['menu_price'],
-        menuDescription = firestore['menu_description'],
-        isEnableNew = firestore['is_new'],
-        isEnableVeg = firestore['is_veg'],
-        isEnableNonVeg = firestore['is_nonveg'],
-        isEnableSpicy = firestore['is_spicy'],
-        isEnableJain = firestore['is_jain'],
-        isEnableSpecial = firestore['is_special'],
-        isEnableSweet = firestore['is_sweet'],
-        isEnablePopular = firestore['is_popular'];
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.menuData != null) {
+      data['data'] = this.menuData!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
+class MenuData {
+  int? id;
+  String? categoryName;
+  String? name;
+  String? ingredients;
+  String? price;
+  String? description;
+  String? image;
+  bool? isNew;
+  bool? isVeg;
+  bool? isNonVeg;
+  bool? isSpicy;
+  bool? isJain;
+  bool? isSpecial;
+  bool? isSweet;
+  bool? isPopular;
+  int? categoryId;
 
+  MenuData(
+      {this.id,
+        this.categoryName,
+        this.name,
+        this.ingredients,
+        this.price,
+        this.description,
+        this.image,
+        this.isNew,
+        this.isVeg,
+        this.isNonVeg,
+        this.isSpicy,
+        this.isJain,
+        this.isSpecial,
+        this.isSweet,
+        this.isPopular,
+        this.categoryId});
+
+  MenuData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    categoryName = json['category_name'];
+    name = json['name'];
+    ingredients = json['ingredients'];
+    price = json['price'];
+    description = json['description'];
+    image = json['image'];
+    isNew = json['is_new'];
+    isVeg = json['is_veg'];
+    isNonVeg = json['is_non_veg'];
+    isSpicy = json['is_spicy'];
+    isJain = json['is_jain'];
+    isSpecial = json['is_special'];
+    isSweet = json['is_sweet'];
+    isPopular = json['is_popular'];
+    categoryId = json['category_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['category_name'] = this.categoryName;
+    data['name'] = this.name;
+    data['ingredients'] = this.ingredients;
+    data['price'] = this.price;
+    data['description'] = this.description;
+    data['image'] = this.image;
+    data['is_new'] = this.isNew;
+    data['is_veg'] = this.isVeg;
+    data['is_non_veg'] = this.isNonVeg;
+    data['is_spicy'] = this.isSpicy;
+    data['is_jain'] = this.isJain;
+    data['is_special'] = this.isSpecial;
+    data['is_sweet'] = this.isSweet;
+    data['is_popular'] = this.isPopular;
+    data['category_id'] = this.categoryId;
+    return data;
+  }
+}

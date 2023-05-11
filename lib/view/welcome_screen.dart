@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import '../utils/widgets/custom_button.dart';
 import '../view_model/auth_provider.dart';
 import 'login_screen.dart';
@@ -51,6 +52,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 50,
                   child: CustomButton(
                     onPressed: () async {
+                      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
                     },
                     child: const Text("Get started", style: TextStyle(fontSize: 16,),),
                   ),
