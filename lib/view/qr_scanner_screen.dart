@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
-
 import '../utils/widgets/custom_button.dart';
 
 class QRScannerScreen extends StatefulWidget {
@@ -86,8 +87,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   void _onQRViewCreated(QRViewController controller) {
     final qr_provider = Provider.of<QRProvider>(context, listen: false);
     this.controller=controller;
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
       qr_provider.getDataFromQR(scanData.code.toString());
+      final json_data = json.decode(scanData.code.toString());
+      if(json_data['show_menu'] == true) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('qr_scanned', "scanned");
+      }
       Future.delayed(Duration(seconds: 2), (){
         Navigator.of(context).pop();
         print(scanData.code.toString());

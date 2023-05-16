@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
@@ -15,26 +13,30 @@ class CartProvider extends ChangeNotifier {
   int get counter => _counter;
   int get quantity => _quantity;
 
-  int _totalPrice = 0;
-  int get totalPrice => _totalPrice;
+  double _totalPrice = 0;
+
+  double _itemPrice = 0;
+  double get itemPrice => _itemPrice;
+
+  double get totalPrice => _totalPrice;
+
 
   List<CartData> cartList = [];
 
-  bool _loading = false;
-  bool get loading => _loading;
-
-  setLoading(bool value) {
-    _loading = value;
-    notifyListeners();
-  }
+  // bool _loading = false;
+  // bool get loading => _loading;
+  //
+  // setLoading(bool value) {
+  //   _loading = value;
+  //   notifyListeners();
+  // }
 
   Future<void> addCart(BuildContext context, dynamic data) async {
-    setLoading(true);
     var result = await _cartRepository.addToCart(data);
     print(result.data);
     if(result.data['status'] == true) {
     }else if (result.data['status'] == "False"){
-    setLoading(false);
+
     // TODO show error message to user
     print("status : ${result.data['status']}");
     }
@@ -61,6 +63,7 @@ class CartProvider extends ChangeNotifier {
             }
           });
           print('###$cartList');
+        updateTotalPrice();
           return cartList;
       } else {}
     }
@@ -68,15 +71,38 @@ class CartProvider extends ChangeNotifier {
     return [];
   }
 
+  void incrementCartCount(){
+      _counter++;
+      notifyListeners();
+  }
+
+  void decrementCartCount(){
+    if(_counter > 0) {
+      _counter--;
+      notifyListeners();
+    }
+  }
+
+  void incrementItemQuantity(){
+      _quantity++;
+      notifyListeners();
+  }
+
+  void decrementItemQuantity(){
+    if(_quantity > 1) {
+      _quantity--;
+      notifyListeners();
+    }
+  }
+
   Future<void> updateCart(BuildContext context, dynamic data, int id) async {
-    setLoading(true);
+
     var result = await _cartRepository.updateCartItem(data, id);
     print(result.data);
     if(result.data['status'] == true) {
+      getCartItems();
       //TODO update ui accordingly
-      Navigator.of(context).pop();
     }else if (result.data['status'] == "False"){
-      setLoading(false);
       // TODO show error message to user
       print("status : ${result.data['status']}");
     }
@@ -86,10 +112,30 @@ class CartProvider extends ChangeNotifier {
     var response = await _cartRepository.deleteCartItem(id);
     if(response != null){
       if(response.statusCode == 204){
+        cartList.removeWhere((item) => item.id == id);
+        // Recalculate the total price
+        updateTotalPrice();
+        _quantity = 1;
         // TODO update ui accodingly
       }else if(response.data['status'] == "False"){
         // TODO show error message to user
       }
     }
+  }
+
+  void updateTotalPrice() {
+    _totalPrice = 0;
+    for (var item in cartList) {
+      _totalPrice += double.parse(item.totalPrice!);
+    }
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _counter = 0;
+    _quantity = 1;
+    _totalPrice = 0;
+    cartList.clear();
+    notifyListeners();
   }
 }

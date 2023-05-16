@@ -70,4 +70,15 @@ class CartData {
     data['menu_item_image'] = this.menuItemImage;
     return data;
   }
+
+  // json decode for orders
+
+  Map<String, dynamic> toJsonOrder() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['total_price'] = this.totalPrice;
+    data['quantity'] = this.quantity;
+    data['menu_item_name'] = this.menuItemName;
+    return data;
+  }
+
 }

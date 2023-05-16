@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/repository/menu_repository.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import '../model/category_model.dart';
@@ -29,10 +30,15 @@ class _MenuScreenState extends State<MenuScreen> {
     Provider.of<AuthProvider>(context, listen: false).getUserInfo();
     super.initState();
   }
+
+
+
   @override
   Widget build(BuildContext context) {
+    final MenuRepository _menuRepository = MenuRepository();
+    // Future<bool> menuLoaded = _menuRepository.isLoadedMenu();
+
     final menu_provider = Provider.of<MenuProvider>(context);
-    final cart_provider = Provider.of<CartProvider>(context);
     final qr_provider = Provider.of<QRProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -95,7 +101,8 @@ class _MenuScreenState extends State<MenuScreen> {
           builder: (context, snapshot){
             if(snapshot.hasData){
               var categories = snapshot.data;
-              return (qr_provider.show_menu == true) ?
+              // TODO add check for qr scanned or not
+              return ( true) ?
               Container(
                 margin: const EdgeInsets.only(left: 10, top: 15),
                 child: Column(
@@ -122,6 +129,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             GestureDetector(
                               onTap: () {
                                 menu_provider.selectCategory(-1);
+                                menu_provider.setCategoryName("");
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(
@@ -229,9 +237,9 @@ class _MenuScreenState extends State<MenuScreen> {
                             : Container()
                     ),
                     const SizedBox(height: 10.0,),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           "Menu Items",
                           style: TextStyle(
@@ -243,7 +251,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       height: 8,
                     ),
                     StreamBuilder<List<MenuData>>(
-                      stream: menu_provider.getMenuItems().asStream(),
+                      stream: menu_provider.getMenuItems(menu_provider.categoryName).asStream(),
                       builder: (context,snapshot){
                         if(snapshot.hasData){
                           var menu_items = snapshot.data;
@@ -270,193 +278,201 @@ class _MenuScreenState extends State<MenuScreen> {
                                   ],
                                 ),
                               )
-                                  : ListView.builder(
-                                itemCount: menu_items.length,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      var data = {
-                                        "menu_item":1,
-                                        "quantity":9
-                                      };
-                                      CustomBottomSheet
-                                          .showCustomModalBottomSheet(
-                                        onPressed: () {
-                                          cart_provider.addCart(
-                                            context,
-                                            data
-                                          ).then((value) {
-                                            Navigator.pop(context);
-                                            print("cart data is added");
-                                          });
-                                        },
-                                        context: context,
-                                        menuData: menu_items[index]
+                                  : Consumer<CartProvider>(
+                                builder: (context, cart_provider, __) {
+                                  return ListView.builder(
+                                    itemCount: menu_items.length,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (context, index) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            var data = {
+                                              "menu_item":menu_items[index].id,
+                                              "quantity":cart_provider.quantity
+                                            };
+                                            CustomBottomSheet
+                                                .showCustomModalBottomSheet(
+                                                plusButton: () {
+                                                  cart_provider.incrementItemQuantity();
+                                                },
+                                                minusButton: () {
+                                                  cart_provider.decrementItemQuantity();
+                                                },
+                                                itemQuantity: cart_provider.quantity.toString(),
+                                                onPressed: () {
+                                                  cart_provider.incrementCartCount();
+                                                  cart_provider.addCart(
+                                                      context,
+                                                      data
+                                                  ).then((value) {
+                                                    Navigator.pop(context);
+                                                    print("cart data is added");
+                                                  });
+                                                },
+                                                context: context,
+                                                menuData: menu_items[index]
+                                            );
+                                          },
+                                          child: Container(
+                                            width: wp(100, context),
+                                            child: Card(
+                                              child: Container(
+                                                padding: const EdgeInsets.all(
+                                                    8.0),
+                                                child: ListTile(
+                                                  leading: Image.network( ApiEndPoint.baseImageUrl +
+                                                      menu_items[index]
+                                                          .image.toString() ?? ''),
+                                                  title: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          (menu_items[index]
+                                                              .isVeg ==
+                                                              true)
+                                                              ? Image.asset(
+                                                            "assets/images/veg-icon.png",
+                                                            height: 40,
+                                                            width: 40,
+                                                          )
+                                                              : Image.asset(
+                                                            "assets/images/non-veg-icon.png",
+                                                            height: 35,
+                                                            width: 35,
+                                                          ),
+                                                          const Spacer(),
+                                                          (menu_items[index]
+                                                              .isNew! ==
+                                                              true)
+                                                              ? Container(
+                                                            decoration: BoxDecoration(
+                                                                color: Colors
+                                                                    .purple
+                                                                    .shade200,
+                                                                borderRadius: const BorderRadius
+                                                                    .all(
+                                                                    Radius
+                                                                        .circular(
+                                                                        20))),
+                                                            padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                            child: const Text(
+                                                              "New",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .purple,
+                                                                  fontSize:
+                                                                  14,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                            ),
+                                                          )
+                                                              : Container()
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 6,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            menu_items[index]
+                                                                .name.toString(),
+                                                            style: const TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                FontWeight.w600,
+                                                                color:
+                                                                Colors.black),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 6,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            menu_items[index]
+                                                                .ingredients.toString(),
+                                                            style: const TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey,
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      const Divider(
+                                                        height: 3,
+                                                        color: Colors.grey,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 6,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                            "₹ ${menu_items[index].price.toString()}",
+                                                            style: const TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                          ),
+                                                          const Spacer(),
+                                                          (menu_items[index]
+                                                              .isSpicy! ==
+                                                              true) ? const Text(
+                                                            "Spicy, ",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey,
+                                                            ),) : const Text(""),
+                                                          (menu_items[index]
+                                                              .isSweet! ==
+                                                              true) ? const Text(
+                                                            "Sweet, ",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey,
+                                                            ),) : const Text(""),
+                                                          (menu_items[index]
+                                                              .isSpecial! ==
+                                                              true) ? const Text(
+                                                            "Special, ",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey,
+                                                            ),) : const Text(""),
+                                                          (menu_items[index]
+                                                              .isPopular! ==
+                                                              true) ? const Text(
+                                                            "Popular ",
+                                                            style: TextStyle(
+                                                              fontSize: 12,
+                                                              color: Colors.grey,
+                                                            ),) : const Text(""),
+                                                        ],
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 6,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
                                       );
                                     },
-                                    child: (menu_provider.isSelectedIndex ==
-                                        -1 || (menu_provider.categoryName ==
-                                        menu_items[index].categoryName))
-                                        ? Container(
-                                      width: wp(100, context),
-                                      child: Card(
-                                        child: Container(
-                                          padding: const EdgeInsets.all(
-                                              8.0),
-                                          child: ListTile(
-                                            leading: Image.network( ApiEndPoint.baseImageUrl +
-                                                menu_items[index]
-                                                    .image.toString() ?? ''),
-                                            title: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    (menu_items[index]
-                                                        .isVeg ==
-                                                        true)
-                                                        ? Image.asset(
-                                                      "assets/images/veg-icon.png",
-                                                      height: 40,
-                                                      width: 40,
-                                                    )
-                                                        : Image.asset(
-                                                      "assets/images/non-veg-icon.png",
-                                                      height: 35,
-                                                      width: 35,
-                                                    ),
-                                                    const Spacer(),
-                                                    (menu_items[index]
-                                                        .isNew! ==
-                                                        true)
-                                                        ? Container(
-                                                      decoration: BoxDecoration(
-                                                          color: Colors
-                                                              .purple
-                                                              .shade200,
-                                                          borderRadius: const BorderRadius
-                                                              .all(
-                                                              Radius
-                                                                  .circular(
-                                                                  20))),
-                                                      padding:
-                                                      const EdgeInsets
-                                                          .all(8.0),
-                                                      child: const Text(
-                                                        "New",
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .purple,
-                                                            fontSize:
-                                                            14,
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .bold),
-                                                      ),
-                                                    )
-                                                        : Container()
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 6,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      menu_items[index]
-                                                          .name.toString(),
-                                                      style: const TextStyle(
-                                                          fontSize: 20,
-                                                          fontWeight:
-                                                          FontWeight.w600,
-                                                          color:
-                                                          Colors.black),
-                                                    ),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 6,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      menu_items[index]
-                                                          .ingredients.toString(),
-                                                      style: const TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                                const Divider(
-                                                  height: 3,
-                                                  color: Colors.grey,
-                                                ),
-                                                const SizedBox(
-                                                  height: 6,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      "₹ ${menu_items[index].price.toString()}",
-                                                      style: const TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                          FontWeight
-                                                              .bold),
-                                                    ),
-                                                    const Spacer(),
-                                                    (menu_items[index]
-                                                        .isSpicy! ==
-                                                        true) ? const Text(
-                                                      "Spicy, ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),) : const Text(""),
-                                                    (menu_items[index]
-                                                        .isSweet! ==
-                                                        true) ? const Text(
-                                                      "Sweet, ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),) : const Text(""),
-                                                    (menu_items[index]
-                                                        .isSpecial! ==
-                                                        true) ? const Text(
-                                                      "Special, ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),) : const Text(""),
-                                                    (menu_items[index]
-                                                        .isPopular! ==
-                                                        true) ? const Text(
-                                                      "Popular ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.grey,
-                                                      ),) : const Text(""),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 6,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                        : Container(),
                                   );
                                 },
-                              )
+                                  )
                           );
                         }else {
-                          return Center(child: CircularProgressIndicator(),);
+                          return const Center(child: CircularProgressIndicator(),);
                         }
                       },
                     ),

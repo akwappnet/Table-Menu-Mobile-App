@@ -10,7 +10,7 @@ class MenuProvider extends ChangeNotifier {
 
 
 
-  int isSelectedIndex = 0;
+  int isSelectedIndex = -1;
   String categoryName = "";
   List<Data> _categories = [];
 
@@ -69,8 +69,8 @@ class MenuProvider extends ChangeNotifier {
 
   // get request for menu items
 
-  Future<List<MenuData>> getMenuItems() async {
-    var response = await menuRepository.getMenuItems();
+  Future<List<MenuData>> getMenuItems(String category_name) async {
+    var response = await menuRepository.getMenuItems(category_name);
     if (response != null) {
       if (response.statusCode == 200) {
         var result = response.data;

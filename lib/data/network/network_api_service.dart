@@ -37,6 +37,35 @@ class NetworkApiService extends BaseApiService{
     return responseJson;
   }
 
+  Future<Response> getGetApiResponseWithParams(String url, String params) async {
+    dynamic responseJson;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      var headers = {
+        'Authorization': 'Token $token',
+        'Accept': 'application/json'
+      };
+      var queryParams = {
+        'query': '$params'
+      };
+
+      final response = await
+      _dio.get(url, options: Options(
+        headers: headers,
+      ), queryParameters: queryParams)
+          .timeout(const Duration(seconds: 10));
+      //print(response.data);
+      return response;
+      // responseJson = returnResponse(response);
+      // return responseJson;
+    } on SocketException {
+      throw FetchDataExceptions('No Internet Connection');
+    }
+    return responseJson;
+  }
+
 
   // to make HTTP requests to an API.
   Future<Response> getAuthApiResponse(String url, dynamic data) async {
@@ -75,7 +104,7 @@ class NetworkApiService extends BaseApiService{
         headers: headers,
         validateStatus: (_) => true,
         contentType: Headers.jsonContentType,
-        responseType:ResponseType.json,
+        responseType:ResponseType.json
       ))
           .timeout(Duration(seconds: 10));
 

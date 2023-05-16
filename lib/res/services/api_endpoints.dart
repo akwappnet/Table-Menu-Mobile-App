@@ -26,6 +26,7 @@ class _UserInfoEndPoint {
 class _MenuEndPoint {
   final String categoryEndPoint = "customer/categories/";
   final String menuItemEndPoint = "customer/menu_items/";
+  final String filterEndPoint = "customer/search/?query=spicy";
 }
 
 class _CartEndPoint {
