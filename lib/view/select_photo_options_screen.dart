@@ -4,10 +4,10 @@ import 'package:image_picker/image_picker.dart';
 import '../utils/widgets/select_photo_button.dart';
 
 class SelectPhotoOptionsScreen extends StatelessWidget {
-
   final Function(ImageSource source) onTap;
 
-  const SelectPhotoOptionsScreen({Key? key, required this.onTap}) : super(key: key);
+  const SelectPhotoOptionsScreen({Key? key, required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

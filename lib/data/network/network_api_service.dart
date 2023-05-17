@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
+
 import '../app_exceptions.dart';
 
-class NetworkApiService extends BaseApiService{
-
+class NetworkApiService extends BaseApiService {
   final Dio _dio = Dio();
-
-
   // to make HTTP requests to an API.
   Future<Response> getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -22,10 +21,11 @@ class NetworkApiService extends BaseApiService{
         'Accept': 'application/json'
       };
 
-      final response = await
-      _dio.get(url, options: Options(
-        headers: headers,
-      ))
+      final response = await _dio
+          .get(url,
+              options: Options(
+                headers: headers,
+              ))
           .timeout(const Duration(seconds: 10));
       //print(response.data);
       return response;
@@ -37,7 +37,8 @@ class NetworkApiService extends BaseApiService{
     return responseJson;
   }
 
-  Future<Response> getGetApiResponseWithParams(String url, String params) async {
+  Future<Response> getGetApiResponseWithParams(
+      String url, String params) async {
     dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -47,14 +48,14 @@ class NetworkApiService extends BaseApiService{
         'Authorization': 'Token $token',
         'Accept': 'application/json'
       };
-      var queryParams = {
-        'query': '$params'
-      };
+      var queryParams = {'query': '$params'};
 
-      final response = await
-      _dio.get(url, options: Options(
-        headers: headers,
-      ), queryParameters: queryParams)
+      final response = await _dio
+          .get(url,
+              options: Options(
+                headers: headers,
+              ),
+              queryParameters: queryParams)
           .timeout(const Duration(seconds: 10));
       //print(response.data);
       return response;
@@ -66,14 +67,15 @@ class NetworkApiService extends BaseApiService{
     return responseJson;
   }
 
-
   // to make HTTP requests to an API.
   Future<Response> getAuthApiResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
-
       var response = await _dio
-          .post(url, data: data,)
+          .post(
+            url,
+            data: data,
+          )
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -85,12 +87,10 @@ class NetworkApiService extends BaseApiService{
     return responseJson;
   }
 
-
   // to make HTTP requests to an API.
   Future<Response> getPostApiResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
-
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
       print(token);
@@ -100,12 +100,13 @@ class NetworkApiService extends BaseApiService{
       };
 
       var response = await _dio
-          .post(url, data: data,  options: Options(
-        headers: headers,
-        validateStatus: (_) => true,
-        contentType: Headers.jsonContentType,
-        responseType:ResponseType.json
-      ))
+          .post(url,
+              data: data,
+              options: Options(
+                  headers: headers,
+                  validateStatus: (_) => true,
+                  contentType: Headers.jsonContentType,
+                  responseType: ResponseType.json))
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -120,7 +121,6 @@ class NetworkApiService extends BaseApiService{
   Future<Response> getPatchApiResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
-
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
@@ -130,12 +130,14 @@ class NetworkApiService extends BaseApiService{
       };
 
       var response = await _dio
-          .patch(url, data: data, options: Options(
-        headers: headers,
-        validateStatus: (_) => true,
-        contentType: Headers.jsonContentType,
-        responseType:ResponseType.json,
-      ))
+          .patch(url,
+              data: data,
+              options: Options(
+                headers: headers,
+                validateStatus: (_) => true,
+                contentType: Headers.jsonContentType,
+                responseType: ResponseType.json,
+              ))
           .timeout(Duration(seconds: 10));
 
       print(response.data);
@@ -150,7 +152,6 @@ class NetworkApiService extends BaseApiService{
   Future<Response> getDeleteApiResponse(String url) async {
     dynamic responseJson;
     try {
-
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
@@ -160,12 +161,13 @@ class NetworkApiService extends BaseApiService{
       };
 
       var response = await _dio
-          .delete(url, options: Options(
-        headers: headers,
-        validateStatus: (_) => true,
-        contentType: Headers.jsonContentType,
-        responseType:ResponseType.json,
-      ))
+          .delete(url,
+              options: Options(
+                headers: headers,
+                validateStatus: (_) => true,
+                contentType: Headers.jsonContentType,
+                responseType: ResponseType.json,
+              ))
           .timeout(Duration(seconds: 10));
 
       print(response);
@@ -192,6 +194,4 @@ class NetworkApiService extends BaseApiService{
             'Error Occured While Communicating with Server');
     }
   }
-
-
 }

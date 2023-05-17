@@ -1,17 +1,19 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
+
 import '../model/user_model.dart';
 import '../res/services/api_endpoints.dart';
 import '../view_model/auth_provider.dart';
-
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -21,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
@@ -45,11 +46,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
           break;
       }
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: const Text("Profile"),
+        centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<String>(
             icon: Icon(Icons.menu),
@@ -60,8 +64,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   value: choice,
                   child: Row(
                     children: [
-                      Icon(choice == "Delete Account" ? Icons.delete : Icons.exit_to_app),
-                      CustomText(text: choice,size: 16,weight: FontWeight.w400,),
+                      Icon(choice == "Delete Account"
+                          ? Icons.delete
+                          : Icons.exit_to_app),
+                      CustomText(
+                        text: choice,
+                        size: 16,
+                        weight: FontWeight.w400,
+                      ),
                     ],
                   ),
                 );
@@ -79,8 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   uid = userData!.id;
                   String image_url = userData!.profilePhotoUrl! == null
                       ? ""
-                      : ApiEndPoint
-                      .baseImageUrl + userData!.profilePhotoUrl!;
+                      : ApiEndPoint.baseImageUrl + userData!.profilePhotoUrl!;
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -89,59 +98,84 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         CachedNetworkImage(
                           fit: BoxFit.fill,
                           imageUrl: image_url,
-                          imageBuilder: (context, imageProvider) =>
-                              Container(
-                                width: 100.0,
-                                height: 100.0,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: imageProvider, fit: BoxFit.cover),
-                                ),
-                              ),
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 100.0,
+                            height: 100.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
                           progressIndicatorBuilder:
-                              (context, url, downloadProgress) =>
-                              Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              (context, url, downloadProgress) => Center(
+                            child: CircularProgressIndicator(),
+                          ),
                           errorWidget: (context, url, error) {
                             return Container();
                           },
                         ),
                         const SizedBox(height: 20),
-
-                        CustomText(text: userData.name!, size: 22,
-                          weight: FontWeight.bold,),
-
-                        SizedBox(height: 8,),
-
-                        CustomText(text: userData.phoneNumber!, size: 18,
-                          weight: FontWeight.w400,),
-                        SizedBox(height: 8,),
-                        CustomText(text: userData.email!, size: 18,
-                          weight: FontWeight.w400,),
-                        SizedBox(height: 8,),
-                        SizedBox(
-                          height: 50,
-                          width: wp(80, context),
-                          child: CustomButton(
-                            child: CustomText(text: "Update Profile", size: 18, color: Colors.white,),
-                            onPressed: () {
-                              Navigator.pushNamed(context, RoutesName.USER_INFO_SCREEN_ROUTE, arguments: userData);
-                            },),
+                        CustomText(
+                          text: userData.name!,
+                          size: 22,
+                          weight: FontWeight.bold,
                         ),
-                        SizedBox(height: 8,),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        CustomText(
+                          text: userData.phoneNumber!,
+                          size: 18,
+                          weight: FontWeight.w400,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        CustomText(
+                          text: userData.email!,
+                          size: 18,
+                          weight: FontWeight.w400,
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
                         SizedBox(
                           height: 50,
                           width: wp(80, context),
                           child: CustomButton(
-                            child: CustomText(text: "Logout", size: 18, color: Colors.white,),
+                            child: CustomText(
+                              text: "Update Profile",
+                              size: 18,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, RoutesName.USER_INFO_SCREEN_ROUTE,
+                                  arguments: userData);
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        SizedBox(
+                          height: 50,
+                          width: wp(80, context),
+                          child: CustomButton(
+                            child: CustomText(
+                              text: "Logout",
+                              size: 18,
+                              color: Colors.white,
+                            ),
                             onPressed: () async {
-                              SharedPreferences preferences = await SharedPreferences
-                                  .getInstance();
+                              SharedPreferences preferences =
+                                  await SharedPreferences.getInstance();
                               await preferences.remove('token');
-                              Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-                            },),
+                              Navigator.popAndPushNamed(
+                                  context, RoutesName.LOGIN_SCREEN_ROUTE);
+                            },
+                          ),
                         )
                       ],
                     ),
@@ -149,15 +183,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 } else {
                   return Center(
                     child: Lottie.asset(
-                      'assets/lotti_animation/loading_animation.json',
+                      AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
                       width: 100,
                       height: 100,
                       fit: BoxFit.fill,
                     ),
                   );
                 }
-              }
-          )),
+              })),
     );
   }
 }

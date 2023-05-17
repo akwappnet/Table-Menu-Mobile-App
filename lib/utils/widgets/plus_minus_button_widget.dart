@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
 class PlusMinusButtons extends StatelessWidget {
   final VoidCallback deleteQuantity;
@@ -17,7 +18,7 @@ class PlusMinusButtons extends StatelessWidget {
     return Row(
       children: [
         IconButton(onPressed: deleteQuantity, icon: const Icon(Icons.remove)),
-        Text(text),
+        CustomText(text: text),
         IconButton(onPressed: addQuantity, icon: const Icon(Icons.add)),
       ],
     );

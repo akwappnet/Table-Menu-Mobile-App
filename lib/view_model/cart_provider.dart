@@ -1,10 +1,10 @@
 import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
 
 class CartProvider extends ChangeNotifier {
-
   final CartRepository _cartRepository = CartRepository();
 
   int _counter = 0;
@@ -20,7 +20,6 @@ class CartProvider extends ChangeNotifier {
 
   double get totalPrice => _totalPrice;
 
-
   List<CartData> cartList = [];
 
   // bool _loading = false;
@@ -31,14 +30,18 @@ class CartProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
+  void setQuantity(int value) {
+    _quantity = value;
+    notifyListeners();
+  }
+
   Future<void> addCart(BuildContext context, dynamic data) async {
     var result = await _cartRepository.addToCart(data);
     print(result.data);
-    if(result.data['status'] == true) {
-    }else if (result.data['status'] == "False"){
-
-    // TODO show error message to user
-    print("status : ${result.data['status']}");
+    if (result.data['status'] == true) {
+    } else if (result.data['status'] == "False") {
+      // TODO show error message to user
+      print("status : ${result.data['status']}");
     }
   }
 
@@ -49,75 +52,108 @@ class CartProvider extends ChangeNotifier {
     if (response != null) {
       if (response.statusCode == 200) {
         print("true");
-         var getCartItem = CartModel.fromJson(response.data);
+        var getCartItem = CartModel.fromJson(response.data);
         print("true2");
-          var addedIds = Set<int>();
-          cartList.clear();
-          cartList.addAll(getCartItem.cartData!);
+        var addedIds = Set<int>();
+        cartList.clear();
+        cartList.addAll(getCartItem.cartData!);
         log("cart list:${cartList.length}");
         getCartItem.cartData!.forEach((data) {
-            // Check if category already exists
-            if (!addedIds.contains(data.id)) {
-              // categoryList.add(GetCategory(data: [data]));
-              addedIds.add(data.id!); // Add categoryId to Set
-            }
-          });
-          print('###$cartList');
+          // Check if category already exists
+          if (!addedIds.contains(data.id)) {
+            // categoryList.add(GetCategory(data: [data]));
+            addedIds.add(data.id!); // Add categoryId to Set
+          }
+        });
+        print('###$cartList');
         updateTotalPrice();
-          return cartList;
+        return cartList;
       } else {}
     }
     // Return an empty list if there was an error
     return [];
   }
 
-  void incrementCartCount(){
-      _counter++;
-      notifyListeners();
+  void incrementCartCount() {
+    _counter++;
+    notifyListeners();
   }
 
-  void decrementCartCount(){
-    if(_counter > 0) {
+  void decrementCartCount() {
+    if (_counter > 0) {
       _counter--;
       notifyListeners();
     }
   }
 
-  void incrementItemQuantity(){
-      _quantity++;
-      notifyListeners();
+  void incrementItemQuantity() {
+    _quantity++;
+    notifyListeners();
   }
 
-  void decrementItemQuantity(){
-    if(_quantity > 1) {
+  void decrementItemQuantity() {
+    if (_quantity > 1) {
       _quantity--;
       notifyListeners();
     }
   }
 
-  Future<void> updateCart(BuildContext context, dynamic data, int id) async {
-
-    var result = await _cartRepository.updateCartItem(data, id);
-    print(result.data);
-    if(result.data['status'] == true) {
-      getCartItems();
-      //TODO update ui accordingly
-    }else if (result.data['status'] == "False"){
-      // TODO show error message to user
-      print("status : ${result.data['status']}");
+  void incrementItemQuantityUpdate(CartData item) {
+    if (item != null) {
+      item.quantity = (item.quantity ?? 0) + 1;
+      notifyListeners();
     }
   }
 
-  Future<void> deleteCartItem(BuildContext context, int id) async{
+  void decrementItemQuantityUpdate(CartData item) {
+    if (item != null && item.quantity != null && item.quantity! > 1) {
+      item.quantity = (item.quantity ?? 0) - 1;
+      notifyListeners();
+    }
+  }
+
+  // Future<void> updateCart(BuildContext context, dynamic data, int id) async {
+  //   var result = await _cartRepository.updateCartItem(data, id);
+  //   print(result.data);
+  //   if (result.data['status'] == true) {
+  //     getCartItems();
+  //     //TODO update ui accordingly
+  //   } else if (result.data['status'] == "False") {
+  //     // TODO show error message to user
+  //     print("status : ${result.data['status']}");
+  //   }
+  // }
+
+  Future<void> updateItemQuantity(
+      BuildContext context, dynamic data, int id) async {
+    var response = await _cartRepository.updateCartItem(data, id);
+    if (response != null) {
+      if (response.statusCode == 200) {
+        var updatedItem = CartData.fromJson(response.data);
+        // Find the item in the cartList and update its quantity
+        var index = cartList.indexWhere((item) => item.id == updatedItem.id);
+        if (index != -1) {
+          cartList[index] = updatedItem;
+          updateTotalPrice();
+          notifyListeners();
+        }
+        getCartItems();
+      } else {
+        // TODO: Handle error
+      }
+    }
+  }
+
+  Future<void> deleteCartItem(BuildContext context, int id) async {
     var response = await _cartRepository.deleteCartItem(id);
-    if(response != null){
-      if(response.statusCode == 204){
+    if (response != null) {
+      if (response.statusCode == 204) {
         cartList.removeWhere((item) => item.id == id);
         // Recalculate the total price
         updateTotalPrice();
         _quantity = 1;
         // TODO update ui accodingly
-      }else if(response.data['status'] == "False"){
+      } else if (response.data['status'] == "False") {
         // TODO show error message to user
       }
     }

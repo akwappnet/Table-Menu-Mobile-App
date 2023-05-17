@@ -4,7 +4,7 @@ import 'package:table_menu_customer/view/profile_screen.dart';
 
 import '../view_model/nav_provider.dart';
 import 'menu_screen.dart';
-import 'orders_screen.dart';
+import 'orders_screen/orders_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,8 +14,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  List<Widget> _widgetOptions = <Widget>[const MenuScreen() ,const OrdersScreen(), const ProfileScreen()];
+  List<Widget> _widgetOptions = <Widget>[
+    const MenuScreen(),
+    const OrdersScreen(),
+    const ProfileScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {

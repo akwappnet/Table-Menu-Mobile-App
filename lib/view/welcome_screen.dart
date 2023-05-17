@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
+
 import '../utils/widgets/custom_button.dart';
 import '../view_model/auth_provider.dart';
-import 'login_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -25,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/images/starter_screen_image.jpg",
+                  AssetsUtils.ASSETS_STARTER_SCREEN_IMAGE,
                   height: 300,
                 ),
                 const SizedBox(height: 20),
@@ -52,9 +53,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   height: 50,
                   child: CustomButton(
                     onPressed: () async {
-                      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+                      Navigator.pushReplacementNamed(
+                          context, RoutesName.LOGIN_SCREEN_ROUTE);
                     },
-                    child: const Text("Get started", style: TextStyle(fontSize: 16,),),
+                    child: const Text(
+                      "Get started",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
                 )
               ],

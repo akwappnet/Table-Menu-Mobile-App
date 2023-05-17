@@ -89,11 +89,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     this.controller=controller;
     controller.scannedDataStream.listen((scanData) async {
       qr_provider.getDataFromQR(scanData.code.toString());
-      final json_data = json.decode(scanData.code.toString());
-      if(json_data['show_menu'] == true) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('qr_scanned', "scanned");
-      }
       Future.delayed(Duration(seconds: 2), (){
         Navigator.of(context).pop();
         print(scanData.code.toString());

@@ -3,13 +3,14 @@ import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/cart_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screen.dart';
-import 'package:table_menu_customer/view/orders_screen.dart';
+import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
 import 'package:table_menu_customer/view/registration_screen.dart';
 import 'package:table_menu_customer/view/user_information_screen.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
 import 'package:table_menu_customer/view/welcome_screen.dart';
+
 import '../../model/user_model.dart';
 import '../../view/login_screen.dart';
 import '../../view/reset_password_screen.dart';
@@ -18,7 +19,6 @@ class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     UserData? userData = settings.arguments as UserData?;
     switch (settings.name) {
-
       case RoutesName.WELCOME_SCREEN_ROUTE:
         return MaterialPageRoute(
             builder: (BuildContext context) => WelcomeScreen());

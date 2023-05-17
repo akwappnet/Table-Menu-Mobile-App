@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+
 import '../utils/widgets/custom_button.dart';
 import '../view_model/auth_provider.dart';
 
@@ -41,7 +43,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                       color: Colors.purple.shade50,
                     ),
                     child: Image.asset(
-                      "assets/images/enter_OTP.png",
+                      AssetsUtils.ASSETS_ENTER_OTP_LOGO,
                     ),
                   ),
                   const SizedBox(height: 20),

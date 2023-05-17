@@ -1,12 +1,11 @@
-
 class ApiEndPoint {
-   static const String baseUrl = "http://192.168.10.179:8001/api/";
-   static String baseImageUrl = "http://192.168.10.179:8001/";
-   static _AuthEndPoint authEndPoints = _AuthEndPoint();
-   static _UserInfoEndPoint userInfoEndPoint = _UserInfoEndPoint();
-   static _MenuEndPoint menuEndPoint = _MenuEndPoint();
-   static _CartEndPoint cartEndPoint = _CartEndPoint();
-   static _OrderEndPoint orderEndPoint = _OrderEndPoint();
+  static const String baseUrl = "http://192.168.10.179:8001/api/";
+  static String baseImageUrl = "http://192.168.10.179:8001";
+  static _AuthEndPoint authEndPoints = _AuthEndPoint();
+  static _UserInfoEndPoint userInfoEndPoint = _UserInfoEndPoint();
+  static _MenuEndPoint menuEndPoint = _MenuEndPoint();
+  static _CartEndPoint cartEndPoint = _CartEndPoint();
+  static _OrderEndPoint orderEndPoint = _OrderEndPoint();
 }
 
 class _AuthEndPoint {
@@ -35,4 +34,5 @@ class _CartEndPoint {
 
 class _OrderEndPoint {
   final String orderEndPoint = "customer/order/";
+  final String orderBaseImageUrl = "http://192.168.10.179:8001/media/";
 }
