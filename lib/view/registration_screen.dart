@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_snack_bar.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
@@ -188,15 +189,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       .passwordRegisterController.text !=
                                   auth_provider
                                       .repeatePasswordRegisterController.text) {
-                                showsnackbar(context,
+                                CustomFlushbar.showError(context,
                                     "Password doesn't match enter same password");
                               } else {
-                                String email =
-                                    auth_provider.emailRegisterController.text;
-                                String password = auth_provider
-                                    .passwordRegisterController.text;
-                                auth_provider.userRegisteration(
-                                    email, password, context);
+                                var data = {
+                                  "email": auth_provider
+                                      .emailRegisterController.text,
+                                  "password": auth_provider
+                                      .passwordRegisterController.text
+                                };
+                                auth_provider.userRegisteration(data, context);
                               }
                             }
                           },

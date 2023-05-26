@@ -20,7 +20,7 @@ class OrderProvider extends ChangeNotifier {
 
   Future<void> placeOrder(BuildContext context, dynamic data) async {
     setLoading(true);
-    var result = await _orderRepository.placeOrder(data);
+    var result = await _orderRepository.placeOrder(data,context);
     print(result.data);
     if (result.data['status'] == true) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -37,8 +37,8 @@ class OrderProvider extends ChangeNotifier {
   }
 
   // get all orders placed by user
-  Future<List<OrderData>> getOrders() async {
-    var response = await _orderRepository.getOrders();
+  Future<List<OrderData>> getOrders(BuildContext context) async {
+    var response = await _orderRepository.getOrders(context);
     if (response != null) {
       if (response.statusCode == 200) {
         var result = response.data;
@@ -65,5 +65,20 @@ class OrderProvider extends ChangeNotifier {
     }
     // Return an empty list if there was an error
     return [];
+  }
+
+  // cancel order
+
+  Future<void> cancelOrder(BuildContext context, int id) async {
+    var data = {};
+    var result = await _orderRepository.cancelOrder(id, data, context);
+    print(result.data);
+    if (result.data['status'] == true) {
+      orderList.removeWhere((item) => item.id == id);
+      getOrders(context);
+    } else if (result.data['status'] == false) {
+      // TODO show error message to user
+      print("status : ${result.data['status']}");
+    }
   }
 }

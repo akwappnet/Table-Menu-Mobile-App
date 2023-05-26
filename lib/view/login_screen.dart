@@ -157,13 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: CustomButton(
                                 onPressed: () async {
                                   if (_formKey_login.currentState!.validate()) {
-                                    var data = {
-                                      "email": auth_provider
-                                          .emailLoginController.text,
-                                      "password": auth_provider
-                                          .passwordLoginController.text
-                                    };
-                                    auth_provider.userLogin(data, context);
+                                    auth_provider.userLogin(
+                                        auth_provider.emailLoginController.text,
+                                        auth_provider
+                                            .passwordLoginController.text,
+                                        context);
                                   }
                                 },
                                 child: const CustomText(

@@ -6,7 +6,6 @@ import 'package:table_menu_customer/repository/menu_repository.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
-
 import '../model/category_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/responsive.dart';
@@ -27,7 +26,9 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
-    Provider.of<AuthProvider>(context, listen: false).getUserInfo();
+    Future.delayed(Duration.zero, () {
+      Provider.of<AuthProvider>(context, listen: false).getUserInfo(context);
+    });
     super.initState();
   }
 
@@ -35,9 +36,9 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     final MenuRepository _menuRepository = MenuRepository();
     // Future<bool> menuLoaded = _menuRepository.isLoadedMenu();
-
     final menu_provider = Provider.of<MenuProvider>(context);
     final qr_provider = Provider.of<QRProvider>(context);
+    qr_provider.getVisibilityOfMenu();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,6 +71,15 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, RoutesName.NOTIFICATION_SCREEN_ROUTE);
+            },
+            icon: const Icon(
+              Icons.notifications_none_outlined,
+              color: Colors.black,
+            ),
+          ),
           Consumer<CartProvider>(
             builder: (_, cart_badge, __) {
               return Badge(
@@ -81,7 +91,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 position: BadgePosition.custom(start: 28, bottom: 28),
                 child: IconButton(
                   onPressed: () {
-                    cart_badge.getCartItems();
+                    cart_badge.getCartItems(context);
                     Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
                   },
                   icon: const Icon(
@@ -99,12 +109,13 @@ class _MenuScreenState extends State<MenuScreen> {
       ),
       body: SafeArea(
         child: StreamBuilder<List<Data>>(
-          stream: menu_provider.getCategories().asStream(),
+          stream: menu_provider.getCategories(context).asStream(),
           builder: (context, snapshot) {
+            print("bool : ${qr_provider.isVisible}");
             if (snapshot.hasData) {
               var categories = snapshot.data;
               // TODO add check for qr scanned or not
-              return (qr_provider.show_menu == true)
+              return (qr_provider.isVisible)
                   ? Container(
                       margin: const EdgeInsets.only(left: 10, top: 15),
                       child: Column(
@@ -265,7 +276,7 @@ class _MenuScreenState extends State<MenuScreen> {
                           ),
                           StreamBuilder<List<MenuData>>(
                             stream: menu_provider
-                                .getMenuItems(menu_provider.categoryName)
+                                .getMenuItems(menu_provider.categoryName,context)
                                 .asStream(),
                             builder: (context, snapshot) {
                               if (snapshot.hasData) {
@@ -286,7 +297,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                   width: 230,
                                                 ),
                                                 const Text(
-                                                  "No Menu",
+                                                  "No Menu Items",
                                                   style: TextStyle(
                                                       fontSize: 22,
                                                       fontWeight:
@@ -329,7 +340,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                                                   cart_provider
                                                                       .addCart(
                                                                           context,
-                                                                          data)
+                                                                          data,
+                                                                          menu_items[index]
+                                                                              .id!)
                                                                       .then(
                                                                           (value) {
                                                                     cart_provider

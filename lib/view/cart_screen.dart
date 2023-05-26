@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/nav_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
@@ -46,7 +47,9 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   position: BadgePosition.custom(start: 28, bottom: 28),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      CustomFlushbar.showError(context, "hello");
+                    },
                     icon: const Icon(
                       Icons.shopping_bag_outlined,
                       color: Colors.black,
@@ -62,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
         body: SafeArea(
           child: StreamBuilder(
-            stream: cart_provider.getCartItems().asStream(),
+            stream: cart_provider.getCartItems(context).asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var cart_items = snapshot.data;

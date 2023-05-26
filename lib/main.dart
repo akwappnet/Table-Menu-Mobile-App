@@ -1,6 +1,8 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
@@ -12,6 +14,7 @@ import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
 import 'package:table_menu_customer/view_model/nav_provider.dart';
+import 'package:table_menu_customer/view_model/notification_provider.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
@@ -22,6 +25,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // await FirebaseMessaging.instance.getToken();
+  // final InitializationSettings initializationSettings = InitializationSettings(
+  //   android: AndroidInitializationSettings('@drawable/app_icon'),
+  // );
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   final AuthRepository _authRepository = AuthRepository();
   bool loggedIn = await _authRepository.isLoggedIn();
   runApp(MyApp(
@@ -29,9 +39,18 @@ Future<void> main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+
+
+class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.loggedIn});
   final bool loggedIn;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -42,6 +61,7 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (_) => MenuProvider()),
           ChangeNotifierProvider(create: (_) => NavProvider()),
           ChangeNotifierProvider(create: (_) => QRProvider()),
+          ChangeNotifierProvider(create: (_) => NotificationProvider()),
           ChangeNotifierProvider(create: (_) => OrderProvider()),
         ],
         child: MaterialApp(
@@ -64,9 +84,9 @@ class MyApp extends StatelessWidget {
                 width: 300,
               ),
             ),
-            nextScreen: loggedIn ? HomeScreen() : LoginScreen(),
+            nextScreen: widget.loggedIn ? HomeScreen() : LoginScreen(),
           ),
-          initialRoute: loggedIn
+          initialRoute: widget.loggedIn
               ? RoutesName.HOME_SCREEN_ROUTE
               : RoutesName.LOGIN_SCREEN_ROUTE,
           onGenerateRoute: Routes.generateRoute,

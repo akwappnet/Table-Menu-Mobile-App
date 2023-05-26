@@ -6,6 +6,7 @@ class ApiEndPoint {
   static _MenuEndPoint menuEndPoint = _MenuEndPoint();
   static _CartEndPoint cartEndPoint = _CartEndPoint();
   static _OrderEndPoint orderEndPoint = _OrderEndPoint();
+  static _NotificationEndPoint notificationEndPoint = _NotificationEndPoint();
 }
 
 class _AuthEndPoint {
@@ -34,5 +35,11 @@ class _CartEndPoint {
 
 class _OrderEndPoint {
   final String orderEndPoint = "customer/order/";
+  final String cancelOrderEndPoint = "customer/cancelled_order/";
   final String orderBaseImageUrl = "http://192.168.10.179:8001/media/";
+}
+
+class _NotificationEndPoint {
+  final String notificationEndPoint = "customer/notification/";
+  final String notificationDeleteAllEndPoint = "customer/notification/deleteall/";
 }

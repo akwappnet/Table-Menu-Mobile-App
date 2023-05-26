@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 
+import '../data/app_exceptions.dart';
 import '../res/services/api_endpoints.dart';
+import '../utils/routes/routes_name.dart';
 
 
 class MenuRepository {
 
   BaseApiService _apiService = NetworkApiService();
 
-  Future<Response> getCategories() async {
+  Future<Response> getCategories([BuildContext? context]) async {
 
     try{
       Response response = await _apiService.getGetApiResponse(
@@ -18,12 +21,19 @@ class MenuRepository {
       );
       print(response);
       return response;
-    } catch (e) {
-      throw e;
+    } catch (error) {
+      if (error is UnauthorisedException) {
+        if(context != null){
+          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        }
+        throw UnauthorisedException;
+      } else {
+        throw error;
+      }
     }
   }
 
-  Future<Response> getMenuItems(String category_name) async {
+  Future<Response> getMenuItems(String category_name, [BuildContext? context]) async {
 
     try{
       Response response = await _apiService.getGetApiResponseWithParams(
@@ -32,8 +42,15 @@ class MenuRepository {
       );
       // print(response);
       return response;
-    } catch (e) {
-      throw e;
+    } catch (error) {
+      if (error is UnauthorisedException) {
+        if(context != null){
+          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        }
+        throw UnauthorisedException;
+      } else {
+        throw error;
+      }
     }
   }
 

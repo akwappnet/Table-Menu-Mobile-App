@@ -90,7 +90,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     controller.scannedDataStream.listen((scanData) async {
       qr_provider.getDataFromQR(scanData.code.toString());
       Future.delayed(Duration(seconds: 2), (){
-        Navigator.of(context).pop();
+        Navigator.pop(context);
         print(scanData.code.toString());
       });
       controller.pauseCamera();

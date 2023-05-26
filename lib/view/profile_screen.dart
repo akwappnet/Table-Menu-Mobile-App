@@ -13,6 +13,7 @@ import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
 import '../model/user_model.dart';
 import '../res/services/api_endpoints.dart';
+import '../utils/widgets/custom_confirmation_dialog.dart';
 import '../view_model/auth_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -26,7 +27,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      Provider.of<AuthProvider>(context, listen: false).getUserInfo();
+      Provider.of<AuthProvider>(context, listen: false).getUserInfo(context);
     });
     super.initState();
   }
@@ -39,7 +40,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future<void> handleClick(String value) async {
       switch (value) {
         case 'Delete Account':
-          auth_provider.deleteUserInfo(context);
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CustomConfirmationDialog(
+                title: 'Delete Account',
+                message: 'Are you sure you want to Delete Your Account ?',
+                onConfirm: () {
+                  auth_provider.deleteUserInfo(context);
+                },
+              );
+            },
+          );
           break;
         case 'Exit':
           exit(0);
@@ -82,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Center(
           child: StreamBuilder<UserModel>(
-              stream: auth_provider.getUserInfo().asStream(),
+              stream: auth_provider.getUserInfo(context).asStream(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var userData = snapshot.data?.userData;

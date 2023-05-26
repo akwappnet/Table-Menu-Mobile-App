@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
 class CartProvider extends ChangeNotifier {
   final CartRepository _cartRepository = CartRepository();
@@ -35,20 +36,27 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addCart(BuildContext context, dynamic data) async {
-    var result = await _cartRepository.addToCart(data);
-    print(result.data);
-    if (result.data['status'] == true) {
-    } else if (result.data['status'] == "False") {
-      // TODO show error message to user
-      print("status : ${result.data['status']}");
+  Future<void> addCart(BuildContext context, dynamic data, int id) async {
+    getCartItems(context);
+    if (cartList.contains((item) => item.id == id)) {
+      CustomFlushbar.showError(context, "Item is Already Added to cart");
+      Navigator.of(context).pop();
+      return;
+    } else {
+      var result = await _cartRepository.addToCart(data,context);
+      print(result.data);
+      if (result.data['status'] == true) {
+      } else if (result.data['status'] == "False") {
+        // TODO show error message to user
+        print("status : ${result.data['status']}");
+      }
     }
   }
 
   // get cart item
 
-  Future<List<CartData>> getCartItems() async {
-    var response = await _cartRepository.getCartItems();
+  Future<List<CartData>> getCartItems(BuildContext context) async {
+    var response = await _cartRepository.getCartItems(context);
     if (response != null) {
       if (response.statusCode == 200) {
         print("true");
@@ -126,7 +134,7 @@ class CartProvider extends ChangeNotifier {
 
   Future<void> updateItemQuantity(
       BuildContext context, dynamic data, int id) async {
-    var response = await _cartRepository.updateCartItem(data, id);
+    var response = await _cartRepository.updateCartItem(data, id, context);
     if (response != null) {
       if (response.statusCode == 200) {
         var updatedItem = CartData.fromJson(response.data);
@@ -137,7 +145,7 @@ class CartProvider extends ChangeNotifier {
           updateTotalPrice();
           notifyListeners();
         }
-        getCartItems();
+        getCartItems(context);
       } else {
         // TODO: Handle error
       }
@@ -145,7 +153,7 @@ class CartProvider extends ChangeNotifier {
   }
 
   Future<void> deleteCartItem(BuildContext context, int id) async {
-    var response = await _cartRepository.deleteCartItem(id);
+    var response = await _cartRepository.deleteCartItem(id, context);
     if (response != null) {
       if (response.statusCode == 204) {
         cartList.removeWhere((item) => item.id == id);

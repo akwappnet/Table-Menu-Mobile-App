@@ -3,6 +3,7 @@ import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/cart_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screen.dart';
+import 'package:table_menu_customer/view/notification_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
@@ -67,6 +68,9 @@ class Routes {
         return MaterialPageRoute(
             builder: (BuildContext context) => VerifyUserScreen());
 
+      case RoutesName.NOTIFICATION_SCREEN_ROUTE:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => NotificationScreen());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

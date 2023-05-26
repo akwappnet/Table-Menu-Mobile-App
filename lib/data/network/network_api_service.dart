@@ -1,14 +1,29 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
+import 'package:table_menu_customer/res/services/api_endpoints.dart';
 
 import '../app_exceptions.dart';
+import '../interceptors/auth_interceptor.dart';
+import '../interceptors/error_interceptor.dart';
 
 class NetworkApiService extends BaseApiService {
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(
+      BaseOptions(
+          baseUrl: ApiEndPoint.baseUrl,
+          followRedirects: false,
+          validateStatus: (status) {
+            return status! < 500;
+          })
+  );
+
+  NetworkApiService() {
+    _dio.interceptors.add(AuthInterceptor());
+    _dio.interceptors.add(ErrorInterceptor());
+  }
+
   // to make HTTP requests to an API.
   Future<Response> getGetApiResponse(String url) async {
     dynamic responseJson;
@@ -32,7 +47,7 @@ class NetworkApiService extends BaseApiService {
       // responseJson = returnResponse(response);
       // return responseJson;
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
   }
@@ -62,14 +77,14 @@ class NetworkApiService extends BaseApiService {
       // responseJson = returnResponse(response);
       // return responseJson;
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
   }
 
   // to make HTTP requests to an API.
   Future<Response> getAuthApiResponse(String url, dynamic data) async {
-    dynamic responseJson;
+    // dynamic responseJson;
     try {
       var response = await _dio
           .post(
@@ -82,9 +97,9 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
+    // return responseJson;
   }
 
   // to make HTTP requests to an API.
@@ -113,7 +128,7 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
   }
@@ -144,7 +159,7 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
   }
@@ -176,22 +191,22 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('No Internet Connection');
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
   }
 
-  dynamic returnResponse(Response response) {
-    switch (response.statusCode) {
-      case 200:
-        dynamic responseJson = jsonDecode(response.data);
-        return responseJson;
-      case 400:
-        dynamic responseJson = jsonDecode(response.data);
-        return responseJson;
-      default:
-        throw FetchDataExceptions(
-            'Error Occured While Communicating with Server');
-    }
-  }
+  // dynamic returnResponse(Response response) {
+  //   switch (response.statusCode) {
+  //     case 200:
+  //       dynamic responseJson = jsonDecode(response.data);
+  //       return responseJson;
+  //     case 400:
+  //       dynamic responseJson = jsonDecode(response.data);
+  //       return responseJson;
+  //     default:
+  //       throw FetchDataExceptions(
+  //           'Error Occured While Communicating with Server');
+  //   }
+  // }
 }
