@@ -3,9 +3,12 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view/select_photo_options_screen.dart';
 import '../model/user_model.dart';
+import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
@@ -233,12 +236,25 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                           "Update",
                           style: TextStyle(fontSize: 16),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           if (_form_key_userinfo.currentState!.validate()) {
                             if (widget.userData == null) {
-                              auth_provider.saveUserInfo(context);
+                              CustomResultModel? result = await auth_provider.saveUserInfo(context);
+                              if(result!.status){
+                                CustomFlushbar.showSuccess(context, result.message);
+                                Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                              }else {
+                                CustomFlushbar.showError(context, result.message);
+                              }
                             } else {
-                              auth_provider.updateUserInfo(context);
+                              CustomResultModel? result_update = await auth_provider.updateUserInfo(context);
+
+                              if(result_update!.status){
+                                CustomFlushbar.showSuccess(context, result_update.message);
+                                Navigator.pop(context);
+                              }else {
+                                CustomFlushbar.showError(context, result_update.message);
+                              }
                             }
                           }
                         }),

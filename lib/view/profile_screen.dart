@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
 import '../model/user_model.dart';
@@ -46,8 +48,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return CustomConfirmationDialog(
                 title: 'Delete Account',
                 message: 'Are you sure you want to Delete Your Account ?',
-                onConfirm: () {
-                  auth_provider.deleteUserInfo(context);
+                onConfirm: () async {
+                  CustomResultModel? result = await auth_provider.deleteUserInfo(context);
+
+                  if(result!.status){
+                    CustomFlushbar.showSuccess(context, result.message);
+                    Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+                  }else {
+                    CustomFlushbar.showError(context, result.message);
+                  }
                 },
               );
             },
@@ -124,7 +133,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: CircularProgressIndicator(),
                           ),
                           errorWidget: (context, url, error) {
-                            return Container();
+                            return Container(
+                                padding: EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
+                                  color: Colors.purple.shade200,),
+                                child: Icon(Icons.person_outline,color: Colors.purple,size: 60,));
                           },
                         ),
                         const SizedBox(height: 20),

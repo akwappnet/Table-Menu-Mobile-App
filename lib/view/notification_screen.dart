@@ -52,7 +52,6 @@ class NotificationScreen extends StatelessWidget {
                       ? ListView.builder(
                           shrinkWrap: true,
                           itemCount: notificationData?.length,
-                          physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             var notification = notificationData?[index];
                             return Slidable(

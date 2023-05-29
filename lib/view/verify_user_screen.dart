@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
+import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_button.dart';
 import '../view_model/auth_provider.dart';
 
@@ -95,16 +98,30 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                         "Verify",
                         style: TextStyle(fontSize: 16),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         String activationOtp =
                             auth_provider.activationOTPController.text;
                         String forgotPassOtp =
                             auth_provider.forgotPassOTPController.text;
                         if (widget.isRequestForForgotPassword == true) {
                           print(forgotPassOtp);
-                          auth_provider.verifyForgotOtp(forgotPassOtp, context);
+                         CustomResultModel? result_forgot_pass = await auth_provider.verifyForgotOtp(forgotPassOtp);
+
+                         if(result_forgot_pass!.status){
+                           CustomFlushbar.showSuccess(context, result_forgot_pass.message);
+                           Navigator.pushReplacementNamed(
+                               context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
+                         }else {
+                           CustomFlushbar.showError(context, result_forgot_pass.message);
+                         }
                         } else {
-                          auth_provider.verifyUser(activationOtp, context);
+                          CustomResultModel? result = await auth_provider.verifyUser(activationOtp);
+                          if(result!.status){
+                            CustomFlushbar.showSuccess(context, result.message);
+                            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+                          }else {
+                            CustomFlushbar.showError(context, result.message);
+                          }
                         }
                       },
                     ),

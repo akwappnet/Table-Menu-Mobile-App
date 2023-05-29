@@ -56,13 +56,13 @@ class CustomBottomSheet {
                         (menuData.isVeg! == true)
                             ? Image.asset(
                                 AssetsUtils.ASSETS_VEG_ICON,
-                                height: 50,
-                                width: 50,
+                                height: 40,
+                                width: 40,
                               )
                             : Image.asset(
                                 AssetsUtils.ASSETS_NON_VEG_ICON,
-                                height: 50,
-                                width: 50,
+                                height: 40,
+                                width: 40,
                               )
                       ],
                     ),
@@ -158,7 +158,7 @@ class CustomBottomSheet {
                               .toString(),
                         ),
                         SizedBox(
-                          width: wp(50, context),
+                          width: wp(70, context),
                           child: CustomButton(
                             onPressed: onPressed,
                             child: CustomText(

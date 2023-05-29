@@ -1,17 +1,14 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/model/auth_model.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
-import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
-import 'package:table_menu_customer/view/verify_user_screen.dart';
-
 import '../repository/auth_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -68,25 +65,25 @@ class AuthProvider extends ChangeNotifier {
     phoneNoController.text = userData.phoneNumber!;
   }
 
-  Future<void> userRegisteration(dynamic data, BuildContext context) async {
+  Future<CustomResultModel?> userRegisteration(dynamic data) async {
     setLoading(true);
     var result = await _authRepository.registrationUser(data);
     print(result);
-    if (result.data["status"] == true) {
-      setLoading(false);
-      // CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pushReplacementNamed(
-          context, RoutesName.VERIFY_USER_SCREEN_ROUTE);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      notifyListeners();
-      CustomFlushbar.showError(context, result.data['message']);
-      print("status : ${result.data['data']['status']}");
+    if(result != null){
+      if (result.data["status"] == true) {
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data['message']);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data['message']);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> userLogin(
-      String email, String password, BuildContext context) async {
+  Future<CustomResultModel?> userLogin(
+      String email, String password) async {
     setLoading(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? fcmToken = await messaging.getToken();
@@ -118,85 +115,102 @@ class AuthProvider extends ChangeNotifier {
         fcmToken: fcmToken);
 
     var result = await _authRepository.loginUser(data.toJson());
-    if (result.data['status'] == true) {
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      String token = result.data['data']['token'];
-      print(token);
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
-      if (await prefs.getBool("userDataBool") == true) {
+
+    if(result != null){
+      if (result.data['status'] == true) {
         setLoading(false);
-        Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
-      } else {
+        String token = result.data['data']['token'];
+        print(token);
+        bool userinfo = result.data['data']['userinfo'];
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        if (userinfo) {
+          setLoading(false);
+          return CustomResultModel(status: true, message: result.data['message'],optionalBool: true);
+        } else {
+          setLoading(false);
+          return CustomResultModel(status: true, message: result.data['message'],optionalBool: false);
+        }
+      } else if (result.data['status'] == "False") {
         setLoading(false);
-        Navigator.pushReplacementNamed(
-            context, RoutesName.USER_INFO_SCREEN_ROUTE);
+        return CustomResultModel(status: false, message: result.data['message']);
       }
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> verifyUser(String otp, BuildContext context) async {
+  Future<CustomResultModel?> verifyUser(String otp) async {
     setLoading(true);
     Map<String, dynamic> data = {'otp': otp};
     var result = await _authRepository.verifyUser(data);
-    if (result.data['status'] == true) {
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data['message']);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data['message']);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> verifyForgotOtp(String otp, BuildContext context) async {
+  Future<CustomResultModel?> verifyForgotOtp(String otp) async {
     setLoading(true);
     Map<String, dynamic> data = {'otp': otp};
     var result = await _authRepository.verifyForgotOtp(data);
-    if (result.data['status'] == true) {
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pushReplacementNamed(
-          context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
+
+    if(result != null) {
+      if (result.data['status'] == true) {
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> sendVerifiactionMail(String email, BuildContext context) async {
+  Future<CustomResultModel?> sendVerifiactionMail(String email) async {
     Map<String, dynamic> data = {'email': email};
     var result = await _authRepository.sendForgotPasswordOTP(data);
 
-    if (result.data['status'] == true) {
-      Navigator.pushReplacementNamed(
-          context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
-          arguments: VerifyUserScreen(true));
-    } else if (result.data['status'] == "False") {
-      // TODO show error message to user
+    if(result != null){
+      if (result.data['status'] == true) {
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == "False") {
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> resetPasswordUser(
-      String email, String password, BuildContext context) async {
+  Future<CustomResultModel?> resetPasswordUser(
+      String email, String password) async {
     setLoading(true);
     Map<String, dynamic> data = {"email": email, "password": password};
     var result = await _authRepository.resetPassword(data);
-    if (result.data['status'] == true) {
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> saveUserInfo(BuildContext context) async {
+  Future<CustomResultModel?> saveUserInfo(BuildContext context) async {
     setLoading(true);
     var userData = UserData(
         name: nameController.text,
@@ -211,16 +225,19 @@ class AuthProvider extends ChangeNotifier {
     FormData formData = userData.toFormData();
     var result = await _userInfoRepository.saveUserInfo(formData,context);
     print(result.data);
-    if (result.data['status'] == true) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('userDataBool', true);
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
-      print("status : ${result.data['status']}");
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('userDataBool', true);
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
@@ -238,7 +255,7 @@ class AuthProvider extends ChangeNotifier {
     return UserModel();
   }
 
-  Future<void> updateUserInfo(BuildContext context) async {
+  Future<CustomResultModel?> updateUserInfo(BuildContext context) async {
     setLoading(true);
     var userData = UserData(
       name: nameController.text,
@@ -251,18 +268,21 @@ class AuthProvider extends ChangeNotifier {
     FormData formData = userData.toFormData();
     var result = await _userInfoRepository.updateUserInfo(formData,context);
     print(result.data);
-    if (result.data['status'] == true) {
-      setLoading(false);
-      CustomFlushbar.showSuccess(context, result.data['message']);
-      Navigator.pop(context);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      CustomFlushbar.showError(context, result.data['message']);
-      print("status : ${result.data['status']}");
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        setLoading(false);
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == "False") {
+        setLoading(false);
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
-  Future<void> deleteUserInfo(BuildContext context) async {
+  Future<CustomResultModel?> deleteUserInfo(BuildContext context) async {
     var response = await _userInfoRepository.deleteUserInfo(context);
     if (response != null) {
       if (response.statusCode == 204) {
@@ -270,10 +290,12 @@ class AuthProvider extends ChangeNotifier {
         await preferences.remove('token');
         emailLoginController.text = "";
         passwordLoginController.text = "";
-        Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        return CustomResultModel(status: true, message: response.data["message"]);
       } else if (response.data['status'] == "False") {
-        CustomFlushbar.showError(context, response.data['message']);
+        return CustomResultModel(status: false, message: response.data["message"]);
       }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
+import '../../view/verify_user_screen.dart';
+import '../routes/routes_name.dart';
 import '../validation/validation.dart';
 import 'custom_button.dart';
 import 'custom_text.dart';
@@ -50,7 +54,15 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                 if (_form_email.currentState!
                     .validate()) {
                   String email = auth_provider.forgotPassEmailController.text;
-                  auth_provider.sendVerifiactionMail(email, context);
+                  CustomResultModel? result = await auth_provider.sendVerifiactionMail(email);
+                  if(result!.status){
+                    CustomFlushbar.showSuccess(context, result.message);
+                    Navigator.pushReplacementNamed(
+                        context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
+                        arguments: VerifyUserScreen(true));
+                  }else {
+                    CustomFlushbar.showError(context, result.message);
+                  }
                 }
               },
               child: auth_provider.loading ?

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
+import '../utils/routes/routes_name.dart';
 import '../utils/validation/validation.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_snack_bar.dart';
@@ -149,8 +152,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     auth_provider.resetPassController.text;
                                 String email = auth_provider
                                     .forgotPassEmailController.text;
-                                auth_provider.resetPasswordUser(
-                                    email, password, context);
+                               CustomResultModel? result = await auth_provider.resetPasswordUser(
+                                    email, password);
+                               if(result!.status){
+                                 CustomFlushbar.showSuccess(context, result.message);
+                                 Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+                               }else {
+                                 CustomFlushbar.showError(context, result.message);
+                               }
                               }
                             }
                           },
