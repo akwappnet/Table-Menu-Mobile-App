@@ -58,7 +58,29 @@ class NotificationRepository {
     try {
       Response response = await _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl +
-              ApiEndPoint.notificationEndPoint.notificationDeleteAllEndPoint
+              ApiEndPoint.notificationEndPoint.notificationEndPoint
+      );
+      print(response);
+      return response;
+    } catch (error) {
+      if (error is UnauthorisedException) {
+        Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        throw UnauthorisedException;
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  // mark as read notification
+
+  Future<Response> markAsReadNotification(int id,BuildContext context) async {
+    try {
+      var data = {};
+      Response response = await _apiService.getPutApiResponse(
+          ApiEndPoint.baseUrl +
+              ApiEndPoint.notificationEndPoint.notificationEndPoint+ "$id/",
+        data
       );
       print(response);
       return response;

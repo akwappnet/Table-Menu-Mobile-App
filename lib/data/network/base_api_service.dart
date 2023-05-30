@@ -8,4 +8,5 @@ abstract class BaseApiService {
   Future<Response> getPatchApiResponse(String url, dynamic data);
   Future<Response> getDeleteApiResponse(String url);
   Future<Response> getGetApiResponseWithParams(String url, String params);
+  Future<Response> getPutApiResponse(String url, dynamic data);
 }

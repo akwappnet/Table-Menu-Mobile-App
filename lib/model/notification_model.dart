@@ -34,6 +34,7 @@ class NotificationData {
   String? title;
   String? body;
   String? createdAt;
+  bool? readStatus;
 
   NotificationData(
       {this.id,
@@ -41,7 +42,8 @@ class NotificationData {
         this.userName,
         this.title,
         this.body,
-        this.createdAt});
+        this.createdAt,
+        this.readStatus});
 
   NotificationData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,6 +52,7 @@ class NotificationData {
     title = json['title'];
     body = json['body'];
     createdAt = json['created_at'];
+    readStatus = json['read_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +63,7 @@ class NotificationData {
     data['title'] = this.title;
     data['body'] = this.body;
     data['created_at'] = this.createdAt;
+    data['read_status'] = this.readStatus;
     return data;
   }
 }

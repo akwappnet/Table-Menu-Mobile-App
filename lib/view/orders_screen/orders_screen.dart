@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_items_list_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
@@ -33,159 +35,174 @@ class OrdersScreen extends StatelessWidget {
             if (snapshot.hasData) {
               var ordersList = snapshot.data;
               print(ordersList);
-              return (ordersList!.isEmpty)
-                  ? Center(
+              return Center(
+                child: Consumer<OrderProvider>(
+                  builder: (context,order_provider,__){
+                    return Container(
+                      margin: const EdgeInsets.all(10),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Image.asset(
-                            AssetsUtils.ASSETS_EMPTY_MENU_PLACEHOLDER,
-                            height: 230,
-                            width: 230,
-                          ),
-                          const Text(
-                            "No Orders",
-                            style: TextStyle(
-                                fontSize: 22, fontWeight: FontWeight.w400),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Expanded(
-                      child: Consumer<OrderProvider>(
-                        builder: (context, order_provider, __) {
-                          return ListView.builder(
-                            itemCount: ordersList.length,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (context, index) {
-                              DateTime dateTime =
-                                  DateTime.parse(ordersList[index].createdAt!);
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(dateTime);
-                              return GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width: wp(100, context),
-                                  child: Card(
-                                    child: Container(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: ListTile(
-                                        title: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                CustomText(
-                                                  text:
-                                                      "Order ID #${ordersList[index].id}",
-                                                  size: 18,
-                                                  color: Colors.purple,
-                                                  weight: FontWeight.w500,
-                                                ),
-                                                const Spacer(),
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext
-                                                          context) {
-                                                        return CustomConfirmationDialog(
-                                                          title: 'Cancel Order',
-                                                          message:
-                                                              'Are you sure you want to Cancel Your Order?',
-                                                          onConfirm: () {
-                                                            order_provider
-                                                                .cancelOrder(
-                                                                    context,
-                                                                    ordersList[
-                                                                            index]
-                                                                        .id!);
-                                                            Navigator.of(
+                          Expanded(
+                            child: (ordersList!.isEmpty) ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                  Image.asset(
+                                    AssetsUtils.ASSETS_EMPTY_MENU_PLACEHOLDER,
+                                    height: 230,
+                                    width: 230,
+                                  ),
+                                  const Text(
+                                    "No Orders",
+                                    style: TextStyle(
+                                        fontSize: 22, fontWeight: FontWeight.w400),
+                                  ),
+                                ],
+                              ),
+                            ) : ListView.builder(
+                              itemCount: ordersList.length,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                DateTime dateTime =
+                                DateTime.parse(ordersList[index].createdAt!);
+                                String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(dateTime);
+                                return GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    width: wp(100, context),
+                                    child: Card(
+                                      child: Container(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: ListTile(
+                                          title: Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                                children: [
+                                                  CustomText(
+                                                    text:
+                                                    "Order ID #${ordersList[index].id}",
+                                                    size: 18,
+                                                    color: Colors.purple,
+                                                    weight: FontWeight.w500,
+                                                  ),
+                                                  const Spacer(),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                        context) {
+                                                          return CustomConfirmationDialog(
+                                                            title: 'Cancel Order',
+                                                            message:
+                                                            'Are you sure you want to Cancel Your Order ?',
+                                                            onConfirm: () async{
+                                                              CustomResultModel? result = await order_provider
+                                                                  .cancelOrder(
+                                                                  context,
+                                                                  ordersList[
+                                                                  index]
+                                                                      .id!);
+                                                              if(result!.status){
+                                                                Navigator.of(
                                                                     context)
-                                                                .pop();
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                  child: Container(
-                                                      color:
-                                                          Colors.purple.shade50,
-                                                      padding:
-                                                          EdgeInsets.all(0),
-                                                      child: Icon(
-                                                        Icons.close,
-                                                        color: Colors.red,
-                                                      )),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                CustomText(
-                                                  text:
-                                                      formattedDate.toString(),
-                                                  size: 16,
-                                                  color: Colors.black,
-                                                ),
-                                                Spacer(),
-                                              ],
-                                            ),
-                                            ExpansionTile(
-                                              leading: CustomText(
-                                                text:
-                                                    'Order Items (${ordersList[index].cartItems?.length})',
-                                                color: Colors.black,
-                                                size: 16,
+                                                                    .pop();
+                                                                CustomFlushbar.showSuccess(context, result.message);
+                                                              }else {
+                                                                Navigator.of(
+                                                                    context)
+                                                                    .pop();
+                                                                CustomFlushbar.showError(context, result.message);
+                                                              }
+                                                            },
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                        color:
+                                                        Colors.purple.shade50,
+                                                        padding:
+                                                        EdgeInsets.all(0),
+                                                        child: Icon(
+                                                          Icons.close,
+                                                          color: Colors.red,
+                                                        )),
+                                                  ),
+                                                ],
                                               ),
-                                              title: Text(""),
-                                              childrenPadding:
-                                                  EdgeInsets.all(0.0),
-                                              children: [
-                                                OrdersItemListWidget(
-                                                    ordersItems:
-                                                        ordersList[index]
-                                                            .cartItems!)
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                CustomText(
-                                                  text: "Status",
-                                                  size: 16,
-                                                  color: Colors.black,
-                                                ),
-                                                Spacer(),
-                                                CustomText(
+                                              Row(
+                                                children: [
+                                                  CustomText(
+                                                    text:
+                                                    formattedDate.toString(),
+                                                    size: 16,
+                                                    color: Colors.black,
+                                                  ),
+                                                  Spacer(),
+                                                ],
+                                              ),
+                                              ExpansionTile(
+                                                leading: CustomText(
                                                   text:
-                                                      "${ordersList[index].orderStatus}",
-                                                  size: 18,
-                                                  weight: FontWeight.w400,
-                                                  color: ordersList[index]
-                                                              .orderStatus ==
-                                                          "completed"
-                                                      ? Colors.green
-                                                      : Colors.amber,
+                                                  'Order Items (${ordersList[index].cartItems?.length})',
+                                                  color: Colors.black,
+                                                  size: 16,
                                                 ),
-                                              ],
-                                            ),
-                                          ],
+                                                title: Text(""),
+                                                childrenPadding:
+                                                EdgeInsets.all(0.0),
+                                                children: [
+                                                  OrdersItemListWidget(
+                                                      ordersItems:
+                                                      ordersList[index]
+                                                          .cartItems!)
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  CustomText(
+                                                    text: "Status",
+                                                    size: 16,
+                                                    color: Colors.black,
+                                                  ),
+                                                  Spacer(),
+                                                  CustomText(
+                                                    text:
+                                                    "${ordersList[index].orderStatus}",
+                                                    size: 18,
+                                                    weight: FontWeight.w400,
+                                                    color: ordersList[index]
+                                                        .orderStatus ==
+                                                        "completed"
+                                                        ? Colors.green
+                                                        : Colors.amber,
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                     );
+                  },
+                ),
+              );
             } else {
               return Center(
                 child: Lottie.asset(

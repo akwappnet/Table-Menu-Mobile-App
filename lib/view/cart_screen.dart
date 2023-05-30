@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
@@ -39,23 +40,21 @@ class _CartScreenState extends State<CartScreen> {
           actions: [
             Consumer<CartProvider>(
               builder: (context, cart_provider, __) {
-                return Badge(
-                  badgeContent: Text(
-                    "${cart_provider.counter}",
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  position: BadgePosition.custom(start: 28, bottom: 28),
-                  child: IconButton(
-                    onPressed: () {
-                      CustomFlushbar.showError(context, "hello");
+                return cart_provider.cartList.length != 0 ?  InkWell(
+                    onTap: () async{
+                      CustomResultModel? result = await cart_provider.deleteAllCartItem(context);
+                      if(result!.status){
+                        CustomFlushbar.showSuccess(context, result.message);
+                      }else {
+                        CustomFlushbar.showError(context, result.message);
+                      }
                     },
-                    icon: const Icon(
-                      Icons.shopping_bag_outlined,
-                      color: Colors.black,
-                    ),
-                  ),
-                );
+                    child: CustomText(
+                      text: "Clear Cart",
+                      size: 16,
+                      color: Colors.red,
+                    )
+                ) : SizedBox.shrink();
               },
             ),
             const SizedBox(
@@ -208,15 +207,20 @@ class _CartScreenState extends State<CartScreen> {
                                                         .toString(),
                                                   ),
                                                   IconButton(
-                                                      onPressed: () {
-                                                        cart_provider
+                                                      onPressed: () async {
+                                                       CustomResultModel? result = await cart_provider
                                                             .deleteCartItem(
                                                                 context,
                                                                 cart_items[
                                                                         index]
                                                                     .id!);
-                                                        cart_provider
-                                                            .decrementCartCount();
+                                                       cart_provider
+                                                           .decrementCartCount();
+                                                        if(result!.status){
+                                                          CustomFlushbar.showSuccess(context, result.message);
+                                                        }else {
+                                                          CustomFlushbar.showError(context, result.message);
+                                                        }
                                                       },
                                                       icon: Icon(
                                                         Icons.delete,
@@ -240,7 +244,7 @@ class _CartScreenState extends State<CartScreen> {
                               width: MediaQuery.of(context).size.width,
                               height: 50,
                               child: CustomButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   List.generate(cart_items.length, (index) {
                                     cartItemList.add(
                                         {"cart_item_id": cart_items[index].id});
@@ -249,10 +253,16 @@ class _CartScreenState extends State<CartScreen> {
                                     "table_no": qr_provider.table_number,
                                     "cart_items": cartItemList
                                   };
-                                  order_provider.placeOrder(context, data);
-                                  cart_provider.clearCart();
-                                  nav_provider.changeIndex(1);
-                                  Navigator.pop(context);
+                                  CustomResultModel? result = await order_provider.placeOrder(context, data);
+                                  if(result!.status){
+                                    cart_provider.clearCart();
+                                    nav_provider.changeIndex(1);
+                                    Navigator.of(context).pop();
+                                    CustomFlushbar.showSuccess(context, result.message);
+                                  }else {
+                                    CustomFlushbar.showError(context, result.message);
+                                  }
+
                                 },
                                 child: const CustomText(
                                   text: "Place Order",

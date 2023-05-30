@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/repository/order_repository.dart';
 
 import '../model/order_model.dart';
@@ -18,21 +19,19 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> placeOrder(BuildContext context, dynamic data) async {
-    setLoading(true);
+  Future<CustomResultModel?> placeOrder(BuildContext context, dynamic data) async {
     var result = await _orderRepository.placeOrder(data,context);
     print(result.data);
-    if (result.data['status'] == true) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Order Done'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      // TODO show error message to user
-      print("status : ${result.data['status']}");
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        getOrders(context);
+        return CustomResultModel(status: true, message: result.data['message']);
+      } else if (result.data['status'] == "False") {
+        return CustomResultModel(status: false, message: result.data['message']);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
 
@@ -69,16 +68,23 @@ class OrderProvider extends ChangeNotifier {
 
   // cancel order
 
-  Future<void> cancelOrder(BuildContext context, int id) async {
+  Future<CustomResultModel?> cancelOrder(BuildContext context, int id) async {
     var data = {};
     var result = await _orderRepository.cancelOrder(id, data, context);
     print(result.data);
-    if (result.data['status'] == true) {
-      orderList.removeWhere((item) => item.id == id);
-      getOrders(context);
-    } else if (result.data['status'] == false) {
-      // TODO show error message to user
-      print("status : ${result.data['status']}");
+
+    if(result != null){
+      if (result.data['status'] == true) {
+        orderList.removeWhere((item) => item.id == id);
+        getOrders(context);
+        notifyListeners();
+        return CustomResultModel(status: true, message: result.data["message"]);
+      } else if (result.data['status'] == false) {
+        return CustomResultModel(status: false, message: result.data["message"]);
+      }
+    }else {
+      return CustomResultModel(status: false, message: "An error occurred");
     }
   }
+
 }

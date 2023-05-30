@@ -164,7 +164,7 @@ class NetworkApiService extends BaseApiService {
     return responseJson;
   }
 
-  Future<Response> getDeleteApiResponse(String url) async {
+  Future<Response> getPutApiResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -176,17 +176,16 @@ class NetworkApiService extends BaseApiService {
       };
 
       var response = await _dio
-          .delete(url,
-              options: Options(
-                headers: headers,
-                validateStatus: (_) => true,
-                contentType: Headers.jsonContentType,
-                responseType: ResponseType.json,
-              ))
+          .put(url,
+          data: data,
+          options: Options(
+            headers: headers,
+            validateStatus: (_) => true,
+            contentType: Headers.jsonContentType,
+            responseType: ResponseType.json,
+          ))
           .timeout(Duration(seconds: 10));
 
-      print(response);
-      print(response.statusMessage);
       print(response.data);
       return response;
       // responseJson = returnResponse(response);
@@ -194,6 +193,36 @@ class NetworkApiService extends BaseApiService {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
     return responseJson;
+  }
+
+  Future<Response> getDeleteApiResponse(String url) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+
+      var headers = {
+        'Authorization': 'Token $token',
+         'Accept': 'application/json'
+      };
+
+      var response = await _dio
+          .delete(url,
+              options: Options(
+                headers: headers,
+                validateStatus: (_) => true,
+                contentType: Headers.jsonContentType,
+                responseType: ResponseType.json
+              )
+      )
+          .timeout(Duration(seconds: 10));
+
+      print(response);
+      print(response.statusMessage);
+      print(response.data);
+      return response;
+    } on SocketException {
+      throw FetchDataExceptions('Error Occured While Communicating with Server');
+    }
   }
 
   // dynamic returnResponse(Response response) {

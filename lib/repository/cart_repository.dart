@@ -73,4 +73,24 @@ class CartRepository {
       }
     }
   }
+
+  // clear all cart items
+
+  Future<Response> deleteAllCartItem(BuildContext context) async {
+    try {
+      Response response = await _apiService.getDeleteApiResponse(
+          ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint);
+      print(response);
+      return response;
+    } catch (error) {
+      if (error is UnauthorisedException) {
+        Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        throw UnauthorisedException;
+      } else {
+        throw error;
+      }
+    }
+  }
+
+
 }

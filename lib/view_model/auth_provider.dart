@@ -285,7 +285,7 @@ class AuthProvider extends ChangeNotifier {
   Future<CustomResultModel?> deleteUserInfo(BuildContext context) async {
     var response = await _userInfoRepository.deleteUserInfo(context);
     if (response != null) {
-      if (response.statusCode == 204) {
+      if (response.data["status"] == true) {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.remove('token');
         emailLoginController.text = "";

@@ -2,10 +2,13 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
+import 'package:table_menu_customer/view_model/notification_provider.dart';
 
 import '../model/category_model.dart';
 import '../model/menuItem_model.dart';
@@ -39,6 +42,7 @@ class _MenuScreenState extends State<MenuScreen> {
     // Future<bool> menuLoaded = _menuRepository.isLoadedMenu();
     final menu_provider = Provider.of<MenuProvider>(context);
     final qr_provider = Provider.of<QRProvider>(context);
+    final notification_provider = Provider.of<NotificationProvider>(context);
     qr_provider.getVisibilityOfMenu();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -74,6 +78,7 @@ class _MenuScreenState extends State<MenuScreen> {
         actions: [
           IconButton(
             onPressed: () {
+              notification_provider.getAllNotification(context);
               Navigator.pushNamed(context, RoutesName.NOTIFICATION_SCREEN_ROUTE);
             },
             icon: const Icon(
@@ -115,7 +120,6 @@ class _MenuScreenState extends State<MenuScreen> {
             print("bool : ${qr_provider.isVisible}");
             if (snapshot.hasData) {
               var categories = snapshot.data;
-              // TODO add check for qr scanned or not
               return (qr_provider.isVisible)
                   ? Container(
                       margin: const EdgeInsets.only(left: 10, top: 15),
@@ -327,7 +331,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                                   cart_provider
                                                                       .decrementItemQuantity();
                                                                 },
-                                                                onPressed: () {
+                                                                onPressed: () async {
                                                                   cart_provider
                                                                       .incrementCartCount();
                                                                   var data = {
@@ -338,22 +342,22 @@ class _MenuScreenState extends State<MenuScreen> {
                                                                         cart_provider
                                                                             .quantity
                                                                   };
-                                                                  cart_provider
+                                                                 CustomResultModel? result = await cart_provider
                                                                       .addCart(
                                                                           context,
                                                                           data,
                                                                           menu_items[index]
-                                                                              .id!)
-                                                                      .then(
-                                                                          (value) {
-                                                                    cart_provider
-                                                                        .setQuantity(
-                                                                            1);
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                    print(
-                                                                        "cart data is added");
-                                                                  });
+                                                                              .id!);
+                                                                  cart_provider
+                                                                      .setQuantity(
+                                                                      1);
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  if(result!.status){
+                                                                    CustomFlushbar.showSuccess(context, result.message);
+                                                                  }else {
+                                                                    CustomFlushbar.showError(context, result.message);
+                                                                  }
                                                                 },
                                                                 context:
                                                                     context,
