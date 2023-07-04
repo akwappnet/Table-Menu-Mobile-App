@@ -21,7 +21,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
-        title: Text("Notification"),
+        title: const Text("Notification"),
         centerTitle: true,
         actions: [
           Consumer<NotificationProvider>(
@@ -30,18 +30,18 @@ class NotificationScreen extends StatelessWidget {
                    InkWell(
                       onTap: () async {
                         CustomResultModel? result = await notificationProvider
-                            .deleteAllNotification(context);
+                            .deleteAllNotification();
                         if (result!.status) {
                           CustomFlushbar.showSuccess(context, result.message);
                         } else {
                           CustomFlushbar.showError(context, result.message);
                         }
                       },
-                      child: notificationProvider.notificationList.isNotEmpty ? CustomText(
+                      child: notificationProvider.notificationList.isNotEmpty ? const CustomText(
                         text: "Clear All",
                         size: 18,
                         color: Colors.red,
-                      ) : SizedBox.shrink(),);
+                      ) : const SizedBox.shrink(),);
             },
           ),
           const SizedBox(
@@ -54,7 +54,7 @@ class NotificationScreen extends StatelessWidget {
               vertical: hp(2, context), horizontal: wp(1, context)),
           child: StreamBuilder(
             stream:
-                notification_provider.getAllNotification(context).asStream(),
+                notification_provider.getAllNotification().asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var notificationData = snapshot.data;
@@ -66,7 +66,7 @@ class NotificationScreen extends StatelessWidget {
                         children: [
                           Expanded(
                               child: notificationData!.isEmpty
-                                  ? Center(
+                                  ? const Center(
                                       child: Text(
                                       'NO NOTIFICATION',
                                       style: TextStyle(
@@ -75,10 +75,10 @@ class NotificationScreen extends StatelessWidget {
                                     ))
                                   : ListView.builder(
                                       shrinkWrap: true,
-                                      itemCount: notificationData?.length,
+                                      itemCount: notificationData.length,
                                       itemBuilder: (context, index) {
                                         var notification =
-                                            notificationData?[index];
+                                            notificationData[index];
                                         return Slidable(
                                           key: UniqueKey(),
                                           closeOnScroll: true,
@@ -91,8 +91,7 @@ class NotificationScreen extends StatelessWidget {
                                                   CustomResultModel? result =
                                                       await notification_provider
                                                           .deleteSingleNotification(
-                                                              notification!.id!,
-                                                              context);
+                                                              notification.id!);
                                                   if (result!.status) {
                                                     CustomFlushbar.showSuccess(
                                                         context,
@@ -120,7 +119,7 @@ class NotificationScreen extends StatelessWidget {
                                                                 Radius.circular(
                                                                     12.0)),
                                                   ),
-                                                  child: Icon(
+                                                  child: const Icon(
                                                       Icons.delete_outlined),
                                                 ),
                                               )
@@ -132,8 +131,7 @@ class NotificationScreen extends StatelessWidget {
                                                 CustomResultModel? result =
                                                 await notification_provider
                                                     .markAsReadNotification(
-                                                    notification.id!,
-                                                    context);
+                                                    notification.id!);
                                                 if (result!.status) {
                                                   CustomFlushbar.showSuccess(
                                                       context, result.message);
@@ -147,7 +145,7 @@ class NotificationScreen extends StatelessWidget {
                                             },
                                             child: Card(
                                               elevation: 3.0,
-                                              color: notification?.readStatus ==
+                                              color: notification.readStatus ==
                                                       true
                                                   ? Colors.grey.shade300
                                                   : Colors.white,
@@ -164,7 +162,7 @@ class NotificationScreen extends StatelessWidget {
                                                           bottom: 4.0),
                                                   child: CustomText(
                                                     text:
-                                                        "${notification?.title!}",
+                                                        notification.title!,
                                                     size: 16.0,
                                                     weight: FontWeight.w600,
                                                   ),
@@ -177,18 +175,18 @@ class NotificationScreen extends StatelessWidget {
                                                   children: [
                                                     CustomText(
                                                       text:
-                                                          "${notification?.body}",
+                                                          "${notification.body}",
                                                       size: 14,
                                                       weight: FontWeight.w400,
-                                                      color: Color(0xff848285),
+                                                      color: const Color(0xff848285),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       height: 4,
                                                     ),
                                                     CustomText(
                                                       text:
-                                                          "${getTimeAgo(notification!.createdAt!)}",
-                                                      color: Color(0xff848285),
+                                                          getTimeAgo(notification.createdAt!),
+                                                      color: const Color(0xff848285),
                                                       size: 12.0,
                                                     ),
                                                   ],

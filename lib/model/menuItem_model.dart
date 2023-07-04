@@ -13,17 +13,17 @@ class MenuItemModel {
     if (json['data'] != null) {
       menuData = <MenuData>[];
       json['data'].forEach((v) {
-        menuData!.add(new MenuData.fromJson(v));
+        menuData!.add(MenuData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.menuData != null) {
-      data['data'] = this.menuData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (menuData != null) {
+      data['data'] = menuData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -85,23 +85,23 @@ class MenuData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['category_name'] = this.categoryName;
-    data['name'] = this.name;
-    data['ingredients'] = this.ingredients;
-    data['price'] = this.price;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['is_new'] = this.isNew;
-    data['is_veg'] = this.isVeg;
-    data['is_non_veg'] = this.isNonVeg;
-    data['is_spicy'] = this.isSpicy;
-    data['is_jain'] = this.isJain;
-    data['is_special'] = this.isSpecial;
-    data['is_sweet'] = this.isSweet;
-    data['is_popular'] = this.isPopular;
-    data['category_id'] = this.categoryId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_name'] = categoryName;
+    data['name'] = name;
+    data['ingredients'] = ingredients;
+    data['price'] = price;
+    data['description'] = description;
+    data['image'] = image;
+    data['is_new'] = isNew;
+    data['is_veg'] = isVeg;
+    data['is_non_veg'] = isNonVeg;
+    data['is_spicy'] = isSpicy;
+    data['is_jain'] = isJain;
+    data['is_special'] = isSpecial;
+    data['is_sweet'] = isSweet;
+    data['is_popular'] = isPopular;
+    data['category_id'] = categoryId;
     return data;
   }
 }

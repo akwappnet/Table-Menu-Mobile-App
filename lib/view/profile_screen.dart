@@ -64,7 +64,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           break;
         case 'Exit':
           exit(0);
-          break;
       }
     }
 
@@ -77,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         actions: <Widget>[
           PopupMenuButton<String>(
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
             onSelected: handleClick,
             itemBuilder: (BuildContext context) {
               return {'Delete Account', 'Exit'}.map((String choice) {
@@ -108,9 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 if (snapshot.hasData) {
                   var userData = snapshot.data?.userData;
                   uid = userData!.id;
-                  String image_url = userData!.profilePhotoUrl! == null
-                      ? ""
-                      : ApiEndPoint.baseImageUrl + userData!.profilePhotoUrl!;
+                  String image_url = ApiEndPoint.baseImageUrl + userData.profilePhotoUrl!;
                   return SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -129,15 +126,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           progressIndicatorBuilder:
-                              (context, url, downloadProgress) => Center(
+                              (context, url, downloadProgress) => const Center(
                             child: CircularProgressIndicator(),
                           ),
                           errorWidget: (context, url, error) {
                             return Container(
-                                padding: EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
                                   color: Colors.purple.shade200,),
-                                child: Icon(Icons.person_outline,color: Colors.purple,size: 60,));
+                                child: const Icon(Icons.person_outline,color: Colors.purple,size: 60,));
                           },
                         ),
                         const SizedBox(height: 20),
@@ -146,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 22,
                           weight: FontWeight.bold,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         CustomText(
@@ -154,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 18,
                           weight: FontWeight.w400,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         CustomText(
@@ -162,14 +159,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           size: 18,
                           weight: FontWeight.w400,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         SizedBox(
                           height: 50,
                           width: wp(80, context),
                           child: CustomButton(
-                            child: CustomText(
+                            child: const CustomText(
                               text: "Update Profile",
                               size: 18,
                               color: Colors.white,
@@ -181,14 +178,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 8,
                         ),
                         SizedBox(
                           height: 50,
                           width: wp(80, context),
                           child: CustomButton(
-                            child: CustomText(
+                            child: const CustomText(
                               text: "Logout",
                               size: 18,
                               color: Colors.white,

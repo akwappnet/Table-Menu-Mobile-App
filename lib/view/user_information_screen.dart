@@ -16,7 +16,7 @@ import '../view_model/auth_provider.dart';
 class UserInfoScreen extends StatefulWidget {
   final UserData? userData;
 
-  UserInfoScreen([this.userData]);
+  const UserInfoScreen([this.userData]);
 
   @override
   State<UserInfoScreen> createState() => _UserInfoScreenState();
@@ -53,7 +53,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       auth_provider.setImagetemp(imageTemporary);
       Navigator.of(context).pop();
     } on Exception catch (e) {
-      print(e);
       Navigator.of(context).pop();
     }
   }
@@ -98,7 +97,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         child: SingleChildScrollView(
           child: Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -111,14 +110,14 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   ),
                   const SizedBox(height: 20),
                   widget.userData == null
-                      ? Text(
+                      ? const Text(
                           "Enter Your Details",
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         )
-                      : Text(
+                      : const Text(
                           "Update Your Details",
                           style: TextStyle(
                             fontSize: 22,
@@ -148,8 +147,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             ),
                             child: Center(
                               child: auth_provider.temp_image == null
-                                  ? Column(
-                                      children: const [
+                                  ? const Column(
+                                      children: [
                                         SizedBox(
                                           height: 6,
                                         ),
@@ -203,7 +202,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             controller: auth_provider.nameController,
                             validator: validateName,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 15,
                           ),
                           CustomTextFormField().getCustomEditTextArea(
@@ -229,10 +228,10 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     height: 50,
                     width: MediaQuery.of(context).size.width * 0.90,
                     child: CustomButton(
-                        child: widget.userData == null ?Text(
+                        child: widget.userData == null ?const Text(
                           "Save",
                           style: TextStyle(fontSize: 16),
-                        ) : Text(
+                        ) : const Text(
                           "Update",
                           style: TextStyle(fontSize: 16),
                         ),

@@ -24,7 +24,7 @@ class CustomBottomSheet {
           return StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return Container(
-                margin: EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(8.0),
                 child: ListView(
                   shrinkWrap: true,
                   children: [
@@ -66,7 +66,7 @@ class CustomBottomSheet {
                               )
                       ],
                     ),
-                    CustomText(
+                    const CustomText(
                       text: "Description :",
                       size: 18,
                       color: Colors.black,
@@ -78,7 +78,7 @@ class CustomBottomSheet {
                       color: Colors.black,
                       weight: FontWeight.w400,
                     ),
-                    CustomText(
+                    const CustomText(
                       text: "Ingredients :",
                       size: 18,
                       color: Colors.black,
@@ -89,7 +89,7 @@ class CustomBottomSheet {
                       size: 14,
                       color: Colors.black,
                     ),
-                    CustomText(
+                    const CustomText(
                       text: "Price :",
                       size: 18,
                       color: Colors.black,
@@ -161,7 +161,7 @@ class CustomBottomSheet {
                           width: wp(70, context),
                           child: CustomButton(
                             onPressed: onPressed,
-                            child: CustomText(
+                            child: const CustomText(
                               text: "Add to Cart",
                               color: Colors.white,
                             ),

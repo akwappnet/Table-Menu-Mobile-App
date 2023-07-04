@@ -30,11 +30,10 @@ class OrdersScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: StreamBuilder(
-          stream: order_provider.getOrders(context).asStream(),
+          stream: order_provider.getOrders().asStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var ordersList = snapshot.data;
-              print(ordersList);
               return Center(
                 child: Consumer<OrderProvider>(
                   builder: (context,order_provider,__){
@@ -77,7 +76,7 @@ class OrdersScreen extends StatelessWidget {
                                     width: wp(100, context),
                                     child: Card(
                                       child: Container(
-                                        padding: EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(8.0),
                                         child: ListTile(
                                           title: Column(
                                             children: [
@@ -106,7 +105,6 @@ class OrdersScreen extends StatelessWidget {
                                                             onConfirm: () async{
                                                               CustomResultModel? result = await order_provider
                                                                   .cancelOrder(
-                                                                  context,
                                                                   ordersList[
                                                                   index]
                                                                       .id!);
@@ -130,8 +128,8 @@ class OrdersScreen extends StatelessWidget {
                                                         color:
                                                         Colors.purple.shade50,
                                                         padding:
-                                                        EdgeInsets.all(0),
-                                                        child: Icon(
+                                                        const EdgeInsets.all(0),
+                                                        child: const Icon(
                                                           Icons.close,
                                                           color: Colors.red,
                                                         )),
@@ -146,7 +144,7 @@ class OrdersScreen extends StatelessWidget {
                                                     size: 16,
                                                     color: Colors.black,
                                                   ),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                 ],
                                               ),
                                               ExpansionTile(
@@ -156,9 +154,9 @@ class OrdersScreen extends StatelessWidget {
                                                   color: Colors.black,
                                                   size: 16,
                                                 ),
-                                                title: Text(""),
+                                                title: const Text(""),
                                                 childrenPadding:
-                                                EdgeInsets.all(0.0),
+                                                const EdgeInsets.all(0.0),
                                                 children: [
                                                   OrdersItemListWidget(
                                                       ordersItems:
@@ -168,12 +166,12 @@ class OrdersScreen extends StatelessWidget {
                                               ),
                                               Row(
                                                 children: [
-                                                  CustomText(
+                                                  const CustomText(
                                                     text: "Status",
                                                     size: 16,
                                                     color: Colors.black,
                                                   ),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                   CustomText(
                                                     text:
                                                     "${ordersList[index].orderStatus}",

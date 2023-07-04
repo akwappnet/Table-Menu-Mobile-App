@@ -50,7 +50,6 @@ class UserData {
         this.status,
         this.totalOrders});
 
-
   FormData toFormData() {
     FormData formData = FormData();
     formData.fields
@@ -61,7 +60,6 @@ class UserData {
         'profile_photo', this.profilePhoto!));
     return formData;
   }
-
 
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
-import 'package:table_menu_customer/utils/widgets/custom_snack_bar.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
 import '../utils/routes/routes_name.dart';
@@ -149,7 +148,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               ));
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       Padding(
@@ -157,19 +156,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            CustomText(
+                            const CustomText(
                               text: "Already have an account?",
                               color: Colors.black,
                               size: 14,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 6,
                             ),
                             GestureDetector(
                               onTap: () {
                                 Navigator.pop(context);
                               },
-                              child: CustomText(
+                              child: const CustomText(
                                 text: "Login",
                                 color: Colors.purple,
                                 size: 14,
@@ -178,7 +177,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 8,
                       ),
                       SizedBox(
@@ -202,11 +201,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 };
                                 CustomResultModel? result = await auth_provider.userRegisteration(data);
                                 if(result!.status){
-                                  CustomFlushbar.showSuccess(context, result!.message);
+                                  CustomFlushbar.showSuccess(context, result.message);
                                   Navigator.pushReplacementNamed(
                                       context, RoutesName.VERIFY_USER_SCREEN_ROUTE);
                                 }else {
-                                  CustomFlushbar.showError(context, result!.message);
+                                  CustomFlushbar.showError(context, result.message);
                                 }
                               }
                             }

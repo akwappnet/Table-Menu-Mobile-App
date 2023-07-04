@@ -25,8 +25,8 @@ class NetworkApiService extends BaseApiService {
   }
 
   // to make HTTP requests to an API.
+  @override
   Future<Response> getGetApiResponse(String url) async {
-    dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -49,12 +49,11 @@ class NetworkApiService extends BaseApiService {
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
   }
 
+  @override
   Future<Response> getGetApiResponseWithParams(
       String url, String params) async {
-    dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -63,7 +62,7 @@ class NetworkApiService extends BaseApiService {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
       };
-      var queryParams = {'query': '$params'};
+      var queryParams = {'query': params};
 
       final response = await _dio
           .get(url,
@@ -79,10 +78,10 @@ class NetworkApiService extends BaseApiService {
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
   }
 
   // to make HTTP requests to an API.
+  @override
   Future<Response> getAuthApiResponse(String url, dynamic data) async {
     // dynamic responseJson;
     try {
@@ -91,9 +90,8 @@ class NetworkApiService extends BaseApiService {
             url,
             data: data,
           )
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
 
-      print(response.data);
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
@@ -103,12 +101,11 @@ class NetworkApiService extends BaseApiService {
   }
 
   // to make HTTP requests to an API.
+  @override
   Future<Response> getPostApiResponse(String url, dynamic data) async {
-    dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
-      print(token);
       var headers = {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
@@ -122,19 +119,17 @@ class NetworkApiService extends BaseApiService {
                   validateStatus: (_) => true,
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
 
-      print(response.data);
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
   }
 
+  @override
   Future<Response> getPatchApiResponse(String url, dynamic data) async {
-    dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -153,19 +148,17 @@ class NetworkApiService extends BaseApiService {
                 contentType: Headers.jsonContentType,
                 responseType: ResponseType.json,
               ))
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
 
-      print(response.data);
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
   }
 
+  @override
   Future<Response> getPutApiResponse(String url, dynamic data) async {
-    dynamic responseJson;
     try {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
@@ -184,17 +177,16 @@ class NetworkApiService extends BaseApiService {
             contentType: Headers.jsonContentType,
             responseType: ResponseType.json,
           ))
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
 
-      print(response.data);
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
-    return responseJson;
   }
 
+  @override
   Future<Response> getDeleteApiResponse(String url) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -214,28 +206,11 @@ class NetworkApiService extends BaseApiService {
                 responseType: ResponseType.json
               )
       )
-          .timeout(Duration(seconds: 10));
+          .timeout(const Duration(seconds: 10));
 
-      print(response);
-      print(response.statusMessage);
-      print(response.data);
       return response;
     } on SocketException {
       throw FetchDataExceptions('Error Occured While Communicating with Server');
     }
   }
-
-  // dynamic returnResponse(Response response) {
-  //   switch (response.statusCode) {
-  //     case 200:
-  //       dynamic responseJson = jsonDecode(response.data);
-  //       return responseJson;
-  //     case 400:
-  //       dynamic responseJson = jsonDecode(response.data);
-  //       return responseJson;
-  //     default:
-  //       throw FetchDataExceptions(
-  //           'Error Occured While Communicating with Server');
-  //   }
-  // }
 }

@@ -1,15 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 import '../utils/widgets/custom_button.dart';
 
 class QRScannerScreen extends StatefulWidget {
 
-  QRScannerScreen({Key? key}) : super(key: key);
+  const QRScannerScreen({Key? key}) : super(key: key);
 
   @override
   State<QRScannerScreen> createState() => _QRScannerScreenState();
@@ -63,16 +61,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Scan the QR code',
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     CustomButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  Text('Cancel', style: TextStyle(fontSize: 16),),
+                      child:  const Text('Cancel', style: TextStyle(fontSize: 16),),
                     ),
                   ],
                 ),
@@ -89,9 +87,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     this.controller=controller;
     controller.scannedDataStream.listen((scanData) async {
       qr_provider.getDataFromQR(scanData.code.toString());
-      Future.delayed(Duration(seconds: 2), (){
+      Future.delayed(const Duration(seconds: 2), (){
         Navigator.pop(context);
-        print(scanData.code.toString());
       });
       controller.pauseCamera();
       controller.resumeCamera();

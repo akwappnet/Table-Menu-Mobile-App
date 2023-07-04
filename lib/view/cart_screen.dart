@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +31,6 @@ class _CartScreenState extends State<CartScreen> {
     final qr_provider = Provider.of<QRProvider>(context, listen: false);
     final cart_provider = Provider.of<CartProvider>(context, listen: false);
     final nav_provider = Provider.of<NavProvider>(context, listen: false);
-    int userId = 0;
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -40,21 +38,23 @@ class _CartScreenState extends State<CartScreen> {
           actions: [
             Consumer<CartProvider>(
               builder: (context, cart_provider, __) {
-                return cart_provider.cartList.length != 0 ?  InkWell(
-                    onTap: () async{
-                      CustomResultModel? result = await cart_provider.deleteAllCartItem(context);
-                      if(result!.status){
-                        CustomFlushbar.showSuccess(context, result.message);
-                      }else {
-                        CustomFlushbar.showError(context, result.message);
-                      }
-                    },
-                    child: CustomText(
-                      text: "Clear Cart",
-                      size: 16,
-                      color: Colors.red,
-                    )
-                ) : SizedBox.shrink();
+                return cart_provider.cartList.length != 0
+                    ? InkWell(
+                        onTap: () async {
+                          CustomResultModel? result =
+                              await cart_provider.deleteAllCartItem();
+                          if (result!.status) {
+                            CustomFlushbar.showSuccess(context, result.message);
+                          } else {
+                            CustomFlushbar.showError(context, result.message);
+                          }
+                        },
+                        child: const CustomText(
+                          text: "Clear Cart",
+                          size: 16,
+                          color: Colors.red,
+                        ))
+                    : const SizedBox.shrink();
               },
             ),
             const SizedBox(
@@ -64,7 +64,7 @@ class _CartScreenState extends State<CartScreen> {
         ),
         body: SafeArea(
           child: StreamBuilder(
-            stream: cart_provider.getCartItems(context).asStream(),
+            stream: cart_provider.getCartItems().asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var cart_items = snapshot.data;
@@ -177,7 +177,6 @@ class _CartScreenState extends State<CartScreen> {
                                                       };
                                                       cart_provider
                                                           .updateItemQuantity(
-                                                              context,
                                                               data,
                                                               cart_items[index]
                                                                   .id!);
@@ -197,7 +196,6 @@ class _CartScreenState extends State<CartScreen> {
                                                       };
                                                       cart_provider
                                                           .updateItemQuantity(
-                                                              context,
                                                               data,
                                                               cart_items[index]
                                                                   .id!);
@@ -208,18 +206,27 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                   IconButton(
                                                       onPressed: () async {
-                                                       CustomResultModel? result = await cart_provider
-                                                            .deleteCartItem(
-                                                                context,
-                                                                cart_items[
-                                                                        index]
-                                                                    .id!);
-                                                       cart_provider
-                                                           .decrementCartCount();
-                                                        if(result!.status){
-                                                          CustomFlushbar.showSuccess(context, result.message);
-                                                        }else {
-                                                          CustomFlushbar.showError(context, result.message);
+                                                        CustomResultModel?
+                                                            result =
+                                                            await cart_provider
+                                                                .deleteCartItem(
+                                                                    cart_items[
+                                                                            index]
+                                                                        .id!);
+                                                        cart_provider
+                                                            .decrementCartCount();
+                                                        if (result!.status) {
+                                                          CustomFlushbar
+                                                              .showSuccess(
+                                                                  context,
+                                                                  result
+                                                                      .message);
+                                                        } else {
+                                                          CustomFlushbar
+                                                              .showError(
+                                                                  context,
+                                                                  result
+                                                                      .message);
                                                         }
                                                       },
                                                       icon: Icon(
@@ -238,8 +245,7 @@ class _CartScreenState extends State<CartScreen> {
                                 title: 'Sub-Total',
                                 value: r'₹ ' +
                                     (cart_provider.totalPrice
-                                            .toStringAsFixed(2) ??
-                                        '0')),
+                                        .toStringAsFixed(2))),
                             SizedBox(
                               width: MediaQuery.of(context).size.width,
                               height: 50,
@@ -253,16 +259,18 @@ class _CartScreenState extends State<CartScreen> {
                                     "table_no": qr_provider.table_number,
                                     "cart_items": cartItemList
                                   };
-                                  CustomResultModel? result = await order_provider.placeOrder(context, data);
-                                  if(result!.status){
+                                  CustomResultModel? result =
+                                      await order_provider.placeOrder(data);
+                                  if (result!.status) {
                                     cart_provider.clearCart();
                                     nav_provider.changeIndex(1);
                                     Navigator.of(context).pop();
-                                    CustomFlushbar.showSuccess(context, result.message);
-                                  }else {
-                                    CustomFlushbar.showError(context, result.message);
+                                    CustomFlushbar.showSuccess(
+                                        context, result.message);
+                                  } else {
+                                    CustomFlushbar.showError(
+                                        context, result.message);
                                   }
-
                                 },
                                 child: const CustomText(
                                   text: "Place Order",

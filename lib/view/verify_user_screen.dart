@@ -94,7 +94,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: CustomButton(
-                      child: Text(
+                      child: const Text(
                         "Verify",
                         style: TextStyle(fontSize: 16),
                       ),
@@ -104,7 +104,6 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                         String forgotPassOtp =
                             auth_provider.forgotPassOTPController.text;
                         if (widget.isRequestForForgotPassword == true) {
-                          print(forgotPassOtp);
                          CustomResultModel? result_forgot_pass = await auth_provider.verifyForgotOtp(forgotPassOtp);
 
                          if(result_forgot_pass!.status){

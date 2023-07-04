@@ -33,7 +33,7 @@ class CustomTextFormField {
           labelStyle: textStyle,
           border: const OutlineInputBorder(borderSide: BorderSide(width: 3, color: Colors.black),borderRadius: BorderRadius.all(Radius.circular(25))),
           // This is the error border
-          errorBorder: OutlineInputBorder(
+          errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red, width: 3),
             borderRadius: BorderRadius.all(Radius.circular(25)),
           )

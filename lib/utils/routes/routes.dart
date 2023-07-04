@@ -22,19 +22,19 @@ class Routes {
     switch (settings.name) {
       case RoutesName.WELCOME_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => WelcomeScreen());
+            builder: (BuildContext context) => const WelcomeScreen());
 
       case RoutesName.REGISTER_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => RegistrationScreen());
+            builder: (BuildContext context) => const RegistrationScreen());
 
       case RoutesName.LOGIN_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => LoginScreen());
+            builder: (BuildContext context) => const LoginScreen());
 
       case RoutesName.HOME_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen());
+            builder: (BuildContext context) => const HomeScreen());
 
       case RoutesName.USER_INFO_SCREEN_ROUTE:
         return MaterialPageRoute(
@@ -42,35 +42,35 @@ class Routes {
 
       case RoutesName.RESET_PASSWORD_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => ResetPasswordScreen());
+            builder: (BuildContext context) => const ResetPasswordScreen());
 
       case RoutesName.MENU_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => MenuScreen());
+            builder: (BuildContext context) => const MenuScreen());
 
       case RoutesName.QR_SCANNER_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => QRScannerScreen());
+            builder: (BuildContext context) => const QRScannerScreen());
 
       case RoutesName.CART_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => CartScreen());
+            builder: (BuildContext context) => const CartScreen());
 
       case RoutesName.ORDER_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => OrdersScreen());
+            builder: (BuildContext context) => const OrdersScreen());
 
       case RoutesName.PROFILE_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => ProfileScreen());
+            builder: (BuildContext context) => const ProfileScreen());
 
       case RoutesName.VERIFY_USER_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => VerifyUserScreen());
+            builder: (BuildContext context) => const VerifyUserScreen());
 
       case RoutesName.NOTIFICATION_SCREEN_ROUTE:
         return MaterialPageRoute(
-            builder: (BuildContext context) => NotificationScreen());
+            builder: (BuildContext context) => const NotificationScreen());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

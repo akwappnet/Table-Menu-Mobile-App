@@ -126,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ));
                             },
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Padding(
@@ -139,10 +139,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     showDialog(
                                         context: context,
                                         builder: (context) {
-                                          return ForgotPassEmailWidget();
+                                          return const ForgotPassEmailWidget();
                                         });
                                   },
-                                  child: CustomText(
+                                  child: const CustomText(
                                     text: "Forgot Password",
                                     color: Colors.purple,
                                     size: 14,
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           SizedBox(
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Padding(
@@ -206,12 +206,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                CustomText(
+                                const CustomText(
                                   text: "Don't have an account?",
                                   color: Colors.black,
                                   size: 14,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 6,
                                 ),
                                 GestureDetector(
@@ -219,7 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Navigator.pushNamed(context,
                                         RoutesName.REGISTER_SCREEN_ROUTE);
                                   },
-                                  child: CustomText(
+                                  child: const CustomText(
                                     text: "Register",
                                     color: Colors.purple,
                                     size: 14,

@@ -11,17 +11,17 @@ class OrderModel {
     if (json['data'] != null) {
       orderData = <OrderData>[];
       json['data'].forEach((v) {
-        orderData!.add(new OrderData.fromJson(v));
+        orderData!.add(OrderData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.orderData != null) {
-      data['data'] = this.orderData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (orderData != null) {
+      data['data'] = orderData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -57,7 +57,7 @@ class OrderData {
     if (json['cart_items'] != null) {
       cartItems = <CartItems>[];
       json['cart_items'].forEach((v) {
-        cartItems!.add(new CartItems.fromJson(v));
+        cartItems!.add(CartItems.fromJson(v));
       });
     }
     orderStatus = json['order_status'];
@@ -67,18 +67,18 @@ class OrderData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user'] = this.user;
-    data['customer_name'] = this.customerName;
-    data['table_no'] = this.tableNo;
-    if (this.cartItems != null) {
-      data['cart_items'] = this.cartItems!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user'] = user;
+    data['customer_name'] = customerName;
+    data['table_no'] = tableNo;
+    if (cartItems != null) {
+      data['cart_items'] = cartItems!.map((v) => v.toJson()).toList();
     }
-    data['order_status'] = this.orderStatus;
-    data['payment_status'] = this.paymentStatus;
-    data['created_at'] = this.createdAt;
-    data['total_price'] = this.totalPrice;
+    data['order_status'] = orderStatus;
+    data['payment_status'] = paymentStatus;
+    data['created_at'] = createdAt;
+    data['total_price'] = totalPrice;
     return data;
   }
 }
@@ -106,12 +106,12 @@ class CartItems {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['item_name'] = this.itemName;
-    data['item_price'] = this.itemPrice;
-    data['quantity'] = this.quantity;
-    data['item_image'] = this.itemImage;
-    data['total'] = this.total;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['item_name'] = itemName;
+    data['item_price'] = itemPrice;
+    data['quantity'] = quantity;
+    data['item_image'] = itemImage;
+    data['total'] = total;
     return data;
   }
 }
