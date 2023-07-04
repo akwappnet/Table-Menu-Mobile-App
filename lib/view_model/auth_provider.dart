@@ -22,32 +22,35 @@ class AuthProvider extends ChangeNotifier {
   // register controllers
   final TextEditingController emailRegisterController = TextEditingController();
   final TextEditingController passwordRegisterController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController repeatePasswordRegisterController =
-      TextEditingController();
+  TextEditingController();
 
   // verify user Controller
   final TextEditingController activationOTPController = TextEditingController();
 
   // forgot password Controller
   final TextEditingController forgotPassEmailController =
-      TextEditingController();
+  TextEditingController();
   final TextEditingController forgotPassOTPController = TextEditingController();
   final TextEditingController resetPassController = TextEditingController();
   final TextEditingController resetrepeatPassController =
-      TextEditingController();
+  TextEditingController();
 
   // user info controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNoController = TextEditingController();
 
   bool _loading = false;
+
   bool get loading => _loading;
 
   UserData? _userData;
+
   UserData? get userData => _userData;
 
   String _user_name = "";
+
   String get user_name => _user_name;
 
   void setUserName(String value) {
@@ -68,22 +71,17 @@ class AuthProvider extends ChangeNotifier {
   Future<CustomResultModel?> userRegisteration(dynamic data) async {
     setLoading(true);
     var result = await _authRepository.registrationUser(data);
-    print(result);
-    if(result != null){
-      if (result.data["status"] == true) {
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data['message']);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data['message']);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data["status"] == true) {
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data['message']);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data['message']);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> userLogin(
-      String email, String password) async {
+  Future<CustomResultModel?> userLogin(String email, String password) async {
     setLoading(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? fcmToken = await messaging.getToken();
@@ -105,9 +103,7 @@ class AuthProvider extends ChangeNotifier {
       } else {
         deviceType = '';
       }
-      print('Device Type: $deviceType');
     }
-    print('FCM Token: $fcmToken');
     var data = AuthModel(
         email: email,
         password: password,
@@ -115,29 +111,26 @@ class AuthProvider extends ChangeNotifier {
         fcmToken: fcmToken);
 
     var result = await _authRepository.loginUser(data.toJson());
-
-    if(result != null){
-      if (result.data['status'] == true) {
+    if (result.data['status'] == true) {
+      setLoading(false);
+      String token = result.data['data']['token'];
+      bool userinfo = result.data['data']['userinfo'];
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('token', token);
+      if (userinfo) {
         setLoading(false);
-        String token = result.data['data']['token'];
-        print(token);
-        bool userinfo = result.data['data']['userinfo'];
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-        if (userinfo) {
-          setLoading(false);
-          return CustomResultModel(status: true, message: result.data['message'],optionalBool: true);
-        } else {
-          setLoading(false);
-          return CustomResultModel(status: true, message: result.data['message'],optionalBool: false);
-        }
-      } else if (result.data['status'] == "False") {
+        return CustomResultModel(
+            status: true, message: result.data['message'], optionalBool: true);
+      } else {
         setLoading(false);
-        return CustomResultModel(status: false, message: result.data['message']);
+        return CustomResultModel(
+            status: true, message: result.data['message'], optionalBool: false);
       }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data['message']);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> verifyUser(String otp) async {
@@ -145,17 +138,14 @@ class AuthProvider extends ChangeNotifier {
     Map<String, dynamic> data = {'otp': otp};
     var result = await _authRepository.verifyUser(data);
 
-    if(result != null){
-      if (result.data['status'] == true) {
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data['message']);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data['message']);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data['message']);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data['message']);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> verifyForgotOtp(String otp) async {
@@ -163,51 +153,42 @@ class AuthProvider extends ChangeNotifier {
     Map<String, dynamic> data = {'otp': otp};
     var result = await _authRepository.verifyForgotOtp(data);
 
-    if(result != null) {
-      if (result.data['status'] == true) {
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data["message"]);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> sendVerifiactionMail(String email) async {
     Map<String, dynamic> data = {'email': email};
     var result = await _authRepository.sendForgotPasswordOTP(data);
 
-    if(result != null){
-      if (result.data['status'] == true) {
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == "False") {
-        return CustomResultModel(status: false, message: result.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      return CustomResultModel(status: true, message: result.data["message"]);
+    } else if (result.data['status'] == "False") {
+      return CustomResultModel(status: false, message: result.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> resetPasswordUser(
-      String email, String password) async {
+  Future<CustomResultModel?> resetPasswordUser(String email,
+      String password) async {
     setLoading(true);
     Map<String, dynamic> data = {"email": email, "password": password};
     var result = await _authRepository.resetPassword(data);
 
-    if(result != null){
-      if (result.data['status'] == true) {
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data["message"]);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> saveUserInfo(BuildContext context) async {
@@ -223,34 +204,28 @@ class AuthProvider extends ChangeNotifier {
         customerRating: 0.0);
 
     FormData formData = userData.toFormData();
-    var result = await _userInfoRepository.saveUserInfo(formData,context);
-    print(result.data);
+    var result = await _userInfoRepository.saveUserInfo(formData);
 
-    if(result != null){
-      if (result.data['status'] == true) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('userDataBool', true);
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('userDataBool', true);
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data["message"]);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<UserModel> getUserInfo(BuildContext context) async {
-    var response = await _userInfoRepository.getUserInfo(context);
-    if (response != null) {
-      if (response.data['status'] == true) {
-        var userModel = UserModel.fromJson(response.data);
-        setUserName(userModel.userData!.name!);
-        return userModel;
-      } else if (response.data['status'] == "False") {
-        CustomFlushbar.showError(context, response.data['message']);
-      }
+    var response = await _userInfoRepository.getUserInfo();
+    if (response.data['status'] == true) {
+      var userModel = UserModel.fromJson(response.data);
+      setUserName(userModel.userData!.name!);
+      return userModel;
+    } else if (response.data['status'] == "False") {
+      CustomFlushbar.showError(context, response.data['message']);
     }
     return UserModel();
   }
@@ -266,44 +241,58 @@ class AuthProvider extends ChangeNotifier {
     );
 
     FormData formData = userData.toFormData();
-    var result = await _userInfoRepository.updateUserInfo(formData,context);
-    print(result.data);
+    var result = await _userInfoRepository.updateUserInfo(formData);
 
-    if(result != null){
-      if (result.data['status'] == true) {
-        setLoading(false);
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == "False") {
-        setLoading(false);
-        return CustomResultModel(status: false, message: result.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    if (result.data['status'] == true) {
+      setLoading(false);
+      return CustomResultModel(status: true, message: result.data["message"]);
+    } else if (result.data['status'] == "False") {
+      setLoading(false);
+      return CustomResultModel(status: false, message: result.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> deleteUserInfo(BuildContext context) async {
-    var response = await _userInfoRepository.deleteUserInfo(context);
-    if (response != null) {
-      if (response.data["status"] == true) {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        await preferences.remove('token');
-        emailLoginController.text = "";
-        passwordLoginController.text = "";
-        return CustomResultModel(status: true, message: response.data["message"]);
-      } else if (response.data['status'] == "False") {
-        return CustomResultModel(status: false, message: response.data["message"]);
-      }
-    }else {
-      return CustomResultModel(status: false, message: "An error occurred");
+    var response = await _userInfoRepository.deleteUserInfo();
+
+    if (response.data["status"] == true) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      await preferences.remove('token');
+      emailLoginController.text = "";
+      passwordLoginController.text = "";
+      return CustomResultModel(status: true, message: response.data["message"]);
+    } else if (response.data['status'] == "False") {
+      return CustomResultModel(
+          status: false, message: response.data["message"]);
     }
+    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   File? _temp_image;
+
   get temp_image => _temp_image;
 
   void setImagetemp(File temp_image) {
     _temp_image = temp_image;
     notifyListeners();
   }
+
+  @override
+  void dispose() {
+    emailLoginController.dispose();
+    passwordLoginController.dispose();
+    emailRegisterController.dispose();
+    passwordRegisterController.dispose();
+    repeatePasswordRegisterController.dispose();
+    activationOTPController.dispose();
+    forgotPassEmailController.dispose();
+    forgotPassOTPController.dispose();
+    resetPassController.dispose();
+    resetrepeatPassController.dispose();
+    nameController.dispose();
+    phoneNoController.dispose();
+    super.dispose();
+  }
+
 }

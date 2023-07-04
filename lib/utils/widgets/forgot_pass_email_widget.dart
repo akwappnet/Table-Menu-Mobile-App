@@ -24,11 +24,11 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context);
     return AlertDialog(
-      title: Center(child: CustomText(text: "Forgot Password", size: 20, weight: FontWeight.w500,)),
+      title: const Center(child: CustomText(text: "Forgot Password", size: 20, weight: FontWeight.w500,)),
       content: Wrap(
         runSpacing: 20.0,
         children: [
-          SizedBox(height: 6,),
+          const SizedBox(height: 6,),
           Form(
             key: _form_email,
             child: CustomTextFormField().getCustomEditTextArea(
@@ -59,7 +59,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                     CustomFlushbar.showSuccess(context, result.message);
                     Navigator.pushReplacementNamed(
                         context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
-                        arguments: VerifyUserScreen(true));
+                        arguments: const VerifyUserScreen(true));
                   }else {
                     CustomFlushbar.showError(context, result.message);
                   }

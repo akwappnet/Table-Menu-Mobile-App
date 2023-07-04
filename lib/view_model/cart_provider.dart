@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
 class CartProvider extends ChangeNotifier {
   final CartRepository _cartRepository = CartRepository();
@@ -24,44 +23,29 @@ class CartProvider extends ChangeNotifier {
 
   List<CartData> cartList = [];
 
-  // bool _loading = false;
-  // bool get loading => _loading;
-  //
-  // setLoading(bool value) {
-  //   _loading = value;
-  //   notifyListeners();
-  // }
-
   void setQuantity(int value) {
     _quantity = value;
     notifyListeners();
   }
 
-  Future<CustomResultModel?> addCart(BuildContext context, dynamic data, int id) async {
-    var result = await _cartRepository.addToCart(data,context);
-    getCartItems(context);
-    if(result != null){
+  Future<CustomResultModel?> addCart(dynamic data, int id) async {
+    var result = await _cartRepository.addToCart(data);
+    getCartItems();
+
       if (result.data['status'] == true) {
         return CustomResultModel(status: true, message: result.data["message"]);
       } else if (result.data['status'] == "False") {
         return CustomResultModel(status: false, message: result.data["message"]);
       }
-    }else {
       return CustomResultModel(status: false, message: "An error occurred");
-    }
-
-
   }
 
   // get cart item
 
-  Future<List<CartData>> getCartItems(BuildContext context) async {
-    var response = await _cartRepository.getCartItems(context);
-    if (response != null) {
+  Future<List<CartData>> getCartItems() async {
+    var response = await _cartRepository.getCartItems();
       if (response.statusCode == 200) {
-        print("true");
         var getCartItem = CartModel.fromJson(response.data);
-        print("true2");
         var addedIds = Set<int>();
         cartList.clear();
         cartList.addAll(getCartItem.cartData!);
@@ -73,11 +57,10 @@ class CartProvider extends ChangeNotifier {
             addedIds.add(data.id!); // Add categoryId to Set
           }
         });
-        print('###$cartList');
         updateTotalPrice();
         return cartList;
-      } else {}
-    }
+      } else {
+      }
     // Return an empty list if there was an error
     return [];
   }
@@ -107,23 +90,19 @@ class CartProvider extends ChangeNotifier {
   }
 
   void incrementItemQuantityUpdate(CartData item) {
-    if (item != null) {
-      item.quantity = (item.quantity ?? 0) + 1;
-      notifyListeners();
-    }
+    item.quantity = (item.quantity ?? 0) + 1;
+    notifyListeners();
   }
 
   void decrementItemQuantityUpdate(CartData item) {
-    if (item != null && item.quantity != null && item.quantity! > 1) {
+    if (item.quantity != null && item.quantity! > 1) {
       item.quantity = (item.quantity ?? 0) - 1;
       notifyListeners();
     }
   }
 
-  Future<void> updateItemQuantity(
-      BuildContext context, dynamic data, int id) async {
-    var response = await _cartRepository.updateCartItem(data, id, context);
-    if (response != null) {
+  Future<void> updateItemQuantity(dynamic data, int id) async {
+    var response = await _cartRepository.updateCartItem(data, id);
       if (response.statusCode == 200) {
         var updatedItem = CartData.fromJson(response.data);
         // Find the item in the cartList and update its quantity
@@ -133,19 +112,17 @@ class CartProvider extends ChangeNotifier {
           updateTotalPrice();
           notifyListeners();
         }
-        getCartItems(context);
+        getCartItems();
       } else {
         // TODO: Handle error
       }
-    }
   }
 
-  Future<CustomResultModel?> deleteCartItem(BuildContext context, int id) async {
-    var response = await _cartRepository.deleteCartItem(id, context);
-    if (response != null) {
+  Future<CustomResultModel?> deleteCartItem(int id) async {
+    var response = await _cartRepository.deleteCartItem(id);
       if (response.data["status"] == true) {
         cartList.removeWhere((item) => item.id == id);
-        getCartItems(context);
+        getCartItems();
         // Recalculate the total price
         updateTotalPrice();
         _quantity = 1;
@@ -153,28 +130,22 @@ class CartProvider extends ChangeNotifier {
       } else if (response.data['status'] == "False") {
         return CustomResultModel(status: false, message: response.data["message"]);
       }
-    }else {
       return CustomResultModel(status: false, message: "An error occurred");
-    }
   }
 
   // clear cart - delete all cart items
 
-  Future<CustomResultModel?> deleteAllCartItem(BuildContext context) async {
-    var response = await _cartRepository.deleteAllCartItem(context);
-    print(response.statusMessage);
-    if (response != null) {
+  Future<CustomResultModel?> deleteAllCartItem() async {
+    var response = await _cartRepository.deleteAllCartItem();
       if (response.data["status"] == true) {
         cartList.clear();
         clearCart();
-        getCartItems(context);
+        getCartItems();
         return CustomResultModel(status: true, message: response.data["message"]);
       } else if (response.data['status'] == "False") {
         return CustomResultModel(status: false, message: response.data["message"]);
       }
-    }else {
       return CustomResultModel(status: false, message: "An error occurred");
-    }
   }
 
 

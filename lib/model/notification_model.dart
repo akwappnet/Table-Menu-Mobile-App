@@ -11,17 +11,17 @@ class NotificationModel {
     if (json['data'] != null) {
       notificationData = <NotificationData>[];
       json['data'].forEach((v) {
-        notificationData!.add(new NotificationData.fromJson(v));
+        notificationData!.add(NotificationData.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.notificationData != null) {
-      data['data'] = this.notificationData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (notificationData != null) {
+      data['data'] = notificationData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -56,14 +56,14 @@ class NotificationData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user'] = this.user;
-    data['user_name'] = this.userName;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    data['created_at'] = this.createdAt;
-    data['read_status'] = this.readStatus;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user'] = user;
+    data['user_name'] = userName;
+    data['title'] = title;
+    data['body'] = body;
+    data['created_at'] = createdAt;
+    data['read_status'] = readStatus;
     return data;
   }
 }

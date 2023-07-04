@@ -1,7 +1,7 @@
 String? emailValidator(String? value) {
   String pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-  RegExp regex = new RegExp(pattern);
+  RegExp regex = RegExp(pattern);
 
   if (value!.isEmpty) {
     return 'This field must be filled';
@@ -14,7 +14,7 @@ String? emailValidator(String? value) {
 String? passwordValidator(String? value) {
   String pattern =
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-  RegExp regex = new RegExp(pattern);
+  RegExp regex = RegExp(pattern);
 
   if (value!.isEmpty) {
     return 'This field must be filled';
@@ -26,21 +26,22 @@ String? passwordValidator(String? value) {
 
 String? phoneValidator(String? value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-  RegExp regExp = new RegExp(patttern);
-  if (value?.length == 0) {
+  RegExp regExp = RegExp(patttern);
+  if (value!.isEmpty) {
     return 'This field must be filled';
   }
-  else if (!regExp.hasMatch(value!)) {
+  else if (!regExp.hasMatch(value)) {
     return 'Please enter valid mobile number';
   }
   return null;
 }
 
 String? validateName(String? value) {
-  if (value?.length == 0){
+  if (value!.isEmpty){
     return 'This field must be filled';
-  }else if (value!.length < 3)
+  }else if (value.length < 3) {
     return 'Name must be more than 2 charater';
-  else
+  } else {
     return null;
+  }
 }

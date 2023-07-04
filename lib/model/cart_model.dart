@@ -17,11 +17,11 @@ class CartModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = this.message;
-    if (this.cartData != null) {
-      data['data'] = this.cartData!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
+    if (cartData != null) {
+      data['data'] = cartData!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -59,25 +59,25 @@ class CartData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user'] = this.user;
-    data['menu_item'] = this.menuItem;
-    data['quantity'] = this.quantity;
-    data['total_price'] = this.totalPrice;
-    data['menu_item_name'] = this.menuItemName;
-    data['menu_item_price'] = this.menuItemPrice;
-    data['menu_item_image'] = this.menuItemImage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user'] = user;
+    data['menu_item'] = menuItem;
+    data['quantity'] = quantity;
+    data['total_price'] = totalPrice;
+    data['menu_item_name'] = menuItemName;
+    data['menu_item_price'] = menuItemPrice;
+    data['menu_item_image'] = menuItemImage;
     return data;
   }
 
   // json decode for orders
 
   Map<String, dynamic> toJsonOrder() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['total_price'] = this.totalPrice;
-    data['quantity'] = this.quantity;
-    data['menu_item_name'] = this.menuItemName;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['total_price'] = totalPrice;
+    data['quantity'] = quantity;
+    data['menu_item_name'] = menuItemName;
     return data;
   }
 

@@ -7,7 +7,7 @@ class CustomConfirmationDialog extends StatelessWidget {
   final String message;
   final VoidCallback onConfirm;
 
-  CustomConfirmationDialog({
+  const CustomConfirmationDialog({super.key,
     required this.title,
     required this.message,
     required this.onConfirm,
@@ -24,14 +24,14 @@ class CustomConfirmationDialog extends StatelessWidget {
       content: Wrap(children: [Text(message)]),
       actions: <Widget>[
         TextButton(
-          child: Text('Cancel'),
+          child: const Text('Cancel'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         TextButton(
-          child: Text('OK'),
           onPressed: onConfirm,
+          child: const Text('OK'),
         ),
       ],
     );

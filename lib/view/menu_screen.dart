@@ -3,7 +3,6 @@ import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
-import 'package:table_menu_customer/repository/menu_repository.dart';
 import 'package:table_menu_customer/res/services/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
@@ -38,8 +37,6 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final MenuRepository _menuRepository = MenuRepository();
-    // Future<bool> menuLoaded = _menuRepository.isLoadedMenu();
     final menu_provider = Provider.of<MenuProvider>(context);
     final qr_provider = Provider.of<QRProvider>(context);
     final notification_provider = Provider.of<NotificationProvider>(context);
@@ -78,7 +75,7 @@ class _MenuScreenState extends State<MenuScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              notification_provider.getAllNotification(context);
+              notification_provider.getAllNotification();
               Navigator.pushNamed(context, RoutesName.NOTIFICATION_SCREEN_ROUTE);
             },
             icon: const Icon(
@@ -97,7 +94,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 position: BadgePosition.custom(start: 28, bottom: 28),
                 child: IconButton(
                   onPressed: () {
-                    cart_badge.getCartItems(context);
+                    cart_badge.getCartItems();
                     Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
                   },
                   icon: const Icon(
@@ -117,7 +114,6 @@ class _MenuScreenState extends State<MenuScreen> {
         child: StreamBuilder<List<Data>>(
           stream: menu_provider.getCategories(context).asStream(),
           builder: (context, snapshot) {
-            print("bool : ${qr_provider.isVisible}");
             if (snapshot.hasData) {
               var categories = snapshot.data;
               return (qr_provider.isVisible)
@@ -201,7 +197,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
                                                 onTap: () {
-                                                  print(index);
                                                   menu_provider
                                                       .selectCategory(index);
                                                   menu_provider.setCategoryName(
@@ -344,7 +339,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                                                   };
                                                                  CustomResultModel? result = await cart_provider
                                                                       .addCart(
-                                                                          context,
                                                                           data,
                                                                           menu_items[index]
                                                                               .id!);
@@ -378,8 +372,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                                       menu_items[
                                                                               index]
                                                                           .image
-                                                                          .toString() ??
-                                                                  ''),
+                                                                          .toString()),
                                                               title: Column(
                                                                 children: [
                                                                   Row(

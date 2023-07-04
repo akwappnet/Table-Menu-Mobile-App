@@ -19,72 +19,61 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<CustomResultModel?> placeOrder(BuildContext context, dynamic data) async {
-    var result = await _orderRepository.placeOrder(data,context);
-    print(result.data);
+  Future<CustomResultModel?> placeOrder(dynamic data) async {
+    var result = await _orderRepository.placeOrder(data);
 
-    if(result != null){
+
       if (result.data['status'] == true) {
-        getOrders(context);
+        getOrders();
         return CustomResultModel(status: true, message: result.data['message']);
       } else if (result.data['status'] == "False") {
         return CustomResultModel(status: false, message: result.data['message']);
       }
-    }else {
       return CustomResultModel(status: false, message: "An error occurred");
-    }
+
   }
 
   // get all orders placed by user
-  Future<List<OrderData>> getOrders(BuildContext context) async {
-    var response = await _orderRepository.getOrders(context);
-    if (response != null) {
+  Future<List<OrderData>> getOrders() async {
+    var response = await _orderRepository.getOrders();
       if (response.statusCode == 200) {
-        var result = response.data;
-        //print(result);
-
         var getOrders = OrderModel.fromJson(response.data);
 
         if (getOrders.orderData!.isNotEmpty) {
           var addedIds = Set<int>();
           _orderList.clear();
           _orderList.addAll(getOrders.orderData!);
-          getOrders.orderData!.forEach((data) {
+          for (var data in getOrders.orderData!) {
             // Check if category already exists
             if (!addedIds.contains(data.id)) {
               // categoryList.add(GetCategory(data: [data]));
               addedIds.add(data.id!); // Add categoryId to Set
             }
-          });
+          }
 
-          print('###$_orderList');
           return _orderList;
         }
       } else {}
-    }
+
     // Return an empty list if there was an error
     return [];
   }
 
   // cancel order
 
-  Future<CustomResultModel?> cancelOrder(BuildContext context, int id) async {
+  Future<CustomResultModel?> cancelOrder( int id) async {
     var data = {};
-    var result = await _orderRepository.cancelOrder(id, data, context);
-    print(result.data);
+    var result = await _orderRepository.cancelOrder(id, data);
 
-    if(result != null){
       if (result.data['status'] == true) {
         orderList.removeWhere((item) => item.id == id);
-        getOrders(context);
+        getOrders();
         notifyListeners();
         return CustomResultModel(status: true, message: result.data["message"]);
       } else if (result.data['status'] == false) {
         return CustomResultModel(status: false, message: result.data["message"]);
       }
-    }else {
       return CustomResultModel(status: false, message: "An error occurred");
-    }
   }
 
 }

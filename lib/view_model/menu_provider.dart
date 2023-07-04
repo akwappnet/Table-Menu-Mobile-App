@@ -35,13 +35,8 @@ class MenuProvider extends ChangeNotifier {
   Future<List<Data>> getCategories([BuildContext? context]) async {
     if(context != null){
       var response = await menuRepository.getCategories(context);
-      if (response != null) {
         if (response.statusCode == 200) {
-          var result = response.data;
-          print(result);
-
           var getCategory = CategoryModel.fromJson(response.data);
-          print(getCategory.data![0].categoryName);
           if (getCategory.data!.isNotEmpty) {
             var addedIds = Set<int>();
             _categories.clear();
@@ -55,11 +50,9 @@ class MenuProvider extends ChangeNotifier {
               }
             });
 
-            print('###$_categories');
             return _categories;
           }
         } else {}
-      }
     }
     // Return an empty list if there was an error
     return [];
@@ -70,11 +63,7 @@ class MenuProvider extends ChangeNotifier {
   Future<List<MenuData>> getMenuItems(String category_name, [BuildContext? context]) async {
     if(context != null){
       var response = await menuRepository.getMenuItems(category_name,context);
-      if (response != null) {
         if (response.statusCode == 200) {
-          var result = response.data;
-          //print(result);
-
           var getMenuItem = MenuItemModel.fromJson(response.data);
 
           if (getMenuItem.menuData!.isNotEmpty) {
@@ -89,15 +78,11 @@ class MenuProvider extends ChangeNotifier {
               }
             });
 
-            print('###$_menuitems');
             return _menuitems;
           }
         } else {}
-      }
     }
     // Return an empty list if there was an error
     return [];
   }
-
-
 }

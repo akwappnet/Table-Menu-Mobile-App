@@ -2,7 +2,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
@@ -25,15 +24,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // await FirebaseMessaging.instance.getToken();
-  // final InitializationSettings initializationSettings = InitializationSettings(
-  //   android: AndroidInitializationSettings('@drawable/app_icon'),
-  // );
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
-  // await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  final AuthRepository _authRepository = AuthRepository();
-  bool loggedIn = await _authRepository.isLoggedIn();
+  final AuthRepository authRepository = AuthRepository();
+  bool loggedIn = await authRepository.isLoggedIn();
   runApp(MyApp(
     loggedIn: loggedIn,
   ));
@@ -84,12 +76,14 @@ class _MyAppState extends State<MyApp> {
                 width: 300,
               ),
             ),
-            nextScreen: widget.loggedIn ? HomeScreen() : LoginScreen(),
+            nextScreen: widget.loggedIn ? const HomeScreen() : const LoginScreen(),
           ),
           initialRoute: widget.loggedIn
               ? RoutesName.HOME_SCREEN_ROUTE
               : RoutesName.LOGIN_SCREEN_ROUTE,
           onGenerateRoute: Routes.generateRoute,
-        ));
+        )
+    );
+
   }
 }

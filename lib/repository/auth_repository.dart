@@ -8,29 +8,25 @@ import '../res/services/api_endpoints.dart';
 
 class AuthRepository {
 
-  BaseApiService _apiService = NetworkApiService();
+  final BaseApiService _apiService = NetworkApiService();
 
   Future<Response> loginUser(dynamic data) async {
     try {
       Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.login, data);
-      print(response);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
   Future<Response> registrationUser(dynamic data) async {
     try {
-      print(data);
       Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.registrarion, data);
-      print("response $response");
       return response;
     } catch (e) {
-      print(e.toString());
-      throw e;
+      rethrow;
     }
   }
 
@@ -38,10 +34,9 @@ class AuthRepository {
     try {
       Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyUser, data);
-      print(response);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -49,10 +44,9 @@ class AuthRepository {
     try {
       Response response = await _apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyForgotOtp, jsonEncode(data));
-      print(response);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -62,7 +56,7 @@ class AuthRepository {
       ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.sendForgotOtp, data);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
@@ -72,7 +66,7 @@ class AuthRepository {
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.resetPassword, data);
       return response;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 

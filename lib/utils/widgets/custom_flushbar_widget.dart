@@ -14,7 +14,7 @@ class CustomFlushbar {
       margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       flushbarPosition: FlushbarPosition.TOP,
-    )..show(context);
+    ).show(context);
   }
 
   static void showError(BuildContext context, String message) {
