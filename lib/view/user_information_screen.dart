@@ -195,6 +195,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             labelValue: "Name",
                             hintValue: "Enter Name",
                             onchanged: (value) {},
+                            textInputAction: TextInputAction.next,
                             prefixicon: const Icon(
                               Icons.drive_file_rename_outline,
                               color: Colors.black,
@@ -211,6 +212,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             hintValue: "Enter Phone No",
                             onchanged: (value) {},
                             maxLength: 10,
+                            textInputAction: TextInputAction.done,
                             prefixicon: const Icon(
                               Icons.phone,
                               color: Colors.black,

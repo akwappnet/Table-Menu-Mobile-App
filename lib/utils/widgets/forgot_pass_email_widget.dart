@@ -44,6 +44,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
               controller: auth_provider.forgotPassEmailController,
               validator: emailValidator,
               onchanged: (newValue) {},
+              textInputAction: TextInputAction.done
             ),
           ),
           SizedBox(
@@ -59,7 +60,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                     CustomFlushbar.showSuccess(context, result.message);
                     Navigator.pushReplacementNamed(
                         context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
-                        arguments: const VerifyUserScreen(true));
+                        arguments: true);
                   }else {
                     CustomFlushbar.showError(context, result.message);
                   }

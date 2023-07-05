@@ -191,11 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              SharedPreferences preferences =
-                                  await SharedPreferences.getInstance();
-                              await preferences.remove('token');
-                              Navigator.popAndPushNamed(
-                                  context, RoutesName.LOGIN_SCREEN_ROUTE);
+                              auth_provider.forceLogout(context);
                             },
                           ),
                         )

@@ -30,16 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: SafeArea(
           child: SingleChildScrollView(
-            child: auth_provider.loading
-                ? Center(
-              child: Lottie.asset(
-                AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
-                width: 100,
-                height: 100,
-                fit: BoxFit.fill,
-              ),
-            )
-                : Center(
+            child: Center(
               child: Padding(
                 padding:
                 const EdgeInsets.symmetric(horizontal: 35, vertical: 25),
@@ -85,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Icons.email_outlined,
                               color: Colors.black,
                             ),
+                            textInputAction: TextInputAction.next,
                             controller: auth_provider.emailLoginController,
                             validator: emailValidator,
                             onchanged: (newValue) {},
@@ -101,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   hintValue: "Enter Password",
                                   obscuretext: obsecurePassword.value,
                                   maxLines: 1,
+                                  textInputAction: TextInputAction.done,
                                   prefixicon: const Icon(
                                     Icons.password_outlined,
                                     color: Colors.black,
@@ -190,7 +183,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                 }
                               },
-                              child: const CustomText(
+                              child: auth_provider.loading ?
+                              const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                              : const CustomText(
                                 text: "Login",
                                 size: 18,
                                 color: Colors.white,

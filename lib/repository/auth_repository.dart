@@ -60,10 +60,10 @@ class AuthRepository {
     }
   }
 
-  Future<Response> resetPassword(dynamic data) async {
+  Future<Response> resetPassword(dynamic data,String verifyToken) async {
     try {
       Response response = await _apiService.getAuthApiResponse(
-          ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.resetPassword, data);
+          ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.resetPassword, data,verifyToken: verifyToken);
       return response;
     } catch (e) {
       rethrow;

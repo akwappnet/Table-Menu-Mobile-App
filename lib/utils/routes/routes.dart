@@ -18,65 +18,86 @@ import '../../view/reset_password_screen.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    UserData? userData = settings.arguments as UserData?;
+    dynamic arguments = settings.arguments;
     switch (settings.name) {
       case RoutesName.WELCOME_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const WelcomeScreen());
+        return _buildPageRoute(const WelcomeScreen());
 
       case RoutesName.REGISTER_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const RegistrationScreen());
+        return _buildPageRoute(const RegistrationScreen());
 
       case RoutesName.LOGIN_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const LoginScreen());
+        return _buildPageRoute(const LoginScreen());
 
       case RoutesName.HOME_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const HomeScreen());
+        return _buildPageRoute(const HomeScreen());
 
       case RoutesName.USER_INFO_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => UserInfoScreen(userData));
+        if (arguments is UserData) {
+          return _buildPageRoute(UserInfoScreen(arguments));
+        }
+        return _errorRoute();
 
       case RoutesName.RESET_PASSWORD_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const ResetPasswordScreen());
+        return _buildPageRoute(const ResetPasswordScreen());
 
       case RoutesName.MENU_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const MenuScreen());
+        return _buildPageRoute(const MenuScreen());
 
       case RoutesName.QR_SCANNER_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const QRScannerScreen());
+        return _buildPageRoute(const QRScannerScreen());
 
       case RoutesName.CART_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const CartScreen());
+        return _buildPageRoute(const CartScreen());
 
       case RoutesName.ORDER_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const OrdersScreen());
+        return _buildPageRoute(const OrdersScreen());
 
       case RoutesName.PROFILE_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const ProfileScreen());
+        return _buildPageRoute(const ProfileScreen());
 
       case RoutesName.VERIFY_USER_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const VerifyUserScreen());
+        if (arguments is bool) {
+          return _buildPageRoute(VerifyUserScreen(arguments));
+        }
+        return _errorRoute();
 
       case RoutesName.NOTIFICATION_SCREEN_ROUTE:
-        return MaterialPageRoute(
-            builder: (BuildContext context) => const NotificationScreen());
+        return _buildPageRoute(const NotificationScreen());
+
       default:
-        return MaterialPageRoute(builder: (_) {
-          return const Scaffold(
-            body: Center(child: Text('No route defined')),
-          );
-        });
+        return _buildPageRoute(const Scaffold(
+          body: Center(child: Text('No route defined')),
+        ));
     }
+  }
+
+  static PageRouteBuilder<Object> _buildPageRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
+        return page;
+      },
+      transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+        const Duration duration = Duration(milliseconds: 500); // Adjust the duration as needed
+        final Animation<Offset> slideAnimation = Tween<Offset>(
+          begin: const Offset(1.0, 0.0),
+          end: Offset.zero,
+        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+
+        return SlideTransition(
+          position: slideAnimation,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500), // Adjust the duration as needed
+    );
+  }
+
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(
+      builder: (_) => const Scaffold(
+        body: Center(child: Text('No route defined')),
+      ),
+    );
   }
 }
