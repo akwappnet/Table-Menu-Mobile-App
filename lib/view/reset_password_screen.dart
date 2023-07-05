@@ -69,6 +69,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           return CustomTextFormField().getCustomEditTextArea(
                               labelValue: "Password",
                               hintValue: "Enter Password",
+                              textInputAction: TextInputAction.next,
                               obscuretext: obsecurePassword.value,
                               maxLines: 1,
                               prefixicon: const Icon(
@@ -106,6 +107,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               hintValue: "Enter Confirm Password",
                               obscuretext: obsecureRepeatePassword.value,
                               maxLines: 1,
+                              textInputAction: TextInputAction.done,
                               prefixicon: const Icon(
                                 Icons.password_outlined,
                                 color: Colors.black,

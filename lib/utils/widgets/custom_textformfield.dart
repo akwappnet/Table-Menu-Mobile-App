@@ -13,6 +13,7 @@ class CustomTextFormField {
         int? maxLength,
         required bool obscuretext,
         required FormFieldSetter onchanged,
+        required TextInputAction textInputAction,
         required String? Function(String?)? validator,
          int? maxLines,}) {
     TextFormField textFormField = TextFormField(
@@ -25,6 +26,7 @@ class CustomTextFormField {
       obscureText: obscuretext,
       validator: validator,
       maxLength: maxLength,
+      textInputAction: textInputAction,
       decoration: InputDecoration(
         suffixIcon: iconButton,
         prefixIcon: prefixicon,

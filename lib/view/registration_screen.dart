@@ -72,6 +72,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           Icons.email_outlined,
                           color: Colors.black,
                         ),
+                        textInputAction: TextInputAction.next,
                         controller: auth_provider.emailRegisterController,
                         validator: emailValidator,
                         onchanged: (newValue) {},
@@ -91,6 +92,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 Icons.password_outlined,
                                 color: Colors.black,
                               ),
+                              textInputAction: TextInputAction.next,
                               controller:
                                   auth_provider.passwordRegisterController,
                               validator: passwordValidator,
@@ -123,6 +125,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               hintValue: "Enter Confirm Password",
                               obscuretext: obsecureRepeatePassword.value,
                               maxLines: 1,
+                              textInputAction: TextInputAction.done,
                               prefixicon: const Icon(
                                 Icons.password_outlined,
                                 color: Colors.black,
@@ -203,7 +206,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 if(result!.status){
                                   CustomFlushbar.showSuccess(context, result.message);
                                   Navigator.pushReplacementNamed(
-                                      context, RoutesName.VERIFY_USER_SCREEN_ROUTE);
+                                      context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
                                 }else {
                                   CustomFlushbar.showError(context, result.message);
                                 }

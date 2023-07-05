@@ -12,7 +12,7 @@ import '../view_model/auth_provider.dart';
 class VerifyUserScreen extends StatefulWidget {
   final bool? isRequestForForgotPassword;
 
-  const VerifyUserScreen([this.isRequestForForgotPassword]);
+  const VerifyUserScreen(this.isRequestForForgotPassword);
 
   @override
   State<VerifyUserScreen> createState() => _VerifyUserScreenState();
@@ -104,8 +104,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                         String forgotPassOtp =
                             auth_provider.forgotPassOTPController.text;
                         if (widget.isRequestForForgotPassword == true) {
-                         CustomResultModel? result_forgot_pass = await auth_provider.verifyForgotOtp(forgotPassOtp);
-
+                         CustomResultModel? result_forgot_pass = await auth_provider.verifyForgotOtp(forgotPassOtp,auth_provider.forgotPassEmailController.text.toString());
                          if(result_forgot_pass!.status){
                            CustomFlushbar.showSuccess(context, result_forgot_pass.message);
                            Navigator.pushReplacementNamed(

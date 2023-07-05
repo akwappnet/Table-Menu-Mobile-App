@@ -10,14 +10,12 @@ import '../interceptors/auth_interceptor.dart';
 import '../interceptors/error_interceptor.dart';
 
 class NetworkApiService extends BaseApiService {
-  final Dio _dio = Dio(
-      BaseOptions(
-          baseUrl: ApiEndPoint.baseUrl,
-          followRedirects: false,
-          validateStatus: (status) {
-            return status! < 500;
-          })
-  );
+  final Dio _dio = Dio(BaseOptions(
+      baseUrl: ApiEndPoint.baseUrl,
+      followRedirects: false,
+      validateStatus: (status) {
+        return status! < 500;
+      }));
 
   NetworkApiService() {
     _dio.interceptors.add(AuthInterceptor());
@@ -47,7 +45,8 @@ class NetworkApiService extends BaseApiService {
       // responseJson = returnResponse(response);
       // return responseJson;
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 
@@ -76,28 +75,37 @@ class NetworkApiService extends BaseApiService {
       // responseJson = returnResponse(response);
       // return responseJson;
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 
   // to make HTTP requests to an API.
   @override
-  Future<Response> getAuthApiResponse(String url, dynamic data) async {
-    // dynamic responseJson;
+  Future<Response> getAuthApiResponse(String url, dynamic data,
+      {String? verifyToken}) async {
     try {
+      print("token $verifyToken");
+      var headers = {
+        'HTTP_AUTHORIZATION': 'Token $verifyToken',
+        'Accept': 'application/json'
+      };
+      print(headers);
       var response = await _dio
-          .post(
-            url,
-            data: data,
-          )
+          .post(url,
+              data: data,
+              options: Options(
+                  headers: headers,
+                  validateStatus: (_) => true,
+                  contentType: Headers.jsonContentType,
+                  responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-
+      print(response.statusCode);
       return response;
-      // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
-    // return responseJson;
   }
 
   // to make HTTP requests to an API.
@@ -124,7 +132,8 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 
@@ -153,7 +162,8 @@ class NetworkApiService extends BaseApiService {
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 
@@ -170,19 +180,20 @@ class NetworkApiService extends BaseApiService {
 
       var response = await _dio
           .put(url,
-          data: data,
-          options: Options(
-            headers: headers,
-            validateStatus: (_) => true,
-            contentType: Headers.jsonContentType,
-            responseType: ResponseType.json,
-          ))
+              data: data,
+              options: Options(
+                headers: headers,
+                validateStatus: (_) => true,
+                contentType: Headers.jsonContentType,
+                responseType: ResponseType.json,
+              ))
           .timeout(const Duration(seconds: 10));
 
       return response;
       // responseJson = returnResponse(response);
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 
@@ -194,23 +205,22 @@ class NetworkApiService extends BaseApiService {
 
       var headers = {
         'Authorization': 'Token $token',
-         'Accept': 'application/json'
+        'Accept': 'application/json'
       };
 
       var response = await _dio
           .delete(url,
               options: Options(
-                headers: headers,
-                validateStatus: (_) => true,
-                contentType: Headers.jsonContentType,
-                responseType: ResponseType.json
-              )
-      )
+                  headers: headers,
+                  validateStatus: (_) => true,
+                  contentType: Headers.jsonContentType,
+                  responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
 
       return response;
     } on SocketException {
-      throw FetchDataExceptions('Error Occured While Communicating with Server');
+      throw FetchDataExceptions(
+          'Error Occured While Communicating with Server');
     }
   }
 }

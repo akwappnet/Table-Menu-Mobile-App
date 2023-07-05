@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -8,6 +9,7 @@ import 'package:table_menu_customer/model/auth_model.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import '../repository/auth_repository.dart';
 
@@ -71,6 +73,8 @@ class AuthProvider extends ChangeNotifier {
   Future<CustomResultModel?> userRegisteration(dynamic data) async {
     setLoading(true);
     var result = await _authRepository.registrationUser(data);
+    log(result.statusCode.toString());
+    log(result.statusMessage.toString());
     if (result.data["status"] == true) {
       setLoading(false);
       return CustomResultModel(status: true, message: result.data['message']);
@@ -78,7 +82,8 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data['message']);
     }
-    return CustomResultModel(status: false, message: "An error occurred");
+    setLoading(false);
+     // return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> userLogin(String email, String password) async {
@@ -114,7 +119,7 @@ class AuthProvider extends ChangeNotifier {
     if (result.data['status'] == true) {
       setLoading(false);
       String token = result.data['data']['token'];
-      bool userinfo = result.data['data']['userinfo'];
+      bool userinfo = result.data['data']['user_info_exists'];
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('token', token);
       if (userinfo) {
@@ -130,6 +135,7 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data['message']);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
@@ -145,21 +151,30 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data['message']);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> verifyForgotOtp(String otp) async {
+  Future<CustomResultModel?> verifyForgotOtp(String otp, String email) async {
     setLoading(true);
-    Map<String, dynamic> data = {'otp': otp};
+    Map<String, dynamic> data = {
+      "email": email,
+      "otp": otp
+    };
     var result = await _authRepository.verifyForgotOtp(data);
-
+    log(result.data.toString());
     if (result.data['status'] == true) {
+      String verifyPasswordToken = result.data['data']['token'];
+      log("verify token : $verifyPasswordToken");
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('verify_pass_token', verifyPasswordToken);
       setLoading(false);
       return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == "False") {
+    } else if (result.data['status'] == false) {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data["message"]);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
@@ -179,7 +194,11 @@ class AuthProvider extends ChangeNotifier {
       String password) async {
     setLoading(true);
     Map<String, dynamic> data = {"email": email, "password": password};
-    var result = await _authRepository.resetPassword(data);
+    final prefs = await SharedPreferences.getInstance();
+    final verifyToken = prefs.getString('verify_pass_token');
+    log("verify token : $verifyToken");
+    log("${data.toString()}");
+    var result = await _authRepository.resetPassword(data,verifyToken!);
 
     if (result.data['status'] == true) {
       setLoading(false);
@@ -188,6 +207,7 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data["message"]);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
@@ -215,6 +235,7 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data["message"]);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
@@ -250,6 +271,7 @@ class AuthProvider extends ChangeNotifier {
       setLoading(false);
       return CustomResultModel(status: false, message: result.data["message"]);
     }
+    setLoading(false);
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
@@ -293,6 +315,23 @@ class AuthProvider extends ChangeNotifier {
     nameController.dispose();
     phoneNoController.dispose();
     super.dispose();
+  }
+
+  clearToken() async {
+    SharedPreferences preferences =
+        await SharedPreferences.getInstance();
+    await preferences.remove('token');
+  }
+
+
+  void forceLogout(BuildContext context) {
+    clearToken();
+    // Navigate to the login screen
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      RoutesName.LOGIN_SCREEN_ROUTE,
+          (route) => false, // Clear the entire backstack
+    );
   }
 
 }
