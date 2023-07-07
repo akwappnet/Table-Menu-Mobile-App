@@ -14,4 +14,5 @@ class RoutesName {
   static const String VERIFY_USER_SCREEN_ROUTE = "/verify_user_screen";
   static const String WELCOME_SCREEN_ROUTE = "/welcome_screen";
   static const String NOTIFICATION_SCREEN_ROUTE = "/notification_screen";
+  static const String MENU_ITEM_DETAILS_SCREEN_ROUTE = "/menu_item_details_screen";
 }

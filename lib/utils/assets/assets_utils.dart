@@ -13,4 +13,6 @@ class AssetsUtils {
       "assets/lotti_animation/loading-purple.json";
   static String ASSETS_LOADING_ORDER_ANIMATION =
       "assets/lotti_animation/loading_animation_order.json";
+  static String ASSETS_PLACEHOLDER_IMAGE = "assets/images/placeholder_image.png";
+  static String ASSETS_ERROR_IMAGE = "assets/images/error_image.png";
 }

@@ -55,6 +55,7 @@ class NotificationProvider extends ChangeNotifier{
 
   Future<CustomResultModel?> deleteAllNotification() async{
     var response = await notificationRepository.deleteAllNotification();
+    print(response.data);
       if (response.data["status"] == true) {
         notificationList.clear();
         getAllNotification();

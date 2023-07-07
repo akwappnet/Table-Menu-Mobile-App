@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
-import 'package:table_menu_customer/res/services/api_endpoints.dart';
+import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/nav_provider.dart';

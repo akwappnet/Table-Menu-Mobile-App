@@ -1,20 +1,21 @@
-import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/utils/widgets/custom_snack_bar.dart';
 
 import '../model/category_model.dart';
+import '../model/custom_result_model.dart';
 import '../model/menuItem_model.dart';
+import '../utils/widgets/custom_flushbar_widget.dart';
+import 'cart_provider.dart';
 
 class MenuProvider extends ChangeNotifier {
 
   int isSelectedIndex = -1;
   String categoryName = "";
-  List<Data> _categories = [];
-
-  List<Data> get categories => _categories;
-  List<MenuData> _menuitems = [];
-
-  List<MenuData> get menuitems => _menuitems;
+  List<CategoryData> categories = [];
+  List<MenuData> menuitems = [];
 
 
   MenuRepository menuRepository = MenuRepository();
@@ -24,65 +25,48 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setCategoryName(String value){
+  void setCategoryName(String value,BuildContext context){
     categoryName = value;
+    getMenuItems(categoryName,context);
     notifyListeners();
   }
 
-
   // get request for categories
 
-  Future<List<Data>> getCategories([BuildContext? context]) async {
-    if(context != null){
-      var response = await menuRepository.getCategories(context);
-        if (response.statusCode == 200) {
-          var getCategory = CategoryModel.fromJson(response.data);
-          if (getCategory.data!.isNotEmpty) {
-            var addedIds = Set<int>();
-            _categories.clear();
-            _categories.addAll(getCategory.data!);
-            log("categoryList:${_categories.length}");
-            getCategory.data!.forEach((data) {
-              // Check if category already exists
-              if (!addedIds.contains(data.categoryId)) {
-                // categoryList.add(GetCategory(data: [data]));
-                addedIds.add(data.categoryId!); // Add categoryId to Set
-              }
-            });
-
-            return _categories;
-          }
-        } else {}
-    }
-    // Return an empty list if there was an error
-    return [];
+  getCategories(BuildContext context) {
+    menuRepository.getCategories().then((response){
+      if(response != null) {
+        if(response.statusCode == 200) {
+          CategoryModel categoryModel = CategoryModel.fromJson(response.data);
+          categories = categoryModel.data!;
+          notifyListeners();
+        }else {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "Something went wrong");
+        notifyListeners();
+      }
+    });
   }
 
   // get request for menu items
-
-  Future<List<MenuData>> getMenuItems(String category_name, [BuildContext? context]) async {
-    if(context != null){
-      var response = await menuRepository.getMenuItems(category_name,context);
-        if (response.statusCode == 200) {
-          var getMenuItem = MenuItemModel.fromJson(response.data);
-
-          if (getMenuItem.menuData!.isNotEmpty) {
-            var addedIds = Set<int>();
-            _menuitems.clear();
-            _menuitems.addAll(getMenuItem.menuData!);
-            getMenuItem.menuData!.forEach((data) {
-              // Check if category already exists
-              if (!addedIds.contains(data.id)) {
-                // categoryList.add(GetCategory(data: [data]));
-                addedIds.add(data.id!); // Add categoryId to Set
-              }
-            });
-
-            return _menuitems;
-          }
-        } else {}
-    }
-    // Return an empty list if there was an error
-    return [];
+  getMenuItems(String category_name,BuildContext context) {
+    menuRepository.getMenuItems(category_name).then((response){
+      if(response != null) {
+        if(response.statusCode == 200) {
+          MenuItemModel menuItemModel = MenuItemModel.fromJson(response.data);
+          menuitems = menuItemModel.menuData!;
+          notifyListeners();
+        }else {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "Something went wrong");
+        notifyListeners();
+      }
+    });
   }
 }

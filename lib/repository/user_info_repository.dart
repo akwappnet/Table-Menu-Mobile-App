@@ -1,19 +1,17 @@
-import 'package:dio/dio.dart';
 import '../data/app_exceptions.dart';
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
-import '../res/services/api_endpoints.dart';
+import '../utils/constants/api_endpoints.dart';
 
 class UserInfoRepository {
 
   final BaseApiService _apiService = NetworkApiService();
 
-  Future<Response> saveUserInfo(dynamic data) async{
+  saveUserInfo(dynamic data) {
 
     try {
-      Response response = await _apiService.getPostApiResponse(
+      return _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint, data);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -23,13 +21,11 @@ class UserInfoRepository {
     }
   }
 
-  Future<Response> getUserInfo() async {
-
+  getUserInfo() {
     try{
-      Response response = await _apiService.getGetApiResponse(
+      return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
       );
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -39,14 +35,12 @@ class UserInfoRepository {
     }
   }
 
-  Future<Response> updateUserInfo(dynamic data) async {
-
+  updateUserInfo(dynamic data) {
     try{
-      Response response = await _apiService.getPatchApiResponse(
+      return _apiService.getPatchApiResponse(
         ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint,
         data
       );
-      return response;
     }catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -56,13 +50,11 @@ class UserInfoRepository {
     }
   }
 
-  Future<Response> deleteUserInfo() async {
-
+  deleteUserInfo() {
     try{
-      Response response = await _apiService.getDeleteApiResponse(
+      return _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
       );
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;

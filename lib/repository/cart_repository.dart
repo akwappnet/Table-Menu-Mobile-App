@@ -1,17 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:table_menu_customer/data/app_exceptions.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
-import 'package:table_menu_customer/res/services/api_endpoints.dart';
+import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
 class CartRepository {
   final BaseApiService _apiService = NetworkApiService();
 
-  Future<Response> addToCart(dynamic data) async {
+  addToCart(dynamic data) {
     try {
-      Response response = await _apiService.getPostApiResponse(
+      return _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint, data);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -21,11 +19,10 @@ class CartRepository {
     }
   }
 
-  Future<Response> getCartItems() async {
+  getCartItems() {
     try {
-      Response response = await _apiService.getGetApiResponse(
+      return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -35,12 +32,11 @@ class CartRepository {
     }
   }
 
-  Future<Response> updateCartItem(dynamic data, int id) async {
+  updateCartItem(dynamic data, int id) {
     try {
-      Response response = await _apiService.getPatchApiResponse(
+      return _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.cartEndPoint.cartEndPoint}$id/",
           data);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -50,11 +46,10 @@ class CartRepository {
     }
   }
 
-  Future<Response> deleteCartItem(int id) async {
+  deleteCartItem(int id) {
     try {
-      Response response = await _apiService.getDeleteApiResponse(
+      return _apiService.getDeleteApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.cartEndPoint.cartEndPoint}$id/");
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -66,11 +61,10 @@ class CartRepository {
 
   // clear all cart items
 
-  Future<Response> deleteAllCartItem() async {
+  deleteAllCartItem() {
     try {
-      Response response = await _apiService.getDeleteApiResponse(
+      return _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -79,6 +73,4 @@ class CartRepository {
       }
     }
   }
-
-
 }

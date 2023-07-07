@@ -1,18 +1,16 @@
-import 'package:dio/dio.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
-import 'package:table_menu_customer/res/services/api_endpoints.dart';
+import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
 import '../data/app_exceptions.dart';
 
 class OrderRepository {
   final BaseApiService _apiService = NetworkApiService();
 
-  Future<Response> placeOrder(dynamic data) async {
+  placeOrder(dynamic data) {
     try {
-      Response response = await _apiService.getPostApiResponse(
+      return _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.orderEndPoint.orderEndPoint, data);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -22,11 +20,10 @@ class OrderRepository {
     }
   }
 
-  Future<Response> getOrders() async {
+  getOrders() {
     try {
-      Response response = await _apiService.getGetApiResponse(
+      return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.orderEndPoint.orderEndPoint);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -36,12 +33,11 @@ class OrderRepository {
     }
   }
 
-  Future<Response> cancelOrder(int id, dynamic data) async {
+  cancelOrder(int id, dynamic data) {
     try {
-      Response response = await _apiService.getPatchApiResponse(
+      return _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.cancelOrderEndPoint}$id/",
           data);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;

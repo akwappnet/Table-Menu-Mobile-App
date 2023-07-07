@@ -5,11 +5,13 @@ class CustomText extends StatelessWidget {
   final double? size;
   final Color? color;
   final FontWeight? weight;
+  final TextStyle? style;
 
   const CustomText({super.key,
     required this.text,
     this.size,
     this.color,
+    this.style,
     this.weight});
 
 
@@ -20,7 +22,7 @@ class CustomText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
         text: text,
-        style: TextStyle(fontSize: size ?? 16, color: color ?? Colors.black, fontWeight: weight ?? FontWeight.normal),
+        style: style ?? TextStyle(fontSize: size ?? 16, color: color ?? Colors.black, fontWeight: weight ?? FontWeight.normal),
       ),
     );
   }

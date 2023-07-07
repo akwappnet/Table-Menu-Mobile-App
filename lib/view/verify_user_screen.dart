@@ -113,7 +113,7 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                            CustomFlushbar.showError(context, result_forgot_pass.message);
                          }
                         } else {
-                          CustomResultModel? result = await auth_provider.verifyUser(activationOtp);
+                          CustomResultModel? result = await auth_provider.verifyUser(activationOtp,auth_provider.emailRegisterController.text);
                           if(result!.status){
                             CustomFlushbar.showSuccess(context, result.message);
                             Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);

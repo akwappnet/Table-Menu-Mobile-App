@@ -139,9 +139,12 @@ class AuthProvider extends ChangeNotifier {
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> verifyUser(String otp) async {
+  Future<CustomResultModel?> verifyUser(String otp,String email) async {
     setLoading(true);
-    Map<String, dynamic> data = {'otp': otp};
+    Map<String, dynamic> data = {
+      "email": email,
+      "otp": otp
+    };
     var result = await _authRepository.verifyUser(data);
 
     if (result.data['status'] == true) {
@@ -227,8 +230,6 @@ class AuthProvider extends ChangeNotifier {
     var result = await _userInfoRepository.saveUserInfo(formData);
 
     if (result.data['status'] == true) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('userDataBool', true);
       setLoading(false);
       return CustomResultModel(status: true, message: result.data["message"]);
     } else if (result.data['status'] == "False") {
@@ -321,10 +322,10 @@ class AuthProvider extends ChangeNotifier {
     SharedPreferences preferences =
         await SharedPreferences.getInstance();
     await preferences.remove('token');
+    await preferences.remove('verify_pass_token');
   }
 
-
-  void forceLogout(BuildContext context) {
+  void logout(BuildContext context) {
     clearToken();
     // Navigate to the login screen
     Navigator.pushNamedAndRemoveUntil(

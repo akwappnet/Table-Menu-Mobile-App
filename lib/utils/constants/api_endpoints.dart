@@ -26,7 +26,7 @@ class _UserInfoEndPoint {
 class _MenuEndPoint {
   final String categoryEndPoint = "customer/categories/";
   final String menuItemEndPoint = "customer/menu_items/";
-  final String filterEndPoint = "customer/search/?query=spicy";
+  final String filterEndPoint = "customer/search/";
 }
 
 class _CartEndPoint {
@@ -36,7 +36,7 @@ class _CartEndPoint {
 class _OrderEndPoint {
   final String orderEndPoint = "customer/order/";
   final String cancelOrderEndPoint = "customer/cancelled_order/";
-  final String orderBaseImageUrl = "http://192.168.10.179:8001/media/";
+  final String orderBaseImageUrl = "http://192.168.10.147:8001/media/";
 }
 
 class _NotificationEndPoint {

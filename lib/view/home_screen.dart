@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
 
 import '../view_model/nav_provider.dart';
-import 'menu_screen.dart';
+import 'menu_screeen/menu_screen.dart';
 import 'orders_screen/orders_screen.dart';
 
 class HomeScreen extends StatefulWidget {
