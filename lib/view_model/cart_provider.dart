@@ -77,12 +77,12 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  void incrementItemQuantity() {
+  incrementItemQuantity() {
     _quantity++;
     notifyListeners();
   }
 
-  void decrementItemQuantity() {
+  decrementItemQuantity() {
     if (_quantity > 1) {
       _quantity--;
       notifyListeners();

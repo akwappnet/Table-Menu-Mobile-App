@@ -1,9 +1,7 @@
-import 'package:dio/dio.dart';
-
 import '../data/app_exceptions.dart';
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
-import '../res/services/api_endpoints.dart';
+import '../utils/constants/api_endpoints.dart';
 
 class NotificationRepository {
 
@@ -11,12 +9,11 @@ class NotificationRepository {
 
   // get list of notification
 
-  Future<Response> getNotifications() async {
+  getNotifications() {
     try {
-      Response response = await _apiService.getGetApiResponse(
+      return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint);
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -28,12 +25,11 @@ class NotificationRepository {
 
   // delete notification
 
-  Future<Response> deleteSingleNotification(int id) async {
+  deleteSingleNotification(int id) {
     try {
-      Response response = await _apiService.getDeleteApiResponse(
+      return _apiService.getDeleteApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/"
       );
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -46,13 +42,12 @@ class NotificationRepository {
 
   // delete all notification
 
-  Future<Response> deleteAllNotification() async {
+   deleteAllNotification() {
     try {
-      Response response = await _apiService.getDeleteApiResponse(
+      return _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint
       );
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;
@@ -64,14 +59,13 @@ class NotificationRepository {
 
   // mark as read notification
 
-  Future<Response> markAsReadNotification(int id) async {
+  markAsReadNotification(int id) {
     try {
       var data = {};
-      Response response = await _apiService.getPutApiResponse(
+      return _apiService.getPutApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/",
         data
       );
-      return response;
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;

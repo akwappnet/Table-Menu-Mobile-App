@@ -14,7 +14,7 @@ import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
 import '../model/user_model.dart';
-import '../res/services/api_endpoints.dart';
+import '../utils/constants/api_endpoints.dart';
 import '../utils/widgets/custom_confirmation_dialog.dart';
 import '../view_model/auth_provider.dart';
 

@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
-import 'package:table_menu_customer/res/services/api_endpoints.dart';
+import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/helpers.dart';
 
 import '../app_exceptions.dart';
