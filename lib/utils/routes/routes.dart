@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/cart_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
-import 'package:table_menu_customer/view/menu_screen.dart';
+import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
@@ -12,7 +12,6 @@ import 'package:table_menu_customer/view/user_information_screen.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
 import 'package:table_menu_customer/view/welcome_screen.dart';
 
-import '../../model/user_model.dart';
 import '../../view/login_screen.dart';
 import '../../view/reset_password_screen.dart';
 
@@ -33,10 +32,7 @@ class Routes {
         return _buildPageRoute(const HomeScreen());
 
       case RoutesName.USER_INFO_SCREEN_ROUTE:
-        if (arguments is UserData) {
           return _buildPageRoute(UserInfoScreen(arguments));
-        }
-        return _errorRoute();
 
       case RoutesName.RESET_PASSWORD_SCREEN_ROUTE:
         return _buildPageRoute(const ResetPasswordScreen());

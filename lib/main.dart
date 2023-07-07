@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_menu_customer/data/network/network_api_service.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes.dart';
@@ -24,6 +25,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  NetworkApiService().setupInterceptors();
   final AuthRepository authRepository = AuthRepository();
   bool loggedIn = await authRepository.isLoggedIn();
   runApp(MyApp(

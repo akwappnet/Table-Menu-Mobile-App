@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
+import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
@@ -175,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           context, result.message);
                                       Navigator.pushReplacementNamed(
                                           context,
-                                          RoutesName.USER_INFO_SCREEN_ROUTE);
+                                          RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
                                     } else {
                                       CustomFlushbar.showError(
                                           context, result.message);

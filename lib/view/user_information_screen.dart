@@ -252,7 +252,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
                               if(result_update!.status){
                                 CustomFlushbar.showSuccess(context, result_update.message);
-                                Navigator.pop(context);
+                                Navigator.of(context).pop();
                               }else {
                                 CustomFlushbar.showError(context, result_update.message);
                               }

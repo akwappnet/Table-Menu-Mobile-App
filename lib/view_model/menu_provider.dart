@@ -9,10 +9,10 @@ class MenuProvider extends ChangeNotifier {
 
   int isSelectedIndex = -1;
   String categoryName = "";
-  List<Data> _categories = [];
+  final List<Data> _categories = [];
 
   List<Data> get categories => _categories;
-  List<MenuData> _menuitems = [];
+  final List<MenuData> _menuitems = [];
 
   List<MenuData> get menuitems => _menuitems;
 
@@ -38,7 +38,7 @@ class MenuProvider extends ChangeNotifier {
         if (response.statusCode == 200) {
           var getCategory = CategoryModel.fromJson(response.data);
           if (getCategory.data!.isNotEmpty) {
-            var addedIds = Set<int>();
+            var addedIds = <int>{};
             _categories.clear();
             _categories.addAll(getCategory.data!);
             log("categoryList:${_categories.length}");
@@ -67,7 +67,7 @@ class MenuProvider extends ChangeNotifier {
           var getMenuItem = MenuItemModel.fromJson(response.data);
 
           if (getMenuItem.menuData!.isNotEmpty) {
-            var addedIds = Set<int>();
+            var addedIds = <int>{};
             _menuitems.clear();
             _menuitems.addAll(getMenuItem.menuData!);
             getMenuItem.menuData!.forEach((data) {

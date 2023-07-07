@@ -8,11 +8,11 @@ import '../res/services/api_endpoints.dart';
 
 class AuthRepository {
 
-  final BaseApiService _apiService = NetworkApiService();
+  final BaseApiService apiService = NetworkApiService();
 
   Future<Response> loginUser(dynamic data) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.login, data);
       return response;
     } catch (e) {
@@ -22,7 +22,7 @@ class AuthRepository {
 
   Future<Response> registrationUser(dynamic data) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.registrarion, data);
       return response;
     } catch (e) {
@@ -32,7 +32,7 @@ class AuthRepository {
 
   Future<Response> verifyUser(dynamic data) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyUser, data);
       return response;
     } catch (e) {
@@ -42,7 +42,7 @@ class AuthRepository {
 
   Future<Response> verifyForgotOtp(dynamic data) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.verifyForgotOtp, jsonEncode(data));
       return response;
     } catch (e) {
@@ -52,7 +52,7 @@ class AuthRepository {
 
   Future<Response> sendForgotPasswordOTP(dynamic data) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
       ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.sendForgotOtp, data);
       return response;
     } catch (e) {
@@ -62,7 +62,7 @@ class AuthRepository {
 
   Future<Response> resetPassword(dynamic data,String verifyToken) async {
     try {
-      Response response = await _apiService.getAuthApiResponse(
+      Response response = await apiService.getAuthApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.authEndPoints.resetPassword, data,verifyToken: verifyToken);
       return response;
     } catch (e) {

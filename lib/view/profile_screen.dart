@@ -191,7 +191,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colors.white,
                             ),
                             onPressed: () async {
-                              auth_provider.forceLogout(context);
+                              auth_provider.logout(context);
                             },
                           ),
                         )
