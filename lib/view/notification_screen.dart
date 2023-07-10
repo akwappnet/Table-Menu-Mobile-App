@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/custom_result_model.dart';
+import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
+import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
 import '../utils/functions/time_to_ago_function.dart';
@@ -21,7 +23,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
-        title: const Text("Notification"),
+        title: Text("Notification",style: titleTextStyle,),
         centerTitle: true,
         actions: [
           Consumer<NotificationProvider>(
@@ -67,12 +69,7 @@ class NotificationScreen extends StatelessWidget {
                           Expanded(
                               child: notificationData!.isEmpty
                                   ? const Center(
-                                      child: Text(
-                                      'NO NOTIFICATION',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18.0),
-                                    ))
+                                      child: PlaceholderWidget(title: "NO NOTIFICATION"))
                                   : ListView.builder(
                                       shrinkWrap: true,
                                       itemCount: notificationData.length,

@@ -15,4 +15,5 @@ class AssetsUtils {
       "assets/lotti_animation/loading_animation_order.json";
   static String ASSETS_PLACEHOLDER_IMAGE = "assets/images/placeholder_image.png";
   static String ASSETS_ERROR_IMAGE = "assets/images/error_image.png";
+  static String ASSETS_SUCCESS_IMAGE = "assets/images/order_success.png";
 }

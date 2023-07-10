@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
+import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
 import '../model/menuItem_model.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
 import '../utils/widgets/plus_minus_button_widget.dart';
 import '../view_model/cart_provider.dart';
+import '../view_model/menu_provider.dart';
 
 class MenuItemDetailsPage extends StatelessWidget {
   final MenuData menuData;
@@ -18,27 +20,6 @@ class MenuItemDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void plusButton() {
-      Provider.of<CartProvider>(context, listen: false).incrementItemQuantity();
-    }
-
-    void minusButton() {
-      Provider.of<CartProvider>(context, listen: false).decrementItemQuantity();
-    }
-
-    addToCart(int id) {
-      final cart_provider = Provider.of<CartProvider>(context, listen: false);
-      cart_provider.incrementCartCount();
-      var data = {
-        "menu_item": id,
-        "quantity": Provider
-            .of<CartProvider>(context, listen: false)
-            .quantity,
-      };
-      cart_provider.addCart(data, id);
-      cart_provider.setQuantity(1);
-    }
-
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -48,10 +29,26 @@ class MenuItemDetailsPage extends StatelessWidget {
             },
           ),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.favorite_border, color: Colors.black),
-              // Use your favorite icon
-              onPressed: () {},
+            Consumer<MenuProvider>(
+              builder: (context,menu_provider,__){
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.transparent,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      menu_provider.favToggle ? Icons.favorite : Icons.favorite_border,
+                      color: menu_provider.favToggle ? Colors.red :Colors.black,
+                    ),
+                    onPressed: () {
+                      Provider.of<MenuProvider>(context, listen: false).toggleFavorite();
+                    },
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -62,16 +59,19 @@ class MenuItemDetailsPage extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 height: hp(40, context),
-                child: CachedNetworkImage(
-                  imageUrl: ApiEndPoint.baseImageUrl +
-                      menuData.image.toString() ?? '',
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      Image.asset(AssetsUtils.ASSETS_PLACEHOLDER_IMAGE),
-                  // Show a placeholder while loading
-                  errorWidget: (context, url, error) =>
-                      Image.asset(AssetsUtils
-                          .ASSETS_ERROR_IMAGE), // Show an error icon if loading fails
+                child: Hero(
+                  tag: "menu-${menuData.id}",
+                  child: CachedNetworkImage(
+                    imageUrl: ApiEndPoint.baseImageUrl +
+                        menuData.image.toString() ?? '',
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        Image.asset(AssetsUtils.ASSETS_PLACEHOLDER_IMAGE),
+                    // Show a placeholder while loading
+                    errorWidget: (context, url, error) =>
+                        Image.asset(AssetsUtils
+                            .ASSETS_ERROR_IMAGE), // Show an error icon if loading fails
+                  ),
                 ),
               ),
               Padding(
@@ -180,8 +180,8 @@ class MenuItemDetailsPage extends StatelessWidget {
             child: Row(
               children: [
                 PlusMinusButtons(
-                  addQuantity: plusButton,
-                  deleteQuantity: minusButton,
+                  addQuantity: () {},
+                  deleteQuantity: () {},
                   text: Provider
                       .of<CartProvider>(context,listen: false)
                       .quantity
@@ -190,11 +190,11 @@ class MenuItemDetailsPage extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: addToCart(menuData.id!),
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple.shade400,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
                       ),
                     ),
                     child: Padding(

@@ -45,3 +45,13 @@ String? validateName(String? value) {
     return null;
   }
 }
+
+String? validateField(String? value) {
+  if (value!.isEmpty){
+    return 'This field must be filled';
+  }else if (value.length > 100) {
+    return '100 character Limit';
+  } else {
+    return null;
+  }
+}

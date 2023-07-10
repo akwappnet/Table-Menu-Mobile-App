@@ -11,10 +11,10 @@ class PlaceholderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SizedBox(
       child: Column(
         children: [
-          SizedBox(height: hp(30, context)),
+          // SizedBox(height: hp(30, context)),
           Image.asset(
             AssetsUtils.ASSETS_EMPTY_MENU_PLACEHOLDER,
             height: hp(230, context),

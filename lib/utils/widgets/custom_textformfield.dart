@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
 class CustomTextFormField {
   TextFormField getCustomEditTextArea(
@@ -33,7 +34,7 @@ class CustomTextFormField {
           labelText: labelValue,
           hintText: hintValue,
           labelStyle: textStyle,
-          border: const OutlineInputBorder(borderSide: BorderSide(width: 3, color: Colors.black),borderRadius: BorderRadius.all(Radius.circular(25))),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 3, color: Colors.black),borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS))),
           // This is the error border
           errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red, width: 3),

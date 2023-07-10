@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
+import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
@@ -18,34 +19,31 @@ class PlusMinusButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(6.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(BORDER_RADIUS),
 
+      decoration: BoxDecoration(
+        color: Colors.purple.shade400,
+        borderRadius: BorderRadius.circular(BORDER_RADIUS),
       ),
       child: Row(
         children: [
           IconButton(
             onPressed: deleteQuantity,
             icon: const Icon(Icons.remove),
-            color: Colors.grey,
+            color: Colors.white,
           ),
           SizedBox(
-            width: wp(2, context),
+            width: wp(1, context),
             child: CustomText(
               text: text,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+              style: textBodyStyle.copyWith(
+                color: Colors.white
+              )
             ),
           ),
           IconButton(
             onPressed: addQuantity,
             icon: const Icon(Icons.add),
-            color: Colors.grey,
+            color: Colors.white,
           ),
         ],
       ),
