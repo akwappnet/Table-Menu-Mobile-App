@@ -318,12 +318,15 @@ class _MenuScreenState extends State<MenuScreen> {
                                             //   menuData: menu_items[index],
                                             // );
                                           },
-                                          child: MenuItemGridCard(
-                                            image: menu_provider.menuitems[index].image.toString(),
-                                            name: menu_provider.menuitems[index].name.toString(),
-                                            price: double.parse(menu_provider.menuitems[index].price!),
-                                            rating: 3,
-                                            isVeg: menu_provider.menuitems[index].isVeg!,
+                                          child: Hero(
+                                            tag: "menu-${menu_provider.menuitems[index].id}",
+                                            child: MenuItemGridCard(
+                                              image: menu_provider.menuitems[index].image.toString(),
+                                              name: menu_provider.menuitems[index].name.toString(),
+                                              price: double.parse(menu_provider.menuitems[index].price!),
+                                              rating: 3,
+                                              isVeg: menu_provider.menuitems[index].isVeg!,
+                                            ),
                                           ),
                                         );
                                       },

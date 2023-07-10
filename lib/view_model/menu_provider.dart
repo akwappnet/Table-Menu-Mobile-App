@@ -16,12 +16,18 @@ class MenuProvider extends ChangeNotifier {
   String categoryName = "";
   List<CategoryData> categories = [];
   List<MenuData> menuitems = [];
+  bool favToggle = false;
 
 
   MenuRepository menuRepository = MenuRepository();
 
   void selectCategory(int index){
     isSelectedIndex = index;
+    notifyListeners();
+  }
+
+  void toggleFavorite(){
+    favToggle = !favToggle;
     notifyListeners();
   }
 

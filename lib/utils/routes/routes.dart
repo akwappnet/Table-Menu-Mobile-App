@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/view/cart_screen.dart';
+import 'package:table_menu_customer/view/cart_screen/cart_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
+import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
@@ -62,6 +63,9 @@ class Routes {
       case RoutesName.MENU_ITEM_DETAILS_SCREEN_ROUTE:
         return _buildPageRoute(MenuItemDetailsPage(menuData : arguments));
 
+      case RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE:
+        return _buildPageRoute(const OrderSuccessfulScreen());
+
       default:
         return _buildPageRoute(const Scaffold(
           body: Center(child: Text('No route defined')),
@@ -75,18 +79,16 @@ class Routes {
         return page;
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-        const Duration duration = Duration(milliseconds: 500); // Adjust the duration as needed
         final Animation<Offset> slideAnimation = Tween<Offset>(
           begin: const Offset(1.0, 0.0),
           end: Offset.zero,
         ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
-
         return SlideTransition(
           position: slideAnimation,
           child: child,
         );
       },
-      transitionDuration: const Duration(milliseconds: 500), // Adjust the duration as needed
+      transitionDuration: const Duration(milliseconds: 600), // Adjust the duration as needed
     );
   }
 
