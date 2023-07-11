@@ -61,9 +61,9 @@ class OrderProvider extends ChangeNotifier {
 
   // cancel order
 
-  Future<CustomResultModel?> cancelOrder( int id) async {
+  CustomResultModel? cancelOrder( int id) {
     var data = {};
-    var result = await _orderRepository.cancelOrder(id, data);
+    var result = _orderRepository.cancelOrder(id, data);
 
       if (result.data['status'] == true) {
         orderList.removeWhere((item) => item.id == id);
@@ -75,5 +75,4 @@ class OrderProvider extends ChangeNotifier {
       }
       return CustomResultModel(status: false, message: "An error occurred");
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 
@@ -32,20 +33,24 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 SizedBox(height: hp(5, context),),
                 SizedBox(
                   height: hp(8, context),
-                  width: wp(35, context),
+                  width: wp(40, context),
                   child: CustomButton(child: Text("Track Order", style: textMediumStyle.copyWith(
                     color: Colors.white
                   ),
-                  ), onPressed: () {}),
+                  ), onPressed: () {
+                    Navigator.pushNamed(context, RoutesName.ORDER_DETAILS_SCREEN_ROUTE);
+                  }),
                 ),
                 SizedBox(height: hp(4, context),),
                 SizedBox(
                   height: hp(8, context),
-                  width: wp(50, context),
-                  child: CustomOutlinedButton(child: Text("Continue Ordering", style: textMediumStyle.copyWith(
+                  width: wp(55, context),
+                  child: CustomOutlinedButton(child: Text("Continue ordering", style: textMediumStyle.copyWith(
                       color: Colors.purple
                   ),
-                  ), onPressed: () {}),
+                  ), onPressed: () {
+                    Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                  }),
                 ),
               ],
             ),

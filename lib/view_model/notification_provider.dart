@@ -28,7 +28,6 @@ class NotificationProvider extends ChangeNotifier{
                 addedIds.add(data.id!); // Add categoryId to Set
               }
             }
-
             return notificationList;
           }
         } else {}
@@ -38,7 +37,7 @@ class NotificationProvider extends ChangeNotifier{
 
   // delete notification
 
-  Future<CustomResultModel?> deleteSingleNotification(int id) async{
+  Future<CustomResultModel?> deleteSingleNotification(int id) async {
     var response = await notificationRepository.deleteSingleNotification(id);
 
       if (response.data["status"] == true) {
@@ -53,7 +52,7 @@ class NotificationProvider extends ChangeNotifier{
 
   // delete all notification
 
-  Future<CustomResultModel?> deleteAllNotification() async{
+  Future<CustomResultModel?> deleteAllNotification() async {
     var response = await notificationRepository.deleteAllNotification();
     print(response.data);
       if (response.data["status"] == true) {
@@ -68,8 +67,8 @@ class NotificationProvider extends ChangeNotifier{
   }
 
   // mark as read notification
-  Future<CustomResultModel?> markAsReadNotification(int id) async{
-    var response = await notificationRepository.markAsReadNotification(id);
+  CustomResultModel? markAsReadNotification(int id) {
+    var response = notificationRepository.markAsReadNotification(id);
       if (response.data["status"] == true) {
         getAllNotification();
         return CustomResultModel(status: true, message: response.data["message"]);

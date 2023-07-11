@@ -46,17 +46,17 @@ class CartProvider extends ChangeNotifier {
     var response = await _cartRepository.getCartItems();
       if (response.statusCode == 200) {
         var getCartItem = CartModel.fromJson(response.data);
-        var addedIds = Set<int>();
+        var addedIds = <int>{};
         cartList.clear();
         cartList.addAll(getCartItem.cartData!);
         log("cart list:${cartList.length}");
-        getCartItem.cartData!.forEach((data) {
+        for (var data in getCartItem.cartData!) {
           // Check if category already exists
           if (!addedIds.contains(data.id)) {
             // categoryList.add(GetCategory(data: [data]));
             addedIds.add(data.id!); // Add categoryId to Set
           }
-        });
+        }
         updateTotalPrice();
         return cartList;
       } else {
@@ -101,8 +101,8 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateItemQuantity(dynamic data, int id) async {
-    var response = await _cartRepository.updateCartItem(data, id);
+  updateItemQuantity(dynamic data, int id) {
+    var response = _cartRepository.updateCartItem(data, id);
       if (response.statusCode == 200) {
         var updatedItem = CartData.fromJson(response.data);
         // Find the item in the cartList and update its quantity
@@ -118,8 +118,8 @@ class CartProvider extends ChangeNotifier {
       }
   }
 
-  Future<CustomResultModel?> deleteCartItem(int id) async {
-    var response = await _cartRepository.deleteCartItem(id);
+  CustomResultModel? deleteCartItem(int id) {
+    var response = _cartRepository.deleteCartItem(id);
       if (response.data["status"] == true) {
         cartList.removeWhere((item) => item.id == id);
         getCartItems();
@@ -135,8 +135,8 @@ class CartProvider extends ChangeNotifier {
 
   // clear cart - delete all cart items
 
-  Future<CustomResultModel?> deleteAllCartItem() async {
-    var response = await _cartRepository.deleteAllCartItem();
+  CustomResultModel? deleteAllCartItem() {
+    var response = _cartRepository.deleteAllCartItem();
       if (response.data["status"] == true) {
         cartList.clear();
         clearCart();

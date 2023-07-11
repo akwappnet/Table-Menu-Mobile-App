@@ -52,7 +52,7 @@ class CartItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '\$${price.toStringAsFixed(1)}',
+                  '₹ ${price.toStringAsFixed(1)}',
                   style: textBodyStyle,
                 ),
               ],
