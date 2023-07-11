@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
-import '../../model/order_model.dart';
-import '../../utils/widgets/custom_text.dart';
+import '../../../model/order_model.dart';
+import '../../../utils/widgets/custom_text.dart';
 
 class OrdersItemListWidget extends StatelessWidget {
   const OrdersItemListWidget({Key? key, required this.ordersItems})

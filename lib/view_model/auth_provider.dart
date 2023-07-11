@@ -70,9 +70,9 @@ class AuthProvider extends ChangeNotifier {
     phoneNoController.text = userData.phoneNumber!;
   }
 
-  Future<CustomResultModel?> userRegisteration(dynamic data) async {
+  CustomResultModel? userRegisteration(dynamic data) {
     setLoading(true);
-    var result = await _authRepository.registrationUser(data);
+    var result = _authRepository.registrationUser(data);
     log(result.statusCode.toString());
     log(result.statusMessage.toString());
     if (result.data["status"] == true) {
@@ -83,7 +83,7 @@ class AuthProvider extends ChangeNotifier {
       return CustomResultModel(status: false, message: result.data['message']);
     }
     setLoading(false);
-     // return CustomResultModel(status: false, message: "An error occurred");
+     return CustomResultModel(status: false, message: "An error occurred");
   }
 
   Future<CustomResultModel?> userLogin(String email, String password) async {
@@ -139,13 +139,13 @@ class AuthProvider extends ChangeNotifier {
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> verifyUser(String otp,String email) async {
+  CustomResultModel? verifyUser(String otp,String email) {
     setLoading(true);
     Map<String, dynamic> data = {
       "email": email,
       "otp": otp
     };
-    var result = await _authRepository.verifyUser(data);
+    var result = _authRepository.verifyUser(data);
 
     if (result.data['status'] == true) {
       setLoading(false);
@@ -164,7 +164,7 @@ class AuthProvider extends ChangeNotifier {
       "email": email,
       "otp": otp
     };
-    var result = await _authRepository.verifyForgotOtp(data);
+    var result = _authRepository.verifyForgotOtp(data);
     log(result.data.toString());
     if (result.data['status'] == true) {
       String verifyPasswordToken = result.data['data']['token'];
@@ -181,9 +181,9 @@ class AuthProvider extends ChangeNotifier {
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> sendVerifiactionMail(String email) async {
+  CustomResultModel? sendVerifiactionMail(String email) {
     Map<String, dynamic> data = {'email': email};
-    var result = await _authRepository.sendForgotPasswordOTP(data);
+    var result = _authRepository.sendForgotPasswordOTP(data);
 
     if (result.data['status'] == true) {
       return CustomResultModel(status: true, message: result.data["message"]);
@@ -214,7 +214,7 @@ class AuthProvider extends ChangeNotifier {
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> saveUserInfo(BuildContext context) async {
+  Future<CustomResultModel?> saveUserInfo() async {
     setLoading(true);
     var userData = UserData(
         name: nameController.text,
@@ -252,7 +252,7 @@ class AuthProvider extends ChangeNotifier {
     return UserModel();
   }
 
-  Future<CustomResultModel?> updateUserInfo(BuildContext context) async {
+  Future<CustomResultModel?> updateUserInfo() async {
     setLoading(true);
     var userData = UserData(
       name: nameController.text,

@@ -4,10 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
+import '../model/custom_result_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
+import '../utils/widgets/custom_flushbar_widget.dart';
 import '../utils/widgets/plus_minus_button_widget.dart';
 import '../view_model/cart_provider.dart';
 import '../view_model/menu_provider.dart';
@@ -114,7 +117,6 @@ class MenuItemDetailsPage extends StatelessWidget {
                             const Icon(
                                 Icons.circle, color: Colors.green, size: 18) :
                             const Icon(Icons.circle, color: Colors.red, size: 18),
-
                             (menuData.isVeg ?? false) ?
                             Text(
                               ' Veg',
@@ -169,47 +171,65 @@ class MenuItemDetailsPage extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: Card(
-          elevation: 4,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                PlusMinusButtons(
-                  addQuantity: () {},
-                  deleteQuantity: () {},
-                  text: Provider
-                      .of<CartProvider>(context,listen: false)
-                      .quantity
-                      .toString(),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple.shade400,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+        bottomNavigationBar: Consumer<CartProvider>(
+          builder: (context,cart_provider,__){
+            return Card(
+              elevation: 4,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(15.0), topLeft: Radius.circular(15.0)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    PlusMinusButtons(
+                      addQuantity: cart_provider.incrementItemQuantity,
+                      deleteQuantity: cart_provider.decrementItemQuantity,
+                      text: cart_provider.quantity.toString(),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          cart_provider
+                              .incrementCartCount();
+                          var data = {
+                            "menu_item": menuData.id,
+                            "quantity":
+                            cart_provider
+                                .quantity
+                          };
+                          CustomResultModel? result = await cart_provider
+                              .addCart(data,menuData.id!);
+                          if(result!.status){
+                            Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
+                            CustomFlushbar.showSuccess(context, result.message);
+                          }else {
+                            CustomFlushbar.showError(context, result.message);
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple.shade400,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Text(
+                            'Add to Cart',
+                            style: textRegularStyle.copyWith(
+                                fontSize: 16, color: Colors.white),
+                          ),
+                        ),
                       ),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        'Add to Cart',
-                        style: textRegularStyle.copyWith(
-                            fontSize: 16, color: Colors.white),
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       );
   }

@@ -4,6 +4,7 @@ import 'package:table_menu_customer/view/cart_screen/cart_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
+import 'package:table_menu_customer/view/order_details_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
@@ -65,6 +66,9 @@ class Routes {
 
       case RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE:
         return _buildPageRoute(const OrderSuccessfulScreen());
+
+      case RoutesName.ORDER_DETAILS_SCREEN_ROUTE:
+        return _buildPageRoute(const OrderDetailsScreen());
 
       default:
         return _buildPageRoute(const Scaffold(

@@ -15,7 +15,7 @@ class QRProvider extends ChangeNotifier {
   bool get isVisible => _isVisible;
 
 
-  getDataFromQR(String data) async {
+  getDataFromQR(String data) {
     final json_data = json.decode(data);
     _table_number = json_data['table_no'];
     _show_menu = json_data['show_menu'];
@@ -32,5 +32,4 @@ class QRProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isVisible = prefs.getBool("qr_scanned") ?? false;
   }
-
 }

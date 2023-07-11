@@ -7,7 +7,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
-import 'package:table_menu_customer/view/orders_screen/orders_items_list_widget.dart';
+import 'package:table_menu_customer/view/orders_screen/widget/orders_items_list_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 
 import '../../utils/widgets/custom_confirmation_dialog.dart';
@@ -72,7 +72,7 @@ class OrdersScreen extends StatelessWidget {
                                 DateFormat('yyyy-MM-dd').format(dateTime);
                                 return GestureDetector(
                                   onTap: () {},
-                                  child: Container(
+                                  child: SizedBox(
                                     width: wp(100, context),
                                     child: Card(
                                       child: Container(
