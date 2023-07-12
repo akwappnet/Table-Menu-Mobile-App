@@ -200,14 +200,7 @@ class MenuItemDetailsPage extends StatelessWidget {
                             cart_provider
                                 .quantity
                           };
-                          CustomResultModel? result = await cart_provider
-                              .addCart(data,menuData.id!);
-                          if(result!.status){
-                            Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
-                            CustomFlushbar.showSuccess(context, result.message);
-                          }else {
-                            CustomFlushbar.showError(context, result.message);
-                          }
+                          cart_provider.addCart(data,menuData.id!,context);
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple.shade400,

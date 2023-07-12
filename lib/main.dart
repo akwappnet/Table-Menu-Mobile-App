@@ -27,7 +27,7 @@ Future<void> main() async {
   );
   NetworkApiService().setupInterceptors();
   final AuthRepository authRepository = AuthRepository();
-  bool loggedIn = await authRepository.isLoggedIn();
+  String loggedIn = await authRepository.isLoggedIn();
   runApp(MyApp(
     loggedIn: loggedIn,
   ));
@@ -37,7 +37,7 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.loggedIn});
-  final bool loggedIn;
+  final String loggedIn;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -78,9 +78,9 @@ class _MyAppState extends State<MyApp> {
                 width: 300,
               ),
             ),
-            nextScreen: widget.loggedIn ? const HomeScreen() : const LoginScreen(),
+            nextScreen: widget.loggedIn != ''  ? const HomeScreen() : const LoginScreen(),
           ),
-          initialRoute: widget.loggedIn
+          initialRoute: widget.loggedIn != ''
               ? RoutesName.HOME_SCREEN_ROUTE
               : RoutesName.LOGIN_SCREEN_ROUTE,
           onGenerateRoute: Routes.generateRoute,

@@ -154,14 +154,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                                     auth_provider.resetPassController.text;
                                 String email = auth_provider
                                     .forgotPassEmailController.text;
-                               CustomResultModel? result = await auth_provider.resetPasswordUser(
-                                    email, password);
-                               if(result!.status){
-                                 CustomFlushbar.showSuccess(context, result.message);
-                                 Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-                               }else {
-                                 CustomFlushbar.showError(context, result.message);
-                               }
+                               auth_provider.resetPasswordUser(email, password,context);
                               }
                             }
                           },

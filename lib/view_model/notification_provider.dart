@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/cupertino.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/model/notification_model.dart';
 import 'package:table_menu_customer/repository/notification_repository.dart';
+
+import '../utils/widgets/custom_flushbar_widget.dart';
 
 class NotificationProvider extends ChangeNotifier{
 
@@ -37,44 +38,62 @@ class NotificationProvider extends ChangeNotifier{
 
   // delete notification
 
-  Future<CustomResultModel?> deleteSingleNotification(int id) async {
-    var response = await notificationRepository.deleteSingleNotification(id);
-
-      if (response.data["status"] == true) {
-        notificationList.removeWhere((item) => item.id == id);
+  deleteSingleNotification(int id,BuildContext context) {
+    notificationRepository.deleteSingleNotification(id).then((response) {
+      if(response != null) {
+        if (response.data["status"] == true) {
+          notificationList.removeWhere((item) => item.id == id);
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          notifyListeners();
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
-        return CustomResultModel(status: true, message: response.data["message"]);
-      } else if (response.data['status'] == false) {
-        return CustomResultModel(status: false, message: response.data["message"]);
       }
-      return CustomResultModel(status: false, message: "An error occurred");
+    });
   }
 
   // delete all notification
 
-  Future<CustomResultModel?> deleteAllNotification() async {
-    var response = await notificationRepository.deleteAllNotification();
-    print(response.data);
-      if (response.data["status"] == true) {
-        notificationList.clear();
-        getAllNotification();
+  deleteAllNotification(BuildContext context) {
+    notificationRepository.deleteAllNotification().then((response) {
+      print(response.data);
+      if(response != null) {
+        if (response.data["status"] == true) {
+          notificationList.clear();
+          getAllNotification();
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          notifyListeners();
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
-        return CustomResultModel(status: true, message: response.data["message"]);
-      } else if (response.data['status'] == false) {
-        return CustomResultModel(status: false, message: response.data["message"]);
       }
-      return CustomResultModel(status: false, message: "An error occurred");
+    });
   }
 
   // mark as read notification
-  CustomResultModel? markAsReadNotification(int id) {
-    var response = notificationRepository.markAsReadNotification(id);
-      if (response.data["status"] == true) {
-        getAllNotification();
-        return CustomResultModel(status: true, message: response.data["message"]);
-      } else if (response.data['status'] == false) {
-        return CustomResultModel(status: false, message: response.data["message"]);
+  markAsReadNotification(int id,BuildContext context) {
+    notificationRepository.markAsReadNotification(id).then((response) {
+      if(response != null) {
+        if (response.data["status"] == true) {
+          getAllNotification();
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          notifyListeners();
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        notifyListeners();
       }
-      return CustomResultModel(status: false, message: "An error occurred");
+    });
   }
 }

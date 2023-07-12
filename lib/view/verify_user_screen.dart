@@ -12,7 +12,7 @@ import '../view_model/auth_provider.dart';
 class VerifyUserScreen extends StatefulWidget {
   final bool? isRequestForForgotPassword;
 
-  const VerifyUserScreen(this.isRequestForForgotPassword);
+  const VerifyUserScreen(this.isRequestForForgotPassword, {super.key});
 
   @override
   State<VerifyUserScreen> createState() => _VerifyUserScreenState();
@@ -103,23 +103,11 @@ class _VerifyUserScreenState extends State<VerifyUserScreen> {
                             auth_provider.activationOTPController.text;
                         String forgotPassOtp =
                             auth_provider.forgotPassOTPController.text;
+
                         if (widget.isRequestForForgotPassword == true) {
-                         CustomResultModel? result_forgot_pass = await auth_provider.verifyForgotOtp(forgotPassOtp,auth_provider.forgotPassEmailController.text.toString());
-                         if(result_forgot_pass!.status){
-                           CustomFlushbar.showSuccess(context, result_forgot_pass.message);
-                           Navigator.pushReplacementNamed(
-                               context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
-                         }else {
-                           CustomFlushbar.showError(context, result_forgot_pass.message);
-                         }
+                         auth_provider.verifyForgotOtp(forgotPassOtp,auth_provider.forgotPassEmailController.text.toString(),context);
                         } else {
-                          CustomResultModel? result = await auth_provider.verifyUser(activationOtp,auth_provider.emailRegisterController.text);
-                          if(result!.status){
-                            CustomFlushbar.showSuccess(context, result.message);
-                            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-                          }else {
-                            CustomFlushbar.showError(context, result.message);
-                          }
+                          auth_provider.verifyUser(activationOtp,auth_provider.emailRegisterController.text,context);
                         }
                       },
                     ),

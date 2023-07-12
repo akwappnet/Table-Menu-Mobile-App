@@ -48,15 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               return CustomConfirmationDialog(
                 title: 'Delete Account',
                 message: 'Are you sure you want to Delete Your Account ?',
-                onConfirm: () async {
-                  CustomResultModel? result = await auth_provider.deleteUserInfo(context);
-
-                  if(result!.status){
-                    CustomFlushbar.showSuccess(context, result.message);
-                    Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
-                  }else {
-                    CustomFlushbar.showError(context, result.message);
-                  }
+                onConfirm: () {
+                  auth_provider.deleteUserInfo(context);
                 },
               );
             },

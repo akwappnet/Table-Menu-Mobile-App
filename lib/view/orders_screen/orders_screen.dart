@@ -103,22 +103,8 @@ class OrdersScreen extends StatelessWidget {
                                                             message:
                                                             'Are you sure you want to Cancel Your Order ?',
                                                             onConfirm: () async{
-                                                              CustomResultModel? result = await order_provider
-                                                                  .cancelOrder(
-                                                                  ordersList[
-                                                                  index]
-                                                                      .id!);
-                                                              if(result!.status){
-                                                                Navigator.of(
-                                                                    context)
-                                                                    .pop();
-                                                                CustomFlushbar.showSuccess(context, result.message);
-                                                              }else {
-                                                                Navigator.of(
-                                                                    context)
-                                                                    .pop();
-                                                                CustomFlushbar.showError(context, result.message);
-                                                              }
+                                                              order_provider.cancelOrder(ordersList[index].id!,context);
+                                                              Navigator.of(context).pop();
                                                             },
                                                           );
                                                         },

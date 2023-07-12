@@ -240,22 +240,9 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         onPressed: () async {
                           if (_form_key_userinfo.currentState!.validate()) {
                             if (widget.userData == null) {
-                              CustomResultModel? result = await auth_provider.saveUserInfo();
-                              if(result!.status){
-                                CustomFlushbar.showSuccess(context, result.message);
-                                Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
-                              }else {
-                                CustomFlushbar.showError(context, result.message);
-                              }
+                              auth_provider.saveUserInfo(context);
                             } else {
-                              CustomResultModel? result_update = await auth_provider.updateUserInfo();
-
-                              if(result_update!.status){
-                                CustomFlushbar.showSuccess(context, result_update.message);
-                                Navigator.of(context).pop();
-                              }else {
-                                CustomFlushbar.showError(context, result_update.message);
-                              }
+                              auth_provider.updateUserInfo(context);
                             }
                           }
                         }),

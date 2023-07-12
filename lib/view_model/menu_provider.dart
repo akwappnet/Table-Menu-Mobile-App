@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
-import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/utils/widgets/custom_snack_bar.dart';
+
 
 import '../model/category_model.dart';
 import '../model/custom_result_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
-import 'cart_provider.dart';
+
 
 class MenuProvider extends ChangeNotifier {
 

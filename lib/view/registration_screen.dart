@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
-import '../utils/routes/routes_name.dart';
 import '../utils/validation/validation.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_textformfield.dart';
@@ -202,14 +200,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   "password": auth_provider
                                       .passwordRegisterController.text
                                 };
-                                CustomResultModel? result = await auth_provider.userRegisteration(data);
-                                if(result!.status){
-                                  CustomFlushbar.showSuccess(context, result.message);
-                                  Navigator.pushReplacementNamed(
-                                      context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
-                                }else {
-                                  CustomFlushbar.showError(context, result.message);
-                                }
+                                auth_provider.userRegisteration(data,context);
                               }
                             }
                           },

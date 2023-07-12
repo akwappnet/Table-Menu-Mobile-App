@@ -11,6 +11,7 @@ import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
+import 'package:table_menu_customer/view_model/db_provider.dart';
 import '../repository/auth_repository.dart';
 
 class AuthProvider extends ChangeNotifier {
@@ -70,23 +71,27 @@ class AuthProvider extends ChangeNotifier {
     phoneNoController.text = userData.phoneNumber!;
   }
 
-  CustomResultModel? userRegisteration(dynamic data) {
-    setLoading(true);
-    var result = _authRepository.registrationUser(data);
-    log(result.statusCode.toString());
-    log(result.statusMessage.toString());
-    if (result.data["status"] == true) {
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data['message']);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data['message']);
-    }
-    setLoading(false);
-     return CustomResultModel(status: false, message: "An error occurred");
+  userRegisteration(dynamic data,BuildContext context) {
+    _authRepository.registrationUser(data).then((response) {
+      setLoading(true);
+      if(response != null) {
+        if (response.data["status"] == true) {
+          setLoading(false);
+          CustomFlushbar.showSuccess(context, response.data['message']);
+          Navigator.pushReplacementNamed(
+              context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data['message']);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
-  Future<CustomResultModel?> userLogin(String email, String password) async {
+  userLogin(String email, String password,BuildContext context) async {
     setLoading(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? fcmToken = await messaging.getToken();
@@ -115,106 +120,136 @@ class AuthProvider extends ChangeNotifier {
         deviceType: deviceType,
         fcmToken: fcmToken);
 
-    var result = await _authRepository.loginUser(data.toJson());
-    if (result.data['status'] == true) {
-      setLoading(false);
-      String token = result.data['data']['token'];
-      bool userinfo = result.data['data']['user_info_exists'];
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('token', token);
-      if (userinfo) {
+    _authRepository.loginUser(data.toJson()).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          setLoading(false);
+          String token = response.data['data']['token'];
+          bool userinfo = response.data['data']['user_info_exists'];
+          DatabaseProvider().saveToken(token);
+          if (userinfo) {
+            CustomFlushbar.showSuccess(
+                context, response.data['message']);
+            Navigator.pushReplacementNamed(context,
+                RoutesName.HOME_SCREEN_ROUTE);
+            setLoading(false);
+          } else {
+            CustomFlushbar.showSuccess(
+                context, response.data['message']);
+            Navigator.pushReplacementNamed(
+                context,
+                RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
+            setLoading(false);
+          }
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(
+              context, response.data['message']);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(
+            context, "An error occurred");
         setLoading(false);
-        return CustomResultModel(
-            status: true, message: result.data['message'], optionalBool: true);
-      } else {
-        setLoading(false);
-        return CustomResultModel(
-            status: true, message: result.data['message'], optionalBool: false);
       }
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data['message']);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+    });
   }
 
-  CustomResultModel? verifyUser(String otp,String email) {
+  verifyUser(String otp,String email,BuildContext context) {
     setLoading(true);
     Map<String, dynamic> data = {
       "email": email,
       "otp": otp
     };
-    var result = _authRepository.verifyUser(data);
 
-    if (result.data['status'] == true) {
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data['message']);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data['message']);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+    _authRepository.verifyUser(data).then((response) {
+      if(response != null){
+        if (response.data['status'] == true) {
+          CustomFlushbar.showSuccess(context, response.data['message']);
+          setLoading(false);
+          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data['message']);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
-  Future<CustomResultModel?> verifyForgotOtp(String otp, String email) async {
+  verifyForgotOtp(String otp, String email,BuildContext context) {
     setLoading(true);
     Map<String, dynamic> data = {
       "email": email,
       "otp": otp
     };
-    var result = _authRepository.verifyForgotOtp(data);
-    log(result.data.toString());
-    if (result.data['status'] == true) {
-      String verifyPasswordToken = result.data['data']['token'];
-      log("verify token : $verifyPasswordToken");
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('verify_pass_token', verifyPasswordToken);
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == false) {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data["message"]);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+
+    _authRepository.verifyForgotOtp(data).then((response) {
+      if(response != null){
+        log(response.data.toString());
+        if (response.data['status'] == true) {
+          String verifyPasswordToken = response.data['data']['token'];
+          log("verify token : $verifyPasswordToken");
+          DatabaseProvider().saveVerifyToken(verifyPasswordToken);
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          setLoading(false);
+          Navigator.pushReplacementNamed(
+              context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(context, response.data["message"]);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
-  CustomResultModel? sendVerifiactionMail(String email) {
+
+  sendVerifiactionMail(String email) {
     Map<String, dynamic> data = {'email': email};
-    var result = _authRepository.sendForgotPasswordOTP(data);
 
-    if (result.data['status'] == true) {
-      return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == "False") {
-      return CustomResultModel(status: false, message: result.data["message"]);
-    }
+    _authRepository.sendForgotPasswordOTP(data).then((response) {
+      if(response != null){
+        if (response.data['status'] == true) {
+          return CustomResultModel(status: true, message: response.data["message"]);
+        } else if (response.data['status'] == "False") {
+          return CustomResultModel(status: false, message: response.data["message"]);
+        }
+      }else {
+        return CustomResultModel(status: false, message: "An error occurred");
+      }
+    });
     return CustomResultModel(status: false, message: "An error occurred");
   }
 
-  Future<CustomResultModel?> resetPasswordUser(String email,
-      String password) async {
+  resetPasswordUser(String email,String password,BuildContext context) async{
     setLoading(true);
     Map<String, dynamic> data = {"email": email, "password": password};
-    final prefs = await SharedPreferences.getInstance();
-    final verifyToken = prefs.getString('verify_pass_token');
+    final verifyToken = await DatabaseProvider().getVerifyToken();
     log("verify token : $verifyToken");
     log("${data.toString()}");
-    var result = await _authRepository.resetPassword(data,verifyToken!);
 
-    if (result.data['status'] == true) {
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data["message"]);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+    _authRepository.resetPassword(data,verifyToken).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          setLoading(false);
+          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data["message"]);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
-  Future<CustomResultModel?> saveUserInfo() async {
+  saveUserInfo(BuildContext context) async {
     setLoading(true);
     var userData = UserData(
         name: nameController.text,
@@ -227,32 +262,44 @@ class AuthProvider extends ChangeNotifier {
         customerRating: 0.0);
 
     FormData formData = userData.toFormData();
-    var result = await _userInfoRepository.saveUserInfo(formData);
 
-    if (result.data['status'] == true) {
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data["message"]);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+    await _userInfoRepository.saveUserInfo(formData).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          setLoading(false);
+          Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data["message"]);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
   Future<UserModel> getUserInfo(BuildContext context) async {
-    var response = await _userInfoRepository.getUserInfo();
-    if (response.data['status'] == true) {
-      var userModel = UserModel.fromJson(response.data);
-      setUserName(userModel.userData!.name!);
-      return userModel;
-    } else if (response.data['status'] == "False") {
-      CustomFlushbar.showError(context, response.data['message']);
-    }
+    await _userInfoRepository.getUserInfo().then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          var userModel = UserModel.fromJson(response.data);
+          setUserName(userModel.userData!.name!);
+          notifyListeners();
+          return userModel;
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data['message']);
+          notifyListeners();
+        }
+      }else {
+        return UserModel();
+      }
+    });
     return UserModel();
   }
 
-  Future<CustomResultModel?> updateUserInfo() async {
+  updateUserInfo(BuildContext context) async {
     setLoading(true);
     var userData = UserData(
       name: nameController.text,
@@ -263,33 +310,42 @@ class AuthProvider extends ChangeNotifier {
     );
 
     FormData formData = userData.toFormData();
-    var result = await _userInfoRepository.updateUserInfo(formData);
-
-    if (result.data['status'] == true) {
-      setLoading(false);
-      return CustomResultModel(status: true, message: result.data["message"]);
-    } else if (result.data['status'] == "False") {
-      setLoading(false);
-      return CustomResultModel(status: false, message: result.data["message"]);
-    }
-    setLoading(false);
-    return CustomResultModel(status: false, message: "An error occurred");
+    await _userInfoRepository.updateUserInfo(formData).then((response) {
+      if(response != null){
+        if (response.data['status'] == true) {
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          setLoading(false);
+          Navigator.of(context).pop();
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data["message"]);
+          setLoading(false);
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        setLoading(false);
+      }
+    });
   }
 
-  Future<CustomResultModel?> deleteUserInfo(BuildContext context) async {
-    var response = await _userInfoRepository.deleteUserInfo();
-
-    if (response.data["status"] == true) {
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      await preferences.remove('token');
-      emailLoginController.text = "";
-      passwordLoginController.text = "";
-      return CustomResultModel(status: true, message: response.data["message"]);
-    } else if (response.data['status'] == "False") {
-      return CustomResultModel(
-          status: false, message: response.data["message"]);
-    }
-    return CustomResultModel(status: false, message: "An error occurred");
+  deleteUserInfo(BuildContext context) {
+    _userInfoRepository.deleteUserInfo().then((response) {
+      if(response != null){
+        if (response.data["status"] == true) {
+          DatabaseProvider().clear();
+          emailLoginController.text = "";
+          passwordLoginController.text = "";
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          notifyListeners();
+          Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "An error occurred");
+        notifyListeners();
+      }
+    });
   }
 
   File? _temp_image;
@@ -318,15 +374,8 @@ class AuthProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  clearToken() async {
-    SharedPreferences preferences =
-        await SharedPreferences.getInstance();
-    await preferences.remove('token');
-    await preferences.remove('verify_pass_token');
-  }
-
   void logout(BuildContext context) {
-    clearToken();
+    DatabaseProvider().clear();
     // Navigate to the login screen
     Navigator.pushNamedAndRemoveUntil(
       context,

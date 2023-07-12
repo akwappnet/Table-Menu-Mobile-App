@@ -2,10 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
-import 'package:table_menu_customer/utils/helpers.dart';
+import 'package:table_menu_customer/view_model/db_provider.dart';
 
 import '../app_exceptions.dart';
 
@@ -58,7 +57,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future<Response> getGetApiResponse(String url) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
 
       var headers = {
         'Authorization': 'Token $token',
@@ -77,7 +76,7 @@ class NetworkApiService extends BaseApiService {
       // return responseJson;
     } on SocketException {
       throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+          'Error Occurred While Communicating with Server');
     }
   }
 
@@ -85,7 +84,7 @@ class NetworkApiService extends BaseApiService {
   Future<Response> getGetApiResponseWithParams(
       String url, String params) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
       var headers = {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
@@ -103,7 +102,7 @@ class NetworkApiService extends BaseApiService {
       return response;
     } on SocketException {
       throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+          'Error Occurred While Communicating with Server');
     }
   }
 
@@ -128,7 +127,7 @@ class NetworkApiService extends BaseApiService {
       return response;
     } on SocketException {
       throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+          'Error Occurred While Communicating with Server');
     }
   }
 
@@ -136,7 +135,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future<Response> getPostApiResponse(String url, dynamic data) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
       var headers = {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
@@ -163,7 +162,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future<Response> getPatchApiResponse(String url, dynamic data) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
 
       var headers = {
         'Authorization': 'Token $token',
@@ -192,7 +191,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future<Response> getPutApiResponse(String url, dynamic data) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
       var headers = {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
@@ -220,7 +219,7 @@ class NetworkApiService extends BaseApiService {
   @override
   Future<Response> getDeleteApiResponse(String url) async {
     try {
-      final token = await getToken();
+      final token = await DatabaseProvider().getToken();
 
       var headers = {
         'Authorization': 'Token $token',
