@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
-import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_text.dart';
@@ -154,34 +150,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: CustomButton(
                               onPressed: () async {
                                 if (_formKey_login.currentState!.validate()) {
-                                  CustomResultModel? result = await auth_provider
+                                  auth_provider
                                       .userLogin(
                                       auth_provider.emailLoginController.text,
                                       auth_provider
                                           .passwordLoginController.text,
+                                    context
                                       );
-                                  if (result!.optionalBool!) {
-                                    if (result.status) {
-                                      CustomFlushbar.showSuccess(
-                                          context, result.message);
-                                      Navigator.pushReplacementNamed(context,
-                                          RoutesName.HOME_SCREEN_ROUTE);
-                                    } else {
-                                      CustomFlushbar.showError(
-                                          context, result.message);
-                                    }
-                                  } else {
-                                    if (result.status) {
-                                      CustomFlushbar.showSuccess(
-                                          context, result.message);
-                                      Navigator.pushReplacementNamed(
-                                          context,
-                                          RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
-                                    } else {
-                                      CustomFlushbar.showError(
-                                          context, result.message);
-                                    }
-                                  }
                                 }
                               },
                               child: auth_provider.loading ?

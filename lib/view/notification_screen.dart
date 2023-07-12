@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
@@ -31,13 +29,8 @@ class NotificationScreen extends StatelessWidget {
               return
                    InkWell(
                       onTap: () async {
-                        CustomResultModel? result = await notificationProvider
-                            .deleteAllNotification();
-                        if (result!.status) {
-                          CustomFlushbar.showSuccess(context, result.message);
-                        } else {
-                          CustomFlushbar.showError(context, result.message);
-                        }
+                        notificationProvider
+                            .deleteAllNotification(context);
                       },
                       child: notificationProvider.notificationList.isNotEmpty ? const CustomText(
                         text: "Clear All",
@@ -85,19 +78,9 @@ class NotificationScreen extends StatelessWidget {
                                             children: [
                                               InkWell(
                                                 onTap: () async {
-                                                  CustomResultModel? result =
-                                                      await notification_provider
+                                                  notification_provider
                                                           .deleteSingleNotification(
-                                                              notification.id!);
-                                                  if (result!.status) {
-                                                    CustomFlushbar.showSuccess(
-                                                        context,
-                                                        result.message);
-                                                  } else {
-                                                    CustomFlushbar.showError(
-                                                        context,
-                                                        result.message);
-                                                  }
+                                                              notification.id!,context);
                                                 },
                                                 child: Container(
                                                   height: double.infinity,
@@ -125,20 +108,10 @@ class NotificationScreen extends StatelessWidget {
                                           child: GestureDetector(
                                             onTap: () async {
                                               if(notification.readStatus! == false){
-                                                CustomResultModel? result =
-                                                await notification_provider
+                                                notification_provider
                                                     .markAsReadNotification(
-                                                    notification.id!);
-                                                if (result!.status) {
-                                                  CustomFlushbar.showSuccess(
-                                                      context, result.message);
-                                                } else {
-                                                  CustomFlushbar.showError(
-                                                      context, result.message);
-                                                }
-                                              }else {
-
-                                              }
+                                                    notification.id!,context);
+                                              }else {}
                                             },
                                             child: Card(
                                               elevation: 3.0,

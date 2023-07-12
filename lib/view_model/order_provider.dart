@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
+import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/order_repository.dart';
+import 'package:table_menu_customer/view_model/cart_provider.dart';
 
 import '../model/order_model.dart';
+import '../utils/routes/routes_name.dart';
+import '../utils/widgets/custom_flushbar_widget.dart';
 
 class OrderProvider extends ChangeNotifier {
   final OrderRepository _orderRepository = OrderRepository();
@@ -19,28 +22,36 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<CustomResultModel?> placeOrder(dynamic data) async {
-    var result = await _orderRepository.placeOrder(data);
-
-
-      if (result.data['status'] == true) {
-        getOrders();
-        return CustomResultModel(status: true, message: result.data['message']);
-      } else if (result.data['status'] == "False") {
-        return CustomResultModel(status: false, message: result.data['message']);
+  placeOrder(dynamic data,BuildContext context) {
+    _orderRepository.placeOrder(data).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          getOrders();
+          Provider.of<CartProvider>(context,listen: false).clearCart();
+          CustomFlushbar.showSuccess(
+              context, response.data['message']);
+          notifyListeners();
+          Navigator.pushNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(
+              context, response.data['message']);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(
+            context, "An error occurred");
+        notifyListeners();
       }
-      return CustomResultModel(status: false, message: "An error occurred");
-
+    });
   }
 
   // get all orders placed by user
   Future<List<OrderData>> getOrders() async {
-    var response = await _orderRepository.getOrders();
+    await _orderRepository.getOrders().then((response) {
       if (response.statusCode == 200) {
         var getOrders = OrderModel.fromJson(response.data);
-
         if (getOrders.orderData!.isNotEmpty) {
-          var addedIds = Set<int>();
+          var addedIds = <int>{};
           _orderList.clear();
           _orderList.addAll(getOrders.orderData!);
           for (var data in getOrders.orderData!) {
@@ -50,29 +61,42 @@ class OrderProvider extends ChangeNotifier {
               addedIds.add(data.id!); // Add categoryId to Set
             }
           }
-
+          notifyListeners();
           return _orderList;
+        }else {
+          notifyListeners();
         }
-      } else {}
-
+      } else {
+        notifyListeners();
+      }
+    });
+    notifyListeners();
     // Return an empty list if there was an error
     return [];
   }
 
   // cancel order
 
-  CustomResultModel? cancelOrder( int id) {
+  cancelOrder(int id,BuildContext context) {
     var data = {};
-    var result = _orderRepository.cancelOrder(id, data);
-
-      if (result.data['status'] == true) {
-        orderList.removeWhere((item) => item.id == id);
-        getOrders();
+    _orderRepository.cancelOrder(id, data).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          orderList.removeWhere((item) => item.id == id);
+          getOrders();
+          CustomFlushbar.showSuccess(
+              context, response.data['message']);
+          notifyListeners();
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(
+              context, response.data['message']);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(
+            context, "An error occurred");
         notifyListeners();
-        return CustomResultModel(status: true, message: result.data["message"]);
-      } else if (result.data['status'] == false) {
-        return CustomResultModel(status: false, message: result.data["message"]);
       }
-      return CustomResultModel(status: false, message: "An error occurred");
+    });
   }
 }

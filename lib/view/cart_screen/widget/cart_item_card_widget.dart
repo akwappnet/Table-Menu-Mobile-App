@@ -12,12 +12,20 @@ class CartItemCard extends StatelessWidget {
   final String imageUrl;
   final String itemName;
   final double price;
+  final VoidCallback cancelcallback;
+  final VoidCallback addQuantitycallback;
+  final VoidCallback removeQuantitycallback;
+  final String quantity;
 
   const CartItemCard({
     Key? key,
     required this.imageUrl,
     required this.itemName,
     required this.price,
+    required this.cancelcallback,
+    required this.addQuantitycallback,
+    required this.removeQuantitycallback,
+    required this.quantity
   }) : super(key: key);
 
   @override
@@ -62,9 +70,9 @@ class CartItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Icon(Icons.clear,color: Colors.grey,),
+                IconButton(onPressed: cancelcallback, icon: const Icon(Icons.clear,color: Colors.grey,),),
                 SizedBox(height: hp(1, context),),
-                PlusMinusButtons(addQuantity: () {}, deleteQuantity: () {}, text: "2"),
+                PlusMinusButtons(addQuantity: addQuantitycallback, deleteQuantity: removeQuantitycallback, text:quantity),
               ],
             ),
           ],

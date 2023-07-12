@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
-import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view/cart_screen/widget/cart_item_card_widget.dart';
 import 'package:table_menu_customer/view/cart_screen/widget/cooking_instruction_bottom_sheet_widget.dart';
@@ -47,6 +44,7 @@ class _CartScreenState extends State<CartScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var cart_items = snapshot.data;
+                  print(cart_items?.length);
                   return Center(
                     child: Consumer<CartProvider>(
                       builder: (context, cart_provider, __) {
@@ -77,7 +75,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ],
                                 ),
                               ),
-                              (cart_items!.isEmpty)
+                              (cart_provider.cartList.isEmpty)
                                   ? const Center(
                                       child: Text(
                                       'Your Cart is Empty',
@@ -86,13 +84,34 @@ class _CartScreenState extends State<CartScreen> {
                                           fontSize: 18.0),
                                     ))
                                   : ListView.builder(
+                                    shrinkWrap: true,
+                                    primary: true,
                                     physics: const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: cart_items.length,
+                                      itemCount: cart_provider.cartList.length,
                                       itemBuilder: (context, index) {
-                                        return CartItemCard(itemName: cart_items[index].menuItemName!,
-                                        imageUrl: cart_items[index].menuItemImage!,
-                                        price: cart_items[index].menuItemPrice!,);
+                                        return CartItemCard(itemName: cart_provider.cartList[index].menuItemName!,
+                                        imageUrl: cart_provider.cartList[index].menuItemImage!,
+                                        price: cart_provider.cartList[index].menuItemPrice!,
+                                        quantity: cart_provider.cartList[index].quantity.toString(),
+                                        addQuantitycallback: () {
+                                          cart_provider.incrementItemQuantityUpdate(cart_provider.cartList[index]);
+                                          var data = {
+                                            "menu_item" : cart_provider.cartList[index].menuItem,
+                                            "quantity": cart_provider.cartList[index].quantity
+                                          };
+                                          cart_provider.updateItemQuantity(data, cart_provider.cartList[index].id!);
+                                        },
+                                        removeQuantitycallback: () {
+                                          cart_provider.decrementItemQuantityUpdate(cart_provider.cartList[index]);
+                                          var data = {
+                                            "menu_item" : cart_provider.cartList[index].menuItem,
+                                            "quantity": cart_provider.cartList[index].quantity
+                                          };
+                                          cart_provider.updateItemQuantity(data, cart_provider.cartList[index].id!);
+                                        },
+                                        cancelcallback: () {
+                                          cart_provider.deleteCartItem(cart_provider.cartList[index].id!, context);
+                                        });
                                       }),
                               SizedBox(height: hp(2, context),),
                               GestureDetector(
@@ -266,17 +285,7 @@ class _CartScreenState extends State<CartScreen> {
                     "table_no": qr_provider.table_number,
                     "cart_items": cartItemList
                   };
-                  CustomResultModel? result =
-                  await order_provider.placeOrder(data);
-                  if (result!.status) {
-                    cart_provider.clearCart();
-                    Navigator.pushNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE);
-                    CustomFlushbar.showSuccess(
-                        context, result.message);
-                  } else {
-                    CustomFlushbar.showError(
-                        context, result.message);
-                  }
+                  order_provider.placeOrder(data,context);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

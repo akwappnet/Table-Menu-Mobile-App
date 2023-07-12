@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
+import 'package:table_menu_customer/view_model/db_provider.dart';
 import '../data/network/network_api_service.dart';
 import '../utils/constants/api_endpoints.dart';
 
@@ -63,10 +63,9 @@ class AuthRepository {
     }
   }
 
-  Future<bool> isLoggedIn() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-    return token != null;
+  Future<String> isLoggedIn() async {
+    String? token = await DatabaseProvider().getToken();
+    return token;
   }
 
 }
