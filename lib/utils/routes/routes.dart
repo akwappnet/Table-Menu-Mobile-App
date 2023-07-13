@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/cart_screen/cart_screen.dart';
+import 'package:table_menu_customer/view/checkout_screen/checkout_screen.dart';
+import 'package:table_menu_customer/view/feedback_screeen/feedback_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
 import 'package:table_menu_customer/view/order_details_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
+import 'package:table_menu_customer/view/payment_successful_screen.dart';
 import 'package:table_menu_customer/view/profile_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
 import 'package:table_menu_customer/view/registration_screen.dart';
@@ -69,6 +72,15 @@ class Routes {
 
       case RoutesName.ORDER_DETAILS_SCREEN_ROUTE:
         return _buildPageRoute(const OrderDetailsScreen());
+
+      case RoutesName.CHECKOUT_SCREEN_ROUTE:
+        return _buildPageRoute(CheckoutScreen());
+
+      case RoutesName.PAYMENT_SUCCESSFUL_SCREEN_ROUTE:
+        return _buildPageRoute(const PaymentSuccessfulScreen());
+
+      case RoutesName.FEEDBACK_SCREEN_ROUTE:
+        return _buildPageRoute(FeedbackScreen());
 
       default:
         return _buildPageRoute(const Scaffold(

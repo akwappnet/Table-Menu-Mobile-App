@@ -48,9 +48,8 @@ class AuthProvider extends ChangeNotifier {
 
   bool get loading => _loading;
 
-  UserData? _userData;
+  UserData? userData;
 
-  UserData? get userData => _userData;
 
   String _user_name = "";
 
@@ -280,14 +279,14 @@ class AuthProvider extends ChangeNotifier {
     });
   }
 
-  Future<UserModel> getUserInfo(BuildContext context) async {
-    await _userInfoRepository.getUserInfo().then((response) {
+  getUserInfo(BuildContext context)  {
+    _userInfoRepository.getUserInfo().then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
           var userModel = UserModel.fromJson(response.data);
+          userData = userModel.userData;
           setUserName(userModel.userData!.name!);
           notifyListeners();
-          return userModel;
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(context, response.data['message']);
           notifyListeners();

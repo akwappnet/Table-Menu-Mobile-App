@@ -7,7 +7,7 @@ import '../../../utils/validation/validation.dart';
 import '../../../utils/widgets/custom_text.dart';
 import '../../../utils/widgets/custom_textformfield.dart';
 
-void showAddInstructionModal(BuildContext context) {
+void showAddInstructionBottomsheet(BuildContext context) {
   TextEditingController instructionController = TextEditingController();
   showModalBottomSheet(
     useRootNavigator: true,

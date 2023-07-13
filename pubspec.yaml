@@ -57,6 +57,9 @@ dependencies:
   mockito: ^5.4.1
   flutter_slidable: ^3.0.0
   get_it: ^7.6.0
+  flutter_rating_bar: ^4.0.1
+  awesome_card: ^1.1.7
+  syncfusion_flutter_sliders: ^22.1.38
 
 dev_dependencies:
   flutter_test:

@@ -4,16 +4,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 
-import '../model/user_model.dart';
 import '../utils/constants/api_endpoints.dart';
 import '../utils/widgets/custom_confirmation_dialog.dart';
 import '../view_model/auth_provider.dart';
@@ -94,11 +90,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
       body: Center(
-          child: StreamBuilder<UserModel>(
-              stream: auth_provider.getUserInfo(context).asStream(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var userData = snapshot.data?.userData;
+          child: Consumer<AuthProvider>(
+              builder: (context, auth_provider,__) {
+                if (!auth_provider.loading) {
+                  var userData = auth_provider.userData;
                   uid = userData!.id;
                   String image_url = ApiEndPoint.baseImageUrl + userData.profilePhotoUrl!;
                   return SingleChildScrollView(
