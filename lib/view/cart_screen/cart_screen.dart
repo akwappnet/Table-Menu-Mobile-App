@@ -115,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
                                       }),
                               SizedBox(height: hp(2, context),),
                               GestureDetector(
-                                onTap: () => showAddInstructionModal(context),
+                                onTap: () => showAddInstructionBottomsheet(context),
                                 child: Card(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),

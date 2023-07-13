@@ -21,6 +21,36 @@ class OrderProvider extends ChangeNotifier {
     _loading = value;
     notifyListeners();
   }
+  final formKey_cards = GlobalKey<FormState>();
+
+  final TextEditingController cardHolderNameController = TextEditingController();
+  final TextEditingController cardNumberController = TextEditingController();
+  final TextEditingController expiryDateController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+
+
+  final TextEditingController feedbackController = TextEditingController();
+
+  bool card = false;
+
+  visibleCard(){
+    card = !card;
+    notifyListeners();
+  }
+
+  double foodRating = 0.0;
+  double serviceRating = 0.0;
+
+  updateFoodRating(double value) {
+    foodRating=value;
+    notifyListeners();
+  }
+
+  updateServiceRating(double value) {
+    serviceRating=value;
+    notifyListeners();
+  }
+
 
   placeOrder(dynamic data,BuildContext context) {
     _orderRepository.placeOrder(data).then((response) {

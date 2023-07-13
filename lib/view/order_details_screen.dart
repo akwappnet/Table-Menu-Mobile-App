@@ -17,6 +17,7 @@ class OrderDetailsScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Track Order',
@@ -206,6 +207,7 @@ class OrderDetailsScreen extends StatelessWidget {
             height: hp(7.5, context),
             child: CustomButton(
                 onPressed: () async {
+                  Navigator.pushNamed(context, RoutesName.CHECKOUT_SCREEN_ROUTE);
                 },
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

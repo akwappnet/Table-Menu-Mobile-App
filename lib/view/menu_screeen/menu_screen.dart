@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/view/menu_screeen/widget/filters_bottom_sheet_widget.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
@@ -128,7 +129,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                   fontSize: 22, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
-                            IconButton(onPressed: () {}, icon: const Icon(Icons.filter_alt_outlined,color: Colors.black)),
+                            IconButton(onPressed: () {
+                              filtersBottomSheet(context);
+                            }, icon: const Icon(Icons.filter_alt_outlined,color: Colors.black)),
                           ],
                         ),
                         const SizedBox(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
 
 
@@ -16,6 +17,21 @@ class MenuProvider extends ChangeNotifier {
   List<CategoryData> categories = [];
   List<MenuData> menuitems = [];
   bool favToggle = false;
+
+  bool toogleBoolean = false;
+
+  toggleBool(){
+    toogleBoolean = !toogleBoolean;
+    notifyListeners();
+  }
+
+
+  SfRangeValues values = const SfRangeValues(500, 1000);
+
+  updateRangeValues(SfRangeValues value){
+    values = value;
+    notifyListeners();
+  }
 
 
   MenuRepository menuRepository = MenuRepository();

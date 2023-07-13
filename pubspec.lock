@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  awesome_card:
+    dependency: "direct main"
+    description:
+      name: awesome_card
+      sha256: "6455e99492b70c089b1b9d5a0da64e07f5bdd9cb51e5daaca5a1df340f2253d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.7"
   badges:
     dependency: "direct main"
     description:
@@ -438,6 +446,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.15"
+  flutter_rating_bar:
+    dependency: "direct main"
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -1037,6 +1053,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      sha256: a38808b2636bafc6466079668232eb228b85aa7c3d83545a15cc3b593d40b315
+      url: "https://pub.dev"
+    source: hosted
+    version: "22.1.38"
+  syncfusion_flutter_sliders:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_sliders
+      sha256: "406352b10976dc22746c7dc900711e4ecd7d6f6a4976fcb5776b0488bc352df3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "22.1.38"
   synchronized:
     dependency: transitive
     description:

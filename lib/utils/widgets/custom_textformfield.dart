@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
 class CustomTextFormField {
@@ -8,10 +9,11 @@ class CustomTextFormField {
         required String hintValue,
         required TextEditingController controller,
         TextInputType? keyboardType,
-        required Icon prefixicon,
+        Icon? prefixicon,
          TextStyle? textStyle,
         IconButton? iconButton,
         int? maxLength,
+        List<TextInputFormatter>? inputFormatters,
         required bool obscuretext,
         required FormFieldSetter onchanged,
         required TextInputAction textInputAction,
@@ -27,6 +29,7 @@ class CustomTextFormField {
       obscureText: obscuretext,
       validator: validator,
       maxLength: maxLength,
+      inputFormatters : inputFormatters ?? [],
       textInputAction: textInputAction,
       decoration: InputDecoration(
         suffixIcon: iconButton,

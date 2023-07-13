@@ -17,4 +17,7 @@ class RoutesName {
   static const String MENU_ITEM_DETAILS_SCREEN_ROUTE = "/menu_item_details_screen";
   static const String ORDER_SUCCESSFUL_SCREEN_ROUTE = "/order_sucessful_screen";
   static const String ORDER_DETAILS_SCREEN_ROUTE = "/order_details_screen";
+  static const String CHECKOUT_SCREEN_ROUTE = "/checkout_screen";
+  static const String PAYMENT_SUCCESSFUL_SCREEN_ROUTE = "/payment_successful_screen";
+  static const String FEEDBACK_SCREEN_ROUTE = "/feedback_screen";
 }
