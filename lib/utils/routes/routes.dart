@@ -6,11 +6,15 @@ import 'package:table_menu_customer/view/feedback_screeen/feedback_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
-import 'package:table_menu_customer/view/order_details_screen.dart';
+import 'package:table_menu_customer/view/order_tracking_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/payment_successful_screen.dart';
-import 'package:table_menu_customer/view/profile_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/help_support_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/settings_payment_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/settings_profile_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/settings_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
 import 'package:table_menu_customer/view/registration_screen.dart';
 import 'package:table_menu_customer/view/user_information_screen.dart';
@@ -80,7 +84,19 @@ class Routes {
         return _buildPageRoute(const PaymentSuccessfulScreen());
 
       case RoutesName.FEEDBACK_SCREEN_ROUTE:
-        return _buildPageRoute(FeedbackScreen());
+        return _buildPageRoute(const FeedbackScreen());
+
+      case RoutesName.SETTINGS_PROFILE_SCREEN_ROUTE:
+        return _buildPageRoute(const SettingsProfileScreen());
+
+      case RoutesName.SETTINGS_PAYMENT_SCREEN_ROUTE:
+        return _buildPageRoute(const SettingsPaymentScreen());
+
+      case RoutesName.HELP_SUPPORT_SCREEN_ROUTE:
+        return _buildPageRoute(const HelpSupportScreen());
+
+      case RoutesName.SETTINGS_SCREEN_ROUTE:
+        return _buildPageRoute(const SettingsScreen());
 
       default:
         return _buildPageRoute(const Scaffold(

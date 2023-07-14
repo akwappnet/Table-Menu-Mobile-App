@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/view/profile_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
 
 import '../view_model/nav_provider.dart';
 import 'menu_screeen/menu_screen.dart';
