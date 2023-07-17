@@ -60,6 +60,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   awesome_card: ^1.1.7
   syncfusion_flutter_sliders: ^22.1.38
+  flutter_stripe: ^9.2.2
 
 dev_dependencies:
   flutter_test:

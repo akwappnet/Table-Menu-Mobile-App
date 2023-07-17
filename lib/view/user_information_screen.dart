@@ -3,12 +3,12 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
+import 'package:table_menu_customer/utils/constants/constants_text.dart';
+import 'package:table_menu_customer/utils/font/text_style.dart';
+import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view/select_photo_options_screen.dart';
 import '../model/user_model.dart';
-import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
@@ -82,49 +82,41 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   final GlobalKey<FormState> _form_key_userinfo = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     final auth_provider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: const Icon(Icons.arrow_back),
+        ),
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0.0,
+      ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
+        child: Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: hp(2, context), horizontal: wp(4, context)),
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: const Icon(Icons.arrow_back),
-                    ),
-                  ),
+
                   const SizedBox(height: 20),
                   widget.userData == null
-                      ? const Text(
+                      ? Text(
                           "Enter Your Details",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: titleTextStyle
                         )
-                      : const Text(
+                      : Text(
                           "Update Your Details",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: titleTextStyle
                         ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: hp(2, context)),
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
@@ -135,7 +127,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                         color: Colors.black,
                         strokeWidth: 1,
                         borderType: BorderType.RRect,
-                        radius: const Radius.circular(20.0),
+                        radius: const Radius.circular(BORDER_RADIUS),
                         padding: const EdgeInsets.all(8),
                         child: Container(
                             height: 150.0,
@@ -147,12 +139,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             ),
                             child: Center(
                               child: auth_provider.temp_image == null
-                                  ? const Column(
+                                  ? Column(
                                       children: [
                                         SizedBox(
-                                          height: 6,
+                                          height: hp(1, context),
                                         ),
-                                        CircleAvatar(
+                                        const CircleAvatar(
                                           backgroundColor: Colors.purple,
                                           radius: 50,
                                           child: Icon(
@@ -162,13 +154,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                           ),
                                         ),
                                         SizedBox(
-                                          height: 8,
+                                          height: hp(2, context),
                                         ),
                                         Text(
                                           "Upload Profile Photo",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
+                                          style: textBodyStyle
                                         ),
                                       ],
                                     )
@@ -181,13 +171,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       ),
                     ),
                   ),
+                  SizedBox(height: hp(2, context),),
                   Form(
                     key: _form_key_userinfo,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 15),
-                      margin: const EdgeInsets.only(top: 20),
                       child: Column(
                         children: [
                           CustomTextFormField().getCustomEditTextArea(
@@ -203,8 +191,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             controller: auth_provider.nameController,
                             validator: validateName,
                           ),
-                          const SizedBox(
-                            height: 15,
+                          SizedBox(
+                            height: hp(2, context),
                           ),
                           CustomTextFormField().getCustomEditTextArea(
                             obscuretext: false,
@@ -225,17 +213,17 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  SizedBox(height: hp(2, context)),
                   SizedBox(
-                    height: 50,
+                    height: hp(7.5, context),
                     width: MediaQuery.of(context).size.width * 0.90,
                     child: CustomButton(
-                        child: widget.userData == null ?const Text(
+                        child: widget.userData == null ? Text(
                           "Save",
-                          style: TextStyle(fontSize: 16),
-                        ) : const Text(
+                          style: textBodyStyle.copyWith(color: Colors.white),
+                        ) : Text(
                           "Update",
-                          style: TextStyle(fontSize: 16),
+                          style: textBodyStyle.copyWith(color: Colors.white),
                         ),
                         onPressed: () async {
                           if (_form_key_userinfo.currentState!.validate()) {

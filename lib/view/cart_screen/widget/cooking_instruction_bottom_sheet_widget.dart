@@ -31,15 +31,18 @@ void showAddInstructionBottomsheet(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                SizedBox(width: wp(1, context),),
-                Text("Special cooking instructions",style: smallTitleTextStyle,),
-                const Spacer(),
-                IconButton(onPressed: () {
-                  Navigator.of(context).pop();
-                }, icon: const Icon(Icons.close,color: Colors.black,),)
-              ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
+              child: Row(
+                children: [
+                  SizedBox(width: wp(1, context),),
+                  Text("Special cooking instructions",style: textBodyStyle,),
+                  const Spacer(),
+                  IconButton(onPressed: () {
+                    Navigator.of(context).pop();
+                  }, icon: const Icon(Icons.close,color: Colors.black,),)
+                ],
+              ),
             ),
             const Divider(
               color: Colors.grey,
@@ -50,8 +53,8 @@ void showAddInstructionBottomsheet(BuildContext context) {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
               child: CustomTextFormField().getCustomEditTextArea(
-                  labelValue: "Start Typing",
-                  hintValue: "Cooking Instructions",
+                  labelValue: "Cooking Instructions",
+                  hintValue: "Start Typing",
                   controller: instructionController,
                   prefixicon: const Icon(Icons.edit_note_outlined),
                   obscuretext: false,
@@ -75,9 +78,7 @@ void showAddInstructionBottomsheet(BuildContext context) {
               padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
               child: ElevatedButton(
                 onPressed: () {
-                  if (instructionController.text.isNotEmpty) {
                     Navigator.pop(context);
-                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple.shade400,

@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view/cart_screen/widget/cart_item_card_widget.dart';
 import 'package:table_menu_customer/view/cart_screen/widget/cooking_instruction_bottom_sheet_widget.dart';
@@ -48,7 +49,7 @@ class _CartScreenState extends State<CartScreen> {
                   return Center(
                     child: Consumer<CartProvider>(
                       builder: (context, cart_provider, __) {
-                        return cart_provider.cartList.isEmpty ? const PlaceholderWidget(title: "Your cart is empty") : Container(
+                        return cart_provider.cartList.isEmpty ? const Center(child: PlaceholderWidget(title: "Your cart is empty")) : Container(
                           padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(2, context)),
                           child: Column(
                             children: [
@@ -64,7 +65,9 @@ class _CartScreenState extends State<CartScreen> {
                                     const Spacer(),
                                     Icon(Icons.add,color: Colors.purple.shade400,),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                                      },
                                       child: Text(
                                         "Add Items",
                                         style: textSmallRegularStyle.copyWith(
@@ -268,38 +271,42 @@ class _CartScreenState extends State<CartScreen> {
             ),
           ),
         ),
-      bottomNavigationBar: Hero(
-        tag: "order_success",
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: wp(1.5, context),vertical: hp(1.5, context)),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 50,
-            child: CustomButton(
-                onPressed: () async {
-                  List.generate(cart_provider.cartList.length, (index) {
-                    cartItemList.add(
-                        {"cart_item_id": cart_provider.cartList[index].id});
-                  });
-                  var data = {
-                    "table_no": qr_provider.table_number,
-                    "cart_items": cartItemList
-                  };
-                  order_provider.placeOrder(data,context);
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Place Order", style: textBodyStyle.copyWith(
-                        color: Colors.white
-                    ),),
-                    const Spacer(),
-                    const Icon(Icons.arrow_forward_ios_outlined),
-                  ],
-                )
+      bottomNavigationBar: Consumer<CartProvider>(
+        builder: (context,cart_provider,__){
+          return cart_provider.cartList.isEmpty ? const SizedBox.shrink() : Hero(
+            tag: "order_success",
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: wp(1.5, context),vertical: hp(1.5, context)),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                child: CustomButton(
+                    onPressed: () async {
+                      List.generate(cart_provider.cartList.length, (index) {
+                        cartItemList.add(
+                            {"cart_item_id": cart_provider.cartList[index].id});
+                      });
+                      var data = {
+                        "table_no": qr_provider.table_number,
+                        "cart_items": cartItemList
+                      };
+                      order_provider.placeOrder(data,context);
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Place Order", style: textBodyStyle.copyWith(
+                            color: Colors.white
+                        ),),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios_outlined),
+                      ],
+                    )
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

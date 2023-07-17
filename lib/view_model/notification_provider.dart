@@ -14,24 +14,24 @@ class NotificationProvider extends ChangeNotifier{
   // get list of notification
 
   Future<List<NotificationData>> getAllNotification() async{
-      var response = await notificationRepository.getNotifications();
-        if (response.statusCode == 200) {
-          var getNotification = NotificationModel.fromJson(response.data);
-          if (getNotification.notificationData!.isNotEmpty) {
-            var addedIds = Set<int>();
-            notificationList.clear();
-            notificationList.addAll(getNotification.notificationData!);
-            log("categoryList:${notificationList.length}");
-            for (var data in getNotification.notificationData!) {
-              // Check if category already exists
-              if (!addedIds.contains(data.id)) {
-                // categoryList.add(GetCategory(data: [data]));
-                addedIds.add(data.id!); // Add categoryId to Set
-              }
-            }
-            return notificationList;
+    var response = await notificationRepository.getNotifications();
+    if (response.statusCode == 200) {
+      var getNotification = NotificationModel.fromJson(response.data);
+      if (getNotification.notificationData!.isNotEmpty) {
+        var addedIds = Set<int>();
+        notificationList.clear();
+        notificationList.addAll(getNotification.notificationData!);
+        log("categoryList:${notificationList.length}");
+        for (var data in getNotification.notificationData!) {
+          // Check if category already exists
+          if (!addedIds.contains(data.id)) {
+            // categoryList.add(GetCategory(data: [data]));
+            addedIds.add(data.id!); // Add categoryId to Set
           }
-        } else {}
+        }
+        return notificationList;
+      }
+    } else {}
     // Return an empty list if there was an error
     return [];
   }

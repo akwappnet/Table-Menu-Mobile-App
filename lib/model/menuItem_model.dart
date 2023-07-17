@@ -45,6 +45,9 @@ class MenuData {
   bool? isSpecial;
   bool? isSweet;
   bool? isPopular;
+  String? rating;
+  int? rated;
+  int? duration;
   int? categoryId;
 
   MenuData(
@@ -63,6 +66,9 @@ class MenuData {
         this.isSpecial,
         this.isSweet,
         this.isPopular,
+        this.rating,
+        this.rated,
+        this.duration,
         this.categoryId});
 
   MenuData.fromJson(Map<String, dynamic> json) {
@@ -81,6 +87,9 @@ class MenuData {
     isSpecial = json['is_special'];
     isSweet = json['is_sweet'];
     isPopular = json['is_popular'];
+    rating = json['rating'];
+    rated = json['rated'];
+    duration = json['duration'];
     categoryId = json['category_id'];
   }
 
@@ -101,6 +110,9 @@ class MenuData {
     data['is_special'] = isSpecial;
     data['is_sweet'] = isSweet;
     data['is_popular'] = isPopular;
+    data['rating'] = this.rating;
+    data['rated'] = this.rated;
+    data['duration'] = this.duration;
     data['category_id'] = categoryId;
     return data;
   }

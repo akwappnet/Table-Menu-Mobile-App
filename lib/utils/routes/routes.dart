@@ -33,10 +33,10 @@ class Routes {
         return _buildPageRoute(const WelcomeScreen());
 
       case RoutesName.REGISTER_SCREEN_ROUTE:
-        return _buildPageRoute(const RegistrationScreen());
+        return _buildPageRoute(RegistrationScreen());
 
       case RoutesName.LOGIN_SCREEN_ROUTE:
-        return _buildPageRoute(const LoginScreen());
+        return _buildPageRoute(LoginScreen());
 
       case RoutesName.HOME_SCREEN_ROUTE:
         return _buildPageRoute(const HomeScreen());
@@ -45,7 +45,7 @@ class Routes {
           return _buildPageRoute(UserInfoScreen(arguments));
 
       case RoutesName.RESET_PASSWORD_SCREEN_ROUTE:
-        return _buildPageRoute(const ResetPasswordScreen());
+        return _buildPageRoute(ResetPasswordScreen());
 
       case RoutesName.MENU_SCREEN_ROUTE:
         return _buildPageRoute(const MenuScreen());
