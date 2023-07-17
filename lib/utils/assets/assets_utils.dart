@@ -16,8 +16,7 @@ class AssetsUtils {
   static String ASSETS_PLACEHOLDER_IMAGE = "assets/images/placeholder_image.png";
   static String ASSETS_WALLET_IMAGE = "assets/images/wallet.png";
   static String ASSETS_FEEDBACK_ICON_IMAGE = "assets/images/feedback_icon.png";
-  static String ASSETS_PAYMENT_SUCCESS_IMAGE = "assets/images/payment_success.png";
   static String ASSETS_ERROR_IMAGE = "assets/images/error_image.png";
-  static String ASSETS_ORDER_SUCCESS_IMAGE = "assets/images/order_success.png";
+  static String ASSETS_SUCCESS_IMAGE = "assets/images/success_icon.png";
   static String ASSETS_FOOD_PREPARING_ANIMATION = "assets/lotti_animation/food_preparing.json";
 }

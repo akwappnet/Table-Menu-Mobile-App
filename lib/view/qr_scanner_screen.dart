@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
+import '../utils/font/text_style.dart';
 import '../utils/widgets/custom_button.dart';
 
 class QRScannerScreen extends StatefulWidget {
@@ -61,16 +63,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                     Text(
                       'Scan the QR code',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: textBodyStyle.copyWith(color: Colors.white),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: hp(2, context)),
                     CustomButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  const Text('Cancel', style: TextStyle(fontSize: 16),),
+                      child:  Text('Cancel',  style: textBodyStyle.copyWith(color: Colors.white),),
                     ),
                   ],
                 ),

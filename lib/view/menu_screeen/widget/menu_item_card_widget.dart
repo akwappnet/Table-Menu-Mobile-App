@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
+import '../../../utils/assets/assets_utils.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
 
@@ -23,6 +26,7 @@ class MenuItemGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("message $image");
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -39,6 +43,12 @@ class MenuItemGridCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: hp(18, context),
+                  placeholder: (context, url) =>
+                      Image.asset(AssetsUtils.ASSETS_PLACEHOLDER_IMAGE),
+                  // Show a placeholder while loading
+                  errorWidget: (context, url, error) =>
+                      Image.asset(AssetsUtils
+                          .ASSETS_ERROR_IMAGE),
                 ),
               ),
               Padding(

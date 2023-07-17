@@ -207,21 +207,23 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-  sendVerifiactionMail(String email) {
+  sendVerifiactionMail(String email,BuildContext context) {
     Map<String, dynamic> data = {'email': email};
 
     _authRepository.sendForgotPasswordOTP(data).then((response) {
       if(response != null){
         if (response.data['status'] == true) {
-          return CustomResultModel(status: true, message: response.data["message"]);
+          CustomFlushbar.showSuccess(context, response.data["message"]);
+          Navigator.pushReplacementNamed(
+              context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
+              arguments: true);
         } else if (response.data['status'] == "False") {
-          return CustomResultModel(status: false, message: response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"]);
         }
       }else {
-        return CustomResultModel(status: false, message: "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred");
       }
     });
-    return CustomResultModel(status: false, message: "An error occurred");
   }
 
   resetPasswordUser(String email,String password,BuildContext context) async{

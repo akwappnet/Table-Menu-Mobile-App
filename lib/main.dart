@@ -66,6 +66,9 @@ class _MyAppState extends State<MyApp> {
               fontFamily: 'Roboto'),
           debugShowCheckedModeBanner: false,
           home: AnimatedSplashScreen(
+            nextRoute: widget.loggedIn != ''
+                ? RoutesName.HOME_SCREEN_ROUTE
+                : RoutesName.LOGIN_SCREEN_ROUTE,
             duration: 3000,
             splashTransition: SplashTransition.scaleTransition,
             backgroundColor: Colors.white,
@@ -78,11 +81,8 @@ class _MyAppState extends State<MyApp> {
                 width: 300,
               ),
             ),
-            nextScreen: widget.loggedIn != ''  ? const HomeScreen() : const LoginScreen(),
+            nextScreen: widget.loggedIn != ''  ? const HomeScreen() : LoginScreen(),
           ),
-          initialRoute: widget.loggedIn != ''
-              ? RoutesName.HOME_SCREEN_ROUTE
-              : RoutesName.LOGIN_SCREEN_ROUTE,
           onGenerateRoute: Routes.generateRoute,
         )
     );

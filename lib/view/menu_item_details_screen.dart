@@ -106,7 +106,7 @@ class MenuItemDetailsPage extends StatelessWidget {
                                 Icons.star, color: Colors.yellow, size: 18),
                             const SizedBox(width: 8),
                             Text(
-                              ' ${3 ?? 0}',
+                              '${double.parse(menuData.rating ?? "0").toStringAsFixed(1)} (${menuData.rated ?? 0} rated)',
                               style: textRegularStyle.copyWith(fontSize: 16),
                             ),
                           ],
@@ -134,7 +134,7 @@ class MenuItemDetailsPage extends StatelessWidget {
                                 Icons.timer, color: Colors.orange, size: 18),
                             const SizedBox(width: 8),
                             Text(
-                              ' ${30 ?? 0} min',
+                              ' ${menuData.duration ?? 0} min',
                               style: textRegularStyle.copyWith(fontSize: 16),
                             ),
                           ],

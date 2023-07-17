@@ -34,7 +34,7 @@ class PaymentSuccessfulScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Hero(tag: "payment",child: Image.asset(AssetsUtils.ASSETS_ORDER_SUCCESS_IMAGE,height: hp(30, context),width: wp(40, context),)),
+              Hero(tag: "payment",child: Image.asset(AssetsUtils.ASSETS_SUCCESS_IMAGE,height: hp(30, context),width: wp(40, context),)),
               Text("Woohoo!",style: smallTitleTextStyle,),
               SizedBox(height: hp(1, context),),
               Text("Thank you for your payment!", style: smallRegularStyle,),

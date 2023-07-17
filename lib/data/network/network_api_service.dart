@@ -112,7 +112,7 @@ class NetworkApiService extends BaseApiService {
       {String? verifyToken}) async {
     try {
       var headers = {
-        'HTTP_AUTHORIZATION': 'Token $verifyToken',
+        'Authorization': 'Token $verifyToken',
         'Accept': 'application/json'
       };
       var response = await _dio

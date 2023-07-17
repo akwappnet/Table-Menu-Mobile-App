@@ -20,7 +20,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Hero(tag: "order_success",child: Image.asset(AssetsUtils.ASSETS_ORDER_SUCCESS_IMAGE,height: hp(22, context),width: wp(40, context),)),
+                Hero(tag: "order_success",child: Image.asset(AssetsUtils.ASSETS_SUCCESS_IMAGE,height: hp(22, context),width: wp(40, context),)),
                  SizedBox(height: hp(2, context),),
                 Text(
                   "Congratulations!!!",

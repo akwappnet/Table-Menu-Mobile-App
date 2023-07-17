@@ -88,23 +88,15 @@ class _MenuScreenState extends State<MenuScreen> {
                 ),
               ),
               Consumer<CartProvider>(
-                builder: (_, cart_badge, __) {
-                  return Badge(
-                    badgeContent: Text(
-                      "${cart_badge.counter}",
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    position: BadgePosition.custom(start: 28, bottom: 28),
-                    child: IconButton(
-                      onPressed: () {
-                        cart_badge.getCartItems();
-                        Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
-                      },
-                      icon: const Icon(
-                        Icons.shopping_bag_outlined,
-                        color: Colors.black,
-                      ),
+                builder: (_, cart_provider, __) {
+                  return IconButton(
+                    onPressed: () {
+                      cart_provider.getCartItems();
+                      Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
+                    },
+                    icon: const Icon(
+                      Icons.shopping_bag_outlined,
+                      color: Colors.black,
                     ),
                   );
                 },
@@ -327,7 +319,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                               image: menu_provider.menuitems[index].image.toString(),
                                               name: menu_provider.menuitems[index].name.toString(),
                                               price: double.parse(menu_provider.menuitems[index].price!),
-                                              rating: 3,
+                                              rating: double.parse(menu_provider.menuitems[index].rating ?? "0.0"),
                                               isVeg: menu_provider.menuitems[index].isVeg!,
                                             ),
                                           ),

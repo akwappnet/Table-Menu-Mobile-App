@@ -59,19 +59,10 @@ class CartProvider extends ChangeNotifier {
       if(response != null) {
         if (response.statusCode == 200) {
           var getCartItem = CartModel.fromJson(response.data);
-          var addedIds = <int>{};
           cartList.clear();
           cartList.addAll(getCartItem.cartData!);
           log("cart list:${cartList.length}");
-          for (var data in getCartItem.cartData!) {
-            // Check if category already exists
-            if (!addedIds.contains(data.id)) {
-              // categoryList.add(GetCategory(data: [data]));
-              addedIds.add(data.id!); // Add categoryId to Set
-            }
-          }
           updateTotalPrice();
-          notifyListeners();
           return cartList;
         } else {
           notifyListeners();
