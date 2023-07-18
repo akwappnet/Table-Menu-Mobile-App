@@ -70,8 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 radius: 22,
                 child: CachedNetworkImage(
                   fit: BoxFit.fill,
-                  imageUrl: ApiEndPoint.baseImageUrl +
-                      auth_provider.userData!.profilePhotoUrl!,
+                  imageUrl: auth_provider.userData!.profilePhotoUrl!,
                   imageBuilder: (context, imageProvider) => Container(
                     width: wp(15, context),
                     height: hp(15, context),
@@ -91,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: const Icon(
                           Icons.person_outline,
                           color: Colors.purple,
-                          size: 60,
+                          size: 30,
                         ));
                   },
                 ),

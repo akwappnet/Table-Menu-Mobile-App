@@ -4,7 +4,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_textformfield.dart';
 import 'package:table_menu_customer/view/checkout_screen/widget/add_card_bottom_sheet_widget.dart';
-import 'package:table_menu_customer/view/payment_screen/widget/payment_card_widget.dart';
+import 'package:table_menu_customer/view/checkout_screen/widget/payment_card_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 
 import '../../utils/constants/constants_text.dart';

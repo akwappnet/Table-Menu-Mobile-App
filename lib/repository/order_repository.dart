@@ -48,10 +48,9 @@ class OrderRepository {
   }
 
   trackOrderByID(int id) {
-    dynamic data = {};
     try {
-      return _apiService.getPatchApiResponse(
-          "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/",data);
+      return _apiService.getGetApiResponse(
+          "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/");
     } catch (error) {
       if (error is UnauthorisedException) {
         throw UnauthorisedException;

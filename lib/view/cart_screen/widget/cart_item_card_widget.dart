@@ -43,7 +43,7 @@ class CartItemCard extends StatelessWidget {
               width: wp(20, context), // Replace with the desired width percentage
               height: wp(20, context), // Replace with the desired height percentage
               child: CachedNetworkImage(
-                imageUrl: ApiEndPoint.baseImageUrl + imageUrl,
+                imageUrl: imageUrl,
                 fit: BoxFit.cover,
               ),
             ),

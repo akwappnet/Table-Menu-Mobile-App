@@ -9,6 +9,7 @@ import 'package:table_menu_customer/view/notification_screen.dart';
 import 'package:table_menu_customer/view/order_tracking_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
+import 'package:table_menu_customer/view/payment_screen/payment_screen.dart';
 import 'package:table_menu_customer/view/payment_successful_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/help_support_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
@@ -72,10 +73,10 @@ class Routes {
         return _buildPageRoute(MenuItemDetailsPage(menuData : arguments));
 
       case RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE:
-        return _buildPageRoute(const OrderSuccessfulScreen());
+        return _buildPageRoute(OrderSuccessfulScreen(order_id: arguments,));
 
-      case RoutesName.ORDER_DETAILS_SCREEN_ROUTE:
-        return _buildPageRoute(const OrderDetailsScreen());
+      case RoutesName.ORDER_TRACKING_SCREEN_ROUTE:
+        return _buildPageRoute(OrderTrackingScreen(order_id: arguments,));
 
       case RoutesName.CHECKOUT_SCREEN_ROUTE:
         return _buildPageRoute(CheckoutScreen());
@@ -97,6 +98,9 @@ class Routes {
 
       case RoutesName.SETTINGS_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsScreen());
+
+      case RoutesName.PAYMENT_SCREEN_ROUTE:
+        return _buildPageRoute(const PaymentScreen());
 
       default:
         return _buildPageRoute(const Scaffold(

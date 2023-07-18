@@ -10,13 +10,28 @@ import '../utils/font/text_style.dart';
 import '../utils/widgets/custom_button.dart';
 import '../view_model/order_provider.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+class OrderTrackingScreen extends StatefulWidget {
+  const OrderTrackingScreen({super.key, this.order_id});
+
+  final int? order_id;
+
+  @override
+  State<OrderTrackingScreen> createState() => _OrderTrackingScreenState();
+}
+
+class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<OrderProvider>().getSingleOrder(widget.order_id!, context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderProvider>(
-      builder: (context,order_provider,__){
+      builder: (context, order_provider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -28,8 +43,12 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: textSmallRegularStyle,
                 ),
                 Text(
-                  'Status',
-                  style: smallTitleTextStyle.copyWith(color: Colors.green),
+                  order_provider.orderTrackingData?.orderStatus ?? "",
+                  style: smallTitleTextStyle.copyWith(
+                      color: order_provider.orderTrackingData?.orderStatus ==
+                              "pending"
+                          ? Colors.amber
+                          : Colors.green),
                 ),
               ],
             ),
@@ -38,11 +57,19 @@ class OrderDetailsScreen extends StatelessWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                Navigator.popAndPushNamed(
+                    context, RoutesName.HOME_SCREEN_ROUTE);
               },
             ),
           ),
-          body: SafeArea(
+          body: order_provider.orderTrackingData == null ?  Center(
+            child: Lottie.asset(
+              AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
+              width: 100,
+              height: 100,
+              fit: BoxFit.fill,
+            ),
+          ) : SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: wp(2, context), vertical: hp(2, context)),
@@ -79,50 +106,74 @@ class OrderDetailsScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Theme(
-                              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                              child: ExpansionTile(title: Text("Order list and prices",style: textRegularStyle,),
+                              data: Theme.of(context)
+                                  .copyWith(dividerColor: Colors.transparent),
+                              child: ExpansionTile(
+                                title: Text(
+                                  "Order list and prices",
+                                  style: textRegularStyle,
+                                ),
                                 backgroundColor: Colors.transparent,
                                 maintainState: true,
                                 children: <Widget>[
                                   ListView.builder(
-                                    itemCount: 5,
+                                    itemCount: order_provider.orderTrackingData!
+                                        .orderTrackingCartItems!.length,
                                     shrinkWrap: true,
-                                    itemBuilder: (context,index){
+                                    itemBuilder: (context, index) {
+                                      var item = order_provider
+                                          .orderTrackingData!
+                                          .orderTrackingCartItems![index];
                                       return Container(
-                                        padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(1, context)),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: wp(1, context)),
                                         decoration: const BoxDecoration(
                                           color: Colors.transparent,
                                         ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             CachedNetworkImage(
-                                              fit: BoxFit.fill,
-                                              imageUrl: "",
-                                              imageBuilder: (context, imageProvider) => Container(
-                                                width: wp(3, context),
-                                                height: hp(3, context),
+                                              imageUrl: item.itemImage ?? "",
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: wp(10, context),
+                                                height: hp(10, context),
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                      image: imageProvider, fit: BoxFit.cover),
+                                                      image: imageProvider),
                                                 ),
                                               ),
-                                              progressIndicatorBuilder:
-                                                  (context, url, downloadProgress) => const Center(
-                                                child: CircularProgressIndicator(),
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
+                                                AssetsUtils
+                                                    .ASSETS_PLACEHOLDER_IMAGE,
+                                                width: wp(5, context),
+                                                height: hp(4, context),
                                               ),
-                                              errorWidget: (context, url, error) {
-                                                return Container(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),
-                                                      color: Colors.purple.shade200,),
-                                                    child: const Icon(Icons.person_outline,color: Colors.purple,size: 25,));
-                                              },
+                                              // Show a placeholder while loading
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Image.asset(
+                                                AssetsUtils.ASSETS_ERROR_IMAGE,
+                                                width: wp(5, context),
+                                                height: hp(4, context),
+                                              ),
                                             ),
-                                            Text("menu Item 1",style: textBodyStyle,),
-                                            Text("2x",style: textBodyStyle.copyWith(color: Colors.grey),),
-                                            Text("₹ 100",style: textRegularStyle),
+                                            Text(
+                                              item.itemName ?? "",
+                                              style: textBodyStyle,
+                                            ),
+                                            Text(
+                                              "${item.quantity ?? 0}x",
+                                              style: textBodyStyle.copyWith(
+                                                  color: Colors.grey),
+                                            ),
+                                            Text("₹ ${item.itemPrice ?? 0.0}",
+                                                style: textRegularStyle),
                                           ],
                                         ),
                                       );
@@ -131,59 +182,92 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(height: hp(2, context),),
+                            SizedBox(
+                              height: hp(2, context),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Icon(Icons.add,color: Colors.purple.shade400,),
+                                Icon(
+                                  Icons.add,
+                                  color: Colors.purple.shade400,
+                                ),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                                    Navigator.popAndPushNamed(
+                                        context, RoutesName.HOME_SCREEN_ROUTE);
                                   },
                                   child: Text(
                                     "Add more food items to order",
                                     style: textRegularStyle.copyWith(
-                                        color: Colors.purple.shade300
-                                    ),
+                                        color: Colors.purple.shade300),
                                   ),
                                 ),
                               ],
                             ),
-                            SizedBox(height: hp(3, context),),
+                            SizedBox(
+                              height: hp(3, context),
+                            ),
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(1, context)),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: wp(2, context),
+                                  vertical: hp(1, context)),
                               child: Column(
                                 children: [
                                   const Divider(),
                                   Row(
                                     children: [
-                                      Text("Item total ",style: textRegularStyle.copyWith(
-                                          color: Colors.grey
-                                      ),),
+                                      Text(
+                                        "Item total ",
+                                        style: textRegularStyle.copyWith(
+                                            color: Colors.grey),
+                                      ),
                                       const Spacer(),
-                                      Text("₹ 1000",style: textBodyStyle.copyWith(color: Colors.black),),
+                                      Text(
+                                        "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                        style: textBodyStyle.copyWith(
+                                            color: Colors.black),
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(height: hp(1, context),),
+                                  SizedBox(
+                                    height: hp(1, context),
+                                  ),
                                   Row(
                                     children: [
-                                      Text("Tax",style: textRegularStyle.copyWith(
-                                          color: Colors.grey
-                                      ),),
+                                      Text(
+                                        "Tax",
+                                        style: textRegularStyle.copyWith(
+                                            color: Colors.grey),
+                                      ),
                                       const Spacer(),
-                                      Text("₹ 50",style: textBodyStyle.copyWith(color: Colors.black),),
+                                      Text(
+                                        "₹ 0",
+                                        style: textBodyStyle.copyWith(
+                                            color: Colors.black),
+                                      ),
                                     ],
                                   ),
-                                  SizedBox(height: hp(1, context),),
+                                  SizedBox(
+                                    height: hp(1, context),
+                                  ),
                                   const Divider(),
-                                  SizedBox(height: hp(1, context),),
+                                  SizedBox(
+                                    height: hp(1, context),
+                                  ),
                                   Row(
                                     children: [
-                                      Text("Total price", style: textRegularStyle.copyWith(
-                                          color: Colors.grey
-                                      ),),
+                                      Text(
+                                        "Total price",
+                                        style: textRegularStyle.copyWith(
+                                            color: Colors.grey),
+                                      ),
                                       const Spacer(),
-                                      Text("₹ 1050",style: textBodyStyle.copyWith(color: Colors.black),),
+                                      Text(
+                                        "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                        style: textBodyStyle.copyWith(
+                                            color: Colors.black),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -201,24 +285,30 @@ class OrderDetailsScreen extends StatelessWidget {
           bottomNavigationBar: Hero(
             tag: "checkout",
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: wp(1.5, context),vertical: hp(1.5, context)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: wp(1.5, context), vertical: hp(1.5, context)),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: hp(7.5, context),
                 child: CustomButton(
                     onPressed: () async {
-                      Navigator.pushNamed(context, RoutesName.CHECKOUT_SCREEN_ROUTE);
+                      Navigator.pushNamed(
+                          context, RoutesName.PAYMENT_SCREEN_ROUTE);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Check out", style: textBodyStyle.copyWith(
-                            color: Colors.white
-                        ),),
+                        Text(
+                          "Check out",
+                          style: textBodyStyle.copyWith(color: Colors.white),
+                        ),
                         const Spacer(),
-                        Text("₹ 1050",style: textBodyStyle.copyWith(color: Colors.white),),
+                        Text(
+                          "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                          style: textBodyStyle.copyWith(color: Colors.white),
+                        ),
                       ],
-                    )
+                    ),
                 ),
               ),
             ),

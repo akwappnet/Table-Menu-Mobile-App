@@ -92,12 +92,12 @@ class OrderTrackingData {
 }
 
 class OrderTrackingCartItems {
-  int? total;
+  double? total;
   int? itemId;
   int? quantity;
   String? itemName;
   String? itemImage;
-  int? itemPrice;
+  double? itemPrice;
 
   OrderTrackingCartItems(
       {this.total,

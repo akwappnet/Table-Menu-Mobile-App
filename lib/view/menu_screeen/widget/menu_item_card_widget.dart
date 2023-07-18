@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
 import '../../../utils/assets/assets_utils.dart';
 import '../../../utils/font/text_style.dart';
@@ -39,7 +37,7 @@ class MenuItemGridCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(10.0)),
                 child: CachedNetworkImage(
-                  imageUrl: ApiEndPoint.baseImageUrl + image,
+                  imageUrl: image,
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: hp(18, context),
