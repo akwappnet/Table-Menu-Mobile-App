@@ -258,28 +258,43 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      Text("Price Range", style: textBodyStyle),
-                      SizedBox(
-                        height: hp(1, context),
+                      Text("Price Sort", style: textBodyStyle),
+                      Wrap(
+                        children: [
+                          FilterItemWidget(
+                            onTap: () {
+                              menu_provider.toggleBool();
+                            },
+                            borderColor: menu_provider.toogleBoolean
+                                ? Colors.purple
+                                : Colors.black,
+                            itemText: 'Low - High',
+                            containerColor: menu_provider.toogleBoolean
+                                ? Colors.purple
+                                : Colors.transparent,
+                            textColor: menu_provider.toogleBoolean
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          FilterItemWidget(
+                            onTap: () {
+                              menu_provider.toggleBool();
+                            },
+                            borderColor: menu_provider.toogleBoolean
+                                ? Colors.purple
+                                : Colors.black,
+                            itemText: 'High - Low',
+                            containerColor: menu_provider.toogleBoolean
+                                ? Colors.purple
+                                : Colors.transparent,
+                            textColor: menu_provider.toogleBoolean
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ],
                       ),
-                      SfRangeSlider(
-                        values: menu_provider.values,
-                        onChanged: (SfRangeValues values) {
-                          menu_provider.updateRangeValues(values);
-                        },
-                        activeColor: Colors.purple,
-                        tooltipShape: const SfRectangularTooltipShape(),
-                        showLabels: true,
-                        stepSize: 10,
-                        showDividers: true,
-                        enableIntervalSelection: true,
-                        enableTooltip: true,
-                        interval: 100,
-                        min: 100,
-                        max: 1000,
-                      ),
                       SizedBox(
-                        height: hp(3, context),
+                        height: hp(2, context),
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width,
