@@ -18,7 +18,7 @@ class NotificationProvider extends ChangeNotifier{
     if (response.statusCode == 200) {
       var getNotification = NotificationModel.fromJson(response.data);
       if (getNotification.notificationData!.isNotEmpty) {
-        var addedIds = Set<int>();
+        var addedIds = <int>{};
         notificationList.clear();
         notificationList.addAll(getNotification.notificationData!);
         log("categoryList:${notificationList.length}");

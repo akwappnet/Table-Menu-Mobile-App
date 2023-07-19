@@ -24,7 +24,6 @@ class MenuItemGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("message $image");
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
