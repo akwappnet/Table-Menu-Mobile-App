@@ -24,9 +24,7 @@ class OrdersItemListWidget extends StatelessWidget {
                 leading: SizedBox(
                   height: 100,
                   width: 100,
-                  child: Image.network(
-                    ApiEndPoint.orderEndPoint.orderBaseImageUrl +
-                        ordersItems[index].itemImage.toString(),
+                  child: Image.network(ordersItems[index].itemImage.toString(),
                     height: 100,
                     width: 100,
                   ),

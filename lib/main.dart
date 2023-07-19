@@ -2,10 +2,13 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/constants/constants_text.dart';
 import 'package:table_menu_customer/utils/routes/routes.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
@@ -22,6 +25,8 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await dotenv.load(fileName: "assets/.env");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

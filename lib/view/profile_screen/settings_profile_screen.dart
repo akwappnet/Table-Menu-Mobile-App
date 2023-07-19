@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
-import '../../utils/constants/api_endpoints.dart';
 import '../../utils/responsive.dart';
 import '../../view_model/auth_provider.dart';
 
@@ -49,8 +48,7 @@ class SettingsProfileScreen extends StatelessWidget {
                             radius: 60,
                             child: CachedNetworkImage(
                               fit: BoxFit.fill,
-                              imageUrl: ApiEndPoint.baseImageUrl +
-                                  auth_provider.userData!.profilePhotoUrl!,
+                              imageUrl: auth_provider.userData!.profilePhotoUrl!,
                               imageBuilder: (context, imageProvider) => Container(
                                 width: wp(30, context),
                                 height: hp(30, context),

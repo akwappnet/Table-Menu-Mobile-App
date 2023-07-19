@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/order_repository.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 
 import '../model/order_model.dart';
+import '../model/order_tracking_model.dart';
+import '../model/place_order_model.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
@@ -16,6 +20,9 @@ class OrderProvider extends ChangeNotifier {
   List<OrderData> _orderList = [];
 
   List<OrderData> get orderList => _orderList;
+
+  OrderTrackingData? orderTrackingData;
+  PlaceorderData? placeorderData;
 
   setLoading(bool value) {
     _loading = value;
@@ -60,8 +67,11 @@ class OrderProvider extends ChangeNotifier {
           Provider.of<CartProvider>(context,listen: false).clearCart();
           CustomFlushbar.showSuccess(
               context, response.data['message']);
+          var order = PlaceOrderModel.fromJson(response.data);
+          placeorderData = order.placeorderData;
+          log(placeorderData!.orderId.toString());
           notifyListeners();
-          Navigator.pushNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE);
+          Navigator.pushNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,arguments: placeorderData?.orderId);
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
               context, response.data['message']);
@@ -129,4 +139,31 @@ class OrderProvider extends ChangeNotifier {
       }
     });
   }
+
+  // api call for track single order by id
+
+
+  getSingleOrder(int id,BuildContext context) {
+    _orderRepository.trackOrderByID(id).then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          OrderTrackingModel orderTrackingModel = OrderTrackingModel.fromJson(response.data);
+          orderTrackingData = orderTrackingModel.orderTrackingData?.first;
+          print(orderTrackingData?.customerName);
+          CustomFlushbar.showSuccess(
+              context, response.data['message']);
+          notifyListeners();
+        } else if (response.data['status'] == false) {
+          CustomFlushbar.showError(
+              context, response.data['message']);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(
+            context, "An error occurred");
+        notifyListeners();
+      }
+    });
+  }
+
 }

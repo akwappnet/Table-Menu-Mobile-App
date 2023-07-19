@@ -7,7 +7,9 @@ import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 
 class OrderSuccessfulScreen extends StatelessWidget {
-  const OrderSuccessfulScreen({super.key});
+  const OrderSuccessfulScreen({super.key,this.order_id});
+
+  final int? order_id;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                     color: Colors.white
                   ),
                   ), onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.ORDER_DETAILS_SCREEN_ROUTE);
+                    Navigator.pushNamed(context, RoutesName.ORDER_TRACKING_SCREEN_ROUTE,arguments: order_id);
                   }),
                 ),
                 SizedBox(height: hp(4, context),),

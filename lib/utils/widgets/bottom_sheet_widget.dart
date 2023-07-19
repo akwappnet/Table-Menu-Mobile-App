@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/menuItem_model.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/plus_minus_button_widget.dart';
@@ -32,8 +31,7 @@ class CustomBottomSheet {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         menuData.image != null
-                            ? Image.network(
-                                ApiEndPoint.baseImageUrl + menuData.image!,
+                            ? Image.network(menuData.image!,
                                 height: hp(30, context),
                                 width: wp(60, context),
                               )

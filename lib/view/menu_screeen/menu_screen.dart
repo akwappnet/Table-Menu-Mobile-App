@@ -225,8 +225,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                     horizontal: 4),
                                                 child: CircleAvatar(
                                                   backgroundImage:
-                                                  NetworkImage(ApiEndPoint
-                                                      .baseImageUrl +
+                                                  NetworkImage(
                                                       menu_provider.categories[
                                                       index]
                                                           .categoryImg

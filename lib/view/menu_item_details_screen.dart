@@ -2,15 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
-import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
-import '../model/custom_result_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
-import '../utils/widgets/custom_flushbar_widget.dart';
 import '../utils/widgets/plus_minus_button_widget.dart';
 import '../view_model/cart_provider.dart';
 import '../view_model/menu_provider.dart';
@@ -65,8 +61,7 @@ class MenuItemDetailsPage extends StatelessWidget {
                 child: Hero(
                   tag: "menu-${menuData.id}",
                   child: CachedNetworkImage(
-                    imageUrl: ApiEndPoint.baseImageUrl +
-                        menuData.image.toString() ?? '',
+                    imageUrl: menuData.image.toString() ?? '',
                     fit: BoxFit.cover,
                     placeholder: (context, url) =>
                         Image.asset(AssetsUtils.ASSETS_PLACEHOLDER_IMAGE),
