@@ -166,4 +166,34 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
+
+  feedback({required int order_id,String? review,required BuildContext context}) {
+    var data = {
+      "rating": foodRating,
+      "service_rating": serviceRating,
+      "review": feedbackController.text
+    };
+    _orderRepository.feedback(data,order_id).then((response) {
+      log(response.toString());
+      if(response != null) {
+        if (response.statusCode == 200) {
+          log(response.toString());
+          CustomFlushbar.showSuccess(
+              context, response.data['message']);
+          notifyListeners();
+          Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+        } else if (response.data['status'] == "False") {
+          CustomFlushbar.showError(
+              context, response.data['message']);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(
+            context, "An error occurred");
+        notifyListeners();
+      }
+    });
+  }
+
+
 }

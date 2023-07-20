@@ -33,7 +33,7 @@ class _MenuScreenState extends State<MenuScreen> {
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<MenuProvider>().getCategories(context);
-      context.read<MenuProvider>().getMenuItems("",context);
+      context.read<MenuProvider>().getMenuItems(context: context,categoryName: "");
     });
     super.initState();
   }

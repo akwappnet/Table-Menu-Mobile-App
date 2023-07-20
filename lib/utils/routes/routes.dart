@@ -79,13 +79,13 @@ class Routes {
         return _buildPageRoute(OrderTrackingScreen(order_id: arguments,));
 
       case RoutesName.CHECKOUT_SCREEN_ROUTE:
-        return _buildPageRoute(CheckoutScreen());
+        return _buildPageRoute(CheckoutScreen(orderId: arguments,));
 
       case RoutesName.PAYMENT_SUCCESSFUL_SCREEN_ROUTE:
-        return _buildPageRoute(const PaymentSuccessfulScreen());
+        return _buildPageRoute(PaymentSuccessfulScreen(orderID: arguments,));
 
       case RoutesName.FEEDBACK_SCREEN_ROUTE:
-        return _buildPageRoute(const FeedbackScreen());
+        return _buildPageRoute(FeedbackScreen(orderID: arguments,));
 
       case RoutesName.SETTINGS_PROFILE_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsProfileScreen());

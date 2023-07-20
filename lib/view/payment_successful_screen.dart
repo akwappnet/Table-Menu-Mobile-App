@@ -8,7 +8,8 @@ import '../utils/widgets/custom_button.dart';
 import 'feedback_screeen/widget/add_feedback_dialog.dart';
 
 class PaymentSuccessfulScreen extends StatelessWidget {
-  const PaymentSuccessfulScreen({super.key});
+  const PaymentSuccessfulScreen({super.key,this.orderID});
+  final int? orderID;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class PaymentSuccessfulScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return CustomDialogBox(
                       addFeedback: () {
-                        Navigator.pushNamed(context, RoutesName.FEEDBACK_SCREEN_ROUTE);
+                        Navigator.pushNamed(context, RoutesName.FEEDBACK_SCREEN_ROUTE,arguments: orderID);
                       },
                       onClosePressed: () {
                         Navigator.of(context).pop();
