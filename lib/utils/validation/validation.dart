@@ -57,9 +57,7 @@ String? validateField(String? value) {
 String? validateDiscountCode(String? value) {
   const pattern = r'^[a-zA-Z0-9_]+$';
   final regex = RegExp(pattern);
-  if (value!.isEmpty){
-    return 'This field must be filled';
-  }else if (!regex.hasMatch(value)) {
+  if (!regex.hasMatch(value!)) {
     return 'Invalid discount code.';
   } else {
     return null;

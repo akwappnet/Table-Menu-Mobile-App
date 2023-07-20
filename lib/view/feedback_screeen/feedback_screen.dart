@@ -3,38 +3,36 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_textformfield.dart';
-import 'package:table_menu_customer/view/feedback_screeen/widget/add_feedback_dialog.dart';
 
 import '../../utils/font/text_style.dart';
-import '../../utils/routes/routes_name.dart';
-import '../../utils/validation/validation.dart';
 import '../../utils/widgets/custom_button.dart';
 import '../../view_model/order_provider.dart';
 
 class FeedbackScreen extends StatelessWidget {
-  const FeedbackScreen({super.key});
+  const FeedbackScreen({super.key,this.orderID});
+  final int? orderID;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text(
-          'Feedback',
-          style: smallTitleTextStyle,
-        ),
-        backgroundColor: Colors.white,
-        scrolledUnderElevation: 0.0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: Consumer<OrderProvider>(
-        builder: (context, order_provider, __) {
-          return SafeArea(
+    return Consumer<OrderProvider>(
+      builder: (context,order_provider,__){
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text(
+              'Feedback',
+              style: smallTitleTextStyle,
+            ),
+            backgroundColor: Colors.white,
+            scrolledUnderElevation: 0.0,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+          body: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: wp(4, context), vertical: hp(3, context)),
@@ -97,11 +95,11 @@ class FeedbackScreen extends StatelessWidget {
                               Icons.sentiment_very_satisfied,
                               color: Colors.green,
                             );
-                            default:
-                              return const Icon(
-                                Icons.add,
-                                color: Colors.transparent,
-                              );
+                          default:
+                            return const Icon(
+                              Icons.add,
+                              color: Colors.transparent,
+                            );
                         }
                       },
                       onRatingUpdate: (rating) {
@@ -192,26 +190,26 @@ class FeedbackScreen extends StatelessWidget {
                 ),
               ),
             ),
-          );
-        },
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: wp(1.5, context), vertical: hp(1.5, context)),
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: hp(7.5, context),
-          child: CustomButton(
-            onPressed: () async {
-              Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
-            },
-            child: Text(
-              "Submit",
-              style: textBodyStyle.copyWith(color: Colors.white),
+          ),
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: wp(1.5, context), vertical: hp(1.5, context)),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: hp(7.5, context),
+              child: CustomButton(
+                onPressed: () async {
+                  order_provider.feedback(order_id: orderID!, context: context);
+                },
+                child: Text(
+                  "Submit",
+                  style: textBodyStyle.copyWith(color: Colors.white),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

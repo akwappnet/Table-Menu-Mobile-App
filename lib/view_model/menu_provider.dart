@@ -1,11 +1,11 @@
+
+
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
 
 
 import '../model/category_model.dart';
-import '../model/custom_result_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
@@ -17,7 +17,6 @@ class MenuProvider extends ChangeNotifier {
   List<CategoryData> categories = [];
   List<MenuData> menuitems = [];
   bool favToggle = false;
-
   bool toogleBoolean = false;
 
   toggleBool(){
@@ -48,7 +47,7 @@ class MenuProvider extends ChangeNotifier {
 
   void setCategoryName(String value,BuildContext context){
     categoryName = value;
-    getMenuItems(categoryName,context);
+    getMenuItems(categoryName: categoryName,context: context);
     notifyListeners();
   }
 
@@ -71,10 +70,11 @@ class MenuProvider extends ChangeNotifier {
       }
     });
   }
+  MenuData singleMenuData = MenuData();
 
   // get request for menu items
-  getMenuItems(String category_name,BuildContext context) {
-    menuRepository.getMenuItems(category_name).then((response){
+  getMenuItems({required String categoryName,required BuildContext context,int? id}) {
+    menuRepository.getMenuItems(categoryName).then((response){
       if(response != null) {
         if(response.statusCode == 200) {
           MenuItemModel menuItemModel = MenuItemModel.fromJson(response.data);
@@ -90,4 +90,27 @@ class MenuProvider extends ChangeNotifier {
       }
     });
   }
+
+  // add menu items to favorites api call
+
+  addToFavoritesMenuItem(int id,BuildContext context){
+    menuRepository.addToFavoriteMenuItem(id).then((response) {
+      if(response != null){
+        if(response.statusCode == 200){
+          toggleFavorite();
+          getMenuItems(context: context,categoryName: "",id: id);
+          notifyListeners();
+        }else {
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
+        }
+      }else {
+        CustomFlushbar.showError(context, "Something went wrong");
+        notifyListeners();
+      }
+    });
+  }
+
+
+
 }

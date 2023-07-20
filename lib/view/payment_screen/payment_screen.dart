@@ -161,9 +161,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 address: AddressCollectionMode.automatic,
                 email: CollectionMode.automatic,
                 phone: CollectionMode.automatic),
-            applePay: null,
+            // applePay: const PaymentSheetApplePay(
+            //   merchantCountryCode: "IN",
+            // ),
             googlePay: const PaymentSheetGooglePay(
-                merchantCountryCode: "IN", currencyCode: "INR", testEnv: true),
+              merchantCountryCode: "IN",
+              currencyCode: "INR",
+              testEnv: true,
+            ),
             merchantDisplayName: 'Table Menu'),
       )
           .then((value) {
@@ -194,14 +199,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         color: Colors.green,
                       ),
                     ),
-                    Text("Payment Successfull"),
+                    Text("Payment Successful"),
                   ],
                 ),
               ],
             ),
           ),
         );
-
         // TODO: update payment intent to null
         paymentIntent = null;
       }).onError((error, stackTrace) {
@@ -248,7 +252,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void initilize() async {
+    Stripe.instance.isPlatformPaySupportedListenable.addListener(() {
+    });
+    Stripe.instance.canAddToWallet("1234");
     Stripe.publishableKey = stripePublishableKey;
+    Stripe.merchantIdentifier = "";
+    Stripe.instance.applySettings();
+    Stripe.setReturnUrlSchemeOnAndroid = true;
     await dotenv.load(fileName: "assets/.env");
   }
 }

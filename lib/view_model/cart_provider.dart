@@ -36,6 +36,7 @@ class CartProvider extends ChangeNotifier {
       if(response != null) {
 
         if (response.data['status'] == true) {
+          _quantity = 1;
           getCartItems();
           CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();

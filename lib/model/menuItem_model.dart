@@ -32,6 +32,7 @@ class MenuItemModel {
 class MenuData {
   int? id;
   String? categoryName;
+  bool? isFavorite;
   String? name;
   String? ingredients;
   String? price;
@@ -53,6 +54,7 @@ class MenuData {
   MenuData(
       {this.id,
         this.categoryName,
+        this.isFavorite,
         this.name,
         this.ingredients,
         this.price,
@@ -74,6 +76,7 @@ class MenuData {
   MenuData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryName = json['category_name'];
+    isFavorite = json['is_favorite'];
     name = json['name'];
     ingredients = json['ingredients'];
     price = json['price'];
@@ -97,6 +100,7 @@ class MenuData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['category_name'] = categoryName;
+    data['is_favorite'] = isFavorite;
     data['name'] = name;
     data['ingredients'] = ingredients;
     data['price'] = price;
@@ -110,9 +114,9 @@ class MenuData {
     data['is_special'] = isSpecial;
     data['is_sweet'] = isSweet;
     data['is_popular'] = isPopular;
-    data['rating'] = this.rating;
-    data['rated'] = this.rated;
-    data['duration'] = this.duration;
+    data['rating'] = rating;
+    data['rated'] = rated;
+    data['duration'] = duration;
     data['category_id'] = categoryId;
     return data;
   }

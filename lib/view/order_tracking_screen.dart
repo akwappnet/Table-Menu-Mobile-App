@@ -293,7 +293,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 child: CustomButton(
                     onPressed: () async {
                       Navigator.pushNamed(
-                          context, RoutesName.PAYMENT_SCREEN_ROUTE);
+                          context, RoutesName.CHECKOUT_SCREEN_ROUTE,arguments: widget.order_id);
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,

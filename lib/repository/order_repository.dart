@@ -59,4 +59,19 @@ class OrderRepository {
       }
     }
   }
+
+  feedback(dynamic data,int id) {
+    try {
+      return _apiService.getPostApiResponse(
+          "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/feedback/", data);
+    } catch (error) {
+      if (error is UnauthorisedException) {
+        throw UnauthorisedException;
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+
 }
