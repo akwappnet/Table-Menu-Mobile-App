@@ -44,6 +44,7 @@ class NetworkApiService extends BaseApiService {
         },
         onError: (DioException error, handler) async {
           if (error.response?.statusCode == 401) {
+            throw UnauthorisedException();
             // TODO perform force logout
           }
           // Handle other errors if needed
@@ -71,7 +72,14 @@ class NetworkApiService extends BaseApiService {
               ))
           .timeout(const Duration(seconds: 10));
       //print(response.data);
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
       // responseJson = returnResponse(response);
       // return responseJson;
     } on SocketException {
@@ -99,7 +107,16 @@ class NetworkApiService extends BaseApiService {
               ),
               queryParameters: queryParams)
           .timeout(const Duration(seconds: 10));
-      return response;
+
+      if (response.statusCode == 200) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
+
     } on SocketException {
       throw FetchDataExceptions(
           'Error Occurred While Communicating with Server');
@@ -124,7 +141,14 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-      return response;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
     } on SocketException {
       throw FetchDataExceptions(
           'Error Occurred While Communicating with Server');
@@ -151,7 +175,14 @@ class NetworkApiService extends BaseApiService {
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
 
-      return response;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions(
@@ -180,7 +211,14 @@ class NetworkApiService extends BaseApiService {
               ))
           .timeout(const Duration(seconds: 10));
 
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions(
@@ -208,7 +246,14 @@ class NetworkApiService extends BaseApiService {
               ))
           .timeout(const Duration(seconds: 10));
 
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
       // responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataExceptions(
@@ -235,7 +280,14 @@ class NetworkApiService extends BaseApiService {
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
 
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else if (response.statusCode == 401) {
+        throw UnauthorisedException("Unauthorized request.");
+      } else {
+        throw FetchDataExceptions(
+            'Error Occurred While Communicating with Server');
+      }
     } on SocketException {
       throw FetchDataExceptions(
           'Error Occured While Communicating with Server');

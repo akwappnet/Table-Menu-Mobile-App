@@ -25,5 +25,6 @@ class RoutesName {
   static const String HELP_SUPPORT_SCREEN_ROUTE = "/help_support_screen";
   static const String SETTINGS_SCREEN_ROUTE = "/settings_screen";
   static const String PAYMENT_SCREEN_ROUTE = "/payment_screen";
+  static const String NO_INTERNET_SCREEN_ROUTE = "/no_internet_screen";
 
 }

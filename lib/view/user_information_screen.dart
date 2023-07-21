@@ -52,7 +52,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
       auth_provider.setImagetemp(imageTemporary);
       Navigator.of(context).pop();
-    } on Exception catch (e) {
+    } on Exception {
       Navigator.of(context).pop();
     }
   }
@@ -174,7 +174,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   SizedBox(height: hp(2, context),),
                   Form(
                     key: _form_key_userinfo,
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [

@@ -23,8 +23,12 @@ class MenuItemDetailsPage extends StatefulWidget {
 }
 
 class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
+
   @override
   void initState() {
+    Future.delayed(Duration.zero, () {
+      Provider.of<MenuProvider>(context, listen: false).getMenuItemByID(widget.menuData.id!,context);
+    });
     super.initState();
   }
 

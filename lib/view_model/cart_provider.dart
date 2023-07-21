@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
 
+import '../utils/helpers.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
@@ -26,6 +26,8 @@ class CartProvider extends ChangeNotifier {
 
   List<CartData> cartList = [];
 
+
+
   void setQuantity(int value) {
     _quantity = value;
     notifyListeners();
@@ -37,7 +39,7 @@ class CartProvider extends ChangeNotifier {
 
         if (response.data['status'] == true) {
           _quantity = 1;
-          getCartItems();
+          getCartItems(context);
           CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();
           Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
@@ -49,12 +51,15 @@ class CartProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
   // get cart item
 
-  Future<List<CartData>> getCartItems() async {
+  Future<List<CartData>> getCartItems(BuildContext context) async {
 
     await _cartRepository.getCartItems().then((response) {
       if(response != null) {
@@ -71,6 +76,9 @@ class CartProvider extends ChangeNotifier {
       }else {
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
     notifyListeners();
     // Return an empty list if there was an error
@@ -113,7 +121,7 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  updateItemQuantity(dynamic data, int id) {
+  updateItemQuantity(dynamic data, int id,BuildContext context) {
     _cartRepository.updateCartItem(data, id).then((response) {
       if(response != null) {
         if (response.statusCode == 200) {
@@ -125,7 +133,7 @@ class CartProvider extends ChangeNotifier {
             updateTotalPrice();
             notifyListeners();
           }
-          getCartItems();
+          getCartItems(context);
           notifyListeners();
         } else {
           // TODO: Handle error
@@ -134,6 +142,9 @@ class CartProvider extends ChangeNotifier {
       }else {
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
 
   }
@@ -143,7 +154,7 @@ class CartProvider extends ChangeNotifier {
       if(response != null){
         if (response.data["status"] == true) {
           cartList.removeWhere((item) => item.id == id);
-          getCartItems();
+          getCartItems(context);
           // Recalculate the total price
           updateTotalPrice();
           _quantity = 1;
@@ -157,6 +168,9 @@ class CartProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
@@ -168,7 +182,7 @@ class CartProvider extends ChangeNotifier {
         if (response.data["status"] == true) {
           cartList.clear();
           clearCart();
-          getCartItems();
+          getCartItems(context);
           CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();
         } else if (response.data['status'] == "False") {
@@ -179,6 +193,9 @@ class CartProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 

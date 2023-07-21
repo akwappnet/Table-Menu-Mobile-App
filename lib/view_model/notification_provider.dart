@@ -1,8 +1,11 @@
-import 'dart:developer';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:table_menu_customer/model/notification_model.dart';
 import 'package:table_menu_customer/repository/notification_repository.dart';
+import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/view_model/nav_provider.dart';
 
+import '../utils/helpers.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
 class NotificationProvider extends ChangeNotifier{
@@ -11,29 +14,40 @@ class NotificationProvider extends ChangeNotifier{
 
   List<NotificationData> notificationList = [];
 
+  bool _loading = false;
+
+  bool get loading => _loading;
+
+  setLoading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
+
   // get list of notification
 
-  Future<List<NotificationData>> getAllNotification() async{
-    var response = await notificationRepository.getNotifications();
-    if (response.statusCode == 200) {
-      var getNotification = NotificationModel.fromJson(response.data);
-      if (getNotification.notificationData!.isNotEmpty) {
-        var addedIds = <int>{};
-        notificationList.clear();
-        notificationList.addAll(getNotification.notificationData!);
-        log("categoryList:${notificationList.length}");
-        for (var data in getNotification.notificationData!) {
-          // Check if category already exists
-          if (!addedIds.contains(data.id)) {
-            // categoryList.add(GetCategory(data: [data]));
-            addedIds.add(data.id!); // Add categoryId to Set
-          }
+  getAllNotification(BuildContext context) {
+    notificationRepository.getNotifications().then((response) {
+      setLoading(true);
+      if(response != null) {
+        if (response.statusCode == 200) {
+            NotificationModel notificationModel = NotificationModel.fromJson(response.data);
+            notificationList = notificationModel.notificationData!;
+            setLoading(false);
+            notifyListeners();
+        } else {
+          setLoading(false);
+          CustomFlushbar.showError(context, response.data["message"]);
+          notifyListeners();
         }
-        return notificationList;
+      }else {
+        setLoading(false);
+        CustomFlushbar.showError(context, "An error occurred");
+        notifyListeners();
       }
-    } else {}
-    // Return an empty list if there was an error
-    return [];
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
+    });
   }
 
   // delete notification
@@ -53,6 +67,9 @@ class NotificationProvider extends ChangeNotifier{
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
@@ -60,11 +77,10 @@ class NotificationProvider extends ChangeNotifier{
 
   deleteAllNotification(BuildContext context) {
     notificationRepository.deleteAllNotification().then((response) {
-      print(response.data);
       if(response != null) {
         if (response.data["status"] == true) {
           notificationList.clear();
-          getAllNotification();
+          getAllNotification(context);
           CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();
         } else if (response.data['status'] == false) {
@@ -75,6 +91,9 @@ class NotificationProvider extends ChangeNotifier{
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
@@ -83,8 +102,10 @@ class NotificationProvider extends ChangeNotifier{
     notificationRepository.markAsReadNotification(id).then((response) {
       if(response != null) {
         if (response.data["status"] == true) {
-          getAllNotification();
+          getAllNotification(context);
           CustomFlushbar.showSuccess(context, response.data["message"]);
+          Provider.of<NavProvider>(context).changeIndex(1);
+          Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
           notifyListeners();
         } else if (response.data['status'] == false) {
           CustomFlushbar.showError(context, response.data["message"]);
@@ -94,6 +115,9 @@ class NotificationProvider extends ChangeNotifier{
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 }

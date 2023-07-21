@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 import 'package:table_menu_customer/view/orders_screen/widget/orders_items_list_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
@@ -30,7 +28,7 @@ class OrdersScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: StreamBuilder(
-          stream: order_provider.getOrders().asStream(),
+          stream: order_provider.getOrders(context).asStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var ordersList = snapshot.data;

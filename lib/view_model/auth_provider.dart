@@ -11,6 +11,7 @@ import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/db_provider.dart';
 import '../repository/auth_repository.dart';
+import '../utils/helpers.dart';
 
 class AuthProvider extends ChangeNotifier {
   final AuthRepository _authRepository = AuthRepository();
@@ -53,6 +54,9 @@ class AuthProvider extends ChangeNotifier {
 
   String get user_name => _user_name;
 
+
+
+
   void setUserName(String value) {
     _user_name = value;
     notifyListeners();
@@ -85,6 +89,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -148,6 +155,9 @@ class AuthProvider extends ChangeNotifier {
             context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -172,6 +182,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -201,6 +214,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -221,6 +237,8 @@ class AuthProvider extends ChangeNotifier {
       }else {
         CustomFlushbar.showError(context, "An error occurred");
       }
+    }).catchError((error) {
+      handleDioException(context, error);
     });
   }
 
@@ -245,6 +263,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -276,6 +297,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -294,6 +318,9 @@ class AuthProvider extends ChangeNotifier {
       }else {
         return UserModel();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
     return UserModel();
   }
@@ -323,6 +350,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         setLoading(false);
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
@@ -344,6 +374,9 @@ class AuthProvider extends ChangeNotifier {
         CustomFlushbar.showError(context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
     });
   }
 
