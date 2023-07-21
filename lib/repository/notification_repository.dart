@@ -1,4 +1,6 @@
-import '../data/app_exceptions.dart';
+import 'package:dio/dio.dart';
+
+
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
 import '../utils/constants/api_endpoints.dart';
@@ -14,12 +16,8 @@ class NotificationRepository {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
+    } on DioException catch (error) {
         rethrow;
-      }
     }
   }
 
@@ -30,12 +28,8 @@ class NotificationRepository {
       return _apiService.getDeleteApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/"
       );
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } on DioException catch (error) {
+      rethrow;
     }
   }
 
@@ -48,12 +42,8 @@ class NotificationRepository {
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint
       );
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } on DioException catch (error) {
+      rethrow;
     }
   }
 
@@ -66,12 +56,8 @@ class NotificationRepository {
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/",
         data
       );
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } on DioException catch (error) {
+      rethrow;
     }
   }
 }

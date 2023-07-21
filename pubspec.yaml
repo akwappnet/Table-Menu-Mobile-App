@@ -65,6 +65,7 @@ dependencies:
   pay: ^1.1.1
   confetti: ^0.7.0
   awesome_dialog: ^3.1.0
+  connectivity_plus: ^4.0.1
 
 dev_dependencies:
   flutter_test:

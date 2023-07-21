@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/cart_screen/cart_screen.dart';
 import 'package:table_menu_customer/view/checkout_screen/checkout_screen.dart';
 import 'package:table_menu_customer/view/feedback_screeen/feedback_screen.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
+import 'package:table_menu_customer/view/no_internet_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
 import 'package:table_menu_customer/view/order_tracking_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
-import 'package:table_menu_customer/view/payment_screen/payment_screen.dart';
 import 'package:table_menu_customer/view/payment_successful_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/help_support_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
@@ -21,6 +22,7 @@ import 'package:table_menu_customer/view/registration_screen.dart';
 import 'package:table_menu_customer/view/user_information_screen.dart';
 import 'package:table_menu_customer/view/verify_user_screen.dart';
 import 'package:table_menu_customer/view/welcome_screen.dart';
+import 'package:table_menu_customer/view_model/connectivity_provider.dart';
 
 import '../../view/login_screen.dart';
 import '../../view/menu_item_details_screen.dart';
@@ -99,8 +101,8 @@ class Routes {
       case RoutesName.SETTINGS_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsScreen());
 
-      case RoutesName.PAYMENT_SCREEN_ROUTE:
-        return _buildPageRoute(const PaymentScreen());
+      case RoutesName.NO_INTERNET_SCREEN_ROUTE:
+        return _buildPageRoute(const NoInternetScreen());
 
       default:
         return _buildPageRoute(const Scaffold(
@@ -112,7 +114,12 @@ class Routes {
   static PageRouteBuilder<Object> _buildPageRoute(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {
-        return page;
+        final isInternetAvailable = Provider.of<ConnectivityProvider>(context).isInternetAvailable;
+        if(!isInternetAvailable){
+          return const NoInternetScreen();
+        }else {
+          return page;
+        }
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
         final Animation<Offset> slideAnimation = Tween<Offset>(
@@ -125,14 +132,6 @@ class Routes {
         );
       },
       transitionDuration: const Duration(milliseconds: 600), // Adjust the duration as needed
-    );
-  }
-
-  static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(
-      builder: (_) => const Scaffold(
-        body: Center(child: Text('No route defined')),
-      ),
     );
   }
 }

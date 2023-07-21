@@ -5,8 +5,8 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
+import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 
-import '../../utils/constants/api_endpoints.dart';
 import '../../utils/constants/constants_text.dart';
 import '../../view_model/auth_provider.dart';
 
@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       builder: (context, auth_provider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: AppBar(
+          appBar: auth_provider.userData != null ? AppBar(
             backgroundColor: Colors.white,
             automaticallyImplyLeading: false,
             title: Column(
@@ -70,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 radius: 22,
                 child: CachedNetworkImage(
                   fit: BoxFit.fill,
-                  imageUrl: auth_provider.userData!.profilePhotoUrl!,
+                  imageUrl: auth_provider.userData!.profilePhotoUrl ?? "",
                   imageBuilder: (context, imageProvider) => Container(
                     width: wp(15, context),
                     height: hp(15, context),
@@ -96,13 +96,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ],
+          ) : AppBar(
+            automaticallyImplyLeading: false,
           ),
           body: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: wp(2, context), vertical: hp(2, context)),
               child: SingleChildScrollView(
-                child: Column(
+                child: auth_provider.userData != null ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Divider(
@@ -215,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ],
-                ),
+                ) : const Center(child: PlaceholderWidget(title: "NO DATA")),
               ),
             ),
           ),

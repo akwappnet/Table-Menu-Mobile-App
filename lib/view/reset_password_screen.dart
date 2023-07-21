@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
-import 'package:table_menu_customer/utils/constants/constants_text.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
-import '../utils/routes/routes_name.dart';
 import '../utils/validation/validation.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_snack_bar.dart';
-import '../utils/widgets/custom_text.dart';
 import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
 

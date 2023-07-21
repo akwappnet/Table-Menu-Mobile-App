@@ -8,6 +8,7 @@ import 'package:table_menu_customer/view_model/cart_provider.dart';
 import '../model/order_model.dart';
 import '../model/order_tracking_model.dart';
 import '../model/place_order_model.dart';
+import '../utils/helpers.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
@@ -38,6 +39,8 @@ class OrderProvider extends ChangeNotifier {
 
   final TextEditingController feedbackController = TextEditingController();
 
+  final TextEditingController instructionController = TextEditingController();
+
   bool card = false;
 
   visibleCard(){
@@ -63,7 +66,7 @@ class OrderProvider extends ChangeNotifier {
     _orderRepository.placeOrder(data).then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
-          getOrders();
+          getOrders(context);
           Provider.of<CartProvider>(context,listen: false).clearCart();
           CustomFlushbar.showSuccess(
               context, response.data['message']);
@@ -82,11 +85,14 @@ class OrderProvider extends ChangeNotifier {
             context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
   // get all orders placed by user
-  Future<List<OrderData>> getOrders() async {
+  Future<List<OrderData>> getOrders(BuildContext context) async {
     await _orderRepository.getOrders().then((response) {
       if (response.statusCode == 200) {
         var getOrders = OrderModel.fromJson(response.data);
@@ -109,6 +115,9 @@ class OrderProvider extends ChangeNotifier {
       } else {
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
     notifyListeners();
     // Return an empty list if there was an error
@@ -123,7 +132,7 @@ class OrderProvider extends ChangeNotifier {
       if(response != null) {
         if (response.data['status'] == true) {
           orderList.removeWhere((item) => item.id == id);
-          getOrders();
+          getOrders(context);
           CustomFlushbar.showSuccess(
               context, response.data['message']);
           notifyListeners();
@@ -137,6 +146,9 @@ class OrderProvider extends ChangeNotifier {
             context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
@@ -149,7 +161,6 @@ class OrderProvider extends ChangeNotifier {
         if (response.data['status'] == true) {
           OrderTrackingModel orderTrackingModel = OrderTrackingModel.fromJson(response.data);
           orderTrackingData = orderTrackingModel.orderTrackingData?.first;
-          print(orderTrackingData?.customerName);
           CustomFlushbar.showSuccess(
               context, response.data['message']);
           notifyListeners();
@@ -163,6 +174,9 @@ class OrderProvider extends ChangeNotifier {
             context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 
@@ -192,6 +206,9 @@ class OrderProvider extends ChangeNotifier {
             context, "An error occurred");
         notifyListeners();
       }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
     });
   }
 

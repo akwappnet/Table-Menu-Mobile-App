@@ -18,7 +18,6 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var paymentIntent;
-  late final Future<PaymentConfiguration> _googlePayConfigFuture;
 
   late final Pay _payClient;
 

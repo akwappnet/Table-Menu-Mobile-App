@@ -18,6 +18,7 @@ import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/login_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
+import 'package:table_menu_customer/view_model/connectivity_provider.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
 import 'package:table_menu_customer/view_model/nav_provider.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
@@ -95,8 +96,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    var initializationSettingsAndroid =
-        const AndroidInitializationSettings('ic_launcher');
     var initialzationSettingsAndroid =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettings =
@@ -175,6 +174,7 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_) => QRProvider()),
           ChangeNotifierProvider(create: (_) => NotificationProvider()),
           ChangeNotifierProvider(create: (_) => OrderProvider()),
+          ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
         ],
         child: MaterialApp(
           title: 'Table Menu Customer',
@@ -203,6 +203,7 @@ class _MyAppState extends State<MyApp> {
                 widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
           ),
           onGenerateRoute: Routes.generateRoute,
-        ));
+        ),
+    );
   }
 }
