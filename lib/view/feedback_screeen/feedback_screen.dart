@@ -5,6 +5,7 @@ import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_textformfield.dart';
 
 import '../../utils/font/text_style.dart';
+import '../../utils/routes/routes_name.dart';
 import '../../utils/widgets/custom_button.dart';
 import '../../view_model/order_provider.dart';
 
@@ -198,8 +199,9 @@ class FeedbackScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: hp(7.5, context),
               child: CustomButton(
-                onPressed: () async {
-                  order_provider.feedback(order_id: orderID!, context: context);
+                onPressed: () {
+                  order_provider.feedback(orderID!,context);
+                  Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
                 },
                 child: Text(
                   "Submit",

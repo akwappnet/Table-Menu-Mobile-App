@@ -16,6 +16,7 @@ class MenuProvider extends ChangeNotifier {
   String categoryName = "";
   List<CategoryData> categories = [];
   List<MenuData> menuitems = [];
+  List<MenuData> favMenuitems = [];
   bool favToggle = false;
   SfRangeValues values = const SfRangeValues(500, 1000);
 
@@ -158,13 +159,22 @@ class MenuProvider extends ChangeNotifier {
   MenuData singleMenuData = MenuData();
 
   // get request for menu items
-  getMenuItems({required String categoryName,required BuildContext context}) {
+  getMenuItems({required String categoryName,required BuildContext context, bool? fillterFavorites}) {
     menuRepository.getMenuItems(categoryName).then((response){
       setLoading(true);
       if(response != null) {
         if(response.statusCode == 200) {
           MenuItemModel menuItemModel = MenuItemModel.fromJson(response.data);
           menuitems = menuItemModel.menuData!;
+          favMenuitems = menuItemModel.menuData!;
+          if(fillterFavorites == true){
+            favMenuitems = favMenuitems
+                .where((menuitem) =>
+            menuitem.isFavorite == true)
+                .toList();
+            setLoading(false);
+            notifyListeners();
+          }
           setLoading(false);
           notifyListeners();
         }else {

@@ -13,6 +13,7 @@ class MenuItemGridCard extends StatelessWidget {
     required this.price,
     required this.rating,
     required this.isVeg,
+    this.isFavorite = false,
   }) : super(key: key);
 
   final String image;
@@ -20,6 +21,7 @@ class MenuItemGridCard extends StatelessWidget {
   final double price;
   final double rating;
   final bool isVeg;
+  final bool? isFavorite;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,9 @@ class MenuItemGridCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: titleTextStyle,
+                      style: textBodyStyle.copyWith(
+                        fontSize: 20
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),

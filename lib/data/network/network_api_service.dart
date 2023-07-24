@@ -1,12 +1,12 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/view_model/db_provider.dart';
 
-import '../app_exceptions.dart';
+import '../../utils/helpers.dart';
 
 class NetworkApiService extends BaseApiService {
 
@@ -43,9 +43,9 @@ class NetworkApiService extends BaseApiService {
           return handler.next(response);
         },
         onError: (DioException error, handler) async {
+          BuildContext? context = AppContext.navigatorKey.currentContext;
           if (error.response?.statusCode == 401) {
-            throw UnauthorisedException();
-            // TODO perform force logout
+            handleDioException(context!,error);
           }
           // Handle other errors if needed
           return handler.next(error);
@@ -71,20 +71,9 @@ class NetworkApiService extends BaseApiService {
                 headers: headers,
               ))
           .timeout(const Duration(seconds: 10));
-      //print(response.data);
-      if (response.statusCode == 200) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-      // responseJson = returnResponse(response);
-      // return responseJson;
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occurred While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -107,19 +96,9 @@ class NetworkApiService extends BaseApiService {
               ),
               queryParameters: queryParams)
           .timeout(const Duration(seconds: 10));
-
-      if (response.statusCode == 200) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occurred While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -141,17 +120,9 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-      if (response.statusCode == 200 || response.statusCode == 201) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occurred While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -174,19 +145,9 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-      // responseJson = returnResponse(response);
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -210,19 +171,9 @@ class NetworkApiService extends BaseApiService {
                 responseType: ResponseType.json,
               ))
           .timeout(const Duration(seconds: 10));
-
-      if (response.statusCode == 200) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-      // responseJson = returnResponse(response);
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -246,18 +197,9 @@ class NetworkApiService extends BaseApiService {
               ))
           .timeout(const Duration(seconds: 10));
 
-      if (response.statusCode == 200) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-      // responseJson = returnResponse(response);
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -279,18 +221,9 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-
-      if (response.statusCode == 200) {
         return response;
-      } else if (response.statusCode == 401) {
-        throw UnauthorisedException("Unauthorized request.");
-      } else {
-        throw FetchDataExceptions(
-            'Error Occurred While Communicating with Server');
-      }
-    } on SocketException {
-      throw FetchDataExceptions(
-          'Error Occured While Communicating with Server');
+    } catch (e) {
+      rethrow;
     }
   }
 }

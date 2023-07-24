@@ -61,7 +61,6 @@ class OrderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
   placeOrder(dynamic data,BuildContext context) {
     _orderRepository.placeOrder(data).then((response) {
       if(response != null) {
@@ -74,7 +73,7 @@ class OrderProvider extends ChangeNotifier {
           placeorderData = order.placeorderData;
           log(placeorderData!.orderId.toString());
           notifyListeners();
-          Navigator.pushNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,arguments: placeorderData?.orderId);
+          Navigator.pushReplacementNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,arguments: placeorderData?.orderId);
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
               context, response.data['message']);
@@ -92,36 +91,36 @@ class OrderProvider extends ChangeNotifier {
   }
 
   // get all orders placed by user
-  Future<List<OrderData>> getOrders(BuildContext context) async {
-    await _orderRepository.getOrders().then((response) {
-      if (response.statusCode == 200) {
-        var getOrders = OrderModel.fromJson(response.data);
-        if (getOrders.orderData!.isNotEmpty) {
-          var addedIds = <int>{};
-          _orderList.clear();
-          _orderList.addAll(getOrders.orderData!);
-          for (var data in getOrders.orderData!) {
-            // Check if category already exists
-            if (!addedIds.contains(data.id)) {
-              // categoryList.add(GetCategory(data: [data]));
-              addedIds.add(data.id!); // Add categoryId to Set
-            }
-          }
+  getOrders(BuildContext context) {
+    _orderRepository.getOrders().then((response) {
+      setLoading(true);
+      if(response != null) {
+        if (response.statusCode == 200) {
+          setLoading(false);
+          var getOrders = OrderModel.fromJson(response.data);
+          _orderList = getOrders.orderData!;
+          log(_orderList.length.toString());
+
+          // Filter the orders with status "pending" or "preparing"
+          _orderList = _orderList
+              .where((order) =>
+          order.orderStatus == "pending" || order.orderStatus == "Preparing")
+              .toList();
+          log(_orderList.length.toString());
           notifyListeners();
-          return _orderList;
-        }else {
+        } else {
+          setLoading(false);
           notifyListeners();
         }
-      } else {
+      }else {
+        setLoading(false);
         notifyListeners();
       }
     }).catchError((error) {
+      setLoading(false);
       handleDioException(context, error);
       notifyListeners();
     });
-    notifyListeners();
-    // Return an empty list if there was an error
-    return [];
   }
 
   // cancel order
@@ -181,21 +180,17 @@ class OrderProvider extends ChangeNotifier {
   }
 
 
-  feedback({required int order_id,String? review,required BuildContext context}) {
+  feedback(int order_id,BuildContext context) {
     var data = {
       "rating": foodRating,
       "service_rating": serviceRating,
       "review": feedbackController.text
     };
     _orderRepository.feedback(data,order_id).then((response) {
-      log(response.toString());
       if(response != null) {
         if (response.statusCode == 200) {
           log(response.toString());
-          CustomFlushbar.showSuccess(
-              context, response.data['message']);
           notifyListeners();
-          Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
               context, response.data['message']);
@@ -204,6 +199,25 @@ class OrderProvider extends ChangeNotifier {
       }else {
         CustomFlushbar.showError(
             context, "An error occurred");
+        notifyListeners();
+      }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
+    });
+  }
+
+
+  changePaymentStatus({required int order_id,required BuildContext context}) {
+    _orderRepository.changePaymentStatus(order_id).then((response) {
+      log(response.toString());
+      if(response != null) {
+        if (response.statusCode == 200) {
+          notifyListeners();
+        } else if (response.data['status'] == "False") {
+          notifyListeners();
+        }
+      }else {
         notifyListeners();
       }
     }).catchError((error) {

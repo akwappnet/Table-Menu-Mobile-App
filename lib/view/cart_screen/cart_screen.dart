@@ -35,8 +35,7 @@ class _CartScreenState extends State<CartScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           scrolledUnderElevation: 0.0,
-          centerTitle: true,
-          title: Text('Checkout',style:titleTextStyle,),
+          title: Text('Cart',style:titleTextStyle,),
         ),
         body: SingleChildScrollView(
           child: SafeArea(

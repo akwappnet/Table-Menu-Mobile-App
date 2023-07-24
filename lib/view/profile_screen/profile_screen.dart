@@ -9,6 +9,7 @@ import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 
 import '../../utils/constants/constants_text.dart';
 import '../../view_model/auth_provider.dart';
+import '../../view_model/order_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -205,11 +206,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: hp(2, context),
                     ),
+                    Text("PAST ORDERS ", style: textRegularStyle.copyWith(
+                      color: Colors.grey
+                    ),),
+                    Consumer<OrderProvider>(
+                      builder: (context,order_provider,__){
+                        return SizedBox(
+                          height: hp(15, context),
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: 10,
+                            itemBuilder: (context , index){
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: wp(1, context)),
+                                child: Container(
+                                  color: Colors.red,
+                                  height: hp(8, context),
+                                  width: wp(60, context),
+                                  child: Text(index.toString()),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: hp(2, context),),
                     SizedBox(
                       width: wp(40, context),
                       height: hp(7.5, context),
                       child: CustomButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          auth_provider.logout(context);
+                        },
                         child: Text(
                           "LOGOUT",
                           style: textBodyStyle.copyWith(color: Colors.white),

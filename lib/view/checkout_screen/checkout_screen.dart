@@ -18,9 +18,8 @@ import '../../utils/validation/validation.dart';
 import '../../utils/widgets/custom_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key,this.orderId});
-
-  final int? orderId;
+  const CheckoutScreen({super.key,this.arguments});
+  final List<dynamic>? arguments;
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
@@ -48,10 +47,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     await dotenv.load(fileName: "assets/.env");
   }
 
-
-
   @override
   Widget build(BuildContext context) {
+    String totalAmount = widget.arguments?[1];
     return Consumer<OrderProvider>(
       builder: (context, order_provider, __) {
         return Stack(
@@ -100,7 +98,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ),
                                           const Spacer(),
                                           Text(
-                                            "₹ 1000",
+                                            "₹ $totalAmount",
                                             style: textBodyStyle.copyWith(
                                                 color: Colors.black),
                                           ),
@@ -118,7 +116,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ),
                                           const Spacer(),
                                           Text(
-                                            "₹ 50",
+                                            "₹ 00",
                                             style: textBodyStyle.copyWith(
                                                 color: Colors.black),
                                           ),
@@ -206,7 +204,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                           ),
                                           const Spacer(),
                                           Text(
-                                            "₹ 1050",
+                                            "₹ $totalAmount",
                                             style: textBodyStyle.copyWith(
                                                 color: Colors.purple.shade300),
                                           ),
@@ -246,7 +244,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                           const Spacer(),
                           Text(
-                            "₹ 1050",
+                            "₹ $totalAmount",
                             style: textBodyStyle.copyWith(color: Colors.white),
                           ),
                         ],
@@ -281,7 +279,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Future<void> makePayment() async {
     try {
-      paymentIntent = await createPaymentIntent('10', 'INR');
+      paymentIntent = await createPaymentIntent(widget.arguments![1], 'INR');
 
       //STEP 2: Initialize Payment Sheet
       await Stripe.instance
@@ -305,9 +303,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             billingDetailsCollectionConfiguration:
                 const BillingDetailsCollectionConfiguration(
                     attachDefaultsToPaymentMethod: true,
-                    name: CollectionMode.automatic,
-                    address: AddressCollectionMode.automatic,
-                    email: CollectionMode.automatic,
+                    name: CollectionMode.always,
+                    email: CollectionMode.always,
                     phone: CollectionMode.automatic),
             // applePay: const PaymentSheetApplePay(
             //   merchantCountryCode: "IN",
@@ -336,7 +333,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         'currency': currency,
         'payment_method_types[]': ['card'],
       };
-
       //Make post request to Stripe
       var response = await Dio().post(
         'https://api.stripe.com/v1/payment_intents',
@@ -363,8 +359,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) {
         paymentIntent = null;
-        Navigator.pushNamed(
-            context, RoutesName.PAYMENT_SUCCESSFUL_SCREEN_ROUTE,arguments: widget.orderId);
+        Navigator.pushReplacementNamed(
+            context, RoutesName.PAYMENT_SUCCESSFUL_SCREEN_ROUTE,arguments: widget.arguments![0]);
       }).onError((error, stackTrace) {
         log("exception 2 :$error");
         log("reason :$stackTrace");

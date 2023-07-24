@@ -54,7 +54,12 @@ class AuthProvider extends ChangeNotifier {
 
   String get user_name => _user_name;
 
+  bool boolPushNotification = false;
 
+togglePushNotification() {
+  boolPushNotification = !boolPushNotification;
+  notifyListeners();
+}
 
 
   void setUserName(String value) {
@@ -247,7 +252,7 @@ class AuthProvider extends ChangeNotifier {
     Map<String, dynamic> data = {"email": email, "password": password};
     final verifyToken = await DatabaseProvider().getVerifyToken();
     log("verify token : $verifyToken");
-    log("${data.toString()}");
+    log(data.toString());
 
     _authRepository.resetPassword(data,verifyToken).then((response) {
       if(response != null) {
@@ -316,13 +321,13 @@ class AuthProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        return UserModel();
+        CustomFlushbar.showError(context, "An error occurred");
+        notifyListeners();
       }
     }).catchError((error) {
       handleDioException(context, error);
       notifyListeners();
     });
-    return UserModel();
   }
 
   updateUserInfo(BuildContext context) async {
@@ -365,7 +370,11 @@ class AuthProvider extends ChangeNotifier {
           passwordLoginController.text = "";
           CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();
-          Navigator.popAndPushNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesName.LOGIN_SCREEN_ROUTE,
+                (route) => false, // Clear the entire backstack
+          );
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(context, response.data["message"]);
           notifyListeners();

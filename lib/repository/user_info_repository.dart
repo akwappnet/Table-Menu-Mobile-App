@@ -1,4 +1,3 @@
-import '../data/app_exceptions.dart';
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
 import '../utils/constants/api_endpoints.dart';
@@ -12,12 +11,8 @@ class UserInfoRepository {
     try {
       return _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint, data);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -26,12 +21,8 @@ class UserInfoRepository {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
       );
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -41,12 +32,8 @@ class UserInfoRepository {
         ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint,
         data
       );
-    }catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -55,12 +42,8 @@ class UserInfoRepository {
       return _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
       );
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    }  catch (e) {
+      rethrow;
     }
   }
 

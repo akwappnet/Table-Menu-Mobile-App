@@ -2,8 +2,6 @@ import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 
-import '../data/app_exceptions.dart';
-
 class OrderRepository {
   final BaseApiService _apiService = NetworkApiService();
 
@@ -11,12 +9,8 @@ class OrderRepository {
     try {
       return _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.orderEndPoint.orderEndPoint, data);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    }  catch (e) {
+      rethrow;
     }
   }
 
@@ -24,12 +18,8 @@ class OrderRepository {
     try {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.orderEndPoint.orderEndPoint);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -38,12 +28,8 @@ class OrderRepository {
       return _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.cancelOrderEndPoint}$id/",
           data);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    }  catch (e) {
+      rethrow;
     }
   }
 
@@ -51,27 +37,29 @@ class OrderRepository {
     try {
       return _apiService.getGetApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/");
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    }  catch (e) {
+      rethrow;
     }
   }
+
+  changePaymentStatus(int id){
+    var data = {};
+    try {
+      return _apiService.getPatchApiResponse(
+          "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/paid/",data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 
   feedback(dynamic data,int id) {
     try {
       return _apiService.getPostApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.orderEndPoint.orderEndPoint}$id/feedback/", data);
-    } catch (error) {
-      if (error is UnauthorisedException) {
-        throw UnauthorisedException;
-      } else {
-        rethrow;
-      }
+    } catch (e) {
+      rethrow;
     }
   }
-
 
 }

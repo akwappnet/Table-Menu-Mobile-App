@@ -12,6 +12,7 @@ import 'package:table_menu_customer/data/network/network_api_service.dart';
 import 'package:table_menu_customer/repository/auth_repository.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
+import 'package:table_menu_customer/utils/helpers.dart';
 import 'package:table_menu_customer/utils/routes/routes.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
@@ -203,6 +204,7 @@ class _MyAppState extends State<MyApp> {
                 widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
           ),
           onGenerateRoute: Routes.generateRoute,
+          navigatorKey: AppContext.navigatorKey
         ),
     );
   }
