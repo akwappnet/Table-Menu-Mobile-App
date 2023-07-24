@@ -107,7 +107,9 @@ class SettingsProfileScreen extends StatelessWidget {
                   ),
                   SizedBox(height: hp(1.5, context),),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, RoutesName.FAVORITES_MENUITEM_SCREEN_ROUTE);
+                    },
                     child: SizedBox(
                       width: wp(100, context),
                       child: Card(

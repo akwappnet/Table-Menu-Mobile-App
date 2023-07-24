@@ -309,6 +309,8 @@ filtersBottomSheet(context) {
                         height: hp(7.5, context),
                         child: CustomButton(
                           onPressed: () {
+                            menu_provider.selectCategory(-1);
+                            menu_provider.setCategoryName("", context);
                             menu_provider.applyFilters();
                             Navigator.of(context).pop();
                           },

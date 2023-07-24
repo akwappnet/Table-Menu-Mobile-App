@@ -8,6 +8,7 @@ class AssetsUtils {
   static String ASSETS_STARTER_SCREEN_IMAGE =
       "assets/images/starter_screen_image.jpg";
   static String ASSETS_TABLE_MENU_LOGO = "assets/images/table-menu-logo.png";
+  static String ASSETS_FILTERS_ICON = "assets/images/filters.png";
   static String ASSETS_VEG_ICON = "assets/images/veg-icon.png";
   static String ASSETS_LOADING_PURPLE_ANIMATION =
       "assets/lotti_animation/loading-purple.json";
@@ -19,4 +20,5 @@ class AssetsUtils {
   static String ASSETS_ERROR_IMAGE = "assets/images/error_image.png";
   static String ASSETS_SUCCESS_IMAGE = "assets/images/success_icon.png";
   static String ASSETS_FOOD_PREPARING_ANIMATION = "assets/lotti_animation/food_preparing.json";
+
 }

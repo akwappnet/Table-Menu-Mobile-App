@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 
-import '../data/app_exceptions.dart';
 import '../utils/constants/api_endpoints.dart';
 
 class MenuRepository {
@@ -12,7 +10,7 @@ class MenuRepository {
     try {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.categoryEndPoint);
-    } on DioException catch (error) {
+    }catch (e) {
       rethrow;
     }
   }
@@ -22,8 +20,8 @@ class MenuRepository {
       return _apiService.getGetApiResponseWithParams(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.filterEndPoint,
           category_name);
-    } on DioException catch (error) {
-        rethrow;
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -31,7 +29,7 @@ class MenuRepository {
     try {
       return _apiService.getGetApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.menuEndPoint.menuItemEndPoint}$id/");
-    } on DioException catch (error) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -43,7 +41,7 @@ class MenuRepository {
       return _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.menuEndPoint.menuItemEndPoint}$id/",
           data);
-    } on DioException catch (error) {
+    } catch (e) {
       rethrow;
     }
   }

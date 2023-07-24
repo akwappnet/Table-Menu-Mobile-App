@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/view/checkout_screen/checkout_screen.dart';
 
 import '../utils/assets/assets_utils.dart';
 import '../utils/font/text_style.dart';
@@ -291,11 +292,17 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                 width: MediaQuery.of(context).size.width,
                 height: hp(7.5, context),
                 child: CustomButton(
-                    onPressed: () async {
-                      Navigator.pushNamed(
-                          context, RoutesName.CHECKOUT_SCREEN_ROUTE,arguments: widget.order_id);
-                    },
-                    child: Row(
+                  onPressed: () async {
+                    String total_price = order_provider.orderTrackingData?.totalPrice ?? "";
+                    double totalPriceDouble = double.parse(total_price);
+                    String formattedPrice = totalPriceDouble.toInt().toString();
+                    Navigator.pushNamed(
+                      context,
+                      RoutesName.CHECKOUT_SCREEN_ROUTE,
+                      arguments: [widget.order_id,formattedPrice],
+                    );
+                  },
+                  child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(

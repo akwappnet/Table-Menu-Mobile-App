@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
@@ -16,8 +14,8 @@ class NotificationRepository {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint);
-    } on DioException catch (error) {
-        rethrow;
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -28,7 +26,7 @@ class NotificationRepository {
       return _apiService.getDeleteApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/"
       );
-    } on DioException catch (error) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -42,7 +40,7 @@ class NotificationRepository {
           ApiEndPoint.baseUrl +
               ApiEndPoint.notificationEndPoint.notificationEndPoint
       );
-    } on DioException catch (error) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -56,7 +54,7 @@ class NotificationRepository {
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/",
         data
       );
-    } on DioException catch (error) {
+    } catch (e) {
       rethrow;
     }
   }

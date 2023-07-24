@@ -2,11 +2,14 @@ import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
+import 'package:table_menu_customer/utils/font/text_style.dart';
+import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/filters_bottom_sheet_widget.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
+import '../../utils/constants/constants_text.dart';
 import '../../utils/widgets/custom_text.dart';
 import '../../utils/widgets/placeholder_widget.dart';
 import '../../view_model/auth_provider.dart';
@@ -48,7 +51,6 @@ class _MenuScreenState extends State<MenuScreen> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0.0,
-            foregroundColor: Colors.white,
             scrolledUnderElevation: 0.0,
             automaticallyImplyLeading: false,
             title: Column(
@@ -58,10 +60,9 @@ class _MenuScreenState extends State<MenuScreen> {
                   builder: (_, auth_provider, __) {
                     return Text(
                       "Hello, ${auth_provider.user_name}",
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
+                      style: smallTitleTextStyle.copyWith(
+                        fontFamily: fontSemiBold
+                      ),
                     );
                   },
                 ),
@@ -86,24 +87,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   color: Colors.black,
                 ),
               ),
-              Consumer<CartProvider>(
-                builder: (_, cart_provider, __) {
-                  return IconButton(
-                    onPressed: () {
-                      cart_provider.getCartItems(context);
-                      Navigator.pushNamed(
-                          context, RoutesName.CART_SCREEN_ROUTE);
-                    },
-                    icon: const Icon(
-                      Icons.shopping_bag_outlined,
-                      color: Colors.black,
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(
-                width: 20.0,
-              ),
             ],
           ),
           body: SafeArea(
@@ -118,21 +101,19 @@ class _MenuScreenState extends State<MenuScreen> {
                               children: [
                                 Text(
                                   "Categories (${menu_provider.categories.length})",
-                                  style: const TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500),
+                                  style: smallTitleTextStyle,
                                 ),
                                 const Spacer(),
                                 IconButton(
                                     onPressed: () {
                                       filtersBottomSheet(context);
                                     },
-                                    icon: const Icon(Icons.filter_alt_outlined,
-                                        color: Colors.black)),
+                                    icon: const Icon(Icons.filter_alt_outlined,size: 27,),
+                                )
                               ],
                             ),
-                            const SizedBox(
-                              height: 6.0,
+                            SizedBox(
+                              height: hp(0.5, context),
                             ),
                             Flexible(
                               flex: 2,
@@ -188,12 +169,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                                 const SizedBox(
                                                   height: 2,
                                                 ),
-                                                const Text(
+                                                Text(
                                                   "All",
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16,
-                                                  ),
+                                                  style: textBodyStyle,
                                                 )
                                               ],
                                             ),
@@ -259,11 +237,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                         menu_provider
                                                             .categories[index]
                                                             .categoryName!,
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize: 16,
-                                                        ),
+                                                        style: textBodyStyle,
                                                       )
                                                     ],
                                                   ),
@@ -276,14 +250,12 @@ class _MenuScreenState extends State<MenuScreen> {
                             const SizedBox(
                               height: 10.0,
                             ),
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
                                   "Menu Items",
-                                  style: TextStyle(
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w500),
+                                  style: smallTitleTextStyle,
                                 ),
                               ],
                             ),

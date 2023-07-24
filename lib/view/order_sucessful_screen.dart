@@ -40,7 +40,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                     color: Colors.white
                   ),
                   ), onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.ORDER_TRACKING_SCREEN_ROUTE,arguments: order_id);
+                    Navigator.pushReplacementNamed(context, RoutesName.ORDER_TRACKING_SCREEN_ROUTE,arguments: order_id,);
                   }),
                 ),
                 SizedBox(height: hp(4, context),),

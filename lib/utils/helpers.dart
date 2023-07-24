@@ -1,8 +1,7 @@
 // Function to show error messages using Flushbar
 import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
@@ -21,7 +20,7 @@ void handleDioException(BuildContext context, dynamic exception) {
     // Handle HTTP error response statuses
     if (exception.response?.statusCode == 401) {
       showErrorFlushbar(context, "Unauthorized. Please log in again.");
-      Provider.of<AuthProvider>(context).logout(context);
+      Provider.of<AuthProvider>(context,listen: false).logout(context);
       // Handle other status codes as needed
     } else {
       showErrorFlushbar(
@@ -36,6 +35,14 @@ void handleDioException(BuildContext context, dynamic exception) {
 void handleGenericException(BuildContext context, dynamic exception) {
   log("Generic Exception: $exception");
   showErrorFlushbar(context, "An error occurred. Please try again later.");
+}
+
+// app context global key
+
+
+
+class AppContext {
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 }
 
 
