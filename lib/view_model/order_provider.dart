@@ -22,6 +22,10 @@ class OrderProvider extends ChangeNotifier {
 
   List<OrderData> get orderList => _orderList;
 
+  List<OrderData> _orderHistoryList = [];
+
+  List<OrderData> get orderHistoryList => _orderHistoryList;
+
   OrderTrackingData? orderTrackingData;
   PlaceorderData? placeorderData;
 
@@ -130,10 +134,10 @@ class OrderProvider extends ChangeNotifier {
     _orderRepository.cancelOrder(id, data).then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
-          orderList.removeWhere((item) => item.id == id);
-          getOrders(context);
           CustomFlushbar.showSuccess(
               context, response.data['message']);
+          orderList.removeWhere((item) => item.id == id);
+          getOrders(context);
           notifyListeners();
         } else if (response.data['status'] == false) {
           CustomFlushbar.showError(
@@ -152,7 +156,6 @@ class OrderProvider extends ChangeNotifier {
   }
 
   // api call for track single order by id
-
 
   getSingleOrder(int id,BuildContext context) {
     _orderRepository.trackOrderByID(id).then((response) {
@@ -178,7 +181,6 @@ class OrderProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
-
 
   feedback(int order_id,BuildContext context) {
     var data = {
@@ -226,5 +228,30 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
+  // get order history api call
 
+  getOrdersHistory(BuildContext context) {
+    _orderRepository.getOrderHistory().then((response) {
+      setLoading(true);
+      if(response != null) {
+        if (response.statusCode == 200) {
+          setLoading(false);
+          var getOrders = OrderModel.fromJson(response.data);
+          _orderHistoryList = getOrders.orderData!;
+          log(_orderList.length.toString());
+          notifyListeners();
+        } else {
+          setLoading(false);
+          notifyListeners();
+        }
+      }else {
+        setLoading(false);
+        notifyListeners();
+      }
+    }).catchError((error) {
+      setLoading(false);
+      handleDioException(context, error);
+      notifyListeners();
+    });
+  }
 }

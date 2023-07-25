@@ -6,6 +6,7 @@ import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 
 import '../../utils/assets/assets_utils.dart';
+import '../../utils/routes/routes_name.dart';
 import '../../utils/widgets/placeholder_widget.dart';
 import '../../view_model/menu_provider.dart';
 
@@ -60,19 +61,38 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                               ? const Center(
                                   child: PlaceholderWidget(
                                       title: "NO FAVORITES MENU ITEMS"))
-                              : ListView.builder(
+                              : GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.76,
+                                  ),
                                   shrinkWrap: true,
                                   itemCount: menu_provider.favMenuitems.length,
                                   itemBuilder: (context, index) {
                                     var favMenuItem =
                                         menu_provider.favMenuitems[index];
-                                    return MenuItemGridCard(
-                                        image: favMenuItem.image ?? "",
-                                        name: favMenuItem.name ?? "",
-                                        price: favMenuItem.price != null ?double.parse(favMenuItem.price!) : 0.0,
-                                        rating: favMenuItem.rating != null ?
-                                            double.parse(favMenuItem.rating!) : 0.0,
-                                        isVeg: favMenuItem.isVeg!);
+                                    return Hero(
+                                      tag: "menu-${favMenuItem.id}",
+                                      child: MenuItemGridCard(
+                                        onTap: (){
+                                          Navigator.pushNamed(
+                                              context,
+                                              RoutesName
+                                                  .MENU_ITEM_DETAILS_SCREEN_ROUTE,
+                                              arguments: favMenuItem);
+                                        },
+                                          image: favMenuItem.image ?? "",
+                                          name: favMenuItem.name ?? "",
+                                          price: favMenuItem.price != null
+                                              ? double.parse(favMenuItem.price!)
+                                              : 0.0,
+                                          rating: favMenuItem.rating != null
+                                              ? double.parse(favMenuItem.rating!)
+                                              : 0.0,
+                                          isFavorite: true,
+                                          isVeg: favMenuItem.isVeg!),
+                                    );
                                   },
                                 ),
                         ),

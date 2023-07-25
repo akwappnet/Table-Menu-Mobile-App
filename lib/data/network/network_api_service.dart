@@ -79,14 +79,13 @@ class NetworkApiService extends BaseApiService {
 
   @override
   Future<Response> getGetApiResponseWithParams(
-      String url, String params) async {
+      String url, dynamic queryParams) async {
     try {
       final token = await DatabaseProvider().getToken();
       var headers = {
         'Authorization': 'Token $token',
         'Accept': 'application/json'
       };
-      var queryParams = {'query': params};
       log("queryParams $queryParams");
       log("headers $headers");
       final response = await _dio

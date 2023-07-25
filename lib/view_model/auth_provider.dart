@@ -56,8 +56,9 @@ class AuthProvider extends ChangeNotifier {
 
   bool boolPushNotification = false;
 
-togglePushNotification() {
+togglePushNotification(BuildContext context) {
   boolPushNotification = !boolPushNotification;
+  togglePushNotificationApi(context);
   notifyListeners();
 }
 
@@ -388,6 +389,25 @@ togglePushNotification() {
       setLoading(false);
     });
   }
+
+
+  togglePushNotificationApi(BuildContext context)  {
+    _authRepository.pushNotificationToggle().then((response) {
+      if(response != null) {
+        if (response.data['status'] == true) {
+          notifyListeners();
+        } else if (response.data['status'] == "False") {
+          notifyListeners();
+        }
+      }else {
+        notifyListeners();
+      }
+    }).catchError((error) {
+      handleDioException(context, error);
+      notifyListeners();
+    });
+  }
+
 
   File? _temp_image;
 

@@ -108,7 +108,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                     onPressed: () {
                                       filtersBottomSheet(context);
                                     },
-                                    icon: const Icon(Icons.filter_alt_outlined,size: 27,),
+                                    icon: Image.asset(AssetsUtils.ASSETS_FILTERS_ICON,
+                                    height: hp(4, context),
+                                    width: wp(5, context)),
                                 )
                               ],
                             ),
@@ -280,9 +282,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount:
-                                                2, // Number of columns in the grid
+                                                2,
                                             childAspectRatio:
-                                                0.82, // Width to height ratio of each item
+                                                0.82,
                                           ),
                                           itemCount:
                                               menu_provider.menuitems.length,
@@ -296,31 +298,6 @@ class _MenuScreenState extends State<MenuScreen> {
                                                         .MENU_ITEM_DETAILS_SCREEN_ROUTE,
                                                     arguments: menu_provider
                                                         .menuitems[index]);
-                                                // CustomBottomSheet.showCustomModalBottomSheet(
-                                                //   plusButton: () {
-                                                //     cart_provider.incrementItemQuantity();
-                                                //   },
-                                                //   minusButton: () {
-                                                //     cart_provider.decrementItemQuantity();
-                                                //   },
-                                                //   onPressed: () async {
-                                                //     cart_provider.incrementCartCount();
-                                                //     var data = {
-                                                //       "menu_item": menu_items[index].id,
-                                                //       "quantity": cart_provider.quantity,
-                                                //     };
-                                                //     CustomResultModel? result = await cart_provider.addCart(data, menu_items[index].id!);
-                                                //     cart_provider.setQuantity(1);
-                                                //     Navigator.pop(context);
-                                                //     if (result!.status) {
-                                                //       CustomFlushbar.showSuccess(context, result.message);
-                                                //     } else {
-                                                //       CustomFlushbar.showError(context, result.message);
-                                                //     }
-                                                //   },
-                                                //   context: context,
-                                                //   menuData: menu_items[index],
-                                                // );
                                               },
                                               child: Hero(
                                                 tag:

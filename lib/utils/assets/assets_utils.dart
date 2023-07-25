@@ -9,6 +9,8 @@ class AssetsUtils {
       "assets/images/starter_screen_image.jpg";
   static String ASSETS_TABLE_MENU_LOGO = "assets/images/table-menu-logo.png";
   static String ASSETS_FILTERS_ICON = "assets/images/filters.png";
+  static String ASSETS_ORDER_HISTORY_IMAGE = "assets/images/order_history.png";
+  static String ASSETS_NO_INTERNET_IMAGE = "assets/images/no_internet.png";
   static String ASSETS_VEG_ICON = "assets/images/veg-icon.png";
   static String ASSETS_LOADING_PURPLE_ANIMATION =
       "assets/lotti_animation/loading-purple.json";

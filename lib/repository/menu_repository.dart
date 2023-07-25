@@ -16,10 +16,11 @@ class MenuRepository {
   }
 
   getMenuItems(String category_name) {
+    var queryParams = {'query': category_name};
     try {
       return _apiService.getGetApiResponseWithParams(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.filterEndPoint,
-          category_name);
+          queryParams);
     } catch (e) {
       rethrow;
     }

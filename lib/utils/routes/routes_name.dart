@@ -21,7 +21,7 @@ class RoutesName {
   static const String PAYMENT_SUCCESSFUL_SCREEN_ROUTE = "/payment_successful_screen";
   static const String FEEDBACK_SCREEN_ROUTE = "/feedback_screen";
   static const String SETTINGS_PROFILE_SCREEN_ROUTE = "/settings_profile_screen";
-  static const String SETTINGS_PAYMENT_SCREEN_ROUTE = "/settings_payment_screen";
+  static const String SETTINGS_OFFERS_SCREEN_ROUTE = "/settings_offers_screen";
   static const String HELP_SUPPORT_SCREEN_ROUTE = "/help_support_screen";
   static const String SETTINGS_SCREEN_ROUTE = "/settings_screen";
   static const String PAYMENT_SCREEN_ROUTE = "/payment_screen";
