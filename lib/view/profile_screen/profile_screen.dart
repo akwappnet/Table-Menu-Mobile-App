@@ -6,8 +6,10 @@ import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
+import 'package:table_menu_customer/view/profile_screen/widget/order_history_card_widget.dart';
 
 import '../../utils/constants/constants_text.dart';
+import '../../utils/functions/time_to_ago_function.dart';
 import '../../view_model/auth_provider.dart';
 import '../../view_model/order_provider.dart';
 
@@ -23,6 +25,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     Future.delayed(Duration.zero, () {
       Provider.of<AuthProvider>(context, listen: false).getUserInfo(context);
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<OrderProvider>().getOrdersHistory(context);
     });
     super.initState();
   }
@@ -146,7 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
-                            context, RoutesName.SETTINGS_PAYMENT_SCREEN_ROUTE);
+                            context, RoutesName.SETTINGS_OFFERS_SCREEN_ROUTE);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -158,11 +163,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Payment ",
+                                  "Offers & Discounts ",
                                   style: textBodyStyle,
                                 ),
                                 Text(
-                                  "Payment methods, Cards & Payment history",
+                                  "Latest Offers & Discounts",
                                   style: textSmallRegularStyle.copyWith(
                                       color: Colors.grey),
                                 ),
@@ -212,19 +217,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Consumer<OrderProvider>(
                       builder: (context,order_provider,__){
                         return SizedBox(
-                          height: hp(15, context),
+                          height: hp(12, context),
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
-                            itemCount: 10,
+                            itemCount: order_provider.orderHistoryList.length,
                             itemBuilder: (context , index){
+                              var order = order_provider.orderHistoryList[index];
                               return Padding(
                                 padding: EdgeInsets.symmetric(horizontal: wp(1, context)),
-                                child: Container(
-                                  color: Colors.red,
-                                  height: hp(8, context),
-                                  width: wp(60, context),
-                                  child: Text(index.toString()),
+                                child: OrderHistoryCard(
+                                  orderId: order.id!,
+                                  orderStatus: order.orderStatus!,
+                                  orderTime: getTimeAgo(order.createdAt!),
+                                  totalPrice: order.totalPrice!
                                 ),
                               );
                             },

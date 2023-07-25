@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 
 import '../../../utils/assets/assets_utils.dart';
 import '../../../utils/font/text_style.dart';
@@ -14,6 +15,7 @@ class MenuItemGridCard extends StatelessWidget {
     required this.rating,
     required this.isVeg,
     this.isFavorite = false,
+    this.onTap
   }) : super(key: key);
 
   final String image;
@@ -22,6 +24,7 @@ class MenuItemGridCard extends StatelessWidget {
   final double rating;
   final bool isVeg;
   final bool? isFavorite;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -54,13 +57,20 @@ class MenuItemGridCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      name,
-                      style: textBodyStyle.copyWith(
-                        fontSize: 20
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: [
+                        Text(
+                          name,
+                          style: textBodyStyle.copyWith(
+                            fontSize: 20
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const Spacer(),
+                        isFavorite == true ? const Icon(Icons.favorite,color: Colors.red,) :
+                            const SizedBox.shrink()
+                      ],
                     ),
                     SizedBox(height: hp(1, context)),
                     Row(
@@ -116,9 +126,17 @@ class MenuItemGridCard extends StatelessWidget {
                           ),
                         ],
                       ),
+                    SizedBox(height: hp(0.8, context),),
+                    isFavorite == true ?
+                        SizedBox(
+                          width: wp(100, context),
+                          height: hp(4.5, context),
+                          child: CustomButton(child: Text("Order",style: textSmallRegularStyle,), onPressed: onTap!),
+                        ) : const SizedBox.shrink(),
                   ],
                 ),
               ),
+
             ],
           ),
           if (isVeg)
@@ -159,6 +177,7 @@ class MenuItemGridCard extends StatelessWidget {
                 ),
               ),
             ),
+
         ],
       ),
     );

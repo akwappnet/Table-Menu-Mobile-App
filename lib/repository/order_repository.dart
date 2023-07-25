@@ -62,4 +62,18 @@ class OrderRepository {
     }
   }
 
+  // order history
+
+  getOrderHistory() {
+    var queryParams = {'order_history': true};
+    try {
+      return _apiService.getGetApiResponseWithParams(
+        ApiEndPoint.baseUrl + ApiEndPoint.orderEndPoint.orderEndPoint,
+          queryParams
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

@@ -36,6 +36,7 @@ class UserData {
   String? email;
   bool? status;
   int? totalOrders;
+  bool? pushNotifications;
 
   UserData(
       {this.id,
@@ -48,7 +49,8 @@ class UserData {
         this.customerReview,
         this.email,
         this.status,
-        this.totalOrders});
+        this.totalOrders,
+        this.pushNotifications});
 
   FormData toFormData() {
     FormData formData = FormData();
@@ -72,6 +74,7 @@ class UserData {
     email = json['email'];
     status = json['status'];
     totalOrders = json['total_orders'];
+    pushNotifications = json['push_notifications'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,6 +89,7 @@ class UserData {
     data['email'] = this.email;
     data['status'] = this.status;
     data['total_orders'] = this.totalOrders;
+    data['push_notifications'] = this.pushNotifications;
     return data;
   }
 }

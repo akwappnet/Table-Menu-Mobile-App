@@ -15,7 +15,7 @@ import 'package:table_menu_customer/view/payment_successful_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/favorites_menuitem_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/help_support_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
-import 'package:table_menu_customer/view/profile_screen/settings_payment_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/settings_offers_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/settings_profile_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/settings_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
@@ -93,8 +93,8 @@ class Routes {
       case RoutesName.SETTINGS_PROFILE_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsProfileScreen());
 
-      case RoutesName.SETTINGS_PAYMENT_SCREEN_ROUTE:
-        return _buildPageRoute(const SettingsPaymentScreen());
+      case RoutesName.SETTINGS_OFFERS_SCREEN_ROUTE:
+        return _buildPageRoute(const SettingsOffersScreen());
 
       case RoutesName.HELP_SUPPORT_SCREEN_ROUTE:
         return _buildPageRoute(const HelpSupportScreen());

@@ -63,6 +63,19 @@ class AuthRepository {
     }
   }
 
+  pushNotificationToggle(){
+    var data = {};
+    try {
+      return apiService.getPutApiResponse(
+        ApiEndPoint.baseUrl + ApiEndPoint.notificationEndPoint.pushNotificationEndPoint,
+        data
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   Future<String> isLoggedIn() async {
     String? token = await DatabaseProvider().getToken();
     return token;

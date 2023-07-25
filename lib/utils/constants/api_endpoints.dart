@@ -42,4 +42,5 @@ class _OrderEndPoint {
 class _NotificationEndPoint {
   final String notificationEndPoint = "customer/notification/";
   final String notificationDeleteAllEndPoint = "customer/notification/deleteall/";
+  final String pushNotificationEndPoint = "customer/push_notification/";
 }

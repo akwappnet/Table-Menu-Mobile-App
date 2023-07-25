@@ -7,8 +7,23 @@ import 'package:table_menu_customer/view_model/auth_provider.dart';
 import '../../utils/responsive.dart';
 
 
-class SettingsScreen extends StatelessWidget {
+class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
+
+  @override
+  State<SettingsScreen> createState() => _SettingsScreenState();
+}
+
+class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      final auth_provider = Provider.of<AuthProvider>(context, listen: false);
+      auth_provider.getUserInfo(context);
+      auth_provider.boolPushNotification = auth_provider.userData!.pushNotifications!;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +56,7 @@ class SettingsScreen extends StatelessWidget {
                         padding: 3.0,
                         showOnOff: true,
                         onToggle: (value){
-                          auth_provider.togglePushNotification();
+                          auth_provider.togglePushNotification(context);
                         },
                       ),
                     ],
@@ -67,6 +82,10 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        bottomNavigationBar: Padding(
+          padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(1.5, context)),
+          child: Text("Created with ❤️ by Wappnet Systems Pvt. Ltd.",style: textSmallRegularStyle,textAlign:TextAlign.center ),
         ),
       );
     },
