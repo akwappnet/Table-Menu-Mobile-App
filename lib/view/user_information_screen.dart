@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
@@ -90,153 +91,144 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: const Icon(Icons.arrow_back),
-        ),
+        title: widget.userData == null
+            ? Text("Enter Your Details", style: titleTextStyle)
+            : Text("Update Your Details", style: titleTextStyle),
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
       ),
       body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: hp(2, context), horizontal: wp(4, context)),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-
-                  const SizedBox(height: 20),
-                  widget.userData == null
-                      ? Text(
-                          "Enter Your Details",
-                          style: titleTextStyle
-                        )
-                      : Text(
-                          "Update Your Details",
-                          style: titleTextStyle
-                        ),
-                  SizedBox(height: hp(2, context)),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () {
-                      _showSelectPhotoOptions(context);
-                    },
-                    child: Center(
-                      child: DottedBorder(
-                        color: Colors.black,
-                        strokeWidth: 1,
-                        borderType: BorderType.RRect,
-                        radius: const Radius.circular(BORDER_RADIUS),
-                        padding: const EdgeInsets.all(8),
-                        child: Container(
-                            height: 150.0,
-                            width: 200.0,
-                            decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
-                              shape: BoxShape.rectangle,
-                            ),
-                            child: Center(
-                              child: auth_provider.temp_image == null
-                                  ? Column(
-                                      children: [
-                                        SizedBox(
-                                          height: hp(1, context),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: hp(2, context), horizontal: wp(2.5, context)),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: hp(2, context)),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    _showSelectPhotoOptions(context);
+                  },
+                  child: Center(
+                    child: DottedBorder(
+                      color: Colors.black,
+                      strokeWidth: 1,
+                      borderType: BorderType.RRect,
+                      radius: const Radius.circular(BORDER_RADIUS),
+                      padding: const EdgeInsets.all(8),
+                      child: Container(
+                          height: 150.0,
+                          width: 200.0,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Center(
+                            child: auth_provider.temp_image == null
+                                ? Column(
+                                    children: [
+                                      SizedBox(
+                                        height: hp(1, context),
+                                      ),
+                                      const CircleAvatar(
+                                        backgroundColor: Colors.purple,
+                                        radius: 50,
+                                        child: Icon(
+                                          Icons.account_circle,
+                                          size: 50,
+                                          color: Colors.white,
                                         ),
-                                        const CircleAvatar(
-                                          backgroundColor: Colors.purple,
-                                          radius: 50,
-                                          child: Icon(
-                                            Icons.account_circle,
-                                            size: 50,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: hp(2, context),
-                                        ),
-                                        Text(
-                                          "Upload Profile Photo",
-                                          style: textBodyStyle
-                                        ),
-                                      ],
-                                    )
-                                  : CircleAvatar(
-                                      backgroundImage:
-                                          FileImage(auth_provider.temp_image),
-                                      radius: 80,
-                                    ),
-                            )),
-                      ),
+                                      ),
+                                      SizedBox(
+                                        height: hp(2, context),
+                                      ),
+                                      Text("Upload Profile Photo",
+                                          style: textBodyStyle),
+                                    ],
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage:
+                                        FileImage(auth_provider.temp_image),
+                                    radius: 80,
+                                  ),
+                          )),
                     ),
                   ),
-                  SizedBox(height: hp(2, context),),
-                  Form(
-                    key: _form_key_userinfo,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          CustomTextFormField().getCustomEditTextArea(
-                            obscuretext: false,
-                            labelValue: "Name",
-                            hintValue: "Enter Name",
-                            onchanged: (value) {},
-                            textInputAction: TextInputAction.next,
-                            prefixicon: const Icon(
-                              Icons.drive_file_rename_outline,
-                              color: Colors.black,
+                ),
+                SizedBox(
+                  height: hp(2, context),
+                ),
+                Form(
+                  key: _form_key_userinfo,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: [
+                        CustomTextFormField().getCustomEditTextArea(
+                          obscuretext: false,
+                          labelValue: "Name",
+                          hintValue: "Enter Name",
+                          onchanged: (value) {},
+                          textInputAction: TextInputAction.next,
+                          prefixicon: const Icon(
+                            Icons.drive_file_rename_outline,
+                            color: Colors.black,
+                          ),
+                          controller: auth_provider.nameController,
+                          validator: validateName,
+                        ),
+                        SizedBox(
+                          height: hp(2, context),
+                        ),
+                        IntlPhoneField(
+                          decoration: const InputDecoration(
+                            labelText: 'Phone No',
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(),
+                              borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS))
                             ),
-                            controller: auth_provider.nameController,
-                            validator: validateName,
                           ),
-                          SizedBox(
-                            height: hp(2, context),
-                          ),
-                          CustomTextFormField().getCustomEditTextArea(
-                            obscuretext: false,
-                            labelValue: "Phone No",
-                            hintValue: "Enter Phone No",
-                            onchanged: (value) {},
-                            maxLength: 10,
-                            textInputAction: TextInputAction.done,
-                            prefixicon: const Icon(
-                              Icons.phone,
-                              color: Colors.black,
-                            ),
-                            keyboardType: TextInputType.phone,
-                            controller: auth_provider.phoneNoController,
-                            validator: phoneValidator,
-                          ),
-                        ],
-                      ),
+                          initialCountryCode: 'IN',
+                          textInputAction: TextInputAction.done,
+                          controller: auth_provider.phoneNoController,
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: hp(2, context)),
-                  SizedBox(
-                    height: hp(7.5, context),
-                    width: MediaQuery.of(context).size.width * 0.90,
-                    child: CustomButton(
-                        child: widget.userData == null ? Text(
-                          "Save",
-                          style: textBodyStyle.copyWith(color: Colors.white),
-                        ) : Text(
-                          "Update",
-                          style: textBodyStyle.copyWith(color: Colors.white),
-                        ),
-                        onPressed: () async {
-                          if (_form_key_userinfo.currentState!.validate()) {
-                            if (widget.userData == null) {
-                              auth_provider.saveUserInfo(context);
-                            } else {
-                              auth_provider.updateUserInfo(context);
-                            }
+                ),
+                SizedBox(height: hp(2, context)),
+                SizedBox(
+                  height: hp(7.5, context),
+                  width: wp(100, context),
+                  child: CustomButton(
+                      child: widget.userData == null
+                          ? Text(
+                              "Save",
+                              style:
+                                  textBodyStyle.copyWith(color: Colors.white),
+                            )
+                          : Text(
+                              "Update",
+                              style:
+                                  textBodyStyle.copyWith(color: Colors.white),
+                            ),
+                      onPressed: () async {
+                        if (_form_key_userinfo.currentState!.validate()) {
+                          if (widget.userData == null) {
+                            auth_provider.saveUserInfo(context);
+                          } else {
+                            auth_provider.updateUserInfo(context);
                           }
-                        }),
-                  )
-                ],
-              ),
+                        }
+                      }),
+                )
+              ],
             ),
           ),
         ),

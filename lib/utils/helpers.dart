@@ -7,7 +7,7 @@ import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
 void showErrorFlushbar(BuildContext context, String message) {
-  CustomFlushbar.showError(context, message);
+  CustomFlushbar.showError(context, message,onDismissed: () {});
 }
 
 // Function to handle DioExceptions and show error messages
@@ -38,8 +38,6 @@ void handleGenericException(BuildContext context, dynamic exception) {
 }
 
 // app context global key
-
-
 
 class AppContext {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

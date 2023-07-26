@@ -61,8 +61,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     return Text(
                       "Hello, ${auth_provider.user_name}",
                       style: smallTitleTextStyle.copyWith(
-                        fontFamily: fontSemiBold
-                      ),
+                          fontFamily: fontSemiBold),
                     );
                   },
                 ),
@@ -105,12 +104,13 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                    onPressed: () {
-                                      filtersBottomSheet(context);
-                                    },
-                                    icon: Image.asset(AssetsUtils.ASSETS_FILTERS_ICON,
-                                    height: hp(4, context),
-                                    width: wp(5, context)),
+                                  onPressed: () {
+                                    filtersBottomSheet(context);
+                                  },
+                                  icon: Image.asset(
+                                      AssetsUtils.ASSETS_FILTERS_ICON,
+                                      height: hp(4, context),
+                                      width: wp(5, context)),
                                 )
                               ],
                             ),
@@ -281,10 +281,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                         return GridView.builder(
                                           gridDelegate:
                                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount:
-                                                2,
-                                            childAspectRatio:
-                                                0.82,
+                                            crossAxisCount: 2,
+                                            childAspectRatio: 0.82,
                                           ),
                                           itemCount:
                                               menu_provider.menuitems.length,
@@ -356,7 +354,14 @@ class _MenuScreenState extends State<MenuScreen> {
                           ],
                         ),
                       )
-                : const Center(child: PlaceholderWidget(title: "NO DATA")),
+                : Container(
+                    alignment: Alignment.center,
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        PlaceholderWidget(title: "NO DATA"),
+                      ],
+                    )),
           ),
         );
       },

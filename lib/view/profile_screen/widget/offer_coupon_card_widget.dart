@@ -60,6 +60,7 @@ class OfferCouponCard extends StatelessWidget {
                       highlightColor: Colors.transparent,
                       hoverColor: Colors.transparent,),
                     child:  ExpansionTile(
+                      controlAffinity: ListTileControlAffinity.trailing,
                       title: Row(
                         children: [
                           Container(
@@ -76,7 +77,7 @@ class OfferCouponCard extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          const SizedBox(),
+                          Text("View details",style: smallRegularStyle,),
                         ],
                       ),
                       children: [

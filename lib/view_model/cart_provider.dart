@@ -26,6 +26,14 @@ class CartProvider extends ChangeNotifier {
 
   List<CartData> cartList = [];
 
+  bool _loading = false;
+
+  bool get loading => _loading;
+
+  setLoading(bool value) {
+    _loading = value;
+    notifyListeners();
+  }
 
 
   void setQuantity(int value) {
@@ -40,15 +48,16 @@ class CartProvider extends ChangeNotifier {
         if (response.data['status'] == true) {
           _quantity = 1;
           getCartItems(context);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
           notifyListeners();
+          CustomFlushbar.showSuccess(context, response.data["message"]);
           Navigator.pushNamed(context, RoutesName.CART_SCREEN_ROUTE);
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {
+          });
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -59,30 +68,30 @@ class CartProvider extends ChangeNotifier {
 
   // get cart item
 
-  Future<List<CartData>> getCartItems(BuildContext context) async {
-
-    await _cartRepository.getCartItems().then((response) {
+  getCartItems(BuildContext context) {
+    _cartRepository.getCartItems().then((response) {
+      setLoading(true);
       if(response != null) {
         if (response.statusCode == 200) {
+          setLoading(false);
           var getCartItem = CartModel.fromJson(response.data);
-          cartList.clear();
-          cartList.addAll(getCartItem.cartData!);
+          cartList = getCartItem.cartData!;
           log("cart list:${cartList.length}");
           updateTotalPrice();
-          return cartList;
+          notifyListeners();
         } else {
+          setLoading(false);
           notifyListeners();
         }
       }else {
+        setLoading(false);
         notifyListeners();
       }
     }).catchError((error) {
+      setLoading(false);
       handleDioException(context, error);
       notifyListeners();
     });
-    notifyListeners();
-    // Return an empty list if there was an error
-    return [];
   }
 
   void incrementCartCount() {
@@ -158,14 +167,14 @@ class CartProvider extends ChangeNotifier {
           // Recalculate the total price
           updateTotalPrice();
           _quantity = 1;
-          CustomFlushbar.showSuccess(context, response.data["message"]);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -183,14 +192,14 @@ class CartProvider extends ChangeNotifier {
           cartList.clear();
           clearCart();
           getCartItems(context);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

@@ -20,11 +20,12 @@ class RoutesName {
   static const String CHECKOUT_SCREEN_ROUTE = "/checkout_screen";
   static const String PAYMENT_SUCCESSFUL_SCREEN_ROUTE = "/payment_successful_screen";
   static const String FEEDBACK_SCREEN_ROUTE = "/feedback_screen";
-  static const String SETTINGS_PROFILE_SCREEN_ROUTE = "/settings_profile_screen";
+  static const String ACCOUNT_DETAILS_SCREEN_ROUTE = "/account_details_screen";
   static const String SETTINGS_OFFERS_SCREEN_ROUTE = "/settings_offers_screen";
-  static const String HELP_SUPPORT_SCREEN_ROUTE = "/help_support_screen";
+  static const String CHANGE_LANGUAGE_SCREEN_ROUTE = "/change_language_screen";
   static const String SETTINGS_SCREEN_ROUTE = "/settings_screen";
   static const String PAYMENT_SCREEN_ROUTE = "/payment_screen";
   static const String NO_INTERNET_SCREEN_ROUTE = "/no_internet_screen";
-  static const String FAVORITES_MENUITEM_SCREEN_ROUTE = "/favorites_menuitem)_screen";
+  static const String FAVORITES_MENUITEM_SCREEN_ROUTE = "/favorites_menuitem_screen";
+  static const String ORDERS_DETAILS_SCREEN_ROUTE = "/orders_details_screen";
 }

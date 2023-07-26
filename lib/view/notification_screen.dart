@@ -8,7 +8,7 @@ import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
 import '../utils/assets/assets_utils.dart';
-import '../utils/functions/time_to_ago_function.dart';
+import '../utils/functions/time_format_function.dart';
 import '../utils/responsive.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -27,7 +27,6 @@ class NotificationScreen extends StatelessWidget {
               "Notification",
               style: titleTextStyle,
             ),
-            centerTitle: true,
             actions: [
               InkWell(
                 onTap: () async {
@@ -64,9 +63,16 @@ class NotificationScreen extends StatelessWidget {
                       children: [
                         Expanded(
                             child: notification_provider.notificationList.isEmpty
-                                ? const Center(
-                                    child: PlaceholderWidget(
-                                        title: "NO NOTIFICATION"))
+                                ? Container(
+                              alignment: Alignment.center,
+                                  child: const Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PlaceholderWidget(
+                                          title: "No Notifications"),
+                                    ],
+                                  ),
+                                )
                                 : ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: notification_provider.notificationList.length,

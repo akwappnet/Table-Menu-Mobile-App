@@ -6,10 +6,10 @@ import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/view/checkout_screen/checkout_screen.dart';
 
-import '../utils/assets/assets_utils.dart';
-import '../utils/font/text_style.dart';
-import '../utils/widgets/custom_button.dart';
-import '../view_model/order_provider.dart';
+import '../../utils/assets/assets_utils.dart';
+import '../../utils/font/text_style.dart';
+import '../../utils/widgets/custom_button.dart';
+import '../../view_model/order_provider.dart';
 
 class OrderTrackingScreen extends StatefulWidget {
   const OrderTrackingScreen({super.key, this.order_id});

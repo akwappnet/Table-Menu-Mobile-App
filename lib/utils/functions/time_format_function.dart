@@ -1,7 +1,15 @@
+import 'package:intl/intl.dart';
+
 String getTimeAgo(String dateString, {bool numericDates = true}) {
-  DateTime date = DateTime.parse(dateString);
+  // Parse the input date string to UTC DateTime
+  DateTime date = DateTime.parse(dateString).toUtc();
+
+  // Convert the date to local timezone
+  DateTime localDate = date.toLocal();
   DateTime now = DateTime.now();
-  Duration difference = now.difference(date);
+
+  Duration difference = now.difference(localDate);
+
   if (difference.inSeconds < 5) {
     return 'Just now';
   } else if (difference.inSeconds <= 60) {
@@ -30,4 +38,24 @@ String getTimeAgo(String dateString, {bool numericDates = true}) {
     return (numericDates) ? '1 year ago' : 'Last year';
   }
   return '${(difference.inDays / 365).floor()} years ago';
+}
+
+
+// date time format for orders listing page's order
+String formatDateTime(DateTime date) {
+  // Convert the date to local timezone
+  DateTime localDateTime = date.toLocal();
+
+  // Format the time in 12-hour format with AM/PM
+  String formattedTime = DateFormat.jm().format(localDateTime);
+
+  // Check if the date is today
+  DateTime now = DateTime.now();
+  if (localDateTime.year == now.year && localDateTime.month == now.month && localDateTime.day == now.day) {
+    return 'Today at $formattedTime';
+  } else {
+    // Format the date in the desired format "May 15, 2023"
+    String formattedDate = DateFormat.yMMMMd().format(localDateTime);
+    return '$formattedDate at $formattedTime';
+  }
 }
