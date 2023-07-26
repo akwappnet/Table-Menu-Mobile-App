@@ -32,7 +32,7 @@ class PlusMinusButtons extends StatelessWidget {
             color: Colors.white,
           ),
           SizedBox(
-            width: wp(6.5, context),
+            width: wp(6.8, context),
             child: CustomText(
               text: text,
               alignment: TextAlign.center,

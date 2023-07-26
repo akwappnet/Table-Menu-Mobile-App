@@ -143,12 +143,12 @@ class MenuProvider extends ChangeNotifier {
           notifyListeners();
         }else {
           setLoading(false);
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
         setLoading(false);
-        CustomFlushbar.showError(context, "Something went wrong");
+        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -178,12 +178,12 @@ class MenuProvider extends ChangeNotifier {
           setLoading(false);
           notifyListeners();
         }else {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           setLoading(false);
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "Something went wrong");
+        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
         setLoading(false);
         notifyListeners();
       }
@@ -202,11 +202,11 @@ class MenuProvider extends ChangeNotifier {
           getMenuItemByID(id, context);
           notifyListeners();
         }else {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "Something went wrong");
+        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

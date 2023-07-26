@@ -58,9 +58,16 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                       children: [
                         Expanded(
                           child: menu_provider.favMenuitems.isEmpty
-                              ? const Center(
-                                  child: PlaceholderWidget(
-                                      title: "NO FAVORITES MENU ITEMS"))
+                              ? Container(
+                            alignment: Alignment.center,
+                                child: const Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    PlaceholderWidget(
+                                        title: "NO FAVORITES MENU ITEMS"),
+                                  ],
+                                ),
+                              )
                               : GridView.builder(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(

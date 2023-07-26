@@ -8,15 +8,16 @@ import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/menu_screeen/menu_screen.dart';
 import 'package:table_menu_customer/view/no_internet_screen.dart';
 import 'package:table_menu_customer/view/notification_screen.dart';
-import 'package:table_menu_customer/view/order_tracking_screen.dart';
+import 'package:table_menu_customer/view/orders_screen/order_tracking_screen.dart';
 import 'package:table_menu_customer/view/order_sucessful_screen.dart';
+import 'package:table_menu_customer/view/orders_screen/orders_details_screen.dart';
 import 'package:table_menu_customer/view/orders_screen/orders_screen.dart';
 import 'package:table_menu_customer/view/payment_successful_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/favorites_menuitem_screen.dart';
-import 'package:table_menu_customer/view/profile_screen/help_support_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/change_language_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/settings_offers_screen.dart';
-import 'package:table_menu_customer/view/profile_screen/settings_profile_screen.dart';
+import 'package:table_menu_customer/view/profile_screen/account_details_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/settings_screen.dart';
 import 'package:table_menu_customer/view/qr_scanner_screen.dart';
 import 'package:table_menu_customer/view/registration_screen.dart';
@@ -90,17 +91,20 @@ class Routes {
       case RoutesName.FEEDBACK_SCREEN_ROUTE:
         return _buildPageRoute(FeedbackScreen(orderID: arguments,));
 
-      case RoutesName.SETTINGS_PROFILE_SCREEN_ROUTE:
-        return _buildPageRoute(const SettingsProfileScreen());
+      case RoutesName.ACCOUNT_DETAILS_SCREEN_ROUTE:
+        return _buildPageRoute(const AccountDetailsScreen());
 
       case RoutesName.SETTINGS_OFFERS_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsOffersScreen());
 
-      case RoutesName.HELP_SUPPORT_SCREEN_ROUTE:
-        return _buildPageRoute(const HelpSupportScreen());
+      case RoutesName.CHANGE_LANGUAGE_SCREEN_ROUTE:
+        return _buildPageRoute(const ChangeLanguageScreen());
 
       case RoutesName.SETTINGS_SCREEN_ROUTE:
         return _buildPageRoute(const SettingsScreen());
+
+      case RoutesName.ORDERS_DETAILS_SCREEN_ROUTE:
+        return _buildPageRoute(OrderDetailsScreen(orderData: arguments));
 
       case RoutesName.NO_INTERNET_SCREEN_ROUTE:
         return _buildPageRoute(const NoInternetScreen());

@@ -71,21 +71,21 @@ class OrderProvider extends ChangeNotifier {
         if (response.data['status'] == true) {
           getOrders(context);
           Provider.of<CartProvider>(context,listen: false).clearCart();
-          CustomFlushbar.showSuccess(
-              context, response.data['message']);
           var order = PlaceOrderModel.fromJson(response.data);
           placeorderData = order.placeorderData;
           log(placeorderData!.orderId.toString());
           notifyListeners();
+          CustomFlushbar.showSuccess(
+              context, response.data['message']);
           Navigator.pushReplacementNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,arguments: placeorderData?.orderId);
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred");
+            context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -134,19 +134,19 @@ class OrderProvider extends ChangeNotifier {
     _orderRepository.cancelOrder(id, data).then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(
-              context, response.data['message']);
           orderList.removeWhere((item) => item.id == id);
           getOrders(context);
+          CustomFlushbar.showSuccess(
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
           CustomFlushbar.showError(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred");
+            context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -164,16 +164,16 @@ class OrderProvider extends ChangeNotifier {
           OrderTrackingModel orderTrackingModel = OrderTrackingModel.fromJson(response.data);
           orderTrackingData = orderTrackingModel.orderTrackingData?.first;
           CustomFlushbar.showSuccess(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
           CustomFlushbar.showError(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred");
+            context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -195,12 +195,12 @@ class OrderProvider extends ChangeNotifier {
           notifyListeners();
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: () {});
           notifyListeners();
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred");
+            context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

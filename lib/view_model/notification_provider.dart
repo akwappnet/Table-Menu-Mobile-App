@@ -36,12 +36,12 @@ class NotificationProvider extends ChangeNotifier{
             notifyListeners();
         } else {
           setLoading(false);
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
         setLoading(false);
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -57,14 +57,14 @@ class NotificationProvider extends ChangeNotifier{
       if(response != null) {
         if (response.data["status"] == true) {
           notificationList.removeWhere((item) => item.id == id);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -81,14 +81,14 @@ class NotificationProvider extends ChangeNotifier{
         if (response.data["status"] == true) {
           notificationList.clear();
           getAllNotification(context);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -103,16 +103,16 @@ class NotificationProvider extends ChangeNotifier{
       if(response != null) {
         if (response.data["status"] == true) {
           getAllNotification(context);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
-          Provider.of<NavProvider>(context).changeIndex(1);
-          Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
-          notifyListeners();
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Provider.of<NavProvider>(context).changeIndex(1);
+            Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+          });
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

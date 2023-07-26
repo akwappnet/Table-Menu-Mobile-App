@@ -62,7 +62,6 @@ togglePushNotification(BuildContext context) {
   notifyListeners();
 }
 
-
   void setUserName(String value) {
     _user_name = value;
     notifyListeners();
@@ -84,15 +83,16 @@ togglePushNotification(BuildContext context) {
       if(response != null) {
         if (response.data["status"] == true) {
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data['message']);
-          Navigator.pushReplacementNamed(
-              context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
+          CustomFlushbar.showSuccess(context, response.data['message'],onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message']);
+          CustomFlushbar.showError(context, response.data['message'],onDismissed: (){});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: (){});
         setLoading(false);
       }
     }).catchError((error) {
@@ -137,28 +137,31 @@ togglePushNotification(BuildContext context) {
           String token = response.data['data']['token'];
           bool userinfo = response.data['data']['user_info_exists'];
           DatabaseProvider().saveToken(token);
+
           if (userinfo) {
-            CustomFlushbar.showSuccess(
-                context, response.data['message']);
-            Navigator.pushReplacementNamed(context,
-                RoutesName.HOME_SCREEN_ROUTE);
             setLoading(false);
+            CustomFlushbar.showSuccess(
+                context, response.data['message'],onDismissed: () {
+              Navigator.pushReplacementNamed(context,
+                  RoutesName.HOME_SCREEN_ROUTE);
+            });
           } else {
-            CustomFlushbar.showSuccess(
-                context, response.data['message']);
-            Navigator.pushReplacementNamed(
-                context,
-                RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
             setLoading(false);
+            CustomFlushbar.showSuccess(
+                context, response.data['message'],onDismissed: (){
+              Navigator.pushReplacementNamed(
+                  context,
+                  RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
+            });
           }
         } else if (response.data['status'] == "False") {
           CustomFlushbar.showError(
-              context, response.data['message']);
+              context, response.data['message'],onDismissed: (){});
           setLoading(false);
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred");
+            context, "An error occurred",onDismissed: (){});
         setLoading(false);
       }
     }).catchError((error) {
@@ -177,15 +180,16 @@ togglePushNotification(BuildContext context) {
     _authRepository.verifyUser(data).then((response) {
       if(response != null){
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data['message']);
           setLoading(false);
-          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data['message'],onDismissed: (){
+            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message']);
+          CustomFlushbar.showError(context, response.data['message'],onDismissed: () {});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -208,16 +212,17 @@ togglePushNotification(BuildContext context) {
           String verifyPasswordToken = response.data['data']['token'];
           log("verify token : $verifyPasswordToken");
           DatabaseProvider().saveVerifyToken(verifyPasswordToken);
-          CustomFlushbar.showSuccess(context, response.data["message"]);
           setLoading(false);
-          Navigator.pushReplacementNamed(
-              context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
+          });
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -233,15 +238,16 @@ togglePushNotification(BuildContext context) {
     _authRepository.sendForgotPasswordOTP(data).then((response) {
       if(response != null){
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data["message"]);
-          Navigator.pushReplacementNamed(
-              context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
-              arguments: true);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
+                arguments: true);
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
       }
     }).catchError((error) {
       handleDioException(context, error);
@@ -258,15 +264,16 @@ togglePushNotification(BuildContext context) {
     _authRepository.resetPassword(data,verifyToken).then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data["message"]);
           setLoading(false);
-          Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"], onDismissed: () {});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred", onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -292,15 +299,17 @@ togglePushNotification(BuildContext context) {
     await _userInfoRepository.saveUserInfo(formData).then((response) {
       if(response != null) {
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data["message"]);
           setLoading(false);
-          Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+          clearController();
+          CustomFlushbar.showSuccess(context, response.data["message"], onDismissed: () {
+            Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -318,11 +327,11 @@ togglePushNotification(BuildContext context) {
           setUserName(userModel.userData!.name!);
           notifyListeners();
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message']);
+          CustomFlushbar.showError(context, response.data['message'],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -345,15 +354,16 @@ togglePushNotification(BuildContext context) {
     await _userInfoRepository.updateUserInfo(formData).then((response) {
       if(response != null){
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data["message"]);
           setLoading(false);
-          Navigator.of(context).pop();
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Navigator.of(context).pop();
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -367,21 +377,20 @@ togglePushNotification(BuildContext context) {
       if(response != null){
         if (response.data["status"] == true) {
           DatabaseProvider().clear();
-          emailLoginController.text = "";
-          passwordLoginController.text = "";
-          CustomFlushbar.showSuccess(context, response.data["message"]);
-          notifyListeners();
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            RoutesName.LOGIN_SCREEN_ROUTE,
-                (route) => false, // Clear the entire backstack
-          );
+          clearController();
+          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              RoutesName.LOGIN_SCREEN_ROUTE,
+                  (route) => false, // Clear the entire backstack
+            );
+          });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"]);
+          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred");
+        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -408,7 +417,6 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-
   File? _temp_image;
 
   get temp_image => _temp_image;
@@ -417,6 +425,22 @@ togglePushNotification(BuildContext context) {
     _temp_image = temp_image;
     notifyListeners();
   }
+
+  clearController() {
+    emailLoginController.clear();
+    passwordLoginController.clear();
+    emailRegisterController.clear();
+    passwordRegisterController.clear();
+    repeatePasswordRegisterController.clear();
+    activationOTPController.clear();
+    forgotPassEmailController.clear();
+    forgotPassOTPController.clear();
+    resetPassController.clear();
+    resetrepeatPassController.clear();
+    nameController.clear();
+    phoneNoController.clear();
+  }
+
 
   @override
   void dispose() {

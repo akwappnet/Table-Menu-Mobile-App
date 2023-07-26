@@ -4,6 +4,7 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -204,7 +205,7 @@ class _MyAppState extends State<MyApp> {
                 widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
           ),
           onGenerateRoute: Routes.generateRoute,
-          navigatorKey: AppContext.navigatorKey
+          navigatorKey: AppContext.navigatorKey,
         ),
     );
   }

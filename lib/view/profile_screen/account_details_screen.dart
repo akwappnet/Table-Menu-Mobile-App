@@ -8,8 +8,8 @@ import '../../utils/responsive.dart';
 import '../../view_model/auth_provider.dart';
 
 
-class SettingsProfileScreen extends StatelessWidget {
-  const SettingsProfileScreen({super.key});
+class AccountDetailsScreen extends StatelessWidget {
+  const AccountDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

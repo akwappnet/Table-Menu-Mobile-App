@@ -157,7 +157,7 @@ class RegistrationScreen extends StatelessWidget {
                                   if (auth_provider.passwordRegisterController.text !=
                                       auth_provider.repeatePasswordRegisterController.text) {
                                     CustomFlushbar.showError(
-                                        context, "Password doesn't match enter same password");
+                                        context, "Password doesn't match enter same password",onDismissed: () {});
                                   } else {
                                     var data = {
                                       "email": auth_provider.emailRegisterController.text,

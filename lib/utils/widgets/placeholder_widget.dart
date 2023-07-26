@@ -13,7 +13,6 @@ class PlaceholderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(
             AssetsUtils.ASSETS_EMPTY_MENU_PLACEHOLDER,
