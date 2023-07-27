@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:table_menu_customer/model/custom_result_model.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
-import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
-import '../../view/verify_user_screen.dart';
-import '../routes/routes_name.dart';
 import '../validation/validation.dart';
 import 'custom_button.dart';
-import 'custom_text.dart';
 import 'custom_textformfield.dart';
 
 class ForgotPassEmailWidget extends StatefulWidget {

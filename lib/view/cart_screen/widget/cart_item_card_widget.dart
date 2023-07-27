@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 import 'package:table_menu_customer/utils/widgets/plus_minus_button_widget.dart';
-
 
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';

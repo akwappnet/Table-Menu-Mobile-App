@@ -52,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final auth_provider = Provider.of<AuthProvider>(context, listen: false);
     return Consumer<AuthProvider>(
       builder: (context, auth_provider, __) {
         return Scaffold(
@@ -204,7 +203,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      "change languages EN & AR",
+                                      "Change languages English & Arabian",
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),

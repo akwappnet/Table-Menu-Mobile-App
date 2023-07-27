@@ -104,7 +104,7 @@ class NotificationProvider extends ChangeNotifier{
         if (response.data["status"] == true) {
           getAllNotification(context);
           CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
-            Provider.of<NavProvider>(context).changeIndex(1);
+            Provider.of<NavProvider>(context,listen: false).changeIndex(2);
             Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == false) {

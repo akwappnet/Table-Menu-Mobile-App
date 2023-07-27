@@ -4,9 +4,9 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
@@ -27,6 +27,8 @@ import 'package:table_menu_customer/view_model/notification_provider.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
+import 'AppLanguage.dart';
+import 'app_localizations.dart';
 import 'firebase_options.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -61,8 +63,11 @@ Future<void> main() async {
   NetworkApiService().setupInterceptors();
   final AuthRepository authRepository = AuthRepository();
   String loggedIn = await authRepository.isLoggedIn();
+  AppLanguage appLanguage = AppLanguage();
+  await appLanguage.fetchLocale();
   runApp(MyApp(
     loggedIn: loggedIn,
+    appLanguage: appLanguage
   ));
 }
 
@@ -82,10 +87,10 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, required this.loggedIn});
+  const MyApp({super.key, required this.loggedIn,required this.appLanguage});
 
   final String loggedIn;
-
+  final AppLanguage appLanguage;
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -177,35 +182,51 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_) => NotificationProvider()),
           ChangeNotifierProvider(create: (_) => OrderProvider()),
           ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
+          ChangeNotifierProvider(create: (_) => AppLanguage()),
         ],
-        child: MaterialApp(
-          title: 'Table Menu Customer',
-          theme: ThemeData(
-              useMaterial3: true,
-              colorSchemeSeed: Colors.purple,
-              fontFamily: 'Roboto'),
-          debugShowCheckedModeBanner: false,
-          home: AnimatedSplashScreen(
-            nextRoute: widget.loggedIn != ''
-                ? RoutesName.HOME_SCREEN_ROUTE
-                : RoutesName.LOGIN_SCREEN_ROUTE,
-            duration: 3000,
-            splashTransition: SplashTransition.scaleTransition,
-            backgroundColor: Colors.white,
-            animationDuration: const Duration(seconds: 1),
-            splashIconSize: 300,
-            splash: Center(
-              child: Image.asset(
-                AssetsUtils.ASSETS_TABLE_MENU_LOGO,
-                height: 300,
-                width: 300,
+        child: Consumer<AppLanguage>(
+        builder: (context, model, child) {
+          return MaterialApp(
+            title: APPNAME,
+            theme: ThemeData(
+                useMaterial3: true,
+                colorSchemeSeed: Colors.purple,
+                fontFamily: 'Roboto'),
+            debugShowCheckedModeBanner: false,
+            home: AnimatedSplashScreen(
+              nextRoute: widget.loggedIn != ''
+                  ? RoutesName.HOME_SCREEN_ROUTE
+                  : RoutesName.LOGIN_SCREEN_ROUTE,
+              duration: 3000,
+              splashTransition: SplashTransition.scaleTransition,
+              backgroundColor: Colors.white,
+              animationDuration: const Duration(seconds: 1),
+              splashIconSize: 300,
+              splash: Center(
+                child: Image.asset(
+                  AssetsUtils.ASSETS_TABLE_MENU_LOGO,
+                  height: 300,
+                  width: 300,
+                ),
               ),
+              nextScreen:
+              widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
             ),
-            nextScreen:
-                widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
-          ),
-          onGenerateRoute: Routes.generateRoute,
-          navigatorKey: AppContext.navigatorKey,
+            onGenerateRoute: Routes.generateRoute,
+            navigatorKey: AppContext.navigatorKey,
+            locale: model.appLocal,
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ar', ''),
+            ],
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate
+            ],
+          );
+        },
         ),
     );
   }

@@ -9,7 +9,7 @@ import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
-import 'package:table_menu_customer/view_model/db_provider.dart';
+import 'package:table_menu_customer/data/db_provider.dart';
 import '../repository/auth_repository.dart';
 import '../utils/helpers.dart';
 

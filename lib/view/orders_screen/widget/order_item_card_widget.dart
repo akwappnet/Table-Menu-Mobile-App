@@ -86,15 +86,20 @@ class OrderItemCardWidget extends StatelessWidget {
                 children: [
                   CustomOutlinedButton(
                       onPressed: trackOrderCallback,
-                      child: Text(
-                        "Track order",
-                        style: textSmallRegularStyle,
+                      child: Row(
+                        children: [
+                          Text(
+                            "Track order",
+                            style: textSmallRegularStyle,
+                          ),
+                          const Icon(Icons.arrow_right_outlined)
+                        ],
                       )),
                   const Spacer(),
                   GestureDetector(
                     onTap: cancelCallback,
                     child: Text(
-                      "Cancel ?",
+                      "Cancel?",
                       style:
                           textSmallRegularStyle.copyWith(color: Colors.purple),
                     ),

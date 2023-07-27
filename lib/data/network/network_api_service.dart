@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
-import 'package:table_menu_customer/view_model/db_provider.dart';
+import 'package:table_menu_customer/data/db_provider.dart';
 
 import '../../utils/helpers.dart';
 
