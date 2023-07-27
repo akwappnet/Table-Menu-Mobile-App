@@ -50,7 +50,6 @@ class _MenuScreenState extends State<MenuScreen> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
-            elevation: 0.0,
             scrolledUnderElevation: 0.0,
             automaticallyImplyLeading: false,
             title: Column(
@@ -93,7 +92,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     menu_provider.categories.isNotEmpty
                 ? (qr_provider.isVisible)
                     ? Container(
-                        margin: const EdgeInsets.only(left: 10, top: 15),
+              margin: EdgeInsets.symmetric(vertical: hp(1, context),horizontal: wp(1, context)),
                         child: Column(
                           children: [
                             Row(
@@ -249,8 +248,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                       ],
                                     ),
                             ),
-                            const SizedBox(
-                              height: 10.0,
+                            SizedBox(
+                              height : hp(1, context) ,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -261,8 +260,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 8,
+                            SizedBox(
+                              height: hp(1, context),
                             ),
                             Expanded(
                               flex: 5,
@@ -359,7 +358,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PlaceholderWidget(title: "NO DATA"),
+                        PlaceholderWidget(title: "No data"),
                       ],
                     )),
           ),

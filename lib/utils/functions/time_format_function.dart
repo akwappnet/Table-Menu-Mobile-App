@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 String getTimeAgo(String dateString, {bool numericDates = true}) {
   // Parse the input date string to UTC DateTime
-  DateTime date = DateTime.parse(dateString).toUtc();
+  DateTime date = DateTime.parse(dateString);
 
   // Convert the date to local timezone
   DateTime localDate = date.toLocal();
@@ -20,7 +20,7 @@ String getTimeAgo(String dateString, {bool numericDates = true}) {
     return '${difference.inMinutes} minutes ago';
   } else if (difference.inHours <= 1) {
     return (numericDates) ? '1 hour ago' : 'An hour ago';
-  } else if (difference.inHours <= 60) {
+  } else if (difference.inHours <= 24) {
     return '${difference.inHours} hours ago';
   } else if (difference.inDays <= 1) {
     return (numericDates) ? '1 day ago' : 'Yesterday';

@@ -66,7 +66,8 @@ class CustomDialogBox extends StatelessWidget {
                     onPressed: addFeedback,
                     child:  Text("Add Feedback", style: textBodyStyle.copyWith(
                         color: Colors.white
-                    ),),
+                    ),
+                    ),
                   ),
                 ),
               ),

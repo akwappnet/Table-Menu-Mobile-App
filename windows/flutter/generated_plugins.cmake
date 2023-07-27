@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   file_selector_windows
   firebase_core
+  flutter_localization
   rive_common
   smart_auth
 )

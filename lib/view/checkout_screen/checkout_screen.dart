@@ -130,7 +130,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         height: hp(1, context),
                                       ),
                                       CustomTextFormField().getCustomEditTextArea(
-                                          labelValue: "discount code",
+                                          labelValue: "Discount code",
                                           hintValue: "Apply discount code",
                                           controller: discountCodeController,
                                           prefixicon: const Icon(

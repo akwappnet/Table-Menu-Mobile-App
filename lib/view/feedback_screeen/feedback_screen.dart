@@ -111,7 +111,7 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      "How was service?",
+                      "How was our service?",
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -167,7 +167,7 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      "write your feedback",
+                      "Write your feedback",
                       style: textBodyStyle,
                     ),
                     SizedBox(

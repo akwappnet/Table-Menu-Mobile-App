@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:table_menu_customer/data/network/base_api_service.dart';
-import 'package:table_menu_customer/view_model/db_provider.dart';
+import 'package:table_menu_customer/data/db_provider.dart';
 import '../data/network/network_api_service.dart';
 import '../utils/constants/api_endpoints.dart';
 

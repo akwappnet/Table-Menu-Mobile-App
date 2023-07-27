@@ -4,7 +4,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/view/checkout_screen/checkout_screen.dart';
 
 import '../../utils/assets/assets_utils.dart';
 import '../../utils/font/text_style.dart';
@@ -108,7 +107,10 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                           children: [
                             Theme(
                               data: Theme.of(context)
-                                  .copyWith(dividerColor: Colors.transparent),
+                                  .copyWith(dividerColor: Colors.transparent,
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                hoverColor: Colors.transparent,),
                               child: ExpansionTile(
                                 title: Text(
                                   "Order list and prices",

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
-import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view/orders_screen/widget/order_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';

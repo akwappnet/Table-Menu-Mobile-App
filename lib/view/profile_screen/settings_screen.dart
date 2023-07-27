@@ -30,7 +30,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Consumer<AuthProvider>(
     builder: (context,auth_provider,__){
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: Text("Settings",style: smallTitleTextStyle,),
         ),
         body: SafeArea(

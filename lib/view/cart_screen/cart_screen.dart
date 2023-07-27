@@ -44,6 +44,7 @@ class _CartScreenState extends State<CartScreen> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             scrolledUnderElevation: 0.0,
+            automaticallyImplyLeading: false,
             title: Text(
               'Cart',
               style: titleTextStyle,
@@ -285,7 +286,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "Service charges 10%",
+                                                          "Service charges",
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(
@@ -308,7 +309,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "SGST 6%",
+                                                          "SGST",
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(
@@ -331,7 +332,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "CGST 6%",
+                                                          "CGST",
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(

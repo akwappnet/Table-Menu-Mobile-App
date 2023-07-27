@@ -64,7 +64,7 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     PlaceholderWidget(
-                                        title: "NO FAVORITES MENU ITEMS"),
+                                        title: "No favorite menu items"),
                                   ],
                                 ),
                               )

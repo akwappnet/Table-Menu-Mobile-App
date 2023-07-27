@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
+import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
 
 import '../../../utils/constants/constants_text.dart';
@@ -145,7 +146,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'sweet',
+                            itemText: 'Sweet',
                             containerColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -304,21 +305,40 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: hp(7.5, context),
-                        child: CustomButton(
-                          onPressed: () {
-                            menu_provider.selectCategory(-1);
-                            menu_provider.setCategoryName("", context);
-                            menu_provider.applyFilters();
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "Apply filters",
-                            style: textBodyStyle.copyWith(color: Colors.white),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: wp(45, context),
+                            height: hp(7.5, context),
+                            child: CustomOutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Clear filters",
+                                style: textBodyStyle,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(width: wp(2, context),),
+                          SizedBox(
+                            width: wp(45, context),
+                            height: hp(7.5, context),
+                            child: CustomButton(
+                              onPressed: () {
+                                menu_provider.selectCategory(-1);
+                                menu_provider.setCategoryName("", context);
+                                menu_provider.applyFilters();
+                                Navigator.of(context).pop();
+                              },
+                              child: Text(
+                                "Apply filters",
+                                style: textBodyStyle.copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

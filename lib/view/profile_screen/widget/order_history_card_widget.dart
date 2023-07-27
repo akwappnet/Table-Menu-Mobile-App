@@ -32,7 +32,7 @@ class OrderHistoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "#Order $orderId",
+                  "# $orderId",
                   style: textRegularStyle.copyWith(color: Colors.purple),
                 ),
                 SizedBox(
