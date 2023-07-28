@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:table_menu_customer/model/cart_model.dart';
 import 'package:table_menu_customer/repository/cart_repository.dart';
 
+import '../app_localizations.dart';
 import '../utils/helpers.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
@@ -57,7 +58,7 @@ class CartProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -174,7 +175,7 @@ class CartProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -199,7 +200,7 @@ class CartProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

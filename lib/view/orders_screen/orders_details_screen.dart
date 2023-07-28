@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 
+import '../../app_localizations.dart';
 import '../../model/order_model.dart';
 import '../../utils/constants/constants_text.dart';
 import '../../utils/functions/time_format_function.dart';
@@ -16,7 +17,7 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Order Details",style: titleTextStyle,),
+        title: Text(AppLocalizations.of(context).translate('order_details'),style: titleTextStyle,),
       ),
       body: SafeArea(
         child: Padding(
@@ -48,11 +49,11 @@ class OrderDetailsScreen extends StatelessWidget {
                       style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold),
                     ),
                     SizedBox(height: hp(1.5, context)),
-                    Text("Ordered By",style: textSmallRegularStyle.copyWith(color: Colors.grey),),
+                    Text(AppLocalizations.of(context).translate('ordered_by'),style: textSmallRegularStyle.copyWith(color: Colors.grey),),
                     SizedBox(height: hp(0.5, context),),
                     Text(orderData.customerName!,style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold)),
                     SizedBox(height: hp(1, context),),
-                    Text("Payment method",style: textSmallRegularStyle.copyWith(color: Colors.grey),),
+                    Text(AppLocalizations.of(context).translate('payment_method'),style: textSmallRegularStyle.copyWith(color: Colors.grey),),
                     SizedBox(height: hp(0.5, context),),
                     Text("Card",style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold)),
                     SizedBox(height: hp(1.5, context),),
@@ -68,7 +69,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           children: [
                             Text("${cartItem?.itemName}  x${cartItem?.quantity}",style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold)),
                             const Spacer(),
-                            Text("₹ ${cartItem?.total}",style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold)),
+                            Text("${AppLocalizations.of(context).translate('₹')} ${cartItem?.total}",style: textSmallRegularStyle.copyWith(fontFamily: fontSemiBold)),
                           ],
                         );
                       },
@@ -78,13 +79,13 @@ class OrderDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Item total ",
+                          AppLocalizations.of(context).translate('item_total'),
                           style: textRegularStyle.copyWith(
                               color: Colors.grey),
                         ),
                         const Spacer(),
                         Text(
-                          "₹ ${orderData.totalPrice}",
+                          "${ AppLocalizations.of(context).translate('₹')} ${orderData.totalPrice}",
                           style: textBodyStyle.copyWith(
                               color: Colors.black),
                         ),
@@ -96,13 +97,13 @@ class OrderDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Tax",
+                          AppLocalizations.of(context).translate('tax'),
                           style: textRegularStyle.copyWith(
                               color: Colors.grey),
                         ),
                         const Spacer(),
                         Text(
-                          "₹ 00",
+                          "${ AppLocalizations.of(context).translate('₹')} 00",
                           style: textBodyStyle.copyWith(
                               color: Colors.black),
                         ),
@@ -112,13 +113,13 @@ class OrderDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Tip",
+                          AppLocalizations.of(context).translate('tip'),
                           style: textRegularStyle.copyWith(
                               color: Colors.grey),
                         ),
                         const Spacer(),
                         Text(
-                          "₹ 00",
+                          "${AppLocalizations.of(context).translate('₹')} 00",
                           style: textBodyStyle.copyWith(
                               color: Colors.black),
                         ),
@@ -128,19 +129,19 @@ class OrderDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Paid",
+                          AppLocalizations.of(context).translate('paid'),
                           style: textRegularStyle.copyWith(fontFamily: fontSemiBold),
                         ),
                         const Spacer(),
                         Text(
-                          "₹ ${orderData.totalPrice}",
+                          "${AppLocalizations.of(context).translate('₹')} ${orderData.totalPrice}",
                           style: textBodyStyle.copyWith(
                               color: Colors.black),
                         ),
                       ],
                     ),
                     SizedBox(height: hp(1, context),),
-                    Divider(color: Colors.grey,),
+                    const Divider(color: Colors.grey,),
                   ],
                 ),
               ),
@@ -157,7 +158,7 @@ class OrderDetailsScreen extends StatelessWidget {
           child: CustomButton(
             onPressed: () {},
             child: Text(
-              "Re-Order",
+              AppLocalizations.of(context).translate('re_order'),
               style: textBodyStyle.copyWith(color: Colors.white),
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/assets/assets_utils.dart';
 import '../../utils/font/text_style.dart';
 import '../../utils/widgets/custom_button.dart';
@@ -39,7 +40,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Track Order',
+                  AppLocalizations.of(context).translate('track_order'),
                   style: textSmallRegularStyle,
                 ),
                 Text(
@@ -84,7 +85,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                         child: Column(
                           children: [
                             Text(
-                              "Your order will be ready soon!",
+                              AppLocalizations.of(context).translate('your_order_will_ready_soon'),
                               style: titleTextStyle,
                             ),
                             SizedBox(
@@ -113,7 +114,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                 hoverColor: Colors.transparent,),
                               child: ExpansionTile(
                                 title: Text(
-                                  "Order list and prices",
+                                  AppLocalizations.of(context).translate('order_list_and_prices'),
                                   style: textRegularStyle,
                                 ),
                                 backgroundColor: Colors.transparent,
@@ -175,7 +176,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                               style: textBodyStyle.copyWith(
                                                   color: Colors.grey),
                                             ),
-                                            Text("₹ ${item.itemPrice ?? 0.0}",
+                                            Text("${AppLocalizations.of(context).translate('₹')} ${item.itemPrice ?? 0.0}",
                                                 style: textRegularStyle),
                                           ],
                                         ),
@@ -201,7 +202,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                         context, RoutesName.HOME_SCREEN_ROUTE);
                                   },
                                   child: Text(
-                                    "Add more food items to order",
+                                    AppLocalizations.of(context).translate('add_more_food_items_to_order'),
                                     style: textRegularStyle.copyWith(
                                         color: Colors.purple.shade300),
                                   ),
@@ -221,13 +222,13 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Item total ",
+                                        AppLocalizations.of(context).translate('item_total'),
                                         style: textRegularStyle.copyWith(
                                             color: Colors.grey),
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                        "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
                                         style: textBodyStyle.copyWith(
                                             color: Colors.black),
                                       ),
@@ -239,13 +240,13 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Tax",
+                                        AppLocalizations.of(context).translate('tax'),
                                         style: textRegularStyle.copyWith(
                                             color: Colors.grey),
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "₹ 0",
+                                        "${AppLocalizations.of(context).translate('₹')} 0",
                                         style: textBodyStyle.copyWith(
                                             color: Colors.black),
                                       ),
@@ -261,13 +262,13 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        "Total price",
+                                        AppLocalizations.of(context).translate('total_price'),
                                         style: textRegularStyle.copyWith(
                                             color: Colors.grey),
                                       ),
                                       const Spacer(),
                                       Text(
-                                        "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                        "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
                                         style: textBodyStyle.copyWith(
                                             color: Colors.black),
                                       ),
@@ -308,12 +309,12 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Check out",
+                          AppLocalizations.of(context).translate('checkout'),
                           style: textBodyStyle.copyWith(color: Colors.white),
                         ),
                         const Spacer(),
                         Text(
-                          "₹ ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                          "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
                           style: textBodyStyle.copyWith(color: Colors.white),
                         ),
                       ],

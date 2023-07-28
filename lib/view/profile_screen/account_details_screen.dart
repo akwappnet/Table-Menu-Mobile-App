@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/responsive.dart';
 import '../../view_model/auth_provider.dart';
 
@@ -18,7 +19,7 @@ class AccountDetailsScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text("Profile",style: smallTitleTextStyle,),
+            title: Text(AppLocalizations.of(context).translate('profile'),style: smallTitleTextStyle,),
             backgroundColor: Colors.white,
             actions: [
               Padding(
@@ -118,7 +119,7 @@ class AccountDetailsScreen extends StatelessWidget {
                               horizontal: wp(2, context), vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text("Favorites Menu Items",style: textBodyStyle,),
+                              Text(AppLocalizations.of(context).translate('favorites_menu_items'),style: textBodyStyle,),
                               const Spacer(),
                               const Icon(Icons.arrow_forward_ios,color: Colors.black,),
                             ],
@@ -140,7 +141,7 @@ class AccountDetailsScreen extends StatelessWidget {
                               horizontal: wp(2, context), vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text("Update Profile",style: textBodyStyle,),
+                              Text(AppLocalizations.of(context).translate('update_profile'),style: textBodyStyle,),
                               const Spacer(),
                               const Icon(Icons.arrow_forward_ios,color: Colors.black,),
                             ],
@@ -160,7 +161,7 @@ class AccountDetailsScreen extends StatelessWidget {
                               horizontal: wp(2, context), vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text("Change Password",style: textBodyStyle,),
+                              Text(AppLocalizations.of(context).translate('change_password'),style: textBodyStyle,),
                               const Spacer(),
                               const Icon(Icons.arrow_forward_ios,color: Colors.black,),
                             ],

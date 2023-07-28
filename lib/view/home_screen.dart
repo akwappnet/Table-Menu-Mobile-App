@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/view/cart_screen/cart_screen.dart';
 import 'package:table_menu_customer/view/profile_screen/profile_screen.dart';
 
-import '../AppLanguage.dart';
+import '../app_localizations.dart';
 import '../view_model/nav_provider.dart';
 import 'menu_screeen/menu_screen.dart';
 import 'orders_screen/orders_screen.dart';
@@ -42,22 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         useLegacyColorScheme : true,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            label: AppLocalizations.of(context).translate('home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: 'Cart',
+            icon: const Icon(Icons.shopping_bag_outlined),
+            label: AppLocalizations.of(context).translate('title_cart'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined),
-            label: 'Orders',
+            icon: const Icon(Icons.fastfood_outlined),
+            label: AppLocalizations.of(context).translate('orders'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
+            icon: const Icon(Icons.person_outline),
+            label: AppLocalizations.of(context).translate('profile'),
           ),
         ],
         currentIndex: nav_provider.index,

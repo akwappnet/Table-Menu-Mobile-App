@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/constants/constants_text.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
@@ -39,7 +40,7 @@ void showAddInstructionBottomsheet(BuildContext context) {
                   child: Row(
                     children: [
                       SizedBox(width: wp(1, context),),
-                      Text("Special cooking instructions",style: textBodyStyle,),
+                      Text(AppLocalizations.of(context).translate('special_cooking_instruction'),style: textBodyStyle,),
                       const Spacer(),
                       IconButton(onPressed: () {
                         Navigator.of(context).pop();
@@ -56,8 +57,8 @@ void showAddInstructionBottomsheet(BuildContext context) {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
                   child: CustomTextFormField().getCustomEditTextArea(
-                      labelValue: "Cooking Instructions",
-                      hintValue: "Start Typing",
+                      labelValue: AppLocalizations.of(context).translate('label_cooking_instruction'),
+                      hintValue: AppLocalizations.of(context).translate('hint_cooking_instruction'),
                       controller: order_provider.instructionController,
                       prefixicon: const Icon(Icons.edit_note_outlined),
                       obscuretext: false,
@@ -65,16 +66,16 @@ void showAddInstructionBottomsheet(BuildContext context) {
                       textInputAction: TextInputAction.done,
                       maxLength: 100,
                       textStyle: textRegularStyle,
-                      validator: validateField),
+                      validator: (value) =>  validateField(context,value)),
                 ),
                 SizedBox(height: hp(0.5, context)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: const CustomText(text: "The restorant will try their best to follow your instructions.",color: Colors.red,size: 12),
+                  child: CustomText(text: AppLocalizations.of(context).translate('cooking_instruction_text1'),color: Colors.red,size: 12),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: const CustomText(text: "However, no cancellation or refund will be possible if your request is not met.",color: Colors.red,size: 12,),
+                  child: CustomText(text: AppLocalizations.of(context).translate('cooking_instruction_text2'),color: Colors.red,size: 12,),
                 ),
                 SizedBox(height: hp(2, context),),
                 Padding(
@@ -92,7 +93,7 @@ void showAddInstructionBottomsheet(BuildContext context) {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12.0),
                       child: Text(
-                        'Add',
+                        AppLocalizations.of(context).translate('add_text'),
                         style: textRegularStyle.copyWith(
                             fontSize: 16, color: Colors.white),
                       ),

@@ -5,6 +5,8 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
+import '../../app_localizations.dart';
+
 class ChangeLanguageScreen extends StatelessWidget {
   const ChangeLanguageScreen({super.key});
   @override
@@ -16,7 +18,7 @@ class ChangeLanguageScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text("Change Language", style: titleTextStyle,),
+            title: Text(AppLocalizations.of(context).translate('change_language'), style: titleTextStyle,),
           ),
           body: SafeArea(
               child: SingleChildScrollView(
@@ -26,7 +28,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Select Language", style:textRegularStyle),
+                      Text(AppLocalizations.of(context).translate('select_language'), style:textRegularStyle),
                       const Divider(),
                       SizedBox(height: hp(1, context),),
                       GestureDetector(

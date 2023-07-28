@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/responsive.dart';
 
 
@@ -33,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text("Settings",style: smallTitleTextStyle,),
+          title: Text(AppLocalizations.of(context).translate('settings'),style: smallTitleTextStyle,),
         ),
         body: SafeArea(
           child: Padding(
@@ -46,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   SizedBox(height: hp(1, context),),
                   Row(
                     children: [
-                      Text("Push Notification",style: textBodyStyle,),
+                      Text(AppLocalizations.of(context).translate('push_notification'),style: textBodyStyle,),
                       const Spacer(),
                       FlutterSwitch(
                         activeColor: Theme.of(context).primaryColor,
@@ -73,7 +74,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text("Delete Account?",style: textBodyStyle.copyWith(color: Colors.red),),
+                        Text(AppLocalizations.of(context).translate('delete_account'),style: textBodyStyle.copyWith(color: Colors.red),),
                       ],
                     ),
                   ),
@@ -87,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         bottomNavigationBar: Padding(
           padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(1.5, context)),
-          child: Text("Created with ❤️ by Wappnet Systems Pvt. Ltd.",style: textSmallRegularStyle,textAlign:TextAlign.center ),
+          child: Text(AppLocalizations.of(context).translate('footer_message'),style: textSmallRegularStyle,textAlign:TextAlign.center ),
         ),
       );
     },

@@ -9,6 +9,7 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
 import 'package:table_menu_customer/view/select_photo_options_screen.dart';
+import '../app_localizations.dart';
 import '../model/user_model.dart';
 import '../utils/widgets/custom_button.dart';
 import '../utils/widgets/custom_textformfield.dart';
@@ -92,8 +93,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: widget.userData == null
-            ? Text("Enter Your Details", style: titleTextStyle)
-            : Text("Update Your Details", style: titleTextStyle),
+            ? Text(AppLocalizations.of(context).translate('enter_your_details'), style: titleTextStyle)
+            : Text(AppLocalizations.of(context).translate('update_your_details'), style: titleTextStyle),
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
       ),
@@ -145,7 +146,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       SizedBox(
                                         height: hp(2, context),
                                       ),
-                                      Text("Upload Profile Photo",
+                                      Text(AppLocalizations.of(context).translate('upload_profile_photo'),
                                           style: textBodyStyle),
                                     ],
                                   )
@@ -169,8 +170,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       children: [
                         CustomTextFormField().getCustomEditTextArea(
                           obscuretext: false,
-                          labelValue: "Name",
-                          hintValue: "Enter Name",
+                          labelValue: AppLocalizations.of(context).translate('label_name'),
+                          hintValue: AppLocalizations.of(context).translate('hint_name'),
                           onchanged: (value) {},
                           textInputAction: TextInputAction.next,
                           prefixicon: const Icon(
@@ -178,15 +179,15 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             color: Colors.black,
                           ),
                           controller: auth_provider.nameController,
-                          validator: validateName,
+                          validator: (value) =>  validateName(context,value),
                         ),
                         SizedBox(
                           height: hp(2, context),
                         ),
                         IntlPhoneField(
-                          decoration: const InputDecoration(
-                            labelText: 'Phone No',
-                            border: OutlineInputBorder(
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context).translate('label_phone_no'),
+                            border: const OutlineInputBorder(
                               borderSide: BorderSide(),
                               borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS))
                             ),
@@ -209,12 +210,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   child: CustomButton(
                       child: widget.userData == null
                           ? Text(
-                              "Save",
+                        AppLocalizations.of(context).translate('save'),
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             )
                           : Text(
-                              "Update",
+                        AppLocalizations.of(context).translate('update'),
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             ),

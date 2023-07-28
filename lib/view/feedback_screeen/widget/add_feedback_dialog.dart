@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
 import '../../../utils/widgets/custom_button.dart';
@@ -42,7 +43,7 @@ class CustomDialogBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Tell us about your experience",
+                    AppLocalizations.of(context).translate('tell_about_your_experience'),
                     style: textBodyStyle,
                   ),
                 ],
@@ -52,7 +53,7 @@ class CustomDialogBox extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomText(
-                    text:"We love to hear from you how was the \nwhole experience in our restaurant.",
+                    text:AppLocalizations.of(context).translate('feedback_description'),
                     style: textSmallRegularStyle.copyWith(color: Colors.grey),
                   ),
                 ],
@@ -64,7 +65,7 @@ class CustomDialogBox extends StatelessWidget {
                   height: hp(7.5, context),
                   child: CustomButton(
                     onPressed: addFeedback,
-                    child:  Text("Add Feedback", style: textBodyStyle.copyWith(
+                    child:  Text(AppLocalizations.of(context).translate('add_feedback'), style: textBodyStyle.copyWith(
                         color: Colors.white
                     ),
                     ),

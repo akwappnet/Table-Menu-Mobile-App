@@ -6,6 +6,8 @@ import 'package:table_menu_customer/utils/functions/time_format_function.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 
+import '../../../app_localizations.dart';
+
 class OrderItemCardWidget extends StatelessWidget {
   const OrderItemCardWidget(
       {super.key,
@@ -48,7 +50,7 @@ class OrderItemCardWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    "${orderData.cartItems?.length} Items",
+                    "${orderData.cartItems?.length} ${AppLocalizations.of(context).translate('items')}",
                     style: textSmallRegularStyle,
                   ),
                   const Spacer(),
@@ -89,7 +91,7 @@ class OrderItemCardWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            "Track order",
+                            AppLocalizations.of(context).translate('track_order'),
                             style: textSmallRegularStyle,
                           ),
                           const Icon(Icons.arrow_right_outlined)
@@ -99,7 +101,7 @@ class OrderItemCardWidget extends StatelessWidget {
                   GestureDetector(
                     onTap: cancelCallback,
                     child: Text(
-                      "Cancel?",
+                      AppLocalizations.of(context).translate('cancel?'),
                       style:
                           textSmallRegularStyle.copyWith(color: Colors.purple),
                     ),

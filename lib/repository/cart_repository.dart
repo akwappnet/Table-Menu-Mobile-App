@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 import 'package:table_menu_customer/utils/constants/api_endpoints.dart';

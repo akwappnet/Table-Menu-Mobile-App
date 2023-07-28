@@ -4,6 +4,7 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 import 'package:table_menu_customer/view_model/menu_provider.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/constants/constants_text.dart';
 import '../../../utils/responsive.dart';
 import '../../../utils/widgets/custom_button.dart';
@@ -44,7 +45,7 @@ filtersBottomSheet(context) {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Filters",
+                            AppLocalizations.of(context).translate('filters'),
                             style: smallTitleTextStyle,
                           ),
                           const Spacer(),
@@ -61,7 +62,7 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(3, context),
                       ),
-                      Text("Select product type", style: textBodyStyle),
+                      Text(AppLocalizations.of(context).translate('select_product_type'), style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterItemWidget(
@@ -71,7 +72,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'New',
+                            itemText: AppLocalizations.of(context).translate('new'),
                             containerColor: menu_provider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -86,7 +87,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isPopular
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Popular',
+                            itemText: AppLocalizations.of(context).translate('popular'),
                             containerColor: menu_provider.filterOptions.isPopular
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -101,7 +102,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSpecial
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Special',
+                            itemText: AppLocalizations.of(context).translate('special'),
                             containerColor: menu_provider.filterOptions.isSpecial
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -116,7 +117,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Veg',
+                            itemText: AppLocalizations.of(context).translate('veg'),
                             containerColor: menu_provider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -131,7 +132,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Non Veg',
+                            itemText: AppLocalizations.of(context).translate('non_veg'),
                             containerColor: menu_provider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -146,7 +147,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Sweet',
+                            itemText: AppLocalizations.of(context).translate('sweet'),
                             containerColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -161,7 +162,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Spicy',
+                            itemText: AppLocalizations.of(context).translate('spicy'),
                             containerColor: menu_provider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -174,7 +175,7 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      Text("Rating", style: textBodyStyle),
+                      Text(AppLocalizations.of(context).translate('rating'), style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterRatingItemWidget(
@@ -257,7 +258,7 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      Text("Price Sort", style: textBodyStyle),
+                      Text(AppLocalizations.of(context).translate('price_sort'), style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterItemWidget(
@@ -272,7 +273,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.sortByPriceLowToHigh
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'Low - High',
+                            itemText: AppLocalizations.of(context).translate('low_high'),
                             containerColor: menu_provider.filterOptions.sortByPriceLowToHigh
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -292,7 +293,7 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.sortByPriceHighToLow
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: 'High - Low',
+                            itemText: AppLocalizations.of(context).translate('high_low'),
                             containerColor: menu_provider.filterOptions.sortByPriceHighToLow
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -316,7 +317,7 @@ filtersBottomSheet(context) {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                "Clear filters",
+                                AppLocalizations.of(context).translate('clear_filters'),
                                 style: textBodyStyle,
                               ),
                             ),
@@ -333,7 +334,7 @@ filtersBottomSheet(context) {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                "Apply filters",
+                                AppLocalizations.of(context).translate('apply_filters'),
                                 style: textBodyStyle.copyWith(color: Colors.white),
                               ),
                             ),

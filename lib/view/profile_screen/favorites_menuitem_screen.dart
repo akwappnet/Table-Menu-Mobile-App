@@ -5,6 +5,7 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/assets/assets_utils.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../utils/widgets/placeholder_widget.dart';
@@ -36,7 +37,7 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             title: Text(
-              "Favorites",
+              AppLocalizations.of(context).translate('favorites'),
               style: titleTextStyle,
             ),
           ),
@@ -60,11 +61,11 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                           child: menu_provider.favMenuitems.isEmpty
                               ? Container(
                             alignment: Alignment.center,
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     PlaceholderWidget(
-                                        title: "No favorite menu items"),
+                                        title: AppLocalizations.of(context).translate('no_favorites_menu_items')),
                                   ],
                                 ),
                               )

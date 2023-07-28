@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/widgets/custom_textformfield.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/font/text_style.dart';
 import '../../utils/routes/routes_name.dart';
 import '../../utils/widgets/custom_button.dart';
@@ -21,7 +22,7 @@ class FeedbackScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              'Feedback',
+              AppLocalizations.of(context).translate('feedback'),
               style: smallTitleTextStyle,
             ),
             backgroundColor: Colors.white,
@@ -46,7 +47,7 @@ class FeedbackScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Rate your order",
+                          AppLocalizations.of(context).translate('rate_your_food'),
                           style: smallTitleTextStyle,
                         ),
                       ],
@@ -55,7 +56,7 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      "How was your food?",
+                      AppLocalizations.of(context).translate('how_was_your_food'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -111,7 +112,7 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      "How was our service?",
+                      AppLocalizations.of(context).translate('how_was_our_service'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -167,7 +168,7 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      "Write your feedback",
+                      AppLocalizations.of(context).translate('write_your_feedback'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -175,8 +176,8 @@ class FeedbackScreen extends StatelessWidget {
                     ),
                     CustomTextFormField().getCustomEditTextArea(
                         maxLines: 5,
-                        labelValue: "Feedback",
-                        hintValue: "Enter your feedback",
+                        labelValue: AppLocalizations.of(context).translate('feedback'),
+                        hintValue: AppLocalizations.of(context).translate('hint_enter_feedback'),
                         controller: order_provider.feedbackController,
                         obscuretext: false,
                         onchanged: (value) {},
@@ -204,7 +205,7 @@ class FeedbackScreen extends StatelessWidget {
                   Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
                 },
                 child: Text(
-                  "Submit",
+                  AppLocalizations.of(context).translate('submit'),
                   style: textBodyStyle.copyWith(color: Colors.white),
                 ),
               ),

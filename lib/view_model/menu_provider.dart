@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:table_menu_customer/repository/menu_repository.dart';
 
+import '../app_localizations.dart';
 import '../model/category_model.dart';
 import '../model/menuItem_model.dart';
 import '../utils/helpers.dart';
@@ -148,7 +149,7 @@ class MenuProvider extends ChangeNotifier {
         }
       }else {
         setLoading(false);
-        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -183,7 +184,7 @@ class MenuProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         setLoading(false);
         notifyListeners();
       }
@@ -206,7 +207,7 @@ class MenuProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "Something went wrong",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

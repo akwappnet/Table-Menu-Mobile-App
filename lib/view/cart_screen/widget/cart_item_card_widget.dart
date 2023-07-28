@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 import 'package:table_menu_customer/utils/widgets/plus_minus_button_widget.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
 
@@ -58,7 +59,7 @@ class CartItemCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '₹ ${price.toStringAsFixed(1)}',
+                  '${AppLocalizations.of(context).translate('₹')} ${price.toStringAsFixed(1)}',
                   style: textBodyStyle,
                 ),
               ],

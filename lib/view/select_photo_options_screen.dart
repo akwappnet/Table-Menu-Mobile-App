@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../app_localizations.dart';
 import '../utils/widgets/select_photo_button.dart';
 
 class SelectPhotoOptionsScreen extends StatelessWidget {
@@ -37,14 +38,14 @@ class SelectPhotoOptionsScreen extends StatelessWidget {
             SelectPhotoButton(
               onTap: () => onTap(ImageSource.gallery),
               icon: Icons.image_outlined,
-              textLabel: 'Browse Gallery',
+              textLabel: AppLocalizations.of(context).translate('browse_gallery'),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Center(
+            Center(
               child: Text(
-                'OR',
+                AppLocalizations.of(context).translate('or'),
                 style: TextStyle(fontSize: 18),
               ),
             ),
@@ -54,7 +55,7 @@ class SelectPhotoOptionsScreen extends StatelessWidget {
             SelectPhotoButton(
               onTap: () => onTap(ImageSource.camera),
               icon: Icons.camera_alt_outlined,
-              textLabel: 'Use a Camera',
+              textLabel: AppLocalizations.of(context).translate('use_a_camera'),
             ),
           ])
         ],

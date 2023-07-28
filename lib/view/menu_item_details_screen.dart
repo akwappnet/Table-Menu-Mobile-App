@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
+import '../app_localizations.dart';
 import '../model/menuItem_model.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
@@ -102,7 +103,7 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                       ),
                       const Spacer(),
                       Text(
-                        '₹ ${double.parse(widget.menuData.price ?? '').toStringAsFixed(1)}',
+                        '${AppLocalizations.of(context).translate('₹')} ${double.parse(widget.menuData.price ?? '').toStringAsFixed(1)}',
                         style: textRegularStyle.copyWith(fontSize: 18),
                       ),
                     ],
@@ -122,6 +123,7 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                           ),
                         ],
                       ),
+                      const Spacer(),
                       Row(
                         children: [
                           (widget.menuData.isVeg ?? false)
@@ -131,33 +133,22 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                                   color: Colors.red, size: 18),
                           (widget.menuData.isVeg ?? false)
                               ? Text(
-                                  ' Veg',
+                            AppLocalizations.of(context).translate('veg'),
                                   style:
                                       textRegularStyle.copyWith(fontSize: 16),
                                 )
                               : Text(
-                                  ' Non-Veg',
+                            AppLocalizations.of(context).translate('non_veg'),
                                   style:
                                       textRegularStyle.copyWith(fontSize: 16),
                                 ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          const Icon(Icons.timer,
-                              color: Colors.orange, size: 18),
-                          const SizedBox(width: 8),
-                          Text(
-                            ' ${widget.menuData.duration ?? 0} min',
-                            style: textRegularStyle.copyWith(fontSize: 16),
-                          ),
                         ],
                       ),
                     ],
                   ),
                   SizedBox(height: hp(2, context)),
                   Text(
-                    'Description:',
+                    AppLocalizations.of(context).translate('description'),
                     style: textRegularStyle.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: hp(1, context)),
@@ -168,7 +159,7 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                   ),
                   SizedBox(height: hp(2, context)),
                   Text(
-                    'Ingredients:',
+                    AppLocalizations.of(context).translate('ingredients'),
                     style: textRegularStyle.copyWith(fontSize: 16),
                   ),
                   SizedBox(height: hp(1, context)),
@@ -223,7 +214,7 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12.0),
                         child: Text(
-                          'Add to Cart',
+                          AppLocalizations.of(context).translate('add_to_cart'),
                           style: textRegularStyle.copyWith(
                               fontSize: 16, color: Colors.white),
                         ),
