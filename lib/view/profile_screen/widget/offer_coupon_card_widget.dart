@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/constants/constants_text.dart';
 import '../../../utils/responsive.dart';
 import '../../../utils/widgets/custom_text_list_widget.dart';
@@ -77,7 +78,7 @@ class OfferCouponCard extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          Text("View details",style: smallRegularStyle,),
+                          Text(AppLocalizations.of(context).translate('view_details'),style: smallRegularStyle,),
                         ],
                       ),
                       children: [

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
+import '../../app_localizations.dart';
 import '../validation/validation.dart';
 import 'custom_button.dart';
 import 'custom_textformfield.dart';
@@ -23,7 +24,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
     return AlertDialog(
       title: Center(
         child: Text(
-          "Forgot Password",
+          AppLocalizations.of(context).translate('forgot_password'),
           style: textBodyStyle,
         ),
       ),
@@ -36,8 +37,8 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
           Form(
             key: _form_email,
             child: CustomTextFormField().getCustomEditTextArea(
-                labelValue: "Email",
-                hintValue: "Enter Email",
+                labelValue: AppLocalizations.of(context).translate('email_label'),
+                hintValue: AppLocalizations.of(context).translate('email_hint'),
                 obscuretext: false,
                 maxLines: 1,
                 keyboardType: TextInputType.emailAddress,
@@ -46,7 +47,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                   color: Colors.black,
                 ),
                 controller: auth_provider.forgotPassEmailController,
-                validator: emailValidator,
+                validator:  (value) => emailValidator(context,value),
                 onchanged: (newValue) {},
                 textInputAction: TextInputAction.done),
           ),
@@ -64,7 +65,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                   ? const CircularProgressIndicator(
                       color: Colors.white,
                     )
-                  : Text("Send OTP",
+                  : Text(AppLocalizations.of(context).translate('btn_send_otp'),
                 style: textBodyStyle.copyWith(color: Colors.white),
                     ),
             ),

@@ -1,75 +1,79 @@
-String? emailValidator(String? value) {
+import 'package:flutter/cupertino.dart';
+
+import '../../app_localizations.dart';
+
+String? emailValidator(BuildContext context,String? value) {
   String pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex = RegExp(pattern);
 
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   } else if (!regex.hasMatch(value)) {
-    return 'Please enter valid email';
+    return AppLocalizations.of(context).translate('valid_email_errror_message');
   }
   return null;
 }
 
-String? passwordValidator(String? value) {
+String? passwordValidator(BuildContext context,String? value) {
   String pattern =
       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
   RegExp regex = RegExp(pattern);
 
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   } else if (!regex.hasMatch(value)) {
-    return 'Use 8 or more characters with a mix of capital & small letters, \nnumbers & symbols';
+    return AppLocalizations.of(context).translate('strong_password_errror_message');
   }
   return null;
 }
 
-String? phoneValidator(String? value) {
+String? phoneValidator(BuildContext context,String? value) {
   String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
   RegExp regExp = RegExp(patttern);
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }
   else if (!regExp.hasMatch(value)) {
-    return 'Please enter valid mobile number';
+    return AppLocalizations.of(context).translate('valid_phone_no_error_message');
   }
   return null;
 }
 
-String? validateName(String? value) {
+String? validateName(BuildContext context,String? value) {
   if (value!.isEmpty){
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }else if (value.length < 3) {
-    return 'Name must be more than 2 charater';
+    return AppLocalizations.of(context).translate('valid_name_error_message');
   } else {
     return null;
   }
 }
 
-String? validateField(String? value) {
+String? validateField(BuildContext context,String? value) {
  if (value!.length > 100) {
-    return '100 character Limit';
+    return AppLocalizations.of(context).translate('100_character_limit_error_message');
   } else {
     return null;
   }
 }
 
-String? validateDiscountCode(String? value) {
+String? validateDiscountCode(BuildContext context,String? value) {
   const pattern = r'^[a-zA-Z0-9_]+$';
   final regex = RegExp(pattern);
   if (!regex.hasMatch(value!)) {
-    return 'Invalid discount code.';
+    return AppLocalizations.of(context).translate('invalid_coupon_code_error_message');
   } else {
     return null;
   }
 }
 
 
-String? cardValidator(String? value) {
+String? cardValidator(BuildContext context,String? value) {
   String patttern = r'^\d{16}$';
   RegExp regExp = RegExp(patttern);
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }
   else if (!regExp.hasMatch(value)) {
     return 'Please enter valid card number';
@@ -80,24 +84,24 @@ String? cardValidator(String? value) {
 
 
 
-String? expiryDateValidation(String? value) {
+String? expiryDateValidation(BuildContext context,String? value) {
   String patttern = r'^(0[1-9]|1[0-2])\/(\d\d\d\d)$';
   RegExp regExp = RegExp(patttern);
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }
   else if (!regExp.hasMatch(value)) {
-    return 'Please enter valid date';
+    return AppLocalizations.of(context).translate('valid_date_validation_error_message');
   }
   return null;
 }
 
 
-String? cvvValidation(String? value) {
+String? cvvValidation(BuildContext context,String? value) {
   String patttern = r'^\d{3,4}$';
   RegExp regExp = RegExp(patttern);
   if (value!.isEmpty) {
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }
   else if (!regExp.hasMatch(value)) {
     return 'Please enter valid cvv';
@@ -106,9 +110,9 @@ String? cvvValidation(String? value) {
 }
 
 
-String? validateNotNull(String? value) {
+String? validateNotNull(BuildContext context,String? value) {
   if (value!.isEmpty){
-    return 'This field must be filled';
+    return AppLocalizations.of(context).translate('field_must_filled');
   }else {
     return null;
   }

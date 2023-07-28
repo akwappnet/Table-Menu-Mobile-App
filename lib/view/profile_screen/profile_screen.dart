@@ -9,6 +9,7 @@ import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view/profile_screen/widget/order_history_card_widget.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/assets/assets_utils.dart';
 import '../../utils/constants/constants_text.dart';
 import '../../utils/functions/time_format_function.dart';
@@ -38,13 +39,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     var hour = DateTime.now().hour;
 
     if (hour >= 0 && hour < 12) {
-      return 'Good Morning!';
+      return AppLocalizations.of(context).translate('good_morning');
     } else if (hour >= 12 && hour < 17) {
-      return 'Good Afternoon!';
+      return AppLocalizations.of(context).translate('good_afternoon');
     } else if (hour >= 17 && hour < 20) {
-      return 'Good Evening!';
+      return AppLocalizations.of(context).translate('good_evening');
     } else {
-      return 'Good Night!';
+      return AppLocalizations.of(context).translate('good_night');
     }
   }
 
@@ -137,11 +138,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "My Account",
+                                      AppLocalizations.of(context).translate('my_account'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      "Profile data, Favorites & Settings",
+                                      AppLocalizations.of(context).translate('my_account_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -168,11 +169,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Offers & Discounts ",
+                                      AppLocalizations.of(context).translate('offers_and_discounts'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      "Latest Offers & Discounts",
+                                      AppLocalizations.of(context).translate('offers_and_discounts_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -199,11 +200,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Change Languages ",
+                                      AppLocalizations.of(context).translate('change_language'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      "Change languages English & Arabian",
+                                      AppLocalizations.of(context).translate('change_language_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -218,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: hp(2, context),
                         ),
                         Text(
-                          "PAST ORDERS ",
+                          AppLocalizations.of(context).translate('past_orders'),
                           style:
                               textRegularStyle.copyWith(color: Colors.grey),
                         ),
@@ -271,7 +272,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     )
                                   : Center(
                                       child: Text(
-                                      "No Past Orders",
+                                        AppLocalizations.of(context).translate('no_past_orders'),
                                       style: textSmallMediumStyle,
                                     )),
                             );
@@ -288,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               auth_provider.logout(context);
                             },
                             child: Text(
-                              "LOGOUT",
+                              AppLocalizations.of(context).translate('logout'),
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             ),
@@ -296,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     )
-                  : const Center(child: PlaceholderWidget(title: "NO DATA")),
+                  : Center(child: PlaceholderWidget(title: AppLocalizations.of(context).translate('placeholder_no_data'))),
             ),
           ),
         );

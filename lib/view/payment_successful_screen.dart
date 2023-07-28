@@ -4,6 +4,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/widgets/custom_button.dart';
 import '../view_model/order_provider.dart';
@@ -35,7 +36,7 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
           backgroundColor: Colors.white,
           appBar: AppBar(
             title: Text(
-              'Checkout',
+              AppLocalizations.of(context).translate('checkout'),
               style: smallTitleTextStyle,
             ),
             backgroundColor: Colors.white,
@@ -54,9 +55,9 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Hero(tag: "payment",child: Image.asset(AssetsUtils.ASSETS_SUCCESS_IMAGE,height: hp(30, context),width: wp(40, context),)),
-                  Text("Woohoo!",style: smallTitleTextStyle,),
+                  Text(AppLocalizations.of(context).translate('woohoo_text'),style: smallTitleTextStyle,),
                   SizedBox(height: hp(1, context),),
-                  Text("Thank you for your payment!", style: smallRegularStyle,),
+                  Text(AppLocalizations.of(context).translate('payment_success_message'), style: smallRegularStyle,),
                   SizedBox(height: hp(2, context),),
                 ],
               ),
@@ -84,7 +85,7 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
                     },
                   );
                 },
-                child:  Text("Continue", style: textBodyStyle.copyWith(
+                child:  Text(AppLocalizations.of(context).translate('continue'), style: textBodyStyle.copyWith(
                     color: Colors.white
                 ),),
               ),

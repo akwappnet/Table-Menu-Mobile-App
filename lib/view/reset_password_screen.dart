@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
 import '../utils/validation/validation.dart';
@@ -46,12 +47,12 @@ class ResetPasswordScreen extends StatelessWidget {
                     child: Image.asset(AssetsUtils.ASSETS_RESET_PASSWORD_LOGO),
                   ),
                   Text(
-                    "Reset Password",
+                    AppLocalizations.of(context).translate('reset_password'),
                     style: titleTextStyle, // Use the defined TextStyle
                   ),
                   SizedBox(height: hp(1,context)), // Use hp() for height
                   Text(
-                    "Enter Your New Credentials",
+                    AppLocalizations.of(context).translate('enter_new_credentials'),
                     style: textRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
@@ -73,8 +74,8 @@ class ResetPasswordScreen extends StatelessWidget {
                                 onFieldSubmitted: (value) {
                                   passwordFocusNode.nextFocus();
                                 },
-                                labelValue: "Password",
-                                hintValue: "Enter Password",
+                                labelValue: AppLocalizations.of(context).translate('label_password'),
+                                hintValue: AppLocalizations.of(context).translate('hint_password'),
                                 obscuretext: obsecurePassword.value,
                                 maxLines: 1,
                                 prefixicon: const Icon(
@@ -82,7 +83,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 controller: auth_provider.resetPassController,
-                                validator: passwordValidator,
+                                validator: (value) =>  passwordValidator(context,value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
@@ -107,8 +108,8 @@ class ResetPasswordScreen extends StatelessWidget {
                             valueListenable: obsecureRepeatePassword,
                             builder: (context, value, child) {
                               return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: "Confirm Password",
-                                hintValue: "Enter Confirm Password",
+                                labelValue: AppLocalizations.of(context).translate('label_confirm_password'),
+                                hintValue: AppLocalizations.of(context).translate('hint_confirm_password'),
                                 obscuretext: obsecureRepeatePassword.value,
                                 maxLines: 1,
                                 textInputAction: TextInputAction.done,
@@ -117,7 +118,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 controller: auth_provider.resetrepeatPassController,
-                                validator: passwordValidator,
+                                validator: (value) =>  passwordValidator(context,value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
@@ -146,7 +147,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 if (_formKey_reset_password.currentState!.validate()) {
                                   if (auth_provider.passwordRegisterController.text !=
                                       auth_provider.repeatePasswordRegisterController.text) {
-                                    showsnackbar(context, "Password doesn't match enter same password");
+                                    showsnackbar(context, AppLocalizations.of(context).translate('passowrd_doesnt_match_error_message'));
                                   } else {
                                     String password = auth_provider.resetPassController.text;
                                     String email = auth_provider.forgotPassEmailController.text;
@@ -159,7 +160,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 color: Colors.white,
                               )
                                   : Text(
-                                 "Reset Password",
+                                AppLocalizations.of(context).translate('reset_password'),
                                 style: textBodyStyle.copyWith(color: Colors.white),
                               ),
                             ),

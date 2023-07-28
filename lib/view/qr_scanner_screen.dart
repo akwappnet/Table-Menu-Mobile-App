@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/widgets/custom_button.dart';
 
@@ -64,7 +65,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                      Text(
-                      'Scan the QR code',
+                       AppLocalizations.of(context).translate('scan_qr_code'),
                       style: textBodyStyle.copyWith(color: Colors.white),
                     ),
                     SizedBox(height: hp(2, context)),
@@ -72,7 +73,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  Text('Cancel',  style: textBodyStyle.copyWith(color: Colors.white),),
+                      child:  Text(AppLocalizations.of(context).translate('cancel'),  style: textBodyStyle.copyWith(color: Colors.white),),
                     ),
                   ],
                 ),

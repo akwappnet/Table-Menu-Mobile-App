@@ -8,6 +8,7 @@ import 'package:table_menu_customer/view/cart_screen/widget/cart_item_card_widge
 import 'package:table_menu_customer/view/cart_screen/widget/cooking_instruction_bottom_sheet_widget.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/assets/assets_utils.dart';
 import '../../utils/constants/constants_text.dart';
 import '../../utils/font/text_style.dart';
@@ -46,7 +47,7 @@ class _CartScreenState extends State<CartScreen> {
             scrolledUnderElevation: 0.0,
             automaticallyImplyLeading: false,
             title: Text(
-              'Cart',
+              AppLocalizations.of(context).translate('title_cart'),
               style: titleTextStyle,
             ),
           ),
@@ -64,11 +65,11 @@ class _CartScreenState extends State<CartScreen> {
             cart_provider.cartList.isEmpty
                 ? Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        PlaceholderWidget(title: "Your cart is empty"),
+                        PlaceholderWidget(title: AppLocalizations.of(context).translate('placeholder_cart_text')),
                       ],
                     ),
                   )
@@ -82,7 +83,7 @@ class _CartScreenState extends State<CartScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                "My Order",
+                                AppLocalizations.of(context).translate('my_order'),
                                 style: smallTitleTextStyle,
                               ),
                               const Spacer(),
@@ -96,7 +97,7 @@ class _CartScreenState extends State<CartScreen> {
                                       context, RoutesName.HOME_SCREEN_ROUTE);
                                 },
                                 child: Text(
-                                  "Add Items",
+                                  AppLocalizations.of(context).translate('add_items'),
                                   style: textSmallRegularStyle.copyWith(
                                       color: Colors.purple.shade300),
                                 ),
@@ -105,10 +106,10 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                         ),
                         (cart_provider.cartList.isEmpty)
-                            ? const Center(
+                            ? Center(
                                 child: Text(
-                                'Your Cart is Empty',
-                                style: TextStyle(
+                                  AppLocalizations.of(context).translate('placeholder_cart_text'),
+                                style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18.0),
                               ))
@@ -182,7 +183,7 @@ class _CartScreenState extends State<CartScreen> {
                                     width: wp(0.8, context),
                                   ),
                                   Text(
-                                    "Add cooking instructions",
+                                    AppLocalizations.of(context).translate('add_cooking_instruction'),
                                     style: textSmallRegularStyle,
                                   ),
                                   const Spacer(),
@@ -207,7 +208,7 @@ class _CartScreenState extends State<CartScreen> {
                               Row(
                                 children: [
                                   Text(
-                                    "Payment",
+                                    AppLocalizations.of(context).translate('payment'),
                                     style: smallTitleTextStyle,
                                   ),
                                 ],
@@ -217,10 +218,10 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               Row(
                                 children: [
-                                  Text("Sub-Total", style: textBodyStyle),
+                                  Text( AppLocalizations.of(context).translate('sub_total'), style: textBodyStyle),
                                   const Spacer(),
                                   Text(
-                                      "₹ ${cart_provider.totalPrice.toStringAsFixed(1)}",
+                                      "${AppLocalizations.of(context).translate('₹')} ${cart_provider.totalPrice.toStringAsFixed(1)}",
                                       style: textRegularStyle),
                                 ],
                               ),
@@ -229,7 +230,7 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               Row(
                                 children: [
-                                  Text("GST and restaurant charges",
+                                  Text(AppLocalizations.of(context).translate('gst_restorant_charges'),
                                       style: textBodyStyle),
                                   SizedBox(
                                     width: wp(0.3, context),
@@ -257,7 +258,7 @@ class _CartScreenState extends State<CartScreen> {
                                                         width: wp(2, context),
                                                       ),
                                                       Text(
-                                                        "GST and restaurant charges",
+                                                        AppLocalizations.of(context).translate('gst_restorant_charges'),
                                                         style: textBodyStyle,
                                                       ),
                                                       SizedBox(
@@ -286,7 +287,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "Service charges",
+                                                          AppLocalizations.of(context).translate('service_charges'),
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(
@@ -309,7 +310,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "SGST",
+                                                          AppLocalizations.of(context).translate('sgst'),
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(
@@ -332,7 +333,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     child: Row(
                                                       children: [
                                                         Text(
-                                                          "CGST",
+                                                          AppLocalizations.of(context).translate('cgst'),
                                                           style:
                                                               textSmallRegularStyle
                                                                   .copyWith(
@@ -358,7 +359,7 @@ class _CartScreenState extends State<CartScreen> {
                                         size: 14,
                                       )),
                                   const Spacer(),
-                                  Text("₹ ${00.0.toStringAsFixed(1)}",
+                                  Text("${AppLocalizations.of(context).translate('₹')} ${00.0.toStringAsFixed(1)}",
                                       style: textRegularStyle),
                                 ],
                               ),
@@ -370,10 +371,10 @@ class _CartScreenState extends State<CartScreen> {
                               ),
                               Row(
                                 children: [
-                                  Text("Total", style: textBodyStyle),
+                                  Text(AppLocalizations.of(context).translate('total'), style: textBodyStyle),
                                   const Spacer(),
                                   Text(
-                                      "₹ ${cart_provider.totalPrice.toStringAsFixed(1)}",
+                                      "${AppLocalizations.of(context).translate('₹')} ${cart_provider.totalPrice.toStringAsFixed(1)}",
                                       style: textRegularStyle),
                                 ],
                               ),
@@ -418,7 +419,7 @@ class _CartScreenState extends State<CartScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Place Order",
+                                AppLocalizations.of(context).translate('place_order'),
                                 style:
                                     textBodyStyle.copyWith(color: Colors.white),
                               ),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -64,7 +63,7 @@ Future<void> main() async {
   final AuthRepository authRepository = AuthRepository();
   String loggedIn = await authRepository.isLoggedIn();
   AppLanguage appLanguage = AppLanguage();
-  await appLanguage.fetchLocale();
+  // await appLanguage.fetchLocale();
   runApp(MyApp(
     loggedIn: loggedIn,
     appLanguage: appLanguage
@@ -182,10 +181,14 @@ class _MyAppState extends State<MyApp> {
           ChangeNotifierProvider(create: (_) => NotificationProvider()),
           ChangeNotifierProvider(create: (_) => OrderProvider()),
           ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
-          ChangeNotifierProvider(create: (_) => AppLanguage()),
+          ChangeNotifierProvider(create: (_) => AppLanguage(),builder: (context,__) {
+            widget.appLanguage.fetchLocale();
+            return const SizedBox();
+          }),
         ],
         child: Consumer<AppLanguage>(
         builder: (context, model, child) {
+          log(model.appLocal.toString());
           return MaterialApp(
             title: APPNAME,
             theme: ThemeData(

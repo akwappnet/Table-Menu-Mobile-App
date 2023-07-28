@@ -4,6 +4,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
 
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
 import '../utils/widgets/custom_button.dart';
@@ -36,12 +37,12 @@ class LoginScreen extends StatelessWidget {
                     child: Image.asset(AssetsUtils.ASSETS_LOGIN_LOGO),
                   ),
                   Text(
-                    "Login",
+                    AppLocalizations.of(context).translate('Login'),
                     style: titleTextStyle,
                   ),
                   SizedBox(height: hp(2,context)),
                   Text(
-                    "Enter Your Credentials",
+                    AppLocalizations.of(context).translate('enter_your_credentials'),
                     style: textRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
@@ -55,8 +56,8 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextFormField().getCustomEditTextArea(
-                            labelValue: "Email",
-                            hintValue: "Enter Email",
+                            labelValue: AppLocalizations.of(context).translate('label_email'),
+                            hintValue: AppLocalizations.of(context).translate('hint_email'),
                             obscuretext: false,
                             maxLines: 1,
                             keyboardType: TextInputType.emailAddress,
@@ -66,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                             textInputAction: TextInputAction.next,
                             controller: auth_provider.emailLoginController,
-                            validator: emailValidator,
+                            validator: (value) =>  emailValidator(context,value),
                             onchanged: (newValue) {},
                           ),
                           SizedBox(height: hp(2,context)), // Use hp() for height
@@ -74,8 +75,8 @@ class LoginScreen extends StatelessWidget {
                             valueListenable: obsecurePassword,
                             builder: (context, value, child) {
                               return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: "Password",
-                                hintValue: "Enter Password",
+                                labelValue: AppLocalizations.of(context).translate('label_password'),
+                                hintValue: AppLocalizations.of(context).translate('hint_password'),
                                 obscuretext: obsecurePassword.value,
                                 maxLines: 1,
                                 textInputAction: TextInputAction.done,
@@ -84,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 controller: auth_provider.passwordLoginController,
-                                validator: passwordValidator,
+                                validator: (value) =>  passwordValidator(context,value),
                                 onchanged: (newValue) {},
                                   icon: InkWell(
                                     splashColor: Colors.transparent,
@@ -119,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                                       },
                                     );
                                   },
-                                  child: Text("Forgot Password",
+                                  child: Text( AppLocalizations.of(context).translate('forgot_password'),
                                     style: textSmallRegularStyle.copyWith(color: Colors.purple),
                                   ),
                                 ),
@@ -144,7 +145,7 @@ class LoginScreen extends StatelessWidget {
                                   ? const CircularProgressIndicator(
                                 color: Colors.white,
                               )
-                                  : Text("Login",
+                                  : Text(AppLocalizations.of(context).translate('login'),
                                 style: textBodyStyle.copyWith(color: Colors.white),
                               ),
                             ),
@@ -155,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text("Don't have an account?",
+                                Text(AppLocalizations.of(context).translate('dont_have_a_account'),
                                     style: textSmallRegularStyle
                                 ),
                                 const SizedBox(width: 6),
@@ -166,7 +167,7 @@ class LoginScreen extends StatelessWidget {
                                       RoutesName.REGISTER_SCREEN_ROUTE,
                                     );
                                   },
-                                  child: Text("Register",
+                                  child: Text(AppLocalizations.of(context).translate('register'),
                                     style: textSmallRegularStyle.copyWith(color: Colors.purple),
                                   ),
                                 ),

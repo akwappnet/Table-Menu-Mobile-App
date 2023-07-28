@@ -68,7 +68,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                             obscuretext: false,
                             onchanged: (value) {},
                             textInputAction: TextInputAction.next,
-                            validator: validateName),
+                            validator: (value) => validateName(context,value)),
                         SizedBox(
                           height: hp(2,context),
                         ),
@@ -81,7 +81,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                             onchanged: (value) {},
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
-                            validator: cardValidator),
+                            validator: (value) => cardValidator(context,value)),
                         SizedBox(
                           height: hp(1,context),
                         ),
@@ -103,7 +103,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                                   onchanged: (value) {},
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
-                                  validator: expiryDateValidation),
+                                  validator: (value) => expiryDateValidation(context,value)),
                             ),
                             SizedBox(width: wp(5,context)),
                             Flexible(
@@ -116,7 +116,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                                   onchanged: (value) {},
                                   textInputAction: TextInputAction.next,
                                   keyboardType: TextInputType.number,
-                                  validator: cvvValidation),
+                                  validator: (value) => cvvValidation(context,value)),
                             ),
                           ],
                         ),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
-import 'package:table_menu_customer/utils/widgets/custom_button.dart';
+
+import '../../../app_localizations.dart';
 
 class OrderHistoryCard extends StatelessWidget {
   const OrderHistoryCard(
@@ -39,7 +40,7 @@ class OrderHistoryCard extends StatelessWidget {
                   height: hp(2, context),
                 ),
                 Text(
-                  "₹ $totalPrice",
+                  "${AppLocalizations.of(context).translate('₹')} $totalPrice",
                   style: textRegularStyle,
                 ),
               ],

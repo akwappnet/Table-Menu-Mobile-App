@@ -7,6 +7,7 @@ import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view/orders_screen/widget/order_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/font/text_style.dart';
 import '../../utils/widgets/custom_confirmation_dialog.dart';
 
@@ -36,7 +37,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         scrolledUnderElevation: 0.0,
         automaticallyImplyLeading: false,
         title: Text(
-          'Orders',
+          AppLocalizations.of(context).translate('orders'),
           style: titleTextStyle,
         ),
       ),
@@ -59,10 +60,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           child: (order_provider.orderList.isEmpty)
                               ? Container(
                             alignment: Alignment.center,
-                                child: const Column(
+                                child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    PlaceholderWidget(title: "No Orders"),
+                                    PlaceholderWidget(title: AppLocalizations.of(context).translate('no_orders')),
                                   ],
                                 ),
                               )
@@ -78,9 +79,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return CustomConfirmationDialog(
-                                              title: 'Cancel Order',
+                                              title: AppLocalizations.of(context).translate('cancel_order'),
                                               message:
-                                                  'Are you sure you want to Cancel Your Order ?',
+                                              AppLocalizations.of(context).translate('cancel_order_message'),
                                               onConfirm: () async {
                                                 order_provider.cancelOrder(
                                                     order.id!, context);

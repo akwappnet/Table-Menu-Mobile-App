@@ -7,6 +7,7 @@ import 'package:table_menu_customer/utils/widgets/custom_text.dart';
 import 'package:table_menu_customer/utils/widgets/placeholder_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
+import '../app_localizations.dart';
 import '../utils/assets/assets_utils.dart';
 import '../utils/functions/time_format_function.dart';
 import '../utils/responsive.dart';
@@ -24,7 +25,7 @@ class NotificationScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             scrolledUnderElevation: 0.0,
             title: Text(
-              "Notification",
+              AppLocalizations.of(context).translate('notification'),
               style: titleTextStyle,
             ),
             actions: [
@@ -33,8 +34,8 @@ class NotificationScreen extends StatelessWidget {
                   notification_provider.deleteAllNotification(context);
                 },
                 child: notification_provider.notificationList.isNotEmpty
-                    ? const CustomText(
-                        text: "Clear All",
+                    ? CustomText(
+                        text: AppLocalizations.of(context).translate('clear_all'),
                         size: 18,
                         color: Colors.red,
                       )
@@ -65,11 +66,11 @@ class NotificationScreen extends StatelessWidget {
                             child: notification_provider.notificationList.isEmpty
                                 ? Container(
                               alignment: Alignment.center,
-                                  child: const Column(
+                                  child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       PlaceholderWidget(
-                                          title: "No Notifications"),
+                                          title: AppLocalizations.of(context).translate('no_notification')),
                                     ],
                                   ),
                                 )

@@ -4,6 +4,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 
 
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
 import '../utils/validation/validation.dart';
@@ -36,12 +37,12 @@ class RegistrationScreen extends StatelessWidget {
                     child: Image.asset(AssetsUtils.ASSETS_LOGIN_LOGO),
                   ),
                   Text(
-                    "Registration",
+                    AppLocalizations.of(context).translate('registration'),
                     style: titleTextStyle, // Use the defined TextStyle
                   ),
                   SizedBox(height: hp(1,context)), // Use hp() for height
                   Text(
-                    "Enter Your Credentials",
+                    AppLocalizations.of(context).translate('enter_your_details'),
                     style: textSmallRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
@@ -55,8 +56,8 @@ class RegistrationScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextFormField().getCustomEditTextArea(
-                            labelValue: "Email",
-                            hintValue: "Enter Email",
+                            labelValue: AppLocalizations.of(context).translate('label_email'),
+                            hintValue: AppLocalizations.of(context).translate('hint_email'),
                             obscuretext: false,
                             maxLines: 1,
                             keyboardType: TextInputType.emailAddress,
@@ -66,7 +67,7 @@ class RegistrationScreen extends StatelessWidget {
                             ),
                             textInputAction: TextInputAction.next,
                             controller: auth_provider.emailRegisterController,
-                            validator: emailValidator,
+                            validator: (value) => emailValidator(context,value),
                             onchanged: (newValue) {},
                           ),
                           SizedBox(height: hp(1,context)), // Use hp() for height
@@ -74,8 +75,8 @@ class RegistrationScreen extends StatelessWidget {
                             valueListenable: obsecurePassword,
                             builder: (context, value, child) {
                               return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: "Password",
-                                hintValue: "Enter Password",
+                                labelValue: AppLocalizations.of(context).translate('label_password'),
+                                hintValue: AppLocalizations.of(context).translate('hint_password'),
                                 obscuretext: obsecurePassword.value,
                                 maxLines: 1,
                                 textInputAction: TextInputAction.next,
@@ -89,7 +90,7 @@ class RegistrationScreen extends StatelessWidget {
                                 ),
                                 controller:
                                 auth_provider.passwordRegisterController,
-                                validator: passwordValidator,
+                                validator: (value) =>  passwordValidator(context,value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
@@ -115,8 +116,8 @@ class RegistrationScreen extends StatelessWidget {
                             valueListenable: obsecureRepeatPassword,
                             builder: (context, value, child) {
                               return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: "Confirm Password",
-                                hintValue: "Enter Confirm Password",
+                                labelValue: AppLocalizations.of(context).translate('label_confirm_password'),
+                                hintValue: AppLocalizations.of(context).translate('hint_confirm_password'),
                                 obscuretext: obsecureRepeatPassword.value,
                                 maxLines: 1,
                                 textInputAction: TextInputAction.done,
@@ -126,7 +127,7 @@ class RegistrationScreen extends StatelessWidget {
                                 ),
                                 controller: auth_provider
                                     .repeatePasswordRegisterController,
-                                validator: passwordValidator,
+                                validator: (value) =>  passwordValidator(context,value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
@@ -157,7 +158,7 @@ class RegistrationScreen extends StatelessWidget {
                                   if (auth_provider.passwordRegisterController.text !=
                                       auth_provider.repeatePasswordRegisterController.text) {
                                     CustomFlushbar.showError(
-                                        context, "Password doesn't match enter same password",onDismissed: () {});
+                                        context, AppLocalizations.of(context).translate('passowrd_doesnt_match_error_message'),onDismissed: () {});
                                   } else {
                                     var data = {
                                       "email": auth_provider.emailRegisterController.text,
@@ -171,7 +172,7 @@ class RegistrationScreen extends StatelessWidget {
                                   ? const CircularProgressIndicator(
                                 color: Colors.white,
                               )
-                                  : Text("Register",
+                                  : Text(AppLocalizations.of(context).translate('register'),
                                 style: textBodyStyle.copyWith(color: Colors.white),
                               ),
                             ),
@@ -183,7 +184,7 @@ class RegistrationScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
-                                    "Already have an account?",
+                                    AppLocalizations.of(context).translate('already_have_account'),
                                     style: textSmallRegularStyle
                                 ),
                                 const SizedBox(width: 6),
@@ -192,7 +193,7 @@ class RegistrationScreen extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                   child: Text(
-                                    "Login",
+                                    AppLocalizations.of(context).translate('login'),
                                     style: textSmallRegularStyle.copyWith(color: Colors.purple),
                                   ),
                                 ),

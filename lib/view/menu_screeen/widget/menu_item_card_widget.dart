@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 
+import '../../../app_localizations.dart';
 import '../../../utils/assets/assets_utils.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
@@ -79,7 +80,7 @@ class MenuItemGridCard extends StatelessWidget {
                         if ('₹ ${price.toStringAsFixed(1)}'.length <= 8)
                           Flexible(
                             child: Text(
-                              '₹ ${price.toStringAsFixed(1)}',
+                              '${AppLocalizations.of(context).translate('₹')} ${price.toStringAsFixed(1)}',
                               style: textSmallRegularStyle.copyWith(
                                 color: const Color(0xFF303030),
                                 height: 1.4,
@@ -88,7 +89,7 @@ class MenuItemGridCard extends StatelessWidget {
                           )
                         else
                           Text(
-                            '₹ ${price.toStringAsFixed(1)}',
+                            '${AppLocalizations.of(context).translate('₹')} ${price.toStringAsFixed(1)}',
                             style: textSmallRegularStyle.copyWith(
                               color: const Color(0xFF303030),
                               height: hp(0.1, context),
@@ -131,7 +132,7 @@ class MenuItemGridCard extends StatelessWidget {
                         SizedBox(
                           width: wp(100, context),
                           height: hp(4.5, context),
-                          child: CustomButton(child: Text("Order",style: textSmallRegularStyle,), onPressed: onTap!),
+                          child: CustomButton(child: Text(AppLocalizations.of(context).translate('order'),style: textSmallRegularStyle,), onPressed: onTap!),
                         ) : const SizedBox.shrink(),
                   ],
                 ),
@@ -150,7 +151,7 @@ class MenuItemGridCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Text(
-                  'Veg',
+                  AppLocalizations.of(context).translate('veg'),
                   style: textSmallRegularStyle.copyWith(
                     color: Colors.white,
                     height: 1.2,
@@ -169,7 +170,7 @@ class MenuItemGridCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Text(
-                  'Non-Veg',
+                  AppLocalizations.of(context).translate('non_veg'),
                   style: textSmallRegularStyle.copyWith(
                     color: Colors.white,
                     height: 1.2,
@@ -177,7 +178,6 @@ class MenuItemGridCard extends StatelessWidget {
                 ),
               ),
             ),
-
         ],
       ),
     );

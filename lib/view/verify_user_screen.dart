@@ -5,6 +5,7 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 
 
+import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/responsive.dart';
 import '../utils/widgets/custom_button.dart';
@@ -48,12 +49,12 @@ class VerifyUserScreen extends StatelessWidget {
                   ),
                   SizedBox(height: hp(2,context)), // Use hp() for height
                   Text(
-                    "Verification",
+                    AppLocalizations.of(context).translate('verification'),
                     style: titleTextStyle, // Use the defined TextStyle
                   ),
                   SizedBox(height: hp(1,context)), // Use hp() for height
                   Text(
-                    "Enter the OTP sent to your Email Address",
+                    AppLocalizations.of(context).translate('enter_otp_message'),
                     style: textRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
@@ -84,7 +85,7 @@ class VerifyUserScreen extends StatelessWidget {
                     height: hp(7.5,context), // Use hp() for height
                     child: CustomButton(
                       child: Text(
-                        "Verify",
+                        AppLocalizations.of(context).translate('verify'),
                         style: textBodyStyle.copyWith(color: Colors.white),
                       ),
                       onPressed: () async {

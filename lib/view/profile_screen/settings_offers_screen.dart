@@ -3,6 +3,8 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view/profile_screen/widget/offer_coupon_card_widget.dart';
 
+import '../../app_localizations.dart';
+
 class SettingsOffersScreen extends StatelessWidget {
   const SettingsOffersScreen({super.key});
 
@@ -13,7 +15,7 @@ class SettingsOffersScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
-        title: Text("Offers & Discounts", style: titleTextStyle,),
+        title: Text(AppLocalizations.of(context).translate('offers_and_discounts'), style: titleTextStyle,),
       ),
       body: SafeArea(
         child: Padding(
@@ -22,7 +24,7 @@ class SettingsOffersScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text("Best offers for you", style: textRegularStyle),
+                  Text(AppLocalizations.of(context).translate('best_offer_for_you'), style: textRegularStyle),
                 ],
               ),
               const Divider(),

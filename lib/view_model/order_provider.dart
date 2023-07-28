@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:table_menu_customer/repository/order_repository.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 
+import '../app_localizations.dart';
 import '../model/order_model.dart';
 import '../model/order_tracking_model.dart';
 import '../model/place_order_model.dart';
@@ -85,7 +86,7 @@ class OrderProvider extends ChangeNotifier {
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred",onDismissed: () {});
+            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -146,7 +147,7 @@ class OrderProvider extends ChangeNotifier {
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred",onDismissed: () {});
+            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -173,7 +174,7 @@ class OrderProvider extends ChangeNotifier {
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred",onDismissed: () {});
+            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -200,7 +201,7 @@ class OrderProvider extends ChangeNotifier {
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred",onDismissed: () {});
+            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

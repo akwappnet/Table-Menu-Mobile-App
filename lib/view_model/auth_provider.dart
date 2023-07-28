@@ -10,6 +10,7 @@ import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
 import 'package:table_menu_customer/data/db_provider.dart';
+import '../app_localizations.dart';
 import '../repository/auth_repository.dart';
 import '../utils/helpers.dart';
 
@@ -92,7 +93,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: (){});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: (){});
         setLoading(false);
       }
     }).catchError((error) {
@@ -161,7 +162,7 @@ togglePushNotification(BuildContext context) {
         }
       }else {
         CustomFlushbar.showError(
-            context, "An error occurred",onDismissed: (){});
+            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: (){});
         setLoading(false);
       }
     }).catchError((error) {
@@ -189,7 +190,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -222,7 +223,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -247,7 +248,7 @@ togglePushNotification(BuildContext context) {
           CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
       }
     }).catchError((error) {
       handleDioException(context, error);
@@ -273,7 +274,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred", onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'), onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -309,7 +310,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -331,7 +332,7 @@ togglePushNotification(BuildContext context) {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context,AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -363,7 +364,7 @@ togglePushNotification(BuildContext context) {
           setLoading(false);
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -390,7 +391,7 @@ togglePushNotification(BuildContext context) {
           notifyListeners();
         }
       }else {
-        CustomFlushbar.showError(context, "An error occurred",onDismissed: () {});
+        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

@@ -6,6 +6,8 @@ import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_button.dart';
 import 'package:table_menu_customer/utils/widgets/custom_outlined_button.dart';
 
+import '../app_localizations.dart';
+
 class OrderSuccessfulScreen extends StatelessWidget {
   const OrderSuccessfulScreen({super.key,this.order_id});
 
@@ -25,18 +27,18 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 Hero(tag: "order_success",child: Image.asset(AssetsUtils.ASSETS_SUCCESS_IMAGE,height: hp(22, context),width: wp(40, context),)),
                  SizedBox(height: hp(2, context),),
                 Text(
-                  "Congratulations!!!",
+                  AppLocalizations.of(context).translate('congratulations'),
                   style: titleTextStyle,
                 ),
                 SizedBox(height: hp(3, context),),
-                Text("Your order have been taken and food is being prepared.",
+                Text(AppLocalizations.of(context).translate('order_success_message'),
                 style: textSmallRegularStyle,
                 overflow: TextOverflow.clip,),
                 SizedBox(height: hp(5, context),),
                 SizedBox(
                   height: hp(8, context),
                   width: wp(40, context),
-                  child: CustomButton(child: Text("Track Order", style: textMediumStyle.copyWith(
+                  child: CustomButton(child: Text(AppLocalizations.of(context).translate('track_order'), style: textMediumStyle.copyWith(
                     color: Colors.white
                   ),
                   ), onPressed: () {
@@ -47,7 +49,7 @@ class OrderSuccessfulScreen extends StatelessWidget {
                 SizedBox(
                   height: hp(8, context),
                   width: wp(55, context),
-                  child: CustomOutlinedButton(child: Text("Continue ordering", style: textMediumStyle.copyWith(
+                  child: CustomOutlinedButton(child: Text(AppLocalizations.of(context).translate('continue_ordering'), style: textMediumStyle.copyWith(
                       color: Colors.purple
                   ),
                   ), onPressed: () {

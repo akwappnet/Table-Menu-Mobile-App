@@ -9,6 +9,7 @@ import 'package:table_menu_customer/view/menu_screeen/widget/filters_bottom_shee
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
+import '../../app_localizations.dart';
 import '../../utils/constants/constants_text.dart';
 import '../../utils/widgets/custom_text.dart';
 import '../../utils/widgets/placeholder_widget.dart';
@@ -58,15 +59,15 @@ class _MenuScreenState extends State<MenuScreen> {
                 Consumer<AuthProvider>(
                   builder: (_, auth_provider, __) {
                     return Text(
-                      "Hello, ${auth_provider.user_name}",
+                      "${AppLocalizations.of(context).translate('hello')} ${auth_provider.user_name}",
                       style: smallTitleTextStyle.copyWith(
                           fontFamily: fontSemiBold),
                     );
                   },
                 ),
-                const Text(
-                  "Welcome Back Have A Nice Day",
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).translate('greeting_text'),
+                  style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
                       color: Colors.grey),
@@ -98,7 +99,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             Row(
                               children: [
                                 Text(
-                                  "Categories (${menu_provider.categories.length})",
+                                  "${AppLocalizations.of(context).translate('categories')} (${menu_provider.categories.length})",
                                   style: smallTitleTextStyle,
                                 ),
                                 const Spacer(),
@@ -158,10 +159,10 @@ class _MenuScreenState extends State<MenuScreen> {
                                                 Container(
                                                   margin: const EdgeInsets
                                                       .symmetric(horizontal: 4),
-                                                  child: const CircleAvatar(
+                                                  child: CircleAvatar(
                                                     radius: 38,
                                                     child: CustomText(
-                                                      text: "A",
+                                                      text: AppLocalizations.of(context).translate('a'),
                                                       size: 50,
                                                       weight: FontWeight.bold,
                                                     ),
@@ -171,7 +172,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                   height: 2,
                                                 ),
                                                 Text(
-                                                  "All",
+                                                  AppLocalizations.of(context).translate('all'),
                                                   style: textBodyStyle,
                                                 )
                                               ],
@@ -255,7 +256,7 @@ class _MenuScreenState extends State<MenuScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Menu Items",
+                                  AppLocalizations.of(context).translate('menu_items'),
                                   style: smallTitleTextStyle,
                                 ),
                               ],
@@ -332,8 +333,8 @@ class _MenuScreenState extends State<MenuScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              "Scan Qr Code available on your table",
+                            Text(
+                              AppLocalizations.of(context).translate('scan_qr_code_text'),
                               style: TextStyle(
                                 fontSize: 18,
                               ),
@@ -355,12 +356,12 @@ class _MenuScreenState extends State<MenuScreen> {
                       )
                 : Container(
                     alignment: Alignment.center,
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PlaceholderWidget(title: "No data"),
+                        PlaceholderWidget(title: AppLocalizations.of(context).translate('placeholder_no_data')),
                       ],
-                    )),
+                    ),),
           ),
         );
       },
