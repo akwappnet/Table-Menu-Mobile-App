@@ -62,7 +62,10 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(3, context),
                       ),
-                      Text(AppLocalizations.of(context).translate('select_product_type'), style: textBodyStyle),
+                      Text(
+                          AppLocalizations.of(context)
+                              .translate('select_product_type'),
+                          style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterItemWidget(
@@ -72,7 +75,8 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('new'),
+                            itemText:
+                                AppLocalizations.of(context).translate('new'),
                             containerColor: menu_provider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -87,10 +91,12 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isPopular
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('popular'),
-                            containerColor: menu_provider.filterOptions.isPopular
-                                ? Colors.purple
-                                : Colors.transparent,
+                            itemText: AppLocalizations.of(context)
+                                .translate('popular'),
+                            containerColor:
+                                menu_provider.filterOptions.isPopular
+                                    ? Colors.purple
+                                    : Colors.transparent,
                             textColor: menu_provider.filterOptions.isPopular
                                 ? Colors.white
                                 : Colors.black,
@@ -102,10 +108,12 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSpecial
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('special'),
-                            containerColor: menu_provider.filterOptions.isSpecial
-                                ? Colors.purple
-                                : Colors.transparent,
+                            itemText: AppLocalizations.of(context)
+                                .translate('special'),
+                            containerColor:
+                                menu_provider.filterOptions.isSpecial
+                                    ? Colors.purple
+                                    : Colors.transparent,
                             textColor: menu_provider.filterOptions.isSpecial
                                 ? Colors.white
                                 : Colors.black,
@@ -117,7 +125,8 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('veg'),
+                            itemText:
+                                AppLocalizations.of(context).translate('veg'),
                             containerColor: menu_provider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -132,7 +141,8 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('non_veg'),
+                            itemText: AppLocalizations.of(context)
+                                .translate('non_veg'),
                             containerColor: menu_provider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -147,7 +157,8 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('sweet'),
+                            itemText:
+                                AppLocalizations.of(context).translate('sweet'),
                             containerColor: menu_provider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -162,7 +173,8 @@ filtersBottomSheet(context) {
                             borderColor: menu_provider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('spicy'),
+                            itemText:
+                                AppLocalizations.of(context).translate('spicy'),
                             containerColor: menu_provider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.transparent,
@@ -175,131 +187,158 @@ filtersBottomSheet(context) {
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      Text(AppLocalizations.of(context).translate('rating'), style: textBodyStyle),
+                      Text(AppLocalizations.of(context).translate('rating'),
+                          style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterRatingItemWidget(
                             onTap: () {
                               menu_provider.toggleRatingFilter(1);
                             },
-                            borderColor: menu_provider.filterOptions.selectedRatings[0]
-                                ? Colors.purple
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.selectedRatings[0]
+                                    ? Colors.purple
+                                    : Colors.black,
                             itemText: '1',
-                            containerColor: menu_provider.filterOptions.selectedRatings[0]
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.selectedRatings[0]
-                                ? Colors.white
-                                : Colors.black,
+                            containerColor:
+                                menu_provider.filterOptions.selectedRatings[0]
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.selectedRatings[0]
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
                               menu_provider.toggleRatingFilter(2);
                             },
-                            borderColor: menu_provider.filterOptions.selectedRatings[1]
-                                ? Colors.purple
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.selectedRatings[1]
+                                    ? Colors.purple
+                                    : Colors.black,
                             itemText: '2',
-                            containerColor: menu_provider.filterOptions.selectedRatings[1]
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.selectedRatings[1]
-                                ? Colors.white
-                                : Colors.black,
+                            containerColor:
+                                menu_provider.filterOptions.selectedRatings[1]
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.selectedRatings[1]
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
                               menu_provider.toggleRatingFilter(3);
                             },
-                            borderColor: menu_provider.filterOptions.selectedRatings[2]
-                                ? Colors.purple
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.selectedRatings[2]
+                                    ? Colors.purple
+                                    : Colors.black,
                             itemText: '3',
-                            containerColor: menu_provider.filterOptions.selectedRatings[2]
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.selectedRatings[2]
-                                ? Colors.white
-                                : Colors.black,
+                            containerColor:
+                                menu_provider.filterOptions.selectedRatings[2]
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.selectedRatings[2]
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
                               menu_provider.toggleRatingFilter(4);
                             },
-                            borderColor: menu_provider.filterOptions.selectedRatings[3]
-                                ? Colors.purple
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.selectedRatings[3]
+                                    ? Colors.purple
+                                    : Colors.black,
                             itemText: '4',
-                            containerColor: menu_provider.filterOptions.selectedRatings[3]
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.selectedRatings[3]
-                                ? Colors.white
-                                : Colors.black,
+                            containerColor:
+                                menu_provider.filterOptions.selectedRatings[3]
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.selectedRatings[3]
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
                               menu_provider.toggleRatingFilter(5);
                             },
-                            borderColor: menu_provider.filterOptions.selectedRatings[4]
-                                ? Colors.purple
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.selectedRatings[4]
+                                    ? Colors.purple
+                                    : Colors.black,
                             itemText: '5',
-                            containerColor: menu_provider.filterOptions.selectedRatings[4]
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.selectedRatings[4]
-                                ? Colors.white
-                                : Colors.black,
+                            containerColor:
+                                menu_provider.filterOptions.selectedRatings[4]
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.selectedRatings[4]
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                         ],
                       ),
                       SizedBox(
                         height: hp(2, context),
                       ),
-                      Text(AppLocalizations.of(context).translate('price_sort'), style: textBodyStyle),
+                      Text(AppLocalizations.of(context).translate('price_sort'),
+                          style: textBodyStyle),
                       Wrap(
                         children: [
                           FilterItemWidget(
                             onTap: () {
-                              if(menu_provider.filterOptions.sortByPriceHighToLow){
+                              if (menu_provider
+                                  .filterOptions.sortByPriceHighToLow) {
                                 menu_provider.toggleSortByPriceHighToLow();
                                 menu_provider.toggleSortByPriceLowToHigh();
-                              }else {
+                              } else {
                                 menu_provider.toggleSortByPriceLowToHigh();
                               }
                             },
-                            borderColor: menu_provider.filterOptions.sortByPriceLowToHigh
-                                ? Colors.purple
-                                : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('low_high'),
-                            containerColor: menu_provider.filterOptions.sortByPriceLowToHigh
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.sortByPriceLowToHigh
-                                ? Colors.white
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                    ? Colors.purple
+                                    : Colors.black,
+                            itemText: AppLocalizations.of(context)
+                                .translate('low_high'),
+                            containerColor:
+                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              if(menu_provider.filterOptions.sortByPriceLowToHigh){
+                              if (menu_provider
+                                  .filterOptions.sortByPriceLowToHigh) {
                                 menu_provider.toggleSortByPriceLowToHigh();
                                 menu_provider.toggleSortByPriceHighToLow();
-                              }else {
+                              } else {
                                 menu_provider.toggleSortByPriceHighToLow();
                               }
                             },
-                            borderColor: menu_provider.filterOptions.sortByPriceHighToLow
-                                ? Colors.purple
-                                : Colors.black,
-                            itemText: AppLocalizations.of(context).translate('high_low'),
-                            containerColor: menu_provider.filterOptions.sortByPriceHighToLow
-                                ? Colors.purple
-                                : Colors.transparent,
-                            textColor: menu_provider.filterOptions.sortByPriceHighToLow
-                                ? Colors.white
-                                : Colors.black,
+                            borderColor:
+                                menu_provider.filterOptions.sortByPriceHighToLow
+                                    ? Colors.purple
+                                    : Colors.black,
+                            itemText: AppLocalizations.of(context)
+                                .translate('high_low'),
+                            containerColor:
+                                menu_provider.filterOptions.sortByPriceHighToLow
+                                    ? Colors.purple
+                                    : Colors.transparent,
+                            textColor:
+                                menu_provider.filterOptions.sortByPriceHighToLow
+                                    ? Colors.white
+                                    : Colors.black,
                           ),
                         ],
                       ),
@@ -317,25 +356,29 @@ filtersBottomSheet(context) {
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                AppLocalizations.of(context).translate('clear_filters'),
+                                AppLocalizations.of(context)
+                                    .translate('clear_filters'),
                                 style: textBodyStyle,
                               ),
                             ),
                           ),
-                          SizedBox(width: wp(2, context),),
+                          SizedBox(
+                            width: wp(2, context),
+                          ),
                           SizedBox(
                             width: wp(45, context),
                             height: hp(7.5, context),
                             child: CustomButton(
                               onPressed: () {
-                                menu_provider.selectCategory(-1);
-                                menu_provider.setCategoryName("", context);
-                                menu_provider.applyFilters();
+                                // menu_provider.selectCategory(-1);
+                                // menu_provider.setCategoryName("", context);
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                AppLocalizations.of(context).translate('apply_filters'),
-                                style: textBodyStyle.copyWith(color: Colors.white),
+                                AppLocalizations.of(context)
+                                    .translate('apply_filters'),
+                                style:
+                                    textBodyStyle.copyWith(color: Colors.white),
                               ),
                             ),
                           ),

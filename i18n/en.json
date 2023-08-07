@@ -193,5 +193,6 @@
   "last_year" : "Last year",
   "years_ago" : "years ago",
   "today_at" : "Today at ",
-  "at" : " at "
+  "at" : " at ",
+  "item_details" : "Item details"
 }

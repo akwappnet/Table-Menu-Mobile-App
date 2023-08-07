@@ -5,7 +5,6 @@ import 'package:table_menu_customer/utils/assets/assets_utils.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
-import 'package:table_menu_customer/view/menu_screeen/widget/filters_bottom_sheet_widget.dart';
 import 'package:table_menu_customer/view/menu_screeen/widget/menu_item_card_widget.dart';
 import 'package:table_menu_customer/view_model/notification_provider.dart';
 
@@ -93,7 +92,9 @@ class _MenuScreenState extends State<MenuScreen> {
                     menu_provider.categories.isNotEmpty
                 ? (qr_provider.isVisible)
                     ? Container(
-              margin: EdgeInsets.symmetric(vertical: hp(1, context),horizontal: wp(1, context)),
+                        margin: EdgeInsets.symmetric(
+                            vertical: hp(1, context),
+                            horizontal: wp(1, context)),
                         child: Column(
                           children: [
                             Row(
@@ -103,15 +104,15 @@ class _MenuScreenState extends State<MenuScreen> {
                                   style: smallTitleTextStyle,
                                 ),
                                 const Spacer(),
-                                IconButton(
-                                  onPressed: () {
-                                    filtersBottomSheet(context);
-                                  },
-                                  icon: Image.asset(
-                                      AssetsUtils.ASSETS_FILTERS_ICON,
-                                      height: hp(4, context),
-                                      width: wp(5, context)),
-                                )
+                                // IconButton(
+                                //   onPressed: () {
+                                //     filtersBottomSheet(context);
+                                //   },
+                                //   icon: Image.asset(
+                                //       AssetsUtils.ASSETS_FILTERS_ICON,
+                                //       height: hp(4, context),
+                                //       width: wp(5, context)),
+                                // )
                               ],
                             ),
                             SizedBox(
@@ -162,7 +163,9 @@ class _MenuScreenState extends State<MenuScreen> {
                                                   child: CircleAvatar(
                                                     radius: 38,
                                                     child: CustomText(
-                                                      text: AppLocalizations.of(context).translate('a'),
+                                                      text: AppLocalizations.of(
+                                                              context)
+                                                          .translate('a'),
                                                       size: 50,
                                                       weight: FontWeight.bold,
                                                     ),
@@ -172,7 +175,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                                   height: 2,
                                                 ),
                                                 Text(
-                                                  AppLocalizations.of(context).translate('all'),
+                                                  AppLocalizations.of(context)
+                                                      .translate('all'),
                                                   style: textBodyStyle,
                                                 )
                                               ],
@@ -250,13 +254,14 @@ class _MenuScreenState extends State<MenuScreen> {
                                     ),
                             ),
                             SizedBox(
-                              height : hp(1, context) ,
+                              height: hp(1, context),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  AppLocalizations.of(context).translate('menu_items'),
+                                  AppLocalizations.of(context)
+                                      .translate('menu_items'),
                                   style: smallTitleTextStyle,
                                 ),
                               ],
@@ -334,10 +339,9 @@ class _MenuScreenState extends State<MenuScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              AppLocalizations.of(context).translate('scan_qr_code_text'),
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
+                              AppLocalizations.of(context)
+                                  .translate('scan_qr_code_text'),
+                              style: textBodyStyle,
                             ),
                             IconButton(
                               onPressed: () {
@@ -359,9 +363,12 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PlaceholderWidget(title: AppLocalizations.of(context).translate('placeholder_no_data')),
+                        PlaceholderWidget(
+                            title: AppLocalizations.of(context)
+                                .translate('placeholder_no_data')),
                       ],
-                    ),),
+                    ),
+                  ),
           ),
         );
       },

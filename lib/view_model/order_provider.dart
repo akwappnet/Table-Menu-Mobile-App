@@ -34,13 +34,14 @@ class OrderProvider extends ChangeNotifier {
     _loading = value;
     notifyListeners();
   }
+
   final formKey_cards = GlobalKey<FormState>();
 
-  final TextEditingController cardHolderNameController = TextEditingController();
+  final TextEditingController cardHolderNameController =
+      TextEditingController();
   final TextEditingController cardNumberController = TextEditingController();
   final TextEditingController expiryDateController = TextEditingController();
   final TextEditingController cvvController = TextEditingController();
-
 
   final TextEditingController feedbackController = TextEditingController();
 
@@ -48,7 +49,7 @@ class OrderProvider extends ChangeNotifier {
 
   bool card = false;
 
-  visibleCard(){
+  visibleCard() {
     card = !card;
     notifyListeners();
   }
@@ -57,36 +58,41 @@ class OrderProvider extends ChangeNotifier {
   double serviceRating = 0.0;
 
   updateFoodRating(double value) {
-    foodRating=value;
+    foodRating = value;
     notifyListeners();
   }
 
   updateServiceRating(double value) {
-    serviceRating=value;
+    serviceRating = value;
     notifyListeners();
   }
 
-  placeOrder(dynamic data,BuildContext context) {
+  placeOrder(dynamic data, BuildContext context) {
     _orderRepository.placeOrder(data).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           getOrders(context);
-          Provider.of<CartProvider>(context,listen: false).clearCart();
+          Provider.of<CartProvider>(context, listen: false).clearCart();
           var order = PlaceOrderModel.fromJson(response.data);
           placeorderData = order.placeorderData;
           log(placeorderData!.orderId.toString());
           notifyListeners();
-          CustomFlushbar.showSuccess(
-              context, response.data['message']);
-          Navigator.pushReplacementNamed(context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,arguments: placeorderData?.orderId);
+          CustomFlushbar.showSuccess(context, response.data['message']);
+          instructionController.clear();
+          Navigator.pushReplacementNamed(
+              context, RoutesName.ORDER_SUCCESSFUL_SCREEN_ROUTE,
+              arguments: placeorderData?.orderId);
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         CustomFlushbar.showError(
-            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -99,7 +105,7 @@ class OrderProvider extends ChangeNotifier {
   getOrders(BuildContext context) {
     _orderRepository.getOrders().then((response) {
       setLoading(true);
-      if(response != null) {
+      if (response != null) {
         if (response.statusCode == 200) {
           setLoading(false);
           var getOrders = OrderModel.fromJson(response.data);
@@ -108,8 +114,7 @@ class OrderProvider extends ChangeNotifier {
 
           // Filter the orders with status "pending" or "preparing"
           _orderList = _orderList
-              .where((order) =>
-          order.orderStatus == "pending" || order.orderStatus == "Preparing")
+              .where((order) => order.paymentStatus != "paid")
               .toList();
           log(_orderList.length.toString());
           notifyListeners();
@@ -117,7 +122,7 @@ class OrderProvider extends ChangeNotifier {
           setLoading(false);
           notifyListeners();
         }
-      }else {
+      } else {
         setLoading(false);
         notifyListeners();
       }
@@ -130,24 +135,27 @@ class OrderProvider extends ChangeNotifier {
 
   // cancel order
 
-  cancelOrder(int id,BuildContext context) {
+  cancelOrder(int id, BuildContext context) {
     var data = {};
     _orderRepository.cancelOrder(id, data).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           orderList.removeWhere((item) => item.id == id);
           getOrders(context);
-          CustomFlushbar.showSuccess(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showSuccess(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         CustomFlushbar.showError(
-            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -158,23 +166,27 @@ class OrderProvider extends ChangeNotifier {
 
   // api call for track single order by id
 
-  getSingleOrder(int id,BuildContext context) {
+  getSingleOrder(int id, BuildContext context) {
     _orderRepository.trackOrderByID(id).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
-          OrderTrackingModel orderTrackingModel = OrderTrackingModel.fromJson(response.data);
+          OrderTrackingModel orderTrackingModel =
+              OrderTrackingModel.fromJson(response.data);
           orderTrackingData = orderTrackingModel.orderTrackingData?.first;
-          CustomFlushbar.showSuccess(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showSuccess(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         CustomFlushbar.showError(
-            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -183,25 +195,28 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
-  feedback(int order_id,BuildContext context) {
+  feedback(int order_id, BuildContext context) {
     var data = {
       "rating": foodRating,
       "service_rating": serviceRating,
       "review": feedbackController.text
     };
-    _orderRepository.feedback(data,order_id).then((response) {
-      if(response != null) {
+    _orderRepository.feedback(data, order_id).then((response) {
+      if (response != null) {
         if (response.statusCode == 200) {
           log(response.toString());
           notifyListeners();
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(
-              context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         CustomFlushbar.showError(
-            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -210,17 +225,16 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
-
-  changePaymentStatus({required int order_id,required BuildContext context}) {
+  changePaymentStatus({required int order_id, required BuildContext context}) {
     _orderRepository.changePaymentStatus(order_id).then((response) {
       log(response.toString());
-      if(response != null) {
+      if (response != null) {
         if (response.statusCode == 200) {
           notifyListeners();
         } else if (response.data['status'] == "False") {
           notifyListeners();
         }
-      }else {
+      } else {
         notifyListeners();
       }
     }).catchError((error) {
@@ -234,7 +248,7 @@ class OrderProvider extends ChangeNotifier {
   getOrdersHistory(BuildContext context) {
     _orderRepository.getOrderHistory().then((response) {
       setLoading(true);
-      if(response != null) {
+      if (response != null) {
         if (response.statusCode == 200) {
           setLoading(false);
           var getOrders = OrderModel.fromJson(response.data);
@@ -245,7 +259,7 @@ class OrderProvider extends ChangeNotifier {
           setLoading(false);
           notifyListeners();
         }
-      }else {
+      } else {
         setLoading(false);
         notifyListeners();
       }

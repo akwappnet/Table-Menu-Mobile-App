@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:table_menu_customer/utils/constants/constants_text.dart';
 

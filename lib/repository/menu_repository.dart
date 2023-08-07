@@ -10,7 +10,7 @@ class MenuRepository {
     try {
       return _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.categoryEndPoint);
-    }catch (e) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -20,6 +20,17 @@ class MenuRepository {
     try {
       return _apiService.getGetApiResponseWithParams(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.filterEndPoint,
+          queryParams);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  filterMenuItems(String query) {
+    var queryParams = {'query': query};
+    try {
+      return _apiService.getGetApiResponseWithParams(
+          ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.menuItemEndPoint,
           queryParams);
     } catch (e) {
       rethrow;

@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -26,9 +27,9 @@ import 'package:table_menu_customer/view_model/notification_provider.dart';
 import 'package:table_menu_customer/view_model/order_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
-import 'AppLanguage.dart';
 import 'app_localizations.dart';
 import 'firebase_options.dart';
+import 'view_model/AppLanguage.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -63,11 +64,8 @@ Future<void> main() async {
   final AuthRepository authRepository = AuthRepository();
   String loggedIn = await authRepository.isLoggedIn();
   AppLanguage appLanguage = AppLanguage();
-  // await appLanguage.fetchLocale();
-  runApp(MyApp(
-    loggedIn: loggedIn,
-    appLanguage: appLanguage
-  ));
+  await appLanguage.fetchLocale();
+  runApp(MyApp(loggedIn: loggedIn, appLanguage: appLanguage));
 }
 
 /// push notification configuration
@@ -86,7 +84,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key, required this.loggedIn,required this.appLanguage});
+  const MyApp({super.key, required this.loggedIn, required this.appLanguage});
 
   final String loggedIn;
   final AppLanguage appLanguage;
@@ -172,65 +170,67 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => AuthProvider()),
-          ChangeNotifierProvider(create: (_) => CartProvider()),
-          ChangeNotifierProvider(create: (_) => MenuProvider()),
-          ChangeNotifierProvider(create: (_) => NavProvider()),
-          ChangeNotifierProvider(create: (_) => QRProvider()),
-          ChangeNotifierProvider(create: (_) => NotificationProvider()),
-          ChangeNotifierProvider(create: (_) => OrderProvider()),
-          ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
-          ChangeNotifierProvider(create: (_) => AppLanguage(),builder: (context,__) {
-            widget.appLanguage.fetchLocale();
-            return const SizedBox();
-          }),
-        ],
-        child: Consumer<AppLanguage>(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => MenuProvider()),
+        ChangeNotifierProvider(create: (_) => NavProvider()),
+        ChangeNotifierProvider(create: (_) => QRProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => OrderProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
+        ChangeNotifierProvider<AppLanguage>(
+          create: (_) => widget.appLanguage,
+        ),
+      ],
+      child: Consumer<AppLanguage>(
         builder: (context, model, child) {
           log(model.appLocal.toString());
-          return MaterialApp(
-            title: APPNAME,
-            theme: ThemeData(
-                useMaterial3: true,
-                colorSchemeSeed: Colors.purple,
-                fontFamily: 'Roboto'),
-            debugShowCheckedModeBanner: false,
-            home: AnimatedSplashScreen(
-              nextRoute: widget.loggedIn != ''
-                  ? RoutesName.HOME_SCREEN_ROUTE
-                  : RoutesName.LOGIN_SCREEN_ROUTE,
-              duration: 3000,
-              splashTransition: SplashTransition.scaleTransition,
-              backgroundColor: Colors.white,
-              animationDuration: const Duration(seconds: 1),
-              splashIconSize: 300,
-              splash: Center(
-                child: Image.asset(
-                  AssetsUtils.ASSETS_TABLE_MENU_LOGO,
-                  height: 300,
-                  width: 300,
+          return ChangeNotifierProvider<AppLanguage>.value(
+            value: model,
+            child: MaterialApp(
+              title: APPNAME,
+              theme: ThemeData(
+                  useMaterial3: true,
+                  colorSchemeSeed: Colors.purple,
+                  fontFamily: 'Roboto'),
+              debugShowCheckedModeBanner: false,
+              home: AnimatedSplashScreen(
+                nextRoute: widget.loggedIn != ''
+                    ? RoutesName.HOME_SCREEN_ROUTE
+                    : RoutesName.LOGIN_SCREEN_ROUTE,
+                duration: 3000,
+                splashTransition: SplashTransition.scaleTransition,
+                backgroundColor: Colors.white,
+                animationDuration: const Duration(seconds: 1),
+                splashIconSize: 300,
+                splash: Center(
+                  child: Image.asset(
+                    AssetsUtils.ASSETS_TABLE_MENU_LOGO,
+                    height: 300,
+                    width: 300,
+                  ),
                 ),
+                nextScreen:
+                    widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
               ),
-              nextScreen:
-              widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
+              onGenerateRoute: Routes.generateRoute,
+              navigatorKey: AppContext.navigatorKey,
+              locale: model.appLocal,
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ar', ''),
+              ],
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate
+              ],
             ),
-            onGenerateRoute: Routes.generateRoute,
-            navigatorKey: AppContext.navigatorKey,
-            locale: model.appLocal,
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('ar', ''),
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate
-            ],
           );
         },
-        ),
+      ),
     );
   }
 }
