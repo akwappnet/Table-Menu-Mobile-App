@@ -34,10 +34,9 @@ class NotificationScreen extends StatelessWidget {
                   notification_provider.deleteAllNotification(context);
                 },
                 child: notification_provider.notificationList.isNotEmpty
-                    ? CustomText(
-                        text: AppLocalizations.of(context).translate('clear_all'),
-                        size: 18,
-                        color: Colors.red,
+                    ? Text(
+                        AppLocalizations.of(context).translate('clear_all'),
+                        style: textBodyStyle.copyWith(color: Colors.red),
                       )
                     : const SizedBox.shrink(),
               ),
@@ -63,23 +62,27 @@ class NotificationScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                            child: notification_provider.notificationList.isEmpty
+                            child: notification_provider
+                                    .notificationList.isEmpty
                                 ? Container(
-                              alignment: Alignment.center,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      PlaceholderWidget(
-                                          title: AppLocalizations.of(context).translate('no_notification')),
-                                    ],
-                                  ),
-                                )
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        PlaceholderWidget(
+                                            title: AppLocalizations.of(context)
+                                                .translate('no_notification')),
+                                      ],
+                                    ),
+                                  )
                                 : ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: notification_provider.notificationList.length,
+                                    itemCount: notification_provider
+                                        .notificationList.length,
                                     itemBuilder: (context, index) {
-                                      var notification =
-                                          notification_provider.notificationList[index];
+                                      var notification = notification_provider
+                                          .notificationList[index];
                                       return Slidable(
                                         key: UniqueKey(),
                                         closeOnScroll: true,

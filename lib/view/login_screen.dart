@@ -25,30 +25,33 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: wp(4,context), vertical: hp(2,context)),
+            padding: EdgeInsets.symmetric(
+                horizontal: wp(4, context), vertical: hp(2, context)),
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: wp(40,context), // Adjust the percentage as needed
-                    height: wp(40,context), // Using the same percentage to maintain aspect ratio
+                    width: wp(40, context), // Adjust the percentage as needed
+                    height: wp(40,
+                        context), // Using the same percentage to maintain aspect ratio
                     child: Image.asset(AssetsUtils.ASSETS_LOGIN_LOGO),
                   ),
                   Text(
-                    AppLocalizations.of(context).translate('Login'),
+                    AppLocalizations.of(context).translate('login'),
                     style: titleTextStyle,
                   ),
-                  SizedBox(height: hp(2,context)),
+                  SizedBox(height: hp(2, context)),
                   Text(
-                    AppLocalizations.of(context).translate('enter_your_credentials'),
+                    AppLocalizations.of(context)
+                        .translate('enter_your_credentials'),
                     style: textRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: hp(2,context)), // Use hp() for height
+                  SizedBox(height: hp(2, context)), // Use hp() for height
                   Form(
                     key: _formKey_login,
                     child: Container(
@@ -56,8 +59,10 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           CustomTextFormField().getCustomEditTextArea(
-                            labelValue: AppLocalizations.of(context).translate('label_email'),
-                            hintValue: AppLocalizations.of(context).translate('hint_email'),
+                            labelValue: AppLocalizations.of(context)
+                                .translate('label_email'),
+                            hintValue: AppLocalizations.of(context)
+                                .translate('hint_email'),
                             obscuretext: false,
                             maxLines: 1,
                             keyboardType: TextInputType.emailAddress,
@@ -67,45 +72,53 @@ class LoginScreen extends StatelessWidget {
                             ),
                             textInputAction: TextInputAction.next,
                             controller: auth_provider.emailLoginController,
-                            validator: (value) =>  emailValidator(context,value),
+                            validator: (value) =>
+                                emailValidator(context, value),
                             onchanged: (newValue) {},
                           ),
-                          SizedBox(height: hp(2,context)), // Use hp() for height
+                          SizedBox(
+                              height: hp(2, context)), // Use hp() for height
                           ValueListenableBuilder(
                             valueListenable: obsecurePassword,
                             builder: (context, value, child) {
-                              return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: AppLocalizations.of(context).translate('label_password'),
-                                hintValue: AppLocalizations.of(context).translate('hint_password'),
-                                obscuretext: obsecurePassword.value,
-                                maxLines: 1,
-                                textInputAction: TextInputAction.done,
-                                prefixicon: const Icon(
-                                  Icons.password_outlined,
-                                  color: Colors.black,
-                                ),
-                                controller: auth_provider.passwordLoginController,
-                                validator: (value) =>  passwordValidator(context,value),
-                                onchanged: (newValue) {},
-                                  icon: InkWell(
-                                    splashColor: Colors.transparent,
-                                    onTap: () {
-                                      obsecurePassword.value = !obsecurePassword.value;
-                                    },
-                                    child: obsecurePassword.value
-                                        ? const Icon(
-                                      Icons.visibility_off_outlined,
-                                      color: Colors.black,
-                                    )
-                                        : const Icon(
-                                      Icons.visibility_outlined,
-                                      color: Colors.black,
-                                    ),
-                                  )
-                              );
+                              return CustomTextFormField()
+                                  .getCustomEditTextArea(
+                                      labelValue: AppLocalizations.of(context)
+                                          .translate('label_password'),
+                                      hintValue: AppLocalizations.of(context)
+                                          .translate('hint_password'),
+                                      obscuretext: obsecurePassword.value,
+                                      maxLines: 1,
+                                      textInputAction: TextInputAction.done,
+                                      prefixicon: const Icon(
+                                        Icons.password_outlined,
+                                        color: Colors.black,
+                                      ),
+                                      controller:
+                                          auth_provider.passwordLoginController,
+                                      validator: (value) =>
+                                          passwordValidator(context, value),
+                                      onchanged: (newValue) {},
+                                      icon: InkWell(
+                                        splashColor: Colors.transparent,
+                                        onTap: () {
+                                          obsecurePassword.value =
+                                              !obsecurePassword.value;
+                                        },
+                                        child: obsecurePassword.value
+                                            ? const Icon(
+                                                Icons.visibility_off_outlined,
+                                                color: Colors.black,
+                                              )
+                                            : const Icon(
+                                                Icons.visibility_outlined,
+                                                color: Colors.black,
+                                              ),
+                                      ));
                             },
                           ),
-                          SizedBox(height: hp(1,context)), // Use hp() for height
+                          SizedBox(
+                              height: hp(1, context)), // Use hp() for height
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Row(
@@ -120,16 +133,20 @@ class LoginScreen extends StatelessWidget {
                                       },
                                     );
                                   },
-                                  child: Text( AppLocalizations.of(context).translate('forgot_password'),
-                                    style: textSmallRegularStyle.copyWith(color: Colors.purple),
+                                  child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('forgot_password'),
+                                    style: textSmallRegularStyle.copyWith(
+                                        color: Colors.purple),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: hp(1,context)), // Use hp() for height
                           SizedBox(
-                            height: hp(7.5,context), // Use hp() for height
+                              height: hp(1, context)), // Use hp() for height
+                          SizedBox(
+                            height: hp(7.5, context), // Use hp() for height
                             width: double.infinity,
                             child: CustomButton(
                               onPressed: () async {
@@ -143,22 +160,27 @@ class LoginScreen extends StatelessWidget {
                               },
                               child: auth_provider.loading
                                   ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                                  : Text(AppLocalizations.of(context).translate('login'),
-                                style: textBodyStyle.copyWith(color: Colors.white),
-                              ),
+                                      color: Colors.white,
+                                    )
+                                  : Text(
+                                      AppLocalizations.of(context)
+                                          .translate('login'),
+                                      style: textBodyStyle.copyWith(
+                                          color: Colors.white),
+                                    ),
                             ),
                           ),
-                          SizedBox(height: hp(1,context)), // Use hp() for height
+                          SizedBox(
+                              height: hp(1, context)), // Use hp() for height
                           Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text(AppLocalizations.of(context).translate('dont_have_a_account'),
-                                    style: textSmallRegularStyle
-                                ),
+                                Text(
+                                    AppLocalizations.of(context)
+                                        .translate('dont_have_a_account'),
+                                    style: textSmallRegularStyle),
                                 const SizedBox(width: 6),
                                 GestureDetector(
                                   onTap: () {
@@ -167,8 +189,11 @@ class LoginScreen extends StatelessWidget {
                                       RoutesName.REGISTER_SCREEN_ROUTE,
                                     );
                                   },
-                                  child: Text(AppLocalizations.of(context).translate('register'),
-                                    style: textSmallRegularStyle.copyWith(color: Colors.purple),
+                                  child: Text(
+                                    AppLocalizations.of(context)
+                                        .translate('register'),
+                                    style: textSmallRegularStyle.copyWith(
+                                        color: Colors.purple),
                                   ),
                                 ),
                               ],

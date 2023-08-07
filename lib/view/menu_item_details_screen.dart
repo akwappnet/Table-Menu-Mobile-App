@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +25,11 @@ class MenuItemDetailsPage extends StatefulWidget {
 }
 
 class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
-
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
-      Provider.of<MenuProvider>(context, listen: false).getMenuItemByID(widget.menuData.id!,context);
+      Provider.of<MenuProvider>(context, listen: false)
+          .getMenuItemByID(widget.menuData.id!, context);
     });
     super.initState();
   }
@@ -37,6 +38,10 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context).translate('item_details'),
+          style: titleTextStyle,
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -133,12 +138,13 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                                   color: Colors.red, size: 18),
                           (widget.menuData.isVeg ?? false)
                               ? Text(
-                            AppLocalizations.of(context).translate('veg'),
+                                  AppLocalizations.of(context).translate('veg'),
                                   style:
                                       textRegularStyle.copyWith(fontSize: 16),
                                 )
                               : Text(
-                            AppLocalizations.of(context).translate('non_veg'),
+                                  AppLocalizations.of(context)
+                                      .translate('non_veg'),
                                   style:
                                       textRegularStyle.copyWith(fontSize: 16),
                                 ),

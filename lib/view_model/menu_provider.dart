@@ -10,9 +10,7 @@ import '../model/menuItem_model.dart';
 import '../utils/helpers.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
-
 class MenuProvider extends ChangeNotifier {
-
   int isSelectedIndex = -1;
   String categoryName = "";
   List<CategoryData> categories = [];
@@ -70,7 +68,8 @@ class MenuProvider extends ChangeNotifier {
   }
 
   void toggleRatingFilter(int rating) {
-    filterOptions.selectedRatings[rating - 1] = !filterOptions.selectedRatings[rating - 1];
+    filterOptions.selectedRatings[rating - 1] =
+        !filterOptions.selectedRatings[rating - 1];
     notifyListeners();
   }
 
@@ -84,28 +83,26 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-  updateRangeValues(SfRangeValues value){
+  updateRangeValues(SfRangeValues value) {
     values = value;
     notifyListeners();
   }
 
-
   MenuRepository menuRepository = MenuRepository();
 
-  void selectCategory(int index){
+  void selectCategory(int index) {
     isSelectedIndex = index;
     notifyListeners();
   }
 
-  void toggleFavorite(){
+  void toggleFavorite() {
     favToggle = !favToggle;
     notifyListeners();
   }
 
-  void setCategoryName(String value,BuildContext context){
+  void setCategoryName(String value, BuildContext context) {
     categoryName = value;
-    getMenuItems(categoryName: categoryName,context: context);
+    getMenuItems(categoryName: categoryName, context: context);
     notifyListeners();
   }
 
@@ -120,36 +117,43 @@ class MenuProvider extends ChangeNotifier {
     if (filterOptions.isSpicy) filters.add('menu_item_types=spicy');
 
     if (filterOptions.selectedRatings.isNotEmpty) {
-      String ratingFilter = 'menu_item_ratings=${filterOptions.selectedRatings.join(',')}';
+      String ratingFilter =
+          'menu_item_ratings=${filterOptions.selectedRatings.join(',')}';
       filters.add(ratingFilter);
     }
 
-    if (filterOptions.sortByPriceHighToLow) filters.add('sort_by_price=high_to_low');
-    if (filterOptions.sortByPriceLowToHigh) filters.add('sort_by_price=low_to_high');
+    if (filterOptions.sortByPriceHighToLow)
+      filters.add('sort_by_price=high_to_low');
+    if (filterOptions.sortByPriceLowToHigh)
+      filters.add('sort_by_price=low_to_high');
 
     return filters.join(',');
   }
-
 
   // get request for categories
 
   getCategories(BuildContext context) {
     setLoading(true);
-    menuRepository.getCategories().then((response){
-      if(response != null) {
-        if(response.statusCode == 200) {
+    menuRepository.getCategories().then((response) {
+      if (response != null) {
+        if (response.statusCode == 200) {
           setLoading(false);
           CategoryModel categoryModel = CategoryModel.fromJson(response.data);
           categories = categoryModel.data!;
           notifyListeners();
-        }else {
+        } else {
           setLoading(false);
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         setLoading(false);
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -157,34 +161,42 @@ class MenuProvider extends ChangeNotifier {
       setLoading(false);
     });
   }
+
   MenuData singleMenuData = MenuData();
 
   // get request for menu items
-  getMenuItems({required String categoryName,required BuildContext context, bool? fillterFavorites}) {
-    menuRepository.getMenuItems(categoryName).then((response){
+  getMenuItems(
+      {required String categoryName,
+      required BuildContext context,
+      bool? fillterFavorites}) {
+    menuRepository.getMenuItems(categoryName).then((response) {
       setLoading(true);
-      if(response != null) {
-        if(response.statusCode == 200) {
+      if (response != null) {
+        if (response.statusCode == 200) {
           MenuItemModel menuItemModel = MenuItemModel.fromJson(response.data);
           menuitems = menuItemModel.menuData!;
           favMenuitems = menuItemModel.menuData!;
-          if(fillterFavorites == true){
+          if (fillterFavorites == true) {
             favMenuitems = favMenuitems
-                .where((menuitem) =>
-            menuitem.isFavorite == true)
+                .where((menuitem) => menuitem.isFavorite == true)
                 .toList();
             setLoading(false);
             notifyListeners();
           }
           setLoading(false);
           notifyListeners();
-        }else {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+        } else {
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           setLoading(false);
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
         notifyListeners();
       }
@@ -196,18 +208,23 @@ class MenuProvider extends ChangeNotifier {
 
   // add menu items to favorites api call
 
-  addToFavoritesMenuItem(int id,BuildContext context){
+  addToFavoritesMenuItem(int id, BuildContext context) {
     menuRepository.addToFavoriteMenuItem(id).then((response) {
-      if(response != null){
-        if(response.statusCode == 200){
+      if (response != null) {
+        if (response.statusCode == 200) {
           getMenuItemByID(id, context);
           notifyListeners();
-        }else {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+        } else {
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -217,34 +234,67 @@ class MenuProvider extends ChangeNotifier {
   }
 
   MenuItem? menuItem;
-  getMenuItemByID(int id,BuildContext context){
+  getMenuItemByID(int id, BuildContext context) {
     setLoading(true);
-    menuRepository.getMenuItemByID(id).then((response){
-      if(response != null) {
-        if(response.statusCode == 200) {
+    menuRepository.getMenuItemByID(id).then((response) {
+      if (response != null) {
+        if (response.statusCode == 200) {
           setLoading(false);
-          SingleMenuItem singleMenuItem = SingleMenuItem.fromJson(response.data);
+          SingleMenuItem singleMenuItem =
+              SingleMenuItem.fromJson(response.data);
           menuItem = singleMenuItem.menuItem;
           favToggle = menuItem!.isFavorite!;
           notifyListeners();
-        }else {
+        } else {
           setLoading(false);
           notifyListeners();
         }
-      }else {
+      } else {
         setLoading(false);
         notifyListeners();
       }
     });
   }
 
-  void applyFilters() {
-    String query = _generateFilterQuery();
+  filterMenuItems({required String query, required BuildContext context}) {
+    menuRepository.filterMenuItems(query).then((response) {
+      setLoading(true);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          MenuItemModel menuItemModel = MenuItemModel.fromJson(response.data);
+          menuitems = menuItemModel.menuData!;
+          setLoading(false);
+          notifyListeners();
+        } else {
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
+          setLoading(false);
+          notifyListeners();
+        }
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
+        setLoading(false);
+        notifyListeners();
+      }
+    }).catchError((error) {
+      handleDioException(context, error);
+      setLoading(false);
+    });
+  }
+
+  void applyFilters(BuildContext context) {
+    // String query = _generateFilterQuery();
+    String query =
+        "sort_by_price=high_to_low,menu_item_types=veg,special,rating=5";
     log("query -> $query");
+    filterMenuItems(query: query, context: context);
     // Call the API with the query parameter
     // Add your API call logic here using Dio package with the generated query
   }
-
 }
 
 class FilterOptions {

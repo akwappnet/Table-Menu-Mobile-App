@@ -37,9 +37,10 @@ class OrderItemCardWidget extends StatelessWidget {
                     style: textBodyStyle.copyWith(color: Colors.purple),
                   ),
                   const Spacer(),
-                  Text(orderData.orderStatus!,style: textSmallRegularStyle.copyWith(
-                    color: Colors.amber
-                  ),)
+                  Text(
+                    orderData.orderStatus!,
+                    style: textSmallRegularStyle.copyWith(color: Colors.amber),
+                  )
                 ],
               ),
               Text(
@@ -91,21 +92,24 @@ class OrderItemCardWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            AppLocalizations.of(context).translate('track_order'),
+                            AppLocalizations.of(context)
+                                .translate('track_order'),
                             style: textSmallRegularStyle,
                           ),
                           const Icon(Icons.arrow_right_outlined)
                         ],
                       )),
                   const Spacer(),
-                  GestureDetector(
-                    onTap: cancelCallback,
-                    child: Text(
-                      AppLocalizations.of(context).translate('cancel?'),
-                      style:
-                          textSmallRegularStyle.copyWith(color: Colors.purple),
-                    ),
-                  ),
+                  orderData.orderStatus == "pending"
+                      ? GestureDetector(
+                          onTap: cancelCallback,
+                          child: Text(
+                            AppLocalizations.of(context).translate('cancel?'),
+                            style: textSmallRegularStyle.copyWith(
+                                color: Colors.purple),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ],
               )
             ],

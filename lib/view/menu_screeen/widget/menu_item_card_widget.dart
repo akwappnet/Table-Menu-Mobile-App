@@ -8,16 +8,16 @@ import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
 
 class MenuItemGridCard extends StatelessWidget {
-  const MenuItemGridCard({
-    Key? key,
-    required this.image,
-    required this.name,
-    required this.price,
-    required this.rating,
-    required this.isVeg,
-    this.isFavorite = false,
-    this.onTap
-  }) : super(key: key);
+  const MenuItemGridCard(
+      {Key? key,
+      required this.image,
+      required this.name,
+      required this.price,
+      required this.rating,
+      required this.isVeg,
+      this.isFavorite = false,
+      this.onTap})
+      : super(key: key);
 
   final String image;
   final String name;
@@ -39,7 +39,8 @@ class MenuItemGridCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10.0)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(10.0)),
                 child: CachedNetworkImage(
                   imageUrl: image,
                   fit: BoxFit.cover,
@@ -49,8 +50,7 @@ class MenuItemGridCard extends StatelessWidget {
                       Image.asset(AssetsUtils.ASSETS_PLACEHOLDER_IMAGE),
                   // Show a placeholder while loading
                   errorWidget: (context, url, error) =>
-                      Image.asset(AssetsUtils
-                          .ASSETS_ERROR_IMAGE),
+                      Image.asset(AssetsUtils.ASSETS_ERROR_IMAGE),
                 ),
               ),
               Padding(
@@ -60,17 +60,22 @@ class MenuItemGridCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          name,
-                          style: textBodyStyle.copyWith(
-                            fontSize: 20
+                        SizedBox(
+                          width: wp(36, context),
+                          child: Text(
+                            name,
+                            style: textBodyStyle.copyWith(fontSize: 20),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
                         ),
                         const Spacer(),
-                        isFavorite == true ? const Icon(Icons.favorite,color: Colors.red,) :
-                            const SizedBox.shrink()
+                        isFavorite == true
+                            ? const Icon(
+                                Icons.favorite,
+                                color: Colors.red,
+                              )
+                            : const SizedBox.shrink()
                       ],
                     ),
                     SizedBox(height: hp(1, context)),
@@ -99,7 +104,7 @@ class MenuItemGridCard extends StatelessWidget {
                           Row(
                             children: List.generate(
                               5,
-                                  (index) => Icon(
+                              (index) => Icon(
                                 Icons.star,
                                 size: hp(2.5, context),
                                 color: index < rating.floor()
@@ -116,7 +121,7 @@ class MenuItemGridCard extends StatelessWidget {
                           Row(
                             children: List.generate(
                               5,
-                                  (index) => Icon(
+                              (index) => Icon(
                                 Icons.star,
                                 size: hp(2.5, context),
                                 color: index < rating.floor()
@@ -127,17 +132,25 @@ class MenuItemGridCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                    SizedBox(height: hp(0.8, context),),
-                    isFavorite == true ?
-                        SizedBox(
-                          width: wp(100, context),
-                          height: hp(4.5, context),
-                          child: CustomButton(child: Text(AppLocalizations.of(context).translate('order'),style: textSmallRegularStyle,), onPressed: onTap!),
-                        ) : const SizedBox.shrink(),
+                    SizedBox(
+                      height: hp(0.8, context),
+                    ),
+                    isFavorite == true
+                        ? SizedBox(
+                            width: wp(100, context),
+                            height: hp(4.5, context),
+                            child: CustomButton(
+                                child: Text(
+                                  AppLocalizations.of(context)
+                                      .translate('order'),
+                                  style: textSmallRegularStyle,
+                                ),
+                                onPressed: onTap!),
+                          )
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
-
             ],
           ),
           if (isVeg)
