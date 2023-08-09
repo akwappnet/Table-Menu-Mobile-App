@@ -54,10 +54,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
-      builder: (context, auth_provider, __) {
+      builder: (context, authProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
-          appBar: auth_provider.userData != null
+          appBar: authProvider.userData != null
               ? AppBar(
                   backgroundColor: Colors.white,
                   automaticallyImplyLeading: false,
@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        auth_provider.user_name,
+                        authProvider.user_name,
                         style:
                             titleTextStyle.copyWith(fontFamily: fontSemiBold),
                       ),
@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       radius: 22,
                       child: CachedNetworkImage(
                         fit: BoxFit.fill,
-                        imageUrl: auth_provider.userData!.profilePhotoUrl ?? "",
+                        imageUrl: authProvider.userData!.profilePhotoUrl ?? "",
                         imageBuilder: (context, imageProvider) => Container(
                           width: wp(15, context),
                           height: hp(15, context),
@@ -113,7 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
           body: SafeArea(
             child: SingleChildScrollView(
-              child: auth_provider.userData != null
+              child: authProvider.userData != null
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -134,15 +134,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context).translate('my_account'),
+                                      AppLocalizations.of(context)
+                                          .translate('my_account'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context).translate('my_account_sub_text'),
+                                      AppLocalizations.of(context)
+                                          .translate('my_account_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -165,15 +166,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               children: [
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context).translate('offers_and_discounts'),
+                                      AppLocalizations.of(context)
+                                          .translate('offers_and_discounts'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context).translate('offers_and_discounts_sub_text'),
+                                      AppLocalizations.of(context).translate(
+                                          'offers_and_discounts_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -196,15 +198,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             child: Row(
                               children: [
                                 Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      AppLocalizations.of(context).translate('change_language'),
+                                      AppLocalizations.of(context)
+                                          .translate('change_language'),
                                       style: textBodyStyle,
                                     ),
                                     Text(
-                                      AppLocalizations.of(context).translate('change_language_sub_text'),
+                                      AppLocalizations.of(context).translate(
+                                          'change_language_sub_text'),
                                       style: textSmallRegularStyle.copyWith(
                                           color: Colors.grey),
                                     ),
@@ -220,27 +223,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Text(
                           AppLocalizations.of(context).translate('past_orders'),
-                          style:
-                              textRegularStyle.copyWith(color: Colors.grey),
+                          style: textRegularStyle.copyWith(color: Colors.grey),
                         ),
                         Consumer<OrderProvider>(
-                          builder: (context, order_provider, __) {
+                          builder: (context, orderProvider, __) {
                             return SizedBox(
                               height: hp(12, context),
-                              child: order_provider
-                                      .orderHistoryList.isNotEmpty
+                              child: orderProvider.orderHistoryList.isNotEmpty
                                   ? ListView.builder(
                                       shrinkWrap: true,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: order_provider
-                                          .orderHistoryList.length,
+                                      itemCount:
+                                          orderProvider.orderHistoryList.length,
                                       itemBuilder: (context, index) {
-                                        var order = order_provider
+                                        var order = orderProvider
                                             .orderHistoryList[index];
                                         return Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: wp(1, context)),
-                                          child: order_provider.loading
+                                          child: orderProvider.loading
                                               ? Center(
                                                   child: Lottie.asset(
                                                     AssetsUtils
@@ -272,7 +273,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     )
                                   : Center(
                                       child: Text(
-                                        AppLocalizations.of(context).translate('no_past_orders'),
+                                      AppLocalizations.of(context)
+                                          .translate('no_past_orders'),
                                       style: textSmallMediumStyle,
                                     )),
                             );
@@ -286,7 +288,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: hp(7.5, context),
                           child: CustomButton(
                             onPressed: () {
-                              auth_provider.logout(context);
+                              authProvider.logout(context);
                             },
                             child: Text(
                               AppLocalizations.of(context).translate('logout'),
@@ -297,7 +299,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     )
-                  : Center(child: PlaceholderWidget(title: AppLocalizations.of(context).translate('placeholder_no_data'))),
+                  : Center(
+                      child: PlaceholderWidget(
+                          title: AppLocalizations.of(context)
+                              .translate('placeholder_no_data'))),
             ),
           ),
         );

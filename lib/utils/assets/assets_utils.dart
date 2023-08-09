@@ -16,11 +16,19 @@ class AssetsUtils {
       "assets/lotti_animation/loading-purple.json";
   static String ASSETS_LOADING_ORDER_ANIMATION =
       "assets/lotti_animation/loading_animation_order.json";
-  static String ASSETS_PLACEHOLDER_IMAGE = "assets/images/placeholder_image.png";
-  static String ASSETS_WALLET_IMAGE = "assets/images/wallet.png";
+  static String ASSETS_PLACEHOLDER_IMAGE =
+      "assets/images/image_placeholder.png";
   static String ASSETS_FEEDBACK_ICON_IMAGE = "assets/images/feedback_icon.png";
   static String ASSETS_ERROR_IMAGE = "assets/images/error_image.png";
   static String ASSETS_SUCCESS_IMAGE = "assets/images/success_icon.png";
-  static String ASSETS_FOOD_PREPARING_ANIMATION = "assets/lotti_animation/food_preparing.json";
+  static String ASSETS_FOOD_PREPARING_ANIMATION =
+      "assets/lotti_animation/food_preparing.json";
 
+  static List<String> bannerImageList = [
+    "assets/images/banner.png",
+    "assets/images/banner1.jpg",
+    "assets/images/banner2.jpg",
+    "assets/images/banner3.jpg",
+    "assets/images/banner4.jpg",
+  ];
 }

@@ -18,7 +18,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<NotificationProvider>(
-      builder: (context, notification_provider, __) {
+      builder: (context, notificationProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -31,9 +31,9 @@ class NotificationScreen extends StatelessWidget {
             actions: [
               InkWell(
                 onTap: () async {
-                  notification_provider.deleteAllNotification(context);
+                  notificationProvider.deleteAllNotification(context);
                 },
-                child: notification_provider.notificationList.isNotEmpty
+                child: notificationProvider.notificationList.isNotEmpty
                     ? Text(
                         AppLocalizations.of(context).translate('clear_all'),
                         style: textBodyStyle.copyWith(color: Colors.red),
@@ -48,7 +48,7 @@ class NotificationScreen extends StatelessWidget {
           body: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: hp(2, context), horizontal: wp(1, context)),
-            child: notification_provider.loading
+            child: notificationProvider.loading
                 ? Center(
                     child: Lottie.asset(
                       AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
@@ -62,8 +62,7 @@ class NotificationScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         Expanded(
-                            child: notification_provider
-                                    .notificationList.isEmpty
+                            child: notificationProvider.notificationList.isEmpty
                                 ? Container(
                                     alignment: Alignment.center,
                                     child: Column(
@@ -78,10 +77,10 @@ class NotificationScreen extends StatelessWidget {
                                   )
                                 : ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: notification_provider
+                                    itemCount: notificationProvider
                                         .notificationList.length,
                                     itemBuilder: (context, index) {
-                                      var notification = notification_provider
+                                      var notification = notificationProvider
                                           .notificationList[index];
                                       return Slidable(
                                         key: UniqueKey(),
@@ -92,7 +91,7 @@ class NotificationScreen extends StatelessWidget {
                                           children: [
                                             InkWell(
                                               onTap: () async {
-                                                notification_provider
+                                                notificationProvider
                                                     .deleteSingleNotification(
                                                         notification.id!,
                                                         context);
@@ -123,7 +122,7 @@ class NotificationScreen extends StatelessWidget {
                                           onTap: () async {
                                             if (notification.readStatus! ==
                                                 false) {
-                                              notification_provider
+                                              notificationProvider
                                                   .markAsReadNotification(
                                                       notification.id!,
                                                       context);

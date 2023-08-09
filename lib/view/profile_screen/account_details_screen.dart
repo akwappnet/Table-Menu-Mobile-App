@@ -8,26 +8,30 @@ import '../../app_localizations.dart';
 import '../../utils/responsive.dart';
 import '../../view_model/auth_provider.dart';
 
-
 class AccountDetailsScreen extends StatelessWidget {
   const AccountDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
-      builder: (context,auth_provider,__){
+      builder: (context, authProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: Text(AppLocalizations.of(context).translate('profile'),style: smallTitleTextStyle,),
+            title: Text(
+              AppLocalizations.of(context).translate('profile'),
+              style: smallTitleTextStyle,
+            ),
             backgroundColor: Colors.white,
             actions: [
               Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: wp(2, context)),
-                child: IconButton(onPressed: () {
-                  Navigator.pushNamed(context, RoutesName.SETTINGS_SCREEN_ROUTE);
-                }, icon: const Icon(Icons.settings)),
+                padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
+                child: IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.SETTINGS_SCREEN_ROUTE);
+                    },
+                    icon: const Icon(Icons.settings)),
               ),
             ],
           ),
@@ -39,18 +43,21 @@ class AccountDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
-                      width: wp(100, context),
+                    width: wp(100, context),
                     child: Card(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: hp(2, context),),
+                          SizedBox(
+                            height: hp(2, context),
+                          ),
                           CircleAvatar(
                             radius: 60,
                             child: CachedNetworkImage(
                               fit: BoxFit.fill,
-                              imageUrl: auth_provider.userData!.profilePhotoUrl!,
-                              imageBuilder: (context, imageProvider) => Container(
+                              imageUrl: authProvider.userData!.profilePhotoUrl!,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
                                 width: wp(30, context),
                                 height: hp(30, context),
                                 decoration: BoxDecoration(
@@ -74,83 +81,140 @@ class AccountDetailsScreen extends StatelessWidget {
                               },
                             ),
                           ),
-                          SizedBox(height: hp(2, context),),
+                          SizedBox(
+                            height: hp(2, context),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.perm_identity,color: Colors.black,),
-                              SizedBox(width: wp(0.8, context),),
-                              Text(auth_provider.user_name,style: textBodyStyle,),
+                              const Icon(
+                                Icons.perm_identity,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: wp(0.8, context),
+                              ),
+                              Text(
+                                authProvider.user_name,
+                                style: textBodyStyle,
+                              ),
                             ],
                           ),
-                          SizedBox(height: hp(2, context),),
+                          SizedBox(
+                            height: hp(2, context),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.phone,color: Colors.black,),
-                              SizedBox(width: wp(0.8, context),),
-                              Text(auth_provider.userData!.phoneNumber!,style: textBodyStyle,),
+                              const Icon(
+                                Icons.phone,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: wp(0.8, context),
+                              ),
+                              Text(
+                                authProvider.userData!.phoneNumber!,
+                                style: textBodyStyle,
+                              ),
                             ],
                           ),
-                          SizedBox(height: hp(2, context),),
+                          SizedBox(
+                            height: hp(2, context),
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(Icons.email_outlined,color: Colors.black,),
-                              SizedBox(width: wp(0.8, context),),
-                              Text(auth_provider.userData!.email!,style: textBodyStyle,),
+                              const Icon(
+                                Icons.email_outlined,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: wp(0.8, context),
+                              ),
+                              Text(
+                                authProvider.userData!.email!,
+                                style: textBodyStyle,
+                              ),
                             ],
                           ),
-                          SizedBox(height: hp(2, context),),
+                          SizedBox(
+                            height: hp(2, context),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: hp(1.5, context),),
+                  SizedBox(
+                    height: hp(1.5, context),
+                  ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.FAVORITES_MENUITEM_SCREEN_ROUTE);
+                      Navigator.pushNamed(
+                          context, RoutesName.FAVORITES_MENUITEM_SCREEN_ROUTE);
                     },
                     child: SizedBox(
                       width: wp(100, context),
                       child: Card(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: wp(2, context), vertical: hp(2, context)),
+                              horizontal: wp(2, context),
+                              vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text(AppLocalizations.of(context).translate('favorites_menu_items'),style: textBodyStyle,),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('favorites_menu_items'),
+                                style: textBodyStyle,
+                              ),
                               const Spacer(),
-                              const Icon(Icons.arrow_forward_ios,color: Colors.black,),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: hp(1.5, context),),
+                  SizedBox(
+                    height: hp(1.5, context),
+                  ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, RoutesName.USER_INFO_SCREEN_ROUTE,arguments: auth_provider.userData);
+                      Navigator.pushNamed(
+                          context, RoutesName.USER_INFO_SCREEN_ROUTE,
+                          arguments: authProvider.userData);
                     },
                     child: SizedBox(
                       width: wp(100, context),
                       child: Card(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: wp(2, context), vertical: hp(2, context)),
+                              horizontal: wp(2, context),
+                              vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text(AppLocalizations.of(context).translate('update_profile'),style: textBodyStyle,),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('update_profile'),
+                                style: textBodyStyle,
+                              ),
                               const Spacer(),
-                              const Icon(Icons.arrow_forward_ios,color: Colors.black,),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: hp(1.5, context),),
+                  SizedBox(
+                    height: hp(1.5, context),
+                  ),
                   GestureDetector(
                     onTap: () {},
                     child: SizedBox(
@@ -158,12 +222,20 @@ class AccountDetailsScreen extends StatelessWidget {
                       child: Card(
                         child: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: wp(2, context), vertical: hp(2, context)),
+                              horizontal: wp(2, context),
+                              vertical: hp(2, context)),
                           child: Row(
                             children: [
-                              Text(AppLocalizations.of(context).translate('change_password'),style: textBodyStyle,),
+                              Text(
+                                AppLocalizations.of(context)
+                                    .translate('change_password'),
+                                style: textBodyStyle,
+                              ),
                               const Spacer(),
-                              const Icon(Icons.arrow_forward_ios,color: Colors.black,),
+                              const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.black,
+                              ),
                             ],
                           ),
                         ),
@@ -179,4 +251,3 @@ class AccountDetailsScreen extends StatelessWidget {
     );
   }
 }
-

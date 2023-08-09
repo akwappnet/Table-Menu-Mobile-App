@@ -25,14 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final nav_provider = Provider.of<NavProvider>(context);
+    final navProvider = Provider.of<NavProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.all(15),
           child: Center(
-            child: _widgetOptions.elementAt(nav_provider.index),
+            child: _widgetOptions.elementAt(navProvider.index),
           ),
         ),
       ),
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
-        useLegacyColorScheme : true,
+        useLegacyColorScheme: true,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
@@ -60,9 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
             label: AppLocalizations.of(context).translate('profile'),
           ),
         ],
-        currentIndex: nav_provider.index,
+        currentIndex: navProvider.index,
         onTap: (int index) async {
-          nav_provider.changeIndex(index);
+          navProvider.changeIndex(index);
         },
       ),
     );

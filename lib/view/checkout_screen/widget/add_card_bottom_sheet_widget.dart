@@ -10,8 +10,7 @@ import '../../../utils/constants/constants_text.dart';
 import '../../../utils/font/text_style.dart';
 import '../../../utils/responsive.dart';
 
-
-addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
+addNewCardBottomSheet(context, VoidCallback onAddNewCard) {
   showModalBottomSheet(
     useRootNavigator: true,
     enableDrag: true,
@@ -21,7 +20,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
     context: context,
     builder: (BuildContext context) {
       return Consumer<OrderProvider>(
-        builder: (context, order_provider, __) {
+        builder: (context, orderProvider, __) {
           return Wrap(
             children: [
               Container(
@@ -35,9 +34,10 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                   ),
                 ),
                 child: Form(
-                  key: order_provider.formKey_cards,
+                  key: orderProvider.formKey_cards,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: wp(2, context),vertical: hp(2, context)),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: wp(2, context), vertical: hp(2, context)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -54,7 +54,10 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              icon: const Icon(Icons.close, color: Colors.black,),
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.black,
+                              ),
                             )
                           ],
                         ),
@@ -64,75 +67,85 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                         CustomTextFormField().getCustomEditTextArea(
                             labelValue: "Card holder name",
                             hintValue: "Enter card holder name",
-                            controller: order_provider.cardHolderNameController,
+                            controller: orderProvider.cardHolderNameController,
                             obscuretext: false,
                             onchanged: (value) {},
                             textInputAction: TextInputAction.next,
-                            validator: (value) => validateName(context,value)),
+                            validator: (value) => validateName(context, value)),
                         SizedBox(
-                          height: hp(2,context),
+                          height: hp(2, context),
                         ),
                         CustomTextFormField().getCustomEditTextArea(
                             labelValue: "Card number",
                             hintValue: "Enter card number",
-                            controller: order_provider.cardNumberController,
+                            controller: orderProvider.cardNumberController,
                             obscuretext: false,
                             maxLength: 16,
                             onchanged: (value) {},
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.number,
-                            validator: (value) => cardValidator(context,value)),
+                            validator: (value) =>
+                                cardValidator(context, value)),
                         SizedBox(
-                          height: hp(1,context),
+                          height: hp(1, context),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Flexible(
                               flex: 1,
-                              child: CustomTextFormField().getCustomEditTextArea(
-                                  labelValue: "Expiry date",
-                                  hintValue: "MM/YYYY",
-                                  controller: order_provider.expiryDateController,
-                                  obscuretext: false,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9/]')),
-                                    _MonthYearInputFormatter(),
-                                  ],
-                                  onchanged: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) => expiryDateValidation(context,value)),
+                              child: CustomTextFormField()
+                                  .getCustomEditTextArea(
+                                      labelValue: "Expiry date",
+                                      hintValue: "MM/YYYY",
+                                      controller:
+                                          orderProvider.expiryDateController,
+                                      obscuretext: false,
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9/]')),
+                                        _MonthYearInputFormatter(),
+                                      ],
+                                      onchanged: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) =>
+                                          expiryDateValidation(context, value)),
                             ),
-                            SizedBox(width: wp(5,context)),
+                            SizedBox(width: wp(5, context)),
                             Flexible(
                               flex: 1,
-                              child: CustomTextFormField().getCustomEditTextArea(
-                                  labelValue: "CVV",
-                                  hintValue: "Enter CVV",
-                                  controller: order_provider.cvvController,
-                                  obscuretext: false,
-                                  onchanged: (value) {},
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.number,
-                                  validator: (value) => cvvValidation(context,value)),
+                              child: CustomTextFormField()
+                                  .getCustomEditTextArea(
+                                      labelValue: "CVV",
+                                      hintValue: "Enter CVV",
+                                      controller: orderProvider.cvvController,
+                                      obscuretext: false,
+                                      onchanged: (value) {},
+                                      textInputAction: TextInputAction.next,
+                                      keyboardType: TextInputType.number,
+                                      validator: (value) =>
+                                          cvvValidation(context, value)),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: hp(1,context),
+                          height: hp(1, context),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(horizontal: wp(1.5, context),vertical: hp(1.5, context)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: wp(1.5, context),
+                              vertical: hp(1.5, context)),
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width,
                             height: hp(7.5, context),
                             child: CustomButton(
-                                onPressed: onAddNewCard,
-                                child: Text("Add new card", style: textBodyStyle.copyWith(
-                                    color: Colors.white
-                                ),),
+                              onPressed: onAddNewCard,
+                              child: Text(
+                                "Add new card",
+                                style:
+                                    textBodyStyle.copyWith(color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
@@ -142,7 +155,7 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
                 ),
               ),
               SizedBox(
-                height: hp(2,context),
+                height: hp(2, context),
               ),
             ],
           );
@@ -157,7 +170,6 @@ addNewCardBottomSheet(context,VoidCallback onAddNewCard) {
     ),
   );
 }
-
 
 class _MonthYearInputFormatter extends TextInputFormatter {
   @override

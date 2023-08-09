@@ -2,14 +2,13 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:table_menu_customer/data/network/base_api_service.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
 import 'package:table_menu_customer/data/db_provider.dart';
+import 'package:table_menu_customer/data/network/base_api_service.dart';
+import 'package:table_menu_customer/utils/services/api_endpoints.dart';
 
 import '../../utils/helpers.dart';
 
 class NetworkApiService extends BaseApiService {
-
   static final Dio _dio = Dio(BaseOptions(
       baseUrl: ApiEndPoint.baseUrl,
       sendTimeout: const Duration(milliseconds: 30000),
@@ -20,7 +19,6 @@ class NetworkApiService extends BaseApiService {
         log("@@status : $status");
         return status! < 500;
       }));
-
 
   setupInterceptors() {
     _dio.interceptors.add(
@@ -45,7 +43,7 @@ class NetworkApiService extends BaseApiService {
         onError: (DioException error, handler) async {
           BuildContext? context = AppContext.navigatorKey.currentContext;
           if (error.response?.statusCode == 401) {
-            handleDioException(context!,error);
+            handleDioException(context!, error);
           }
           // Handle other errors if needed
           return handler.next(error);
@@ -71,7 +69,7 @@ class NetworkApiService extends BaseApiService {
                 headers: headers,
               ))
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -95,7 +93,7 @@ class NetworkApiService extends BaseApiService {
               ),
               queryParameters: queryParams)
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -119,7 +117,7 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -144,7 +142,7 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -170,7 +168,7 @@ class NetworkApiService extends BaseApiService {
                 responseType: ResponseType.json,
               ))
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -196,7 +194,7 @@ class NetworkApiService extends BaseApiService {
               ))
           .timeout(const Duration(seconds: 10));
 
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }
@@ -220,7 +218,7 @@ class NetworkApiService extends BaseApiService {
                   contentType: Headers.jsonContentType,
                   responseType: ResponseType.json))
           .timeout(const Duration(seconds: 10));
-        return response;
+      return response;
     } catch (e) {
       rethrow;
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
-import 'package:table_menu_customer/view_model/AppLanguage.dart';
+import 'package:table_menu_customer/view_model/app_language_provider.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 
 import '../../app_localizations.dart';
@@ -11,9 +11,9 @@ class ChangeLanguageScreen extends StatelessWidget {
   const ChangeLanguageScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final app_lanugage = Provider.of<AppLanguage>(context);
+    final appLanugage = Provider.of<AppLanguage>(context);
     return Consumer<AuthProvider>(
-      builder: (context, auth_provider, __) {
+      builder: (context, authProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -40,7 +40,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      app_lanugage.changeLanguage(const Locale('en', 'US'));
+                      appLanugage.changeLanguage(const Locale('en', 'US'));
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -50,7 +50,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                           style: textBodyStyle,
                         ),
                         const Spacer(),
-                        app_lanugage.appLocal == const Locale('en', 'US')
+                        appLanugage.appLocal == const Locale('en', 'US')
                             ? const Icon(
                                 Icons.check_rounded,
                                 color: Colors.black,
@@ -68,7 +68,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      app_lanugage.changeLanguage(const Locale("ar"));
+                      appLanugage.changeLanguage(const Locale("ar"));
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
@@ -78,7 +78,7 @@ class ChangeLanguageScreen extends StatelessWidget {
                           style: textBodyStyle,
                         ),
                         const Spacer(),
-                        app_lanugage.appLocal == const Locale("ar")
+                        appLanugage.appLocal == const Locale("ar")
                             ? const Icon(
                                 Icons.check_rounded,
                                 color: Colors.black,

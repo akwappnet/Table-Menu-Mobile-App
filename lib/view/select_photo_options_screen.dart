@@ -38,7 +38,8 @@ class SelectPhotoOptionsScreen extends StatelessWidget {
             SelectPhotoButton(
               onTap: () => onTap(ImageSource.gallery),
               icon: Icons.image_outlined,
-              textLabel: AppLocalizations.of(context).translate('browse_gallery'),
+              textLabel:
+                  AppLocalizations.of(context).translate('browse_gallery'),
             ),
             const SizedBox(
               height: 10,
@@ -46,7 +47,7 @@ class SelectPhotoOptionsScreen extends StatelessWidget {
             Center(
               child: Text(
                 AppLocalizations.of(context).translate('or'),
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
             const SizedBox(

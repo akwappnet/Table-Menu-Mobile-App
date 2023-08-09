@@ -12,13 +12,13 @@ import '../utils/widgets/custom_textformfield.dart';
 import '../view_model/auth_provider.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-   ResetPasswordScreen({Key? key}) : super(key: key);
+  ResetPasswordScreen({Key? key}) : super(key: key);
 
   final _formKey_reset_password = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: true);
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
     ValueNotifier<bool> obsecurePassword = ValueNotifier<bool>(true);
     ValueNotifier<bool> obsecureRepeatePassword = ValueNotifier<bool>(true);
     FocusNode passwordFocusNode = FocusNode();
@@ -35,30 +35,34 @@ class ResetPasswordScreen extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: hp(2,context), horizontal: wp(4,context)), // Use hp() and wp() for padding
+            padding: EdgeInsets.symmetric(
+                vertical: hp(2, context),
+                horizontal: wp(4, context)), // Use hp() and wp() for padding
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    width: wp(40,context), // Adjust the percentage as needed
-                    height: wp(40,context), // Using the same percentage to maintain aspect ratio
+                  SizedBox(
+                    width: wp(40, context), // Adjust the percentage as needed
+                    height: wp(40,
+                        context), // Using the same percentage to maintain aspect ratio
                     child: Image.asset(AssetsUtils.ASSETS_RESET_PASSWORD_LOGO),
                   ),
                   Text(
                     AppLocalizations.of(context).translate('reset_password'),
                     style: titleTextStyle, // Use the defined TextStyle
                   ),
-                  SizedBox(height: hp(1,context)), // Use hp() for height
+                  SizedBox(height: hp(1, context)), // Use hp() for height
                   Text(
-                    AppLocalizations.of(context).translate('enter_new_credentials'),
+                    AppLocalizations.of(context)
+                        .translate('enter_new_credentials'),
                     style: textRegularStyle.copyWith(
                       color: Colors.black38,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: hp(1,context)), // Use hp() for height
+                  SizedBox(height: hp(1, context)), // Use hp() for height
                   Form(
                     key: _formKey_reset_password,
                     child: Container(
@@ -68,48 +72,57 @@ class ResetPasswordScreen extends StatelessWidget {
                           ValueListenableBuilder(
                             valueListenable: obsecurePassword,
                             builder: (context, value, child) {
-                              return CustomTextFormField().getCustomEditTextArea(
+                              return CustomTextFormField()
+                                  .getCustomEditTextArea(
                                 textInputAction: TextInputAction.next,
                                 focusNode: passwordFocusNode,
                                 onFieldSubmitted: (value) {
                                   passwordFocusNode.nextFocus();
                                 },
-                                labelValue: AppLocalizations.of(context).translate('label_password'),
-                                hintValue: AppLocalizations.of(context).translate('hint_password'),
+                                labelValue: AppLocalizations.of(context)
+                                    .translate('label_password'),
+                                hintValue: AppLocalizations.of(context)
+                                    .translate('hint_password'),
                                 obscuretext: obsecurePassword.value,
                                 maxLines: 1,
                                 prefixicon: const Icon(
                                   Icons.password_outlined,
                                   color: Colors.black,
                                 ),
-                                controller: auth_provider.resetPassController,
-                                validator: (value) =>  passwordValidator(context,value),
+                                controller: authProvider.resetPassController,
+                                validator: (value) =>
+                                    passwordValidator(context, value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    obsecurePassword.value = !obsecurePassword.value;
+                                    obsecurePassword.value =
+                                        !obsecurePassword.value;
                                   },
                                   child: obsecurePassword.value
                                       ? const Icon(
-                                    Icons.visibility_off_outlined,
-                                    color: Colors.black,
-                                  )
+                                          Icons.visibility_off_outlined,
+                                          color: Colors.black,
+                                        )
                                       : const Icon(
-                                    Icons.visibility_outlined,
-                                    color: Colors.black,
-                                  ),
+                                          Icons.visibility_outlined,
+                                          color: Colors.black,
+                                        ),
                                 ),
                               );
                             },
                           ),
-                          SizedBox(height: hp(1,context)), // Use hp() for height
+                          SizedBox(
+                              height: hp(1, context)), // Use hp() for height
                           ValueListenableBuilder(
                             valueListenable: obsecureRepeatePassword,
                             builder: (context, value, child) {
-                              return CustomTextFormField().getCustomEditTextArea(
-                                labelValue: AppLocalizations.of(context).translate('label_confirm_password'),
-                                hintValue: AppLocalizations.of(context).translate('hint_confirm_password'),
+                              return CustomTextFormField()
+                                  .getCustomEditTextArea(
+                                labelValue: AppLocalizations.of(context)
+                                    .translate('label_confirm_password'),
+                                hintValue: AppLocalizations.of(context)
+                                    .translate('hint_confirm_password'),
                                 obscuretext: obsecureRepeatePassword.value,
                                 maxLines: 1,
                                 textInputAction: TextInputAction.done,
@@ -117,52 +130,68 @@ class ResetPasswordScreen extends StatelessWidget {
                                   Icons.password_outlined,
                                   color: Colors.black,
                                 ),
-                                controller: auth_provider.resetrepeatPassController,
-                                validator: (value) =>  passwordValidator(context,value),
+                                controller:
+                                    authProvider.resetrepeatPassController,
+                                validator: (value) =>
+                                    passwordValidator(context, value),
                                 onchanged: (newValue) {},
                                 icon: InkWell(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    obsecureRepeatePassword.value = !obsecureRepeatePassword.value;
+                                    obsecureRepeatePassword.value =
+                                        !obsecureRepeatePassword.value;
                                   },
                                   child: obsecureRepeatePassword.value
                                       ? const Icon(
-                                    Icons.visibility_off_outlined,
-                                    color: Colors.black,
-                                  )
+                                          Icons.visibility_off_outlined,
+                                          color: Colors.black,
+                                        )
                                       : const Icon(
-                                    Icons.visibility_outlined,
-                                    color: Colors.black,
-                                  ),
+                                          Icons.visibility_outlined,
+                                          color: Colors.black,
+                                        ),
                                 ),
                               );
                             },
                           ),
-                          SizedBox(height: hp(3,context)), // Use hp() for height
                           SizedBox(
-                            height: hp(7.5,context), // Use hp() for height
+                              height: hp(3, context)), // Use hp() for height
+                          SizedBox(
+                            height: hp(7.5, context), // Use hp() for height
                             width: double.infinity,
                             child: CustomButton(
                               onPressed: () async {
-                                if (_formKey_reset_password.currentState!.validate()) {
-                                  if (auth_provider.passwordRegisterController.text !=
-                                      auth_provider.repeatePasswordRegisterController.text) {
-                                    showsnackbar(context, AppLocalizations.of(context).translate('passowrd_doesnt_match_error_message'));
+                                if (_formKey_reset_password.currentState!
+                                    .validate()) {
+                                  if (authProvider
+                                          .passwordRegisterController.text !=
+                                      authProvider
+                                          .repeatePasswordRegisterController
+                                          .text) {
+                                    showsnackbar(
+                                        context,
+                                        AppLocalizations.of(context).translate(
+                                            'passowrd_doesnt_match_error_message'));
                                   } else {
-                                    String password = auth_provider.resetPassController.text;
-                                    String email = auth_provider.forgotPassEmailController.text;
-                                    auth_provider.resetPasswordUser(email, password,context);
+                                    String password =
+                                        authProvider.resetPassController.text;
+                                    String email = authProvider
+                                        .forgotPassEmailController.text;
+                                    authProvider.resetPasswordUser(
+                                        email, password, context);
                                   }
                                 }
                               },
-                              child: auth_provider.loading
+                              child: authProvider.loading
                                   ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
+                                      color: Colors.white,
+                                    )
                                   : Text(
-                                AppLocalizations.of(context).translate('reset_password'),
-                                style: textBodyStyle.copyWith(color: Colors.white),
-                              ),
+                                      AppLocalizations.of(context)
+                                          .translate('reset_password'),
+                                      style: textBodyStyle.copyWith(
+                                          color: Colors.white),
+                                    ),
                             ),
                           ),
                         ],

@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: true);
+    final authProvider = Provider.of<AuthProvider>(context, listen: true);
     ValueNotifier<bool> obsecurePassword = ValueNotifier<bool>(true);
     return Scaffold(
       body: SafeArea(
@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
                               color: Colors.black,
                             ),
                             textInputAction: TextInputAction.next,
-                            controller: auth_provider.emailLoginController,
+                            controller: authProvider.emailLoginController,
                             validator: (value) =>
                                 emailValidator(context, value),
                             onchanged: (newValue) {},
@@ -95,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                       controller:
-                                          auth_provider.passwordLoginController,
+                                          authProvider.passwordLoginController,
                                       validator: (value) =>
                                           passwordValidator(context, value),
                                       onchanged: (newValue) {},
@@ -151,14 +151,14 @@ class LoginScreen extends StatelessWidget {
                             child: CustomButton(
                               onPressed: () async {
                                 if (_formKey_login.currentState!.validate()) {
-                                  auth_provider.userLogin(
-                                    auth_provider.emailLoginController.text,
-                                    auth_provider.passwordLoginController.text,
+                                  authProvider.userLogin(
+                                    authProvider.emailLoginController.text,
+                                    authProvider.passwordLoginController.text,
                                     context,
                                   );
                                 }
                               },
-                              child: auth_provider.loading
+                              child: authProvider.loading
                                   ? const CircularProgressIndicator(
                                       color: Colors.white,
                                     )

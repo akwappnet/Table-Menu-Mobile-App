@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:table_menu_customer/main.dart';
-import 'package:table_menu_customer/view_model/AppLanguage.dart';
+import 'package:table_menu_customer/view_model/app_language_provider.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

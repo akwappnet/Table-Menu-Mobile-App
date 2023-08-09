@@ -37,7 +37,10 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0.0,
         title: Text(
           AppLocalizations.of(context).translate('item_details'),
           style: titleTextStyle,
@@ -50,9 +53,9 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
         ),
         actions: [
           Consumer<MenuProvider>(
-            builder: (context, menu_provider, __) {
+            builder: (context, menuProvider, __) {
               log(widget.menuData.isFavorite.toString());
-              log(menu_provider.favToggle.toString());
+              log(menuProvider.favToggle.toString());
               return Container(
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
@@ -60,13 +63,13 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
                 ),
                 child: IconButton(
                   icon: Icon(
-                    menu_provider.favToggle
+                    menuProvider.favToggle
                         ? Icons.favorite
                         : Icons.favorite_border,
-                    color: menu_provider.favToggle ? Colors.red : Colors.black,
+                    color: menuProvider.favToggle ? Colors.red : Colors.black,
                   ),
                   onPressed: () {
-                    menu_provider.addToFavoritesMenuItem(
+                    menuProvider.addToFavoritesMenuItem(
                         widget.menuData.id!, context);
                   },
                 ),
@@ -182,7 +185,7 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
         ),
       ),
       bottomNavigationBar: Consumer<CartProvider>(
-        builder: (context, cart_provider, __) {
+        builder: (context, cartProvider, __) {
           return Card(
             elevation: 4,
             shape: const RoundedRectangleBorder(
@@ -195,20 +198,20 @@ class _MenuItemDetailsPageState extends State<MenuItemDetailsPage> {
               child: Row(
                 children: [
                   PlusMinusButtons(
-                    addQuantity: cart_provider.incrementItemQuantity,
-                    deleteQuantity: cart_provider.decrementItemQuantity,
-                    text: cart_provider.quantity.toString(),
+                    addQuantity: cartProvider.incrementItemQuantity,
+                    deleteQuantity: cartProvider.decrementItemQuantity,
+                    text: cartProvider.quantity.toString(),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () async {
-                        cart_provider.incrementCartCount();
+                        cartProvider.incrementCartCount();
                         var data = {
                           "menu_item": widget.menuData.id,
-                          "quantity": cart_provider.quantity
+                          "quantity": cartProvider.quantity
                         };
-                        cart_provider.addCart(
+                        cartProvider.addCart(
                             data, widget.menuData.id!, context);
                       },
                       style: ElevatedButton.styleFrom(

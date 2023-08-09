@@ -54,7 +54,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     String totalAmount = widget.arguments?[1];
     return Consumer<OrderProvider>(
-      builder: (context, order_provider, __) {
+      builder: (context, orderProvider, __) {
         return Stack(
           children: [
             Scaffold(
@@ -156,7 +156,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                 textInputAction:
                                                     TextInputAction.done,
                                                 validator: (value) =>
-                                                validateDiscountCode(context,value)),
+                                                    validateDiscountCode(
+                                                        context, value)),
                                         Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: wp(1.5, context)),
@@ -183,14 +184,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                               .of(context)
                                                           .translate(
                                                               'congratulations'),
-                                                      desc: '${AppLocalizations.of(
-                                                                  context)
-                                                              .translate(
-                                                                  'discount_success_desc1')} ${AppLocalizations.of(
-                                                                  context)
-                                                              .translate('₹')} ${AppLocalizations.of(
-                                                                  context)
-                                                              .translate('discount_success_desc2')}',
+                                                      desc:
+                                                          '${AppLocalizations.of(context).translate('discount_success_desc1')} ${AppLocalizations.of(context).translate('₹')} ${AppLocalizations.of(context).translate('discount_success_desc2')}',
                                                       btnOkOnPress: () {},
                                                     ).show();
                                                     Future.delayed(
@@ -201,7 +196,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                     });
                                                   },
                                                   child: Text(
-                                                    AppLocalizations.of(context).translate('apply'),
+                                                    AppLocalizations.of(context)
+                                                        .translate('apply'),
                                                     style: textSmallRegularStyle
                                                         .copyWith(
                                                             color:
@@ -215,8 +211,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         ),
                                         CustomTextFormField()
                                             .getCustomEditTextArea(
-                                                labelValue: AppLocalizations.of(context).translate('label_tips'),
-                                                hintValue: AppLocalizations.of(context).translate('hint_tips'),
+                                                labelValue: AppLocalizations.of(
+                                                        context)
+                                                    .translate('label_tips'),
+                                                hintValue:
+                                                    AppLocalizations.of(context)
+                                                        .translate('hint_tips'),
                                                 controller: tipController,
                                                 keyboardType:
                                                     TextInputType.number,
@@ -238,7 +238,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                         Row(
                                           children: [
                                             Text(
-                                              AppLocalizations.of(context).translate('total_price'),
+                                              AppLocalizations.of(context)
+                                                  .translate('total_price'),
                                               style: textRegularStyle.copyWith(
                                                   color: Colors.grey),
                                             ),

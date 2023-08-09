@@ -31,7 +31,7 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
   @override
   Widget build(BuildContext context) {
     return Consumer<MenuProvider>(
-      builder: (context, menu_provider, __) {
+      builder: (context, menuProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -44,7 +44,7 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
           body: Padding(
             padding: EdgeInsets.symmetric(
                 vertical: hp(2, context), horizontal: wp(1, context)),
-            child: menu_provider.loading
+            child: menuProvider.loading
                 ? Center(
                     child: Lottie.asset(
                       AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
@@ -58,17 +58,19 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                     child: Column(
                       children: [
                         Expanded(
-                          child: menu_provider.favMenuitems.isEmpty
+                          child: menuProvider.favMenuitems.isEmpty
                               ? Container(
-                            alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    PlaceholderWidget(
-                                        title: AppLocalizations.of(context).translate('no_favorites_menu_items')),
-                                  ],
-                                ),
-                              )
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PlaceholderWidget(
+                                          title: AppLocalizations.of(context)
+                                              .translate(
+                                                  'no_favorites_menu_items')),
+                                    ],
+                                  ),
+                                )
                               : GridView.builder(
                                   gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -76,27 +78,28 @@ class _FavoritesMenuItemsState extends State<FavoritesMenuItems> {
                                     childAspectRatio: 0.76,
                                   ),
                                   shrinkWrap: true,
-                                  itemCount: menu_provider.favMenuitems.length,
+                                  itemCount: menuProvider.favMenuitems.length,
                                   itemBuilder: (context, index) {
                                     var favMenuItem =
-                                        menu_provider.favMenuitems[index];
+                                        menuProvider.favMenuitems[index];
                                     return Hero(
                                       tag: "menu-${favMenuItem.id}",
                                       child: MenuItemGridCard(
-                                        onTap: (){
-                                          Navigator.pushNamed(
-                                              context,
-                                              RoutesName
-                                                  .MENU_ITEM_DETAILS_SCREEN_ROUTE,
-                                              arguments: favMenuItem);
-                                        },
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                RoutesName
+                                                    .MENU_ITEM_DETAILS_SCREEN_ROUTE,
+                                                arguments: favMenuItem);
+                                          },
                                           image: favMenuItem.image ?? "",
                                           name: favMenuItem.name ?? "",
                                           price: favMenuItem.price != null
                                               ? double.parse(favMenuItem.price!)
                                               : 0.0,
                                           rating: favMenuItem.rating != null
-                                              ? double.parse(favMenuItem.rating!)
+                                              ? double.parse(
+                                                  favMenuItem.rating!)
                                               : 0.0,
                                           isFavorite: true,
                                           isVeg: favMenuItem.isVeg!),
