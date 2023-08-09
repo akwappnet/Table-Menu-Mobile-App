@@ -5,7 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +15,7 @@ import 'package:table_menu_customer/utils/constants/constants_text.dart';
 import 'package:table_menu_customer/utils/helpers.dart';
 import 'package:table_menu_customer/utils/routes/routes.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
+import 'package:table_menu_customer/utils/services/notification_service.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
 import 'package:table_menu_customer/view/login_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
@@ -29,7 +29,7 @@ import 'package:table_menu_customer/view_model/qr_provider.dart';
 
 import 'app_localizations.dart';
 import 'firebase_options.dart';
-import 'view_model/AppLanguage.dart';
+import 'view_model/app_language_provider.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -46,42 +46,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await PushNotificationService().setupInteractedMessage();
   Stripe.publishableKey = stripePublishableKey;
   await dotenv.load(fileName: "assets/.env");
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
   NetworkApiService().setupInterceptors();
   final AuthRepository authRepository = AuthRepository();
   String loggedIn = await authRepository.isLoggedIn();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
-  runApp(MyApp(loggedIn: loggedIn, appLanguage: appLanguage));
+  runApp(MyApp(
+    loggedIn: loggedIn,
+    appLanguage: appLanguage,
+  ));
 }
-
-/// push notification configuration
-
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel', // id
-    'High Importance Notifications', // title
-    description: 'This channel is used for important notifications.',
-    // description
-    importance: Importance.high,
-    enableLights: true,
-    enableVibration: true,
-    showBadge: true,
-    playSound: true);
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.loggedIn, required this.appLanguage});
@@ -100,71 +78,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    var initialzationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
-    var initializationSettings =
-        InitializationSettings(android: initialzationSettingsAndroid);
-    flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channelDescription: channel.description,
-                color: Colors.purple,
-                enableLights: true,
-                enableVibration: true,
-                importance: Importance.high,
-                playSound: true,
-                ledOnMs: 1,
-                ledOffMs: 2,
-                ledColor: Colors.green,
-                priority: Priority.high,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: "@mipmap/ic_launcher",
-                channelShowBadge: true,
-              ),
-            ));
-      }
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification!.android;
-      if (notification != null && android != null) {
-        showDialog(
-            // context: context,
-            builder: (_) {
-              return AlertDialog(
-                title: Text(notification.title!),
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [Text(notification.body!)],
-                  ),
-                ),
-              );
-            },
-            context: context);
-      }
-    });
-
-    getToken();
-  }
-
-  late String token;
-
-  getToken() async {
-    token = (await FirebaseMessaging.instance.getToken())!;
   }
 
   @override
@@ -184,10 +97,10 @@ class _MyAppState extends State<MyApp> {
         ),
       ],
       child: Consumer<AppLanguage>(
-        builder: (context, model, child) {
-          log(model.appLocal.toString());
+        builder: (context, appLanguage, child) {
+          log(appLanguage.appLocal.toString());
           return ChangeNotifierProvider<AppLanguage>.value(
-            value: model,
+            value: appLanguage,
             child: MaterialApp(
               title: APPNAME,
               theme: ThemeData(
@@ -216,7 +129,7 @@ class _MyAppState extends State<MyApp> {
               ),
               onGenerateRoute: Routes.generateRoute,
               navigatorKey: AppContext.navigatorKey,
-              locale: model.appLocal,
+              locale: appLanguage.appLocal,
               supportedLocales: const [
                 Locale('en', 'US'),
                 Locale('ar', ''),

@@ -11,27 +11,28 @@ import '../view_model/order_provider.dart';
 import 'feedback_screeen/widget/add_feedback_dialog.dart';
 
 class PaymentSuccessfulScreen extends StatefulWidget {
-  const PaymentSuccessfulScreen({super.key,this.orderID});
+  const PaymentSuccessfulScreen({super.key, this.orderID});
   final int? orderID;
 
   @override
-  State<PaymentSuccessfulScreen> createState() => _PaymentSuccessfulScreenState();
+  State<PaymentSuccessfulScreen> createState() =>
+      _PaymentSuccessfulScreenState();
 }
 
 class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
-
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      Provider.of<OrderProvider>(context,listen: false).changePaymentStatus(order_id: widget.orderID!, context: context);
+      Provider.of<OrderProvider>(context, listen: false)
+          .changePaymentStatus(order_id: widget.orderID!, context: context);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderProvider>(
-      builder: (context,order_provider,__){
+      builder: (context, orderProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -54,17 +55,35 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Hero(tag: "payment",child: Image.asset(AssetsUtils.ASSETS_SUCCESS_IMAGE,height: hp(30, context),width: wp(40, context),)),
-                  Text(AppLocalizations.of(context).translate('woohoo_text'),style: smallTitleTextStyle,),
-                  SizedBox(height: hp(1, context),),
-                  Text(AppLocalizations.of(context).translate('payment_success_message'), style: smallRegularStyle,),
-                  SizedBox(height: hp(2, context),),
+                  Hero(
+                      tag: "payment",
+                      child: Image.asset(
+                        AssetsUtils.ASSETS_SUCCESS_IMAGE,
+                        height: hp(30, context),
+                        width: wp(40, context),
+                      )),
+                  Text(
+                    AppLocalizations.of(context).translate('woohoo_text'),
+                    style: smallTitleTextStyle,
+                  ),
+                  SizedBox(
+                    height: hp(1, context),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)
+                        .translate('payment_success_message'),
+                    style: smallRegularStyle,
+                  ),
+                  SizedBox(
+                    height: hp(2, context),
+                  ),
                 ],
               ),
             ),
           ),
           bottomNavigationBar: Padding(
-            padding: EdgeInsets.symmetric(horizontal: wp(1.5, context),vertical: hp(1.5, context)),
+            padding: EdgeInsets.symmetric(
+                horizontal: wp(1.5, context), vertical: hp(1.5, context)),
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: hp(7.5, context),
@@ -75,8 +94,11 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
                     builder: (BuildContext context) {
                       return CustomDialogBox(
                         addFeedback: () {
-                          order_provider.changePaymentStatus(order_id: widget.orderID!, context: context);
-                          Navigator.pushReplacementNamed(context, RoutesName.FEEDBACK_SCREEN_ROUTE,arguments: widget.orderID);
+                          orderProvider.changePaymentStatus(
+                              order_id: widget.orderID!, context: context);
+                          Navigator.pushReplacementNamed(
+                              context, RoutesName.FEEDBACK_SCREEN_ROUTE,
+                              arguments: widget.orderID);
                         },
                         onClosePressed: () {
                           Navigator.of(context).pop();
@@ -85,9 +107,10 @@ class _PaymentSuccessfulScreenState extends State<PaymentSuccessfulScreen> {
                     },
                   );
                 },
-                child:  Text(AppLocalizations.of(context).translate('continue'), style: textBodyStyle.copyWith(
-                    color: Colors.white
-                ),),
+                child: Text(
+                  AppLocalizations.of(context).translate('continue'),
+                  style: textBodyStyle.copyWith(color: Colors.white),
+                ),
               ),
             ),
           ),

@@ -1,50 +1,45 @@
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
-import '../utils/constants/api_endpoints.dart';
+import '../utils/services/api_endpoints.dart';
 
 class UserInfoRepository {
-
   final BaseApiService _apiService = NetworkApiService();
 
-  saveUserInfo(dynamic data) {
-
+  saveUserInfo(dynamic data) async {
     try {
-      return _apiService.getPostApiResponse(
-          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint, data);
+      return await _apiService.getPostApiResponse(
+          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint,
+          data);
     } catch (e) {
       rethrow;
     }
   }
 
-  getUserInfo() {
-    try{
-      return _apiService.getGetApiResponse(
-          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
-      );
+  getUserInfo() async {
+    try {
+      return await _apiService.getGetApiResponse(
+          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint);
     } catch (e) {
       rethrow;
     }
   }
 
-  updateUserInfo(dynamic data) {
-    try{
-      return _apiService.getPatchApiResponse(
-        ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint,
-        data
-      );
+  updateUserInfo(dynamic data) async {
+    try {
+      return await _apiService.getPatchApiResponse(
+          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint,
+          data);
     } catch (e) {
       rethrow;
     }
   }
 
-  deleteUserInfo() {
-    try{
-      return _apiService.getDeleteApiResponse(
-          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint
-      );
-    }  catch (e) {
+  deleteUserInfo() async {
+    try {
+      return await _apiService.getDeleteApiResponse(
+          ApiEndPoint.baseUrl + ApiEndPoint.userInfoEndPoint.userInfoEndpoint);
+    } catch (e) {
       rethrow;
     }
   }
-
 }

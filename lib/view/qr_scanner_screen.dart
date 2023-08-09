@@ -1,15 +1,16 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
+
 import '../app_localizations.dart';
 import '../utils/font/text_style.dart';
 import '../utils/widgets/custom_button.dart';
 
 class QRScannerScreen extends StatefulWidget {
-
   const QRScannerScreen({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +21,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   QRViewController? controller;
 
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
-
 
   @override
   void reassemble() {
@@ -64,8 +64,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                     Text(
-                       AppLocalizations.of(context).translate('scan_qr_code'),
+                    Text(
+                      AppLocalizations.of(context).translate('scan_qr_code'),
                       style: textBodyStyle.copyWith(color: Colors.white),
                     ),
                     SizedBox(height: hp(2, context)),
@@ -73,7 +73,10 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child:  Text(AppLocalizations.of(context).translate('cancel'),  style: textBodyStyle.copyWith(color: Colors.white),),
+                      child: Text(
+                        AppLocalizations.of(context).translate('cancel'),
+                        style: textBodyStyle.copyWith(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),
@@ -86,21 +89,21 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    final qr_provider = Provider.of<QRProvider>(context, listen: false);
-    this.controller=controller;
+    final qrProvider = Provider.of<QRProvider>(context, listen: false);
+    this.controller = controller;
     controller.scannedDataStream.listen((scanData) async {
-      qr_provider.getDataFromQR(scanData.code.toString());
-      Future.delayed(const Duration(seconds: 2), (){
+      qrProvider.getDataFromQR(scanData.code.toString());
+      Future.delayed(const Duration(seconds: 2), () {
         Navigator.pop(context);
       });
       controller.pauseCamera();
       controller.resumeCamera();
     });
   }
+
   @override
   void dispose() {
     super.dispose();
     controller?.dispose();
   }
-
 }

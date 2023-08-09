@@ -10,7 +10,7 @@ import '../model/menuItem_model.dart';
 import '../utils/helpers.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
-class MenuProvider extends ChangeNotifier {
+class MenuProvider with ChangeNotifier {
   int isSelectedIndex = -1;
   String categoryName = "";
   List<CategoryData> categories = [];
@@ -106,29 +106,29 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  String _generateFilterQuery() {
-    List<String> filters = [];
-    if (filterOptions.isNew) filters.add('menu_item_types=new');
-    if (filterOptions.isPopular) filters.add('menu_item_types=popular');
-    if (filterOptions.isSpecial) filters.add('menu_item_types=special');
-    if (filterOptions.isVeg) filters.add('menu_item_types=veg');
-    if (filterOptions.isNonVeg) filters.add('menu_item_types=non_veg');
-    if (filterOptions.isSweet) filters.add('menu_item_types=sweet');
-    if (filterOptions.isSpicy) filters.add('menu_item_types=spicy');
-
-    if (filterOptions.selectedRatings.isNotEmpty) {
-      String ratingFilter =
-          'menu_item_ratings=${filterOptions.selectedRatings.join(',')}';
-      filters.add(ratingFilter);
-    }
-
-    if (filterOptions.sortByPriceHighToLow)
-      filters.add('sort_by_price=high_to_low');
-    if (filterOptions.sortByPriceLowToHigh)
-      filters.add('sort_by_price=low_to_high');
-
-    return filters.join(',');
-  }
+  // String _generateFilterQuery() {
+  //   List<String> filters = [];
+  //   if (filterOptions.isNew) filters.add('menu_item_types=new');
+  //   if (filterOptions.isPopular) filters.add('menu_item_types=popular');
+  //   if (filterOptions.isSpecial) filters.add('menu_item_types=special');
+  //   if (filterOptions.isVeg) filters.add('menu_item_types=veg');
+  //   if (filterOptions.isNonVeg) filters.add('menu_item_types=non_veg');
+  //   if (filterOptions.isSweet) filters.add('menu_item_types=sweet');
+  //   if (filterOptions.isSpicy) filters.add('menu_item_types=spicy');
+  //
+  //   if (filterOptions.selectedRatings.isNotEmpty) {
+  //     String ratingFilter =
+  //         'menu_item_ratings=${filterOptions.selectedRatings.join(',')}';
+  //     filters.add(ratingFilter);
+  //   }
+  //
+  //   if (filterOptions.sortByPriceHighToLow)
+  //     filters.add('sort_by_price=high_to_low');
+  //   if (filterOptions.sortByPriceLowToHigh)
+  //     filters.add('sort_by_price=low_to_high');
+  //
+  //   return filters.join(',');
+  // }
 
   // get request for categories
 

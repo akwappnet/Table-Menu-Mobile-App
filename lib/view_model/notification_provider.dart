@@ -9,8 +9,7 @@ import '../app_localizations.dart';
 import '../utils/helpers.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
-class NotificationProvider extends ChangeNotifier{
-
+class NotificationProvider with ChangeNotifier {
   NotificationRepository notificationRepository = NotificationRepository();
 
   List<NotificationData> notificationList = [];
@@ -29,20 +28,26 @@ class NotificationProvider extends ChangeNotifier{
   getAllNotification(BuildContext context) {
     notificationRepository.getNotifications().then((response) {
       setLoading(true);
-      if(response != null) {
+      if (response != null) {
         if (response.statusCode == 200) {
-            NotificationModel notificationModel = NotificationModel.fromJson(response.data);
-            notificationList = notificationModel.notificationData!;
-            setLoading(false);
-            notifyListeners();
+          NotificationModel notificationModel =
+              NotificationModel.fromJson(response.data);
+          notificationList = notificationModel.notificationData!;
+          setLoading(false);
+          notifyListeners();
         } else {
           setLoading(false);
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
+      } else {
         setLoading(false);
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -53,19 +58,25 @@ class NotificationProvider extends ChangeNotifier{
 
   // delete notification
 
-  deleteSingleNotification(int id,BuildContext context) {
+  deleteSingleNotification(int id, BuildContext context) {
     notificationRepository.deleteSingleNotification(id).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data["status"] == true) {
           notificationList.removeWhere((item) => item.id == id);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -78,18 +89,24 @@ class NotificationProvider extends ChangeNotifier{
 
   deleteAllNotification(BuildContext context) {
     notificationRepository.deleteAllNotification().then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data["status"] == true) {
           notificationList.clear();
           getAllNotification(context);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -99,21 +116,27 @@ class NotificationProvider extends ChangeNotifier{
   }
 
   // mark as read notification
-  markAsReadNotification(int id,BuildContext context) {
+  markAsReadNotification(int id, BuildContext context) {
     notificationRepository.markAsReadNotification(id).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data["status"] == true) {
           getAllNotification(context);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
-            Provider.of<NavProvider>(context,listen: false).changeIndex(2);
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
+            Provider.of<NavProvider>(context, listen: false).changeIndex(2);
             Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {

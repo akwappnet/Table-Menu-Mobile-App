@@ -13,7 +13,7 @@ import '../utils/helpers.dart';
 import '../utils/routes/routes_name.dart';
 import '../utils/widgets/custom_flushbar_widget.dart';
 
-class OrderProvider extends ChangeNotifier {
+class OrderProvider with ChangeNotifier {
   final OrderRepository _orderRepository = OrderRepository();
 
   bool _loading = false;
@@ -29,6 +29,13 @@ class OrderProvider extends ChangeNotifier {
 
   OrderTrackingData? orderTrackingData;
   PlaceorderData? placeorderData;
+
+  String cookingInstruction = "";
+
+  void updateCookingInstruction(String instruction) {
+    cookingInstruction = instruction;
+    notifyListeners();
+  }
 
   setLoading(bool value) {
     _loading = value;
@@ -173,8 +180,6 @@ class OrderProvider extends ChangeNotifier {
           OrderTrackingModel orderTrackingModel =
               OrderTrackingModel.fromJson(response.data);
           orderTrackingData = orderTrackingModel.orderTrackingData?.first;
-          CustomFlushbar.showSuccess(context, response.data['message'],
-              onDismissed: () {});
           notifyListeners();
         } else if (response.data['status'] == false) {
           CustomFlushbar.showError(context, response.data['message'],
@@ -195,13 +200,13 @@ class OrderProvider extends ChangeNotifier {
     });
   }
 
-  feedback(int order_id, BuildContext context) {
+  feedback(int orderId, BuildContext context) {
     var data = {
       "rating": foodRating,
       "service_rating": serviceRating,
       "review": feedbackController.text
     };
-    _orderRepository.feedback(data, order_id).then((response) {
+    _orderRepository.feedback(data, orderId).then((response) {
       if (response != null) {
         if (response.statusCode == 200) {
           log(response.toString());

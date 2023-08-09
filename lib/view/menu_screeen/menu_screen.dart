@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -41,11 +42,11 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final qr_provider = Provider.of<QRProvider>(context);
-    final notification_provider = Provider.of<NotificationProvider>(context);
-    qr_provider.getVisibilityOfMenu();
+    final qrProvider = Provider.of<QRProvider>(context);
+    final notificationProvider = Provider.of<NotificationProvider>(context);
+    qrProvider.getVisibilityOfMenu();
     return Consumer<MenuProvider>(
-      builder: (_, menu_provider, __) {
+      builder: (_, menuProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -56,9 +57,9 @@ class _MenuScreenState extends State<MenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Consumer<AuthProvider>(
-                  builder: (_, auth_provider, __) {
+                  builder: (_, authProvider, __) {
                     return Text(
-                      "${AppLocalizations.of(context).translate('hello')} ${auth_provider.user_name}",
+                      "${AppLocalizations.of(context).translate('hello')} ${authProvider.user_name}",
                       style: smallTitleTextStyle.copyWith(
                           fontFamily: fontSemiBold),
                     );
@@ -76,7 +77,7 @@ class _MenuScreenState extends State<MenuScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  notification_provider.getAllNotification(context);
+                  notificationProvider.getAllNotification(context);
                   Navigator.pushNamed(
                       context, RoutesName.NOTIFICATION_SCREEN_ROUTE);
                 },
@@ -88,250 +89,301 @@ class _MenuScreenState extends State<MenuScreen> {
             ],
           ),
           body: SafeArea(
-            child: menu_provider.menuitems.isNotEmpty ||
-                    menu_provider.categories.isNotEmpty
-                ? (qr_provider.isVisible)
+            child: menuProvider.menuitems.isNotEmpty ||
+                    menuProvider.categories.isNotEmpty
+                ? (qrProvider.isVisible)
                     ? Container(
                         margin: EdgeInsets.symmetric(
                             vertical: hp(1, context),
                             horizontal: wp(1, context)),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "${AppLocalizations.of(context).translate('categories')} (${menu_provider.categories.length})",
-                                  style: smallTitleTextStyle,
-                                ),
-                                const Spacer(),
-                                // IconButton(
-                                //   onPressed: () {
-                                //     filtersBottomSheet(context);
-                                //   },
-                                //   icon: Image.asset(
-                                //       AssetsUtils.ASSETS_FILTERS_ICON,
-                                //       height: hp(4, context),
-                                //       width: wp(5, context)),
-                                // )
-                              ],
-                            ),
-                            SizedBox(
-                              height: hp(0.5, context),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: (menu_provider.loading)
-                                  ? Center(
-                                      child: Lottie.asset(
-                                        AssetsUtils
-                                            .ASSETS_LOADING_PURPLE_ANIMATION,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.fill,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CarouselSlider.builder(
+                                itemCount: AssetsUtils.bannerImageList.length,
+                                itemBuilder: ((context, index, realIndex) {
+                                  return GestureDetector(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              BORDER_RADIUS),
+                                          border: Border.all(
+                                            color: Colors.white,
+                                          )),
+                                      //ClipRRect for image border radius
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                            BORDER_RADIUS),
+                                        child: Image.asset(
+                                          AssetsUtils.bannerImageList[index],
+                                          width: wp(70, context),
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                    )
-                                  : ListView(
-                                      scrollDirection: Axis.horizontal,
-                                      shrinkWrap: true,
-                                      children: <Widget>[
-                                        GestureDetector(
-                                          onTap: () {
-                                            menu_provider.selectCategory(-1);
-                                            menu_provider.setCategoryName(
-                                                "", context);
-                                          },
-                                          child: Container(
-                                            margin: const EdgeInsets.only(
-                                                left: 8.0,
-                                                right: 8.0,
-                                                top: 8.0),
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(15)),
-                                                color: menu_provider
-                                                            .isSelectedIndex ==
-                                                        -1
-                                                    ? Colors.grey.shade300
-                                                    : Colors.white),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Container(
-                                                  margin: const EdgeInsets
-                                                      .symmetric(horizontal: 4),
-                                                  child: CircleAvatar(
-                                                    radius: 38,
-                                                    child: CustomText(
-                                                      text: AppLocalizations.of(
-                                                              context)
-                                                          .translate('a'),
-                                                      size: 50,
-                                                      weight: FontWeight.bold,
+                                    ),
+                                    onTap: () {},
+                                  );
+                                }),
+                                options: CarouselOptions(
+                                  enlargeCenterPage: true,
+                                  height: hp(20, context),
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  reverse: false,
+                                  enableInfiniteScroll: true,
+                                  aspectRatio: 5.0,
+                                ),
+                              ),
+                              SizedBox(height: hp(1, context)),
+                              Row(
+                                children: [
+                                  Text(
+                                    "${AppLocalizations.of(context).translate('categories')} (${menuProvider.categories.length})",
+                                    style: smallTitleTextStyle,
+                                  ),
+                                  const Spacer(),
+                                  // IconButton(
+                                  //   onPressed: () {
+                                  //     filtersBottomSheet(context);
+                                  //   },
+                                  //   icon: Image.asset(
+                                  //       AssetsUtils.ASSETS_FILTERS_ICON,
+                                  //       height: hp(4, context),
+                                  //       width: wp(5, context)),
+                                  // )
+                                ],
+                              ),
+                              SizedBox(
+                                height: hp(0.5, context),
+                              ),
+                              SizedBox(
+                                height: hp(18, context),
+                                child: (menuProvider.loading)
+                                    ? Center(
+                                        child: Lottie.asset(
+                                          AssetsUtils
+                                              .ASSETS_LOADING_PURPLE_ANIMATION,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )
+                                    : ListView(
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: true,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () {
+                                              menuProvider.selectCategory(-1);
+                                              menuProvider.setCategoryName(
+                                                  "", context);
+                                            },
+                                            child: Container(
+                                              margin: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  right: 8.0,
+                                                  top: 8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(15)),
+                                                  color: menuProvider
+                                                              .isSelectedIndex ==
+                                                          -1
+                                                      ? Colors.grey.shade300
+                                                      : Colors.white),
+                                              child: Column(
+                                                children: <Widget>[
+                                                  Container(
+                                                    margin: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 4),
+                                                    child: CircleAvatar(
+                                                      radius: 38,
+                                                      child: CustomText(
+                                                        text:
+                                                            AppLocalizations.of(
+                                                                    context)
+                                                                .translate('a'),
+                                                        size: 50,
+                                                        weight: FontWeight.bold,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 2,
-                                                ),
-                                                Text(
-                                                  AppLocalizations.of(context)
-                                                      .translate('all'),
-                                                  style: textBodyStyle,
-                                                )
-                                              ],
+                                                  const SizedBox(
+                                                    height: 2,
+                                                  ),
+                                                  Text(
+                                                    AppLocalizations.of(context)
+                                                        .translate('all'),
+                                                    style: textBodyStyle,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
+                                          ListView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: menuProvider
+                                                  .categories.length,
+                                              itemBuilder: (context, index) {
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    menuProvider
+                                                        .selectCategory(index);
+                                                    menuProvider
+                                                        .setCategoryName(
+                                                            menuProvider
+                                                                .categories[
+                                                                    index]
+                                                                .categoryName!,
+                                                            context);
+                                                  },
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 8.0,
+                                                            right: 8.0,
+                                                            top: 8.0),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                .all(
+                                                                Radius.circular(
+                                                                    15)),
+                                                        color: menuProvider
+                                                                    .isSelectedIndex ==
+                                                                index
+                                                            ? Colors
+                                                                .grey.shade200
+                                                            : Colors.white),
+                                                    child: Column(
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      4),
+                                                          child: CircleAvatar(
+                                                            backgroundImage:
+                                                                NetworkImage(menuProvider
+                                                                    .categories[
+                                                                        index]
+                                                                    .categoryImg
+                                                                    .toString()),
+                                                            radius: 38,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 2,
+                                                        ),
+                                                        Text(
+                                                          menuProvider
+                                                              .categories[index]
+                                                              .categoryName!,
+                                                          style: textBodyStyle,
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }),
+                                        ],
+                                      ),
+                              ),
+                              SizedBox(
+                                height: hp(1, context),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    AppLocalizations.of(context)
+                                        .translate('menu_items'),
+                                    style: smallTitleTextStyle,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: hp(1, context),
+                              ),
+                              Flexible(
+                                child: (menuProvider.loading)
+                                    ? Center(
+                                        child: Lottie.asset(
+                                          AssetsUtils
+                                              .ASSETS_LOADING_PURPLE_ANIMATION,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fill,
                                         ),
-                                        ListView.builder(
-                                            shrinkWrap: true,
+                                      )
+                                    : Consumer<CartProvider>(
+                                        builder: (context, cartProvider, __) {
+                                          return GridView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
-                                            scrollDirection: Axis.horizontal,
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisCount: 2,
+                                              childAspectRatio: 0.82,
+                                            ),
                                             itemCount:
-                                                menu_provider.categories.length,
+                                                menuProvider.menuitems.length,
+                                            shrinkWrap: true,
                                             itemBuilder: (context, index) {
                                               return GestureDetector(
                                                 onTap: () {
-                                                  menu_provider
-                                                      .selectCategory(index);
-                                                  menu_provider.setCategoryName(
-                                                      menu_provider
-                                                          .categories[index]
-                                                          .categoryName!,
-                                                      context);
+                                                  Navigator.pushNamed(
+                                                      context,
+                                                      RoutesName
+                                                          .MENU_ITEM_DETAILS_SCREEN_ROUTE,
+                                                      arguments: menuProvider
+                                                          .menuitems[index]);
                                                 },
-                                                child: Container(
-                                                  margin: const EdgeInsets.only(
-                                                      left: 8.0,
-                                                      right: 8.0,
-                                                      top: 8.0),
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .all(
-                                                              Radius.circular(
-                                                                  15)),
-                                                      color: menu_provider
-                                                                  .isSelectedIndex ==
-                                                              index
-                                                          ? Colors.grey.shade200
-                                                          : Colors.white),
-                                                  child: Column(
-                                                    children: <Widget>[
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .symmetric(
-                                                            horizontal: 4),
-                                                        child: CircleAvatar(
-                                                          backgroundImage:
-                                                              NetworkImage(
-                                                                  menu_provider
-                                                                      .categories[
-                                                                          index]
-                                                                      .categoryImg
-                                                                      .toString()),
-                                                          radius: 38,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 2,
-                                                      ),
-                                                      Text(
-                                                        menu_provider
-                                                            .categories[index]
-                                                            .categoryName!,
-                                                        style: textBodyStyle,
-                                                      )
-                                                    ],
+                                                child: Hero(
+                                                  tag:
+                                                      "menu-${menuProvider.menuitems[index].id}",
+                                                  child: MenuItemGridCard(
+                                                    image: menuProvider
+                                                        .menuitems[index].image
+                                                        .toString(),
+                                                    name: menuProvider
+                                                        .menuitems[index].name
+                                                        .toString(),
+                                                    price: double.parse(
+                                                        menuProvider
+                                                            .menuitems[index]
+                                                            .price!),
+                                                    rating: double.parse(
+                                                        menuProvider
+                                                                .menuitems[
+                                                                    index]
+                                                                .rating ??
+                                                            "0.0"),
+                                                    isVeg: menuProvider
+                                                        .menuitems[index]
+                                                        .isVeg!,
                                                   ),
                                                 ),
                                               );
-                                            }),
-                                      ],
-                                    ),
-                            ),
-                            SizedBox(
-                              height: hp(1, context),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  AppLocalizations.of(context)
-                                      .translate('menu_items'),
-                                  style: smallTitleTextStyle,
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: hp(1, context),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: (menu_provider.loading)
-                                  ? Center(
-                                      child: Lottie.asset(
-                                        AssetsUtils
-                                            .ASSETS_LOADING_PURPLE_ANIMATION,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.fill,
+                                            },
+                                          );
+                                        },
                                       ),
-                                    )
-                                  : Consumer<CartProvider>(
-                                      builder: (context, cart_provider, __) {
-                                        return GridView.builder(
-                                          gridDelegate:
-                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 2,
-                                            childAspectRatio: 0.82,
-                                          ),
-                                          itemCount:
-                                              menu_provider.menuitems.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            return GestureDetector(
-                                              onTap: () {
-                                                Navigator.pushNamed(
-                                                    context,
-                                                    RoutesName
-                                                        .MENU_ITEM_DETAILS_SCREEN_ROUTE,
-                                                    arguments: menu_provider
-                                                        .menuitems[index]);
-                                              },
-                                              child: Hero(
-                                                tag:
-                                                    "menu-${menu_provider.menuitems[index].id}",
-                                                child: MenuItemGridCard(
-                                                  image: menu_provider
-                                                      .menuitems[index].image
-                                                      .toString(),
-                                                  name: menu_provider
-                                                      .menuitems[index].name
-                                                      .toString(),
-                                                  price: double.parse(
-                                                      menu_provider
-                                                          .menuitems[index]
-                                                          .price!),
-                                                  rating: double.parse(
-                                                      menu_provider
-                                                              .menuitems[index]
-                                                              .rating ??
-                                                          "0.0"),
-                                                  isVeg: menu_provider
-                                                      .menuitems[index].isVeg!,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         ),
                       )
                     : Center(

@@ -1,24 +1,24 @@
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
 
-import '../utils/constants/api_endpoints.dart';
+import '../utils/services/api_endpoints.dart';
 
 class MenuRepository {
   final BaseApiService _apiService = NetworkApiService();
 
-  getCategories() {
+  getCategories() async {
     try {
-      return _apiService.getGetApiResponse(
+      return await _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.categoryEndPoint);
     } catch (e) {
       rethrow;
     }
   }
 
-  getMenuItems(String category_name) {
+  getMenuItems(String category_name) async {
     var queryParams = {'query': category_name};
     try {
-      return _apiService.getGetApiResponseWithParams(
+      return await _apiService.getGetApiResponseWithParams(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.filterEndPoint,
           queryParams);
     } catch (e) {
@@ -26,10 +26,10 @@ class MenuRepository {
     }
   }
 
-  filterMenuItems(String query) {
+  filterMenuItems(String query) async {
     var queryParams = {'query': query};
     try {
-      return _apiService.getGetApiResponseWithParams(
+      return await _apiService.getGetApiResponseWithParams(
           ApiEndPoint.baseUrl + ApiEndPoint.menuEndPoint.menuItemEndPoint,
           queryParams);
     } catch (e) {
@@ -37,9 +37,9 @@ class MenuRepository {
     }
   }
 
-  getMenuItemByID(int id) {
+  getMenuItemByID(int id) async {
     try {
-      return _apiService.getGetApiResponse(
+      return await _apiService.getGetApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.menuEndPoint.menuItemEndPoint}$id/");
     } catch (e) {
       rethrow;
@@ -47,10 +47,10 @@ class MenuRepository {
   }
 
   // for add menu items to favorites
-  addToFavoriteMenuItem(int id) {
+  addToFavoriteMenuItem(int id) async {
     var data = {};
     try {
-      return _apiService.getPatchApiResponse(
+      return await _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.menuEndPoint.menuItemEndPoint}$id/",
           data);
     } catch (e) {

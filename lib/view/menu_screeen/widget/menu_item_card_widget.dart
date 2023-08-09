@@ -61,7 +61,9 @@ class MenuItemGridCard extends StatelessWidget {
                     Row(
                       children: [
                         SizedBox(
-                          width: wp(36, context),
+                          width: isFavorite == true
+                              ? wp(31, context)
+                              : wp(36, context),
                           child: Text(
                             name,
                             style: textBodyStyle.copyWith(fontSize: 20),
@@ -140,12 +142,12 @@ class MenuItemGridCard extends StatelessWidget {
                             width: wp(100, context),
                             height: hp(4.5, context),
                             child: CustomButton(
+                                onPressed: onTap!,
                                 child: Text(
                                   AppLocalizations.of(context)
                                       .translate('order'),
                                   style: textSmallRegularStyle,
-                                ),
-                                onPressed: onTap!),
+                                )),
                           )
                         : const SizedBox.shrink(),
                   ],

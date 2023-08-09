@@ -44,8 +44,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
       body: SafeArea(
         child: Center(
           child: Consumer<OrderProvider>(
-            builder: (context, order_provider, __) {
-              return order_provider.loading
+            builder: (context, orderProvider, __) {
+              return orderProvider.loading
                   ? Center(
                       child: Lottie.asset(
                         AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
@@ -57,21 +57,23 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   : Column(
                       children: [
                         Expanded(
-                          child: (order_provider.orderList.isEmpty)
+                          child: (orderProvider.orderList.isEmpty)
                               ? Container(
-                            alignment: Alignment.center,
-                                child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    PlaceholderWidget(title: AppLocalizations.of(context).translate('no_orders')),
-                                  ],
-                                ),
-                              )
+                                  alignment: Alignment.center,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      PlaceholderWidget(
+                                          title: AppLocalizations.of(context)
+                                              .translate('no_orders')),
+                                    ],
+                                  ),
+                                )
                               : ListView.builder(
-                                  itemCount: order_provider.orderList.length,
+                                  itemCount: orderProvider.orderList.length,
                                   scrollDirection: Axis.vertical,
                                   itemBuilder: (context, index) {
-                                    var order = order_provider.orderList[index];
+                                    var order = orderProvider.orderList[index];
                                     return OrderItemCardWidget(
                                       orderData: order,
                                       cancelCallback: () {
@@ -79,11 +81,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           context: context,
                                           builder: (BuildContext context) {
                                             return CustomConfirmationDialog(
-                                              title: AppLocalizations.of(context).translate('cancel_order'),
-                                              message:
-                                              AppLocalizations.of(context).translate('cancel_order_message'),
+                                              title: AppLocalizations.of(
+                                                      context)
+                                                  .translate('cancel_order'),
+                                              message: AppLocalizations.of(
+                                                      context)
+                                                  .translate(
+                                                      'cancel_order_message'),
                                               onConfirm: () async {
-                                                order_provider.cancelOrder(
+                                                orderProvider.cancelOrder(
                                                     order.id!, context);
                                                 Navigator.of(context).pop();
                                               },

@@ -21,7 +21,7 @@ filtersBottomSheet(context) {
     context: context,
     builder: (BuildContext context) {
       return Consumer<MenuProvider>(
-        builder: (context, menu_provider, __) {
+        builder: (context, menuProvider, __) {
           return Wrap(
             children: [
               Container(
@@ -70,115 +70,113 @@ filtersBottomSheet(context) {
                         children: [
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleNewFilter();
+                              menuProvider.toggleNewFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isNew
+                            borderColor: menuProvider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.black,
                             itemText:
                                 AppLocalizations.of(context).translate('new'),
-                            containerColor: menu_provider.filterOptions.isNew
+                            containerColor: menuProvider.filterOptions.isNew
                                 ? Colors.purple
                                 : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isNew
+                            textColor: menuProvider.filterOptions.isNew
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.togglePopularFilter();
+                              menuProvider.togglePopularFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isPopular
+                            borderColor: menuProvider.filterOptions.isPopular
                                 ? Colors.purple
                                 : Colors.black,
                             itemText: AppLocalizations.of(context)
                                 .translate('popular'),
-                            containerColor:
-                                menu_provider.filterOptions.isPopular
-                                    ? Colors.purple
-                                    : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isPopular
+                            containerColor: menuProvider.filterOptions.isPopular
+                                ? Colors.purple
+                                : Colors.transparent,
+                            textColor: menuProvider.filterOptions.isPopular
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleSpecialFilter();
+                              menuProvider.toggleSpecialFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isSpecial
+                            borderColor: menuProvider.filterOptions.isSpecial
                                 ? Colors.purple
                                 : Colors.black,
                             itemText: AppLocalizations.of(context)
                                 .translate('special'),
-                            containerColor:
-                                menu_provider.filterOptions.isSpecial
-                                    ? Colors.purple
-                                    : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isSpecial
+                            containerColor: menuProvider.filterOptions.isSpecial
+                                ? Colors.purple
+                                : Colors.transparent,
+                            textColor: menuProvider.filterOptions.isSpecial
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleVegFilter();
+                              menuProvider.toggleVegFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isVeg
+                            borderColor: menuProvider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.black,
                             itemText:
                                 AppLocalizations.of(context).translate('veg'),
-                            containerColor: menu_provider.filterOptions.isVeg
+                            containerColor: menuProvider.filterOptions.isVeg
                                 ? Colors.purple
                                 : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isVeg
+                            textColor: menuProvider.filterOptions.isVeg
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleNonVegFilter();
+                              menuProvider.toggleNonVegFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isNonVeg
+                            borderColor: menuProvider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.black,
                             itemText: AppLocalizations.of(context)
                                 .translate('non_veg'),
-                            containerColor: menu_provider.filterOptions.isNonVeg
+                            containerColor: menuProvider.filterOptions.isNonVeg
                                 ? Colors.purple
                                 : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isNonVeg
+                            textColor: menuProvider.filterOptions.isNonVeg
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleSweetFilter();
+                              menuProvider.toggleSweetFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isSweet
+                            borderColor: menuProvider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.black,
                             itemText:
                                 AppLocalizations.of(context).translate('sweet'),
-                            containerColor: menu_provider.filterOptions.isSweet
+                            containerColor: menuProvider.filterOptions.isSweet
                                 ? Colors.purple
                                 : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isSweet
+                            textColor: menuProvider.filterOptions.isSweet
                                 ? Colors.white
                                 : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              menu_provider.toggleSpicyFilter();
+                              menuProvider.toggleSpicyFilter();
                             },
-                            borderColor: menu_provider.filterOptions.isSpicy
+                            borderColor: menuProvider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.black,
                             itemText:
                                 AppLocalizations.of(context).translate('spicy'),
-                            containerColor: menu_provider.filterOptions.isSpicy
+                            containerColor: menuProvider.filterOptions.isSpicy
                                 ? Colors.purple
                                 : Colors.transparent,
-                            textColor: menu_provider.filterOptions.isSpicy
+                            textColor: menuProvider.filterOptions.isSpicy
                                 ? Colors.white
                                 : Colors.black,
                           ),
@@ -193,91 +191,91 @@ filtersBottomSheet(context) {
                         children: [
                           FilterRatingItemWidget(
                             onTap: () {
-                              menu_provider.toggleRatingFilter(1);
+                              menuProvider.toggleRatingFilter(1);
                             },
                             borderColor:
-                                menu_provider.filterOptions.selectedRatings[0]
+                                menuProvider.filterOptions.selectedRatings[0]
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: '1',
                             containerColor:
-                                menu_provider.filterOptions.selectedRatings[0]
+                                menuProvider.filterOptions.selectedRatings[0]
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.selectedRatings[0]
+                                menuProvider.filterOptions.selectedRatings[0]
                                     ? Colors.white
                                     : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
-                              menu_provider.toggleRatingFilter(2);
+                              menuProvider.toggleRatingFilter(2);
                             },
                             borderColor:
-                                menu_provider.filterOptions.selectedRatings[1]
+                                menuProvider.filterOptions.selectedRatings[1]
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: '2',
                             containerColor:
-                                menu_provider.filterOptions.selectedRatings[1]
+                                menuProvider.filterOptions.selectedRatings[1]
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.selectedRatings[1]
+                                menuProvider.filterOptions.selectedRatings[1]
                                     ? Colors.white
                                     : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
-                              menu_provider.toggleRatingFilter(3);
+                              menuProvider.toggleRatingFilter(3);
                             },
                             borderColor:
-                                menu_provider.filterOptions.selectedRatings[2]
+                                menuProvider.filterOptions.selectedRatings[2]
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: '3',
                             containerColor:
-                                menu_provider.filterOptions.selectedRatings[2]
+                                menuProvider.filterOptions.selectedRatings[2]
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.selectedRatings[2]
+                                menuProvider.filterOptions.selectedRatings[2]
                                     ? Colors.white
                                     : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
-                              menu_provider.toggleRatingFilter(4);
+                              menuProvider.toggleRatingFilter(4);
                             },
                             borderColor:
-                                menu_provider.filterOptions.selectedRatings[3]
+                                menuProvider.filterOptions.selectedRatings[3]
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: '4',
                             containerColor:
-                                menu_provider.filterOptions.selectedRatings[3]
+                                menuProvider.filterOptions.selectedRatings[3]
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.selectedRatings[3]
+                                menuProvider.filterOptions.selectedRatings[3]
                                     ? Colors.white
                                     : Colors.black,
                           ),
                           FilterRatingItemWidget(
                             onTap: () {
-                              menu_provider.toggleRatingFilter(5);
+                              menuProvider.toggleRatingFilter(5);
                             },
                             borderColor:
-                                menu_provider.filterOptions.selectedRatings[4]
+                                menuProvider.filterOptions.selectedRatings[4]
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: '5',
                             containerColor:
-                                menu_provider.filterOptions.selectedRatings[4]
+                                menuProvider.filterOptions.selectedRatings[4]
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.selectedRatings[4]
+                                menuProvider.filterOptions.selectedRatings[4]
                                     ? Colors.white
                                     : Colors.black,
                           ),
@@ -292,51 +290,51 @@ filtersBottomSheet(context) {
                         children: [
                           FilterItemWidget(
                             onTap: () {
-                              if (menu_provider
+                              if (menuProvider
                                   .filterOptions.sortByPriceHighToLow) {
-                                menu_provider.toggleSortByPriceHighToLow();
-                                menu_provider.toggleSortByPriceLowToHigh();
+                                menuProvider.toggleSortByPriceHighToLow();
+                                menuProvider.toggleSortByPriceLowToHigh();
                               } else {
-                                menu_provider.toggleSortByPriceLowToHigh();
+                                menuProvider.toggleSortByPriceLowToHigh();
                               }
                             },
                             borderColor:
-                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                menuProvider.filterOptions.sortByPriceLowToHigh
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: AppLocalizations.of(context)
                                 .translate('low_high'),
                             containerColor:
-                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                menuProvider.filterOptions.sortByPriceLowToHigh
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.sortByPriceLowToHigh
+                                menuProvider.filterOptions.sortByPriceLowToHigh
                                     ? Colors.white
                                     : Colors.black,
                           ),
                           FilterItemWidget(
                             onTap: () {
-                              if (menu_provider
+                              if (menuProvider
                                   .filterOptions.sortByPriceLowToHigh) {
-                                menu_provider.toggleSortByPriceLowToHigh();
-                                menu_provider.toggleSortByPriceHighToLow();
+                                menuProvider.toggleSortByPriceLowToHigh();
+                                menuProvider.toggleSortByPriceHighToLow();
                               } else {
-                                menu_provider.toggleSortByPriceHighToLow();
+                                menuProvider.toggleSortByPriceHighToLow();
                               }
                             },
                             borderColor:
-                                menu_provider.filterOptions.sortByPriceHighToLow
+                                menuProvider.filterOptions.sortByPriceHighToLow
                                     ? Colors.purple
                                     : Colors.black,
                             itemText: AppLocalizations.of(context)
                                 .translate('high_low'),
                             containerColor:
-                                menu_provider.filterOptions.sortByPriceHighToLow
+                                menuProvider.filterOptions.sortByPriceHighToLow
                                     ? Colors.purple
                                     : Colors.transparent,
                             textColor:
-                                menu_provider.filterOptions.sortByPriceHighToLow
+                                menuProvider.filterOptions.sortByPriceHighToLow
                                     ? Colors.white
                                     : Colors.black,
                           ),

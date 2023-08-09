@@ -1,31 +1,31 @@
 import 'package:table_menu_customer/data/network/base_api_service.dart';
 import 'package:table_menu_customer/data/network/network_api_service.dart';
-import 'package:table_menu_customer/utils/constants/api_endpoints.dart';
+import 'package:table_menu_customer/utils/services/api_endpoints.dart';
 
 class CartRepository {
   final BaseApiService _apiService = NetworkApiService();
 
-  addToCart(dynamic data) {
+  addToCart(dynamic data) async {
     try {
-      return _apiService.getPostApiResponse(
+      return await _apiService.getPostApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint, data);
-    }catch (e) {
+    } catch (e) {
       rethrow;
     }
   }
 
-  getCartItems() {
+  getCartItems() async {
     try {
-      return _apiService.getGetApiResponse(
+      return await _apiService.getGetApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint);
     } catch (e) {
       rethrow;
     }
   }
 
-  updateCartItem(dynamic data, int id) {
+  updateCartItem(dynamic data, int id) async {
     try {
-      return _apiService.getPatchApiResponse(
+      return await _apiService.getPatchApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.cartEndPoint.cartEndPoint}$id/",
           data);
     } catch (e) {
@@ -33,22 +33,22 @@ class CartRepository {
     }
   }
 
-  deleteCartItem(int id) {
+  deleteCartItem(int id) async {
     try {
-      return _apiService.getDeleteApiResponse(
+      return await _apiService.getDeleteApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.cartEndPoint.cartEndPoint}$id/");
-    }  catch (e) {
+    } catch (e) {
       rethrow;
     }
   }
 
   // clear all cart items
 
-  deleteAllCartItem() {
+  deleteAllCartItem() async {
     try {
-      return _apiService.getDeleteApiResponse(
+      return await _apiService.getDeleteApiResponse(
           ApiEndPoint.baseUrl + ApiEndPoint.cartEndPoint.cartEndPoint);
-    }  catch (e) {
+    } catch (e) {
       rethrow;
     }
   }

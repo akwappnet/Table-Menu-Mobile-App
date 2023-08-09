@@ -54,7 +54,7 @@ class CartItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: wp(40, context),
+                  width: wp(32, context),
                   child: Text(
                     itemName,
                     style: smallTitleTextStyle,

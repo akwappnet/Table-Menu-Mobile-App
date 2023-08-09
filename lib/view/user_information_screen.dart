@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:table_menu_customer/utils/font/text_style.dart';
 import 'package:table_menu_customer/utils/responsive.dart';
 import 'package:table_menu_customer/utils/validation/validation.dart';
 import 'package:table_menu_customer/view/select_photo_options_screen.dart';
+
 import '../app_localizations.dart';
 import '../model/user_model.dart';
 import '../utils/widgets/custom_button.dart';
@@ -30,29 +32,29 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     if (widget.userData == null) {
       // new record
       Future.delayed(Duration.zero, () {
-        final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-        auth_provider.nameController.text = "";
-        auth_provider.phoneNoController.text = "";
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        authProvider.nameController.text = "";
+        authProvider.phoneNoController.text = "";
       });
     } else {
       // existing record update
       //State Update
       Future.delayed(Duration.zero, () {
-        final auth_provider = Provider.of<AuthProvider>(context, listen: false);
-        auth_provider.loadValues(widget.userData!);
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
+        authProvider.loadValues(widget.userData!);
       });
     }
     super.initState();
   }
 
   Future _pickImage(ImageSource source) async {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     try {
       final image = await ImagePicker().pickImage(source: source);
 
       final imageTemporary = File(image!.path);
 
-      auth_provider.setImagetemp(imageTemporary);
+      authProvider.setImagetemp(imageTemporary);
       Navigator.of(context).pop();
     } on Exception {
       Navigator.of(context).pop();
@@ -88,13 +90,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth_provider = Provider.of<AuthProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: widget.userData == null
-            ? Text(AppLocalizations.of(context).translate('enter_your_details'), style: titleTextStyle)
-            : Text(AppLocalizations.of(context).translate('update_your_details'), style: titleTextStyle),
+            ? Text(AppLocalizations.of(context).translate('enter_your_details'),
+                style: titleTextStyle)
+            : Text(
+                AppLocalizations.of(context).translate('update_your_details'),
+                style: titleTextStyle),
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0.0,
       ),
@@ -128,7 +133,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                             shape: BoxShape.rectangle,
                           ),
                           child: Center(
-                            child: auth_provider.temp_image == null
+                            child: authProvider.temp_image == null
                                 ? Column(
                                     children: [
                                       SizedBox(
@@ -146,13 +151,16 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                                       SizedBox(
                                         height: hp(2, context),
                                       ),
-                                      Text(AppLocalizations.of(context).translate('upload_profile_photo'),
+                                      Text(
+                                          AppLocalizations.of(context)
+                                              .translate(
+                                                  'upload_profile_photo'),
                                           style: textBodyStyle),
                                     ],
                                   )
                                 : CircleAvatar(
                                     backgroundImage:
-                                        FileImage(auth_provider.temp_image),
+                                        FileImage(authProvider.temp_image),
                                     radius: 80,
                                   ),
                           )),
@@ -170,34 +178,35 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       children: [
                         CustomTextFormField().getCustomEditTextArea(
                           obscuretext: false,
-                          labelValue: AppLocalizations.of(context).translate('label_name'),
-                          hintValue: AppLocalizations.of(context).translate('hint_name'),
+                          labelValue: AppLocalizations.of(context)
+                              .translate('label_name'),
+                          hintValue: AppLocalizations.of(context)
+                              .translate('hint_name'),
                           onchanged: (value) {},
                           textInputAction: TextInputAction.next,
                           prefixicon: const Icon(
                             Icons.drive_file_rename_outline,
                             color: Colors.black,
                           ),
-                          controller: auth_provider.nameController,
-                          validator: (value) =>  validateName(context,value),
+                          controller: authProvider.nameController,
+                          validator: (value) => validateName(context, value),
                         ),
                         SizedBox(
                           height: hp(2, context),
                         ),
                         IntlPhoneField(
                           decoration: InputDecoration(
-                            labelText: AppLocalizations.of(context).translate('label_phone_no'),
+                            labelText: AppLocalizations.of(context)
+                                .translate('label_phone_no'),
                             border: const OutlineInputBorder(
-                              borderSide: BorderSide(),
-                              borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS))
-                            ),
+                                borderSide: BorderSide(),
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(BORDER_RADIUS))),
                           ),
                           initialCountryCode: 'IN',
                           textInputAction: TextInputAction.done,
-                          controller: auth_provider.phoneNoController,
-                          onChanged: (phone) {
-                            print(phone.completeNumber);
-                          },
+                          controller: authProvider.phoneNoController,
+                          onChanged: (phone) {},
                         ),
                       ],
                     ),
@@ -210,21 +219,21 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   child: CustomButton(
                       child: widget.userData == null
                           ? Text(
-                        AppLocalizations.of(context).translate('save'),
+                              AppLocalizations.of(context).translate('save'),
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             )
                           : Text(
-                        AppLocalizations.of(context).translate('update'),
+                              AppLocalizations.of(context).translate('update'),
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             ),
                       onPressed: () async {
                         if (_form_key_userinfo.currentState!.validate()) {
                           if (widget.userData == null) {
-                            auth_provider.saveUserInfo(context);
+                            authProvider.saveUserInfo(context);
                           } else {
-                            auth_provider.updateUserInfo(context);
+                            authProvider.updateUserInfo(context);
                           }
                         }
                       }),

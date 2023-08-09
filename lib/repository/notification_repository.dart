@@ -1,19 +1,16 @@
-
 import '../data/network/base_api_service.dart';
 import '../data/network/network_api_service.dart';
-import '../utils/constants/api_endpoints.dart';
+import '../utils/services/api_endpoints.dart';
 
 class NotificationRepository {
-
   final BaseApiService _apiService = NetworkApiService();
 
   // get list of notification
 
-  getNotifications() {
+  getNotifications() async {
     try {
-      return _apiService.getGetApiResponse(
-          ApiEndPoint.baseUrl +
-              ApiEndPoint.notificationEndPoint.notificationEndPoint);
+      return await _apiService.getGetApiResponse(ApiEndPoint.baseUrl +
+          ApiEndPoint.notificationEndPoint.notificationEndPoint);
     } catch (e) {
       rethrow;
     }
@@ -21,25 +18,21 @@ class NotificationRepository {
 
   // delete notification
 
-  deleteSingleNotification(int id) {
+  deleteSingleNotification(int id) async {
     try {
-      return _apiService.getDeleteApiResponse(
-          "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/"
-      );
+      return await _apiService.getDeleteApiResponse(
+          "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/");
     } catch (e) {
       rethrow;
     }
   }
 
-
   // delete all notification
 
-   deleteAllNotification() {
+  deleteAllNotification() async {
     try {
-      return _apiService.getDeleteApiResponse(
-          ApiEndPoint.baseUrl +
-              ApiEndPoint.notificationEndPoint.notificationEndPoint
-      );
+      return await _apiService.getDeleteApiResponse(ApiEndPoint.baseUrl +
+          ApiEndPoint.notificationEndPoint.notificationEndPoint);
     } catch (e) {
       rethrow;
     }
@@ -47,13 +40,12 @@ class NotificationRepository {
 
   // mark as read notification
 
-  markAsReadNotification(int id) {
+  markAsReadNotification(int id) async {
     try {
       var data = {};
-      return _apiService.getPutApiResponse(
+      return await _apiService.getPutApiResponse(
           "${ApiEndPoint.baseUrl}${ApiEndPoint.notificationEndPoint.notificationEndPoint}$id/",
-        data
-      );
+          data);
     } catch (e) {
       rethrow;
     }

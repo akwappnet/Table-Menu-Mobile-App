@@ -1,20 +1,22 @@
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:table_menu_customer/data/db_provider.dart';
 import 'package:table_menu_customer/model/auth_model.dart';
 import 'package:table_menu_customer/model/user_model.dart';
 import 'package:table_menu_customer/repository/user_info_repository.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/widgets/custom_flushbar_widget.dart';
-import 'package:table_menu_customer/data/db_provider.dart';
+
 import '../app_localizations.dart';
 import '../repository/auth_repository.dart';
 import '../utils/helpers.dart';
 
-class AuthProvider extends ChangeNotifier {
+class AuthProvider with ChangeNotifier {
   final AuthRepository _authRepository = AuthRepository();
   final UserInfoRepository _userInfoRepository = UserInfoRepository();
 
@@ -25,20 +27,20 @@ class AuthProvider extends ChangeNotifier {
   // register controllers
   final TextEditingController emailRegisterController = TextEditingController();
   final TextEditingController passwordRegisterController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController repeatePasswordRegisterController =
-  TextEditingController();
+      TextEditingController();
 
   // verify user Controller
   final TextEditingController activationOTPController = TextEditingController();
 
   // forgot password Controller
   final TextEditingController forgotPassEmailController =
-  TextEditingController();
+      TextEditingController();
   final TextEditingController forgotPassOTPController = TextEditingController();
   final TextEditingController resetPassController = TextEditingController();
   final TextEditingController resetrepeatPassController =
-  TextEditingController();
+      TextEditingController();
 
   // user info controllers
   final TextEditingController nameController = TextEditingController();
@@ -50,18 +52,17 @@ class AuthProvider extends ChangeNotifier {
 
   UserData? userData;
 
-
   String _user_name = "";
 
   String get user_name => _user_name;
 
   bool boolPushNotification = false;
 
-togglePushNotification(BuildContext context) {
-  boolPushNotification = !boolPushNotification;
-  togglePushNotificationApi(context);
-  notifyListeners();
-}
+  togglePushNotification(BuildContext context) {
+    boolPushNotification = !boolPushNotification;
+    togglePushNotificationApi(context);
+    notifyListeners();
+  }
 
   void setUserName(String value) {
     _user_name = value;
@@ -78,22 +79,29 @@ togglePushNotification(BuildContext context) {
     phoneNoController.text = userData.phoneNumber!;
   }
 
-  userRegisteration(dynamic data,BuildContext context) {
+  userRegisteration(dynamic data, BuildContext context) {
     _authRepository.registrationUser(data).then((response) {
       setLoading(true);
-      if(response != null) {
+      if (response != null) {
         if (response.data["status"] == true) {
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data['message'],onDismissed: () {
+          CustomFlushbar.showSuccess(context, response.data['message'],
+              onDismissed: () {
             Navigator.pushReplacementNamed(
-                context, RoutesName.VERIFY_USER_SCREEN_ROUTE, arguments: false);
+                context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
+                arguments: false);
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message'],onDismissed: (){});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: (){});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -102,7 +110,7 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-  userLogin(String email, String password,BuildContext context) async {
+  userLogin(String email, String password, BuildContext context) async {
     setLoading(true);
     FirebaseMessaging messaging = FirebaseMessaging.instance;
     String? fcmToken = await messaging.getToken();
@@ -132,7 +140,7 @@ togglePushNotification(BuildContext context) {
         fcmToken: fcmToken);
 
     _authRepository.loginUser(data.toJson()).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           setLoading(false);
           String token = response.data['data']['token'];
@@ -141,28 +149,31 @@ togglePushNotification(BuildContext context) {
 
           if (userinfo) {
             setLoading(false);
-            CustomFlushbar.showSuccess(
-                context, response.data['message'],onDismissed: () {
-              Navigator.pushReplacementNamed(context,
-                  RoutesName.HOME_SCREEN_ROUTE);
+            CustomFlushbar.showSuccess(context, response.data['message'],
+                onDismissed: () {
+              Navigator.pushReplacementNamed(
+                  context, RoutesName.HOME_SCREEN_ROUTE);
             });
           } else {
             setLoading(false);
-            CustomFlushbar.showSuccess(
-                context, response.data['message'],onDismissed: (){
+            CustomFlushbar.showSuccess(context, response.data['message'],
+                onDismissed: () {
               Navigator.pushReplacementNamed(
-                  context,
-                  RoutesName.USER_INFO_SCREEN_ROUTE,arguments: null);
+                  context, RoutesName.USER_INFO_SCREEN_ROUTE,
+                  arguments: null);
             });
           }
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(
-              context, response.data['message'],onDismissed: (){});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
+      } else {
         CustomFlushbar.showError(
-            context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: (){});
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -171,26 +182,30 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-  verifyUser(String otp,String email,BuildContext context) {
+  verifyUser(String otp, String email, BuildContext context) {
     setLoading(true);
-    Map<String, dynamic> data = {
-      "email": email,
-      "otp": otp
-    };
+    Map<String, dynamic> data = {"email": email, "otp": otp};
 
     _authRepository.verifyUser(data).then((response) {
-      if(response != null){
+      if (response != null) {
         if (response.data['status'] == true) {
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data['message'],onDismissed: (){
-            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data['message'],
+              onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.LOGIN_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -199,31 +214,34 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-  verifyForgotOtp(String otp, String email,BuildContext context) {
+  verifyForgotOtp(String otp, String email, BuildContext context) {
     setLoading(true);
-    Map<String, dynamic> data = {
-      "email": email,
-      "otp": otp
-    };
+    Map<String, dynamic> data = {"email": email, "otp": otp};
 
     _authRepository.verifyForgotOtp(data).then((response) {
-      if(response != null){
+      if (response != null) {
         log(response.data.toString());
         if (response.data['status'] == true) {
           String verifyPasswordToken = response.data['data']['token'];
           log("verify token : $verifyPasswordToken");
           DatabaseProvider().saveVerifyToken(verifyPasswordToken);
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
             Navigator.pushReplacementNamed(
                 context, RoutesName.RESET_PASSWORD_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == false) {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -232,49 +250,61 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-
-  sendVerifiactionMail(String email,BuildContext context) {
+  sendVerifiactionMail(String email, BuildContext context) {
     Map<String, dynamic> data = {'email': email};
 
     _authRepository.sendForgotPasswordOTP(data).then((response) {
-      if(response != null){
+      if (response != null) {
         if (response.data['status'] == true) {
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
             Navigator.pushReplacementNamed(
                 context, RoutesName.VERIFY_USER_SCREEN_ROUTE,
                 arguments: true);
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
       }
     }).catchError((error) {
       handleDioException(context, error);
     });
   }
 
-  resetPasswordUser(String email,String password,BuildContext context) async{
+  resetPasswordUser(String email, String password, BuildContext context) async {
     setLoading(true);
     Map<String, dynamic> data = {"email": email, "password": password};
     final verifyToken = await DatabaseProvider().getVerifyToken();
     log("verify token : $verifyToken");
     log(data.toString());
 
-    _authRepository.resetPassword(data,verifyToken).then((response) {
-      if(response != null) {
+    _authRepository.resetPassword(data, verifyToken).then((response) {
+      if (response != null) {
         if (response.data['status'] == true) {
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
-            Navigator.pushReplacementNamed(context, RoutesName.LOGIN_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.LOGIN_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"], onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'), onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -298,19 +328,26 @@ togglePushNotification(BuildContext context) {
     FormData formData = userData.toFormData();
 
     await _userInfoRepository.saveUserInfo(formData).then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           setLoading(false);
           clearController();
-          CustomFlushbar.showSuccess(context, response.data["message"], onDismissed: () {
-            Navigator.pushReplacementNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
+            Navigator.pushReplacementNamed(
+                context, RoutesName.HOME_SCREEN_ROUTE);
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -319,20 +356,25 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-  getUserInfo(BuildContext context)  {
+  getUserInfo(BuildContext context) {
     _userInfoRepository.getUserInfo().then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           var userModel = UserModel.fromJson(response.data);
           userData = userModel.userData;
           setUserName(userModel.userData!.name!);
           notifyListeners();
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data['message'],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data['message'],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context,AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -353,18 +395,24 @@ togglePushNotification(BuildContext context) {
 
     FormData formData = userData.toFormData();
     await _userInfoRepository.updateUserInfo(formData).then((response) {
-      if(response != null){
+      if (response != null) {
         if (response.data['status'] == true) {
           setLoading(false);
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
             Navigator.of(context).pop();
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           setLoading(false);
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         setLoading(false);
       }
     }).catchError((error) {
@@ -375,23 +423,29 @@ togglePushNotification(BuildContext context) {
 
   deleteUserInfo(BuildContext context) {
     _userInfoRepository.deleteUserInfo().then((response) {
-      if(response != null){
+      if (response != null) {
         if (response.data["status"] == true) {
           DatabaseProvider().clear();
           clearController();
-          CustomFlushbar.showSuccess(context, response.data["message"],onDismissed: () {
+          CustomFlushbar.showSuccess(context, response.data["message"],
+              onDismissed: () {
             Navigator.pushNamedAndRemoveUntil(
               context,
               RoutesName.LOGIN_SCREEN_ROUTE,
-                  (route) => false, // Clear the entire backstack
+              (route) => false, // Clear the entire backstack
             );
           });
         } else if (response.data['status'] == "False") {
-          CustomFlushbar.showError(context, response.data["message"],onDismissed: () {});
+          CustomFlushbar.showError(context, response.data["message"],
+              onDismissed: () {});
           notifyListeners();
         }
-      }else {
-        CustomFlushbar.showError(context, AppLocalizations.of(context).translate('error_occurred_error_message'),onDismissed: () {});
+      } else {
+        CustomFlushbar.showError(
+            context,
+            AppLocalizations.of(context)
+                .translate('error_occurred_error_message'),
+            onDismissed: () {});
         notifyListeners();
       }
     }).catchError((error) {
@@ -400,16 +454,15 @@ togglePushNotification(BuildContext context) {
     });
   }
 
-
-  togglePushNotificationApi(BuildContext context)  {
+  togglePushNotificationApi(BuildContext context) {
     _authRepository.pushNotificationToggle().then((response) {
-      if(response != null) {
+      if (response != null) {
         if (response.data['status'] == true) {
           notifyListeners();
         } else if (response.data['status'] == "False") {
           notifyListeners();
         }
-      }else {
+      } else {
         notifyListeners();
       }
     }).catchError((error) {
@@ -422,8 +475,8 @@ togglePushNotification(BuildContext context) {
 
   get temp_image => _temp_image;
 
-  void setImagetemp(File temp_image) {
-    _temp_image = temp_image;
+  void setImagetemp(File tempImage) {
+    _temp_image = tempImage;
     notifyListeners();
   }
 
@@ -440,8 +493,9 @@ togglePushNotification(BuildContext context) {
     resetrepeatPassController.clear();
     nameController.clear();
     phoneNoController.clear();
+    _temp_image?.delete(recursive: true);
+    notifyListeners();
   }
-
 
   @override
   void dispose() {
@@ -466,8 +520,7 @@ togglePushNotification(BuildContext context) {
     Navigator.pushNamedAndRemoveUntil(
       context,
       RoutesName.LOGIN_SCREEN_ROUTE,
-          (route) => false, // Clear the entire backstack
+      (route) => false, // Clear the entire backstack
     );
   }
-
 }

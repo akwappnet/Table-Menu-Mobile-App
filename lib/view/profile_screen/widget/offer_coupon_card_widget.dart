@@ -23,8 +23,9 @@ class OfferCouponCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: hp(1.5, context),horizontal: wp(2, context)),
-         decoration: const BoxDecoration(
+        padding: EdgeInsets.symmetric(
+            vertical: hp(1.5, context), horizontal: wp(2, context)),
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(BORDER_RADIUS),
           ),
@@ -35,12 +36,13 @@ class OfferCouponCard extends StatelessWidget {
               children: [
                 Text(
                   titleText,
-                  style:
-                      smallTitleTextStyle.copyWith(fontFamily: fontSemiBold),
+                  style: smallTitleTextStyle.copyWith(fontFamily: fontSemiBold),
                 ),
               ],
             ),
-            SizedBox(height: hp(1, context),),
+            SizedBox(
+              height: hp(1, context),
+            ),
             Row(
               children: [
                 Text(
@@ -50,17 +52,20 @@ class OfferCouponCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: hp(1, context),),
+            SizedBox(
+              height: hp(1, context),
+            ),
             Row(
               children: [
                 Expanded(
                   child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent,
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent,
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
-                      hoverColor: Colors.transparent,),
-                    child:  ExpansionTile(
+                      hoverColor: Colors.transparent,
+                    ),
+                    child: ExpansionTile(
                       controlAffinity: ListTileControlAffinity.trailing,
                       title: Row(
                         children: [
@@ -78,22 +83,28 @@ class OfferCouponCard extends StatelessWidget {
                             ),
                           ),
                           const Spacer(),
-                          Text(AppLocalizations.of(context).translate('view_details'),style: smallRegularStyle,),
+                          Text(
+                            AppLocalizations.of(context)
+                                .translate('view_details'),
+                            style: smallRegularStyle,
+                          ),
                         ],
                       ),
                       children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: hp(1, context),horizontal: wp(1, context)),
-                          child: Column(
+                          padding: EdgeInsets.symmetric(
+                              vertical: hp(1, context),
+                              horizontal: wp(1, context)),
+                          child: const Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              UnorderedList(
-                                const ["this is the description of the coupon code.",
-                                  "this is the description of the coupon code.",
-                                  "this is the description of the coupon code.",
-                                      "this is the description of the coupon code."]
-                              )
+                              UnorderedList([
+                                "this is the description of the coupon code.",
+                                "this is the description of the coupon code.",
+                                "this is the description of the coupon code.",
+                                "this is the description of the coupon code."
+                              ])
                             ],
                           ),
                         ),

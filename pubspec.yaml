@@ -71,6 +71,7 @@ dependencies:
   flutter_localization: ^0.1.13
   flutter_localizations:
     sdk: flutter
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -101,7 +102,6 @@ flutter:
     - assets/images/
     - assets/lotti_animation/
     - assets/.env
-    - assets/default_google_pay_config.json
     - i18n/en.json
     - i18n/ar.json
   #   - images/a_dot_ham.jpeg

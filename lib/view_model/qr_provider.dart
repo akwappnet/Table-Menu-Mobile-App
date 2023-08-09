@@ -1,9 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class QRProvider extends ChangeNotifier {
-
+class QRProvider with ChangeNotifier {
   int _table_number = 1;
 
   int get table_number => _table_number;
@@ -14,11 +14,10 @@ class QRProvider extends ChangeNotifier {
 
   bool get isVisible => _isVisible;
 
-
   getDataFromQR(String data) {
-    final json_data = json.decode(data);
-    _table_number = json_data['table_no'];
-    _show_menu = json_data['show_menu'];
+    final jsonData = json.decode(data);
+    _table_number = jsonData['table_no'];
+    _show_menu = jsonData['show_menu'];
     setVisibilityOfMenu(_show_menu);
     notifyListeners();
   }

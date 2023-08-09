@@ -20,7 +20,7 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final auth_provider = Provider.of<AuthProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
     return AlertDialog(
       title: Center(
         child: Text(
@@ -37,7 +37,8 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
           Form(
             key: _form_email,
             child: CustomTextFormField().getCustomEditTextArea(
-                labelValue: AppLocalizations.of(context).translate('email_label'),
+                labelValue:
+                    AppLocalizations.of(context).translate('email_label'),
                 hintValue: AppLocalizations.of(context).translate('email_hint'),
                 obscuretext: false,
                 maxLines: 1,
@@ -46,8 +47,8 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
                   Icons.email_outlined,
                   color: Colors.black,
                 ),
-                controller: auth_provider.forgotPassEmailController,
-                validator:  (value) => emailValidator(context,value),
+                controller: authProvider.forgotPassEmailController,
+                validator: (value) => emailValidator(context, value),
                 onchanged: (newValue) {},
                 textInputAction: TextInputAction.done),
           ),
@@ -57,16 +58,17 @@ class _ForgotPassEmailWidgetState extends State<ForgotPassEmailWidget> {
             child: CustomButton(
               onPressed: () {
                 if (_form_email.currentState!.validate()) {
-                  String email = auth_provider.forgotPassEmailController.text;
-                  auth_provider.sendVerifiactionMail(email,context);
+                  String email = authProvider.forgotPassEmailController.text;
+                  authProvider.sendVerifiactionMail(email, context);
                 }
               },
-              child: auth_provider.loading
+              child: authProvider.loading
                   ? const CircularProgressIndicator(
                       color: Colors.white,
                     )
-                  : Text(AppLocalizations.of(context).translate('btn_send_otp'),
-                style: textBodyStyle.copyWith(color: Colors.white),
+                  : Text(
+                      AppLocalizations.of(context).translate('btn_send_otp'),
+                      style: textBodyStyle.copyWith(color: Colors.white),
                     ),
             ),
           ),

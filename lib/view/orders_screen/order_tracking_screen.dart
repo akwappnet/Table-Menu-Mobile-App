@@ -32,7 +32,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderProvider>(
-      builder: (context, order_provider, __) {
+      builder: (context, orderProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -44,9 +44,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                   style: textSmallRegularStyle,
                 ),
                 Text(
-                  order_provider.orderTrackingData?.orderStatus ?? "",
+                  orderProvider.orderTrackingData?.orderStatus ?? "",
                   style: smallTitleTextStyle.copyWith(
-                      color: order_provider.orderTrackingData?.orderStatus ==
+                      color: orderProvider.orderTrackingData?.orderStatus ==
                               "pending"
                           ? Colors.amber
                           : Colors.green),
@@ -55,15 +55,8 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
             ),
             backgroundColor: Colors.white,
             scrolledUnderElevation: 0.0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.popAndPushNamed(
-                    context, RoutesName.HOME_SCREEN_ROUTE);
-              },
-            ),
           ),
-          body: order_provider.orderTrackingData == null
+          body: orderProvider.orderTrackingData == null
               ? Center(
                   child: Lottie.asset(
                     AssetsUtils.ASSETS_LOADING_PURPLE_ANIMATION,
@@ -126,13 +119,13 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                       maintainState: true,
                                       children: <Widget>[
                                         ListView.builder(
-                                          itemCount: order_provider
+                                          itemCount: orderProvider
                                               .orderTrackingData!
                                               .orderTrackingCartItems!
                                               .length,
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) {
-                                            var item = order_provider
+                                            var item = orderProvider
                                                 .orderTrackingData!
                                                 .orderTrackingCartItems![index];
                                             return Container(
@@ -244,7 +237,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                              "${AppLocalizations.of(context).translate('₹')} ${orderProvider.orderTrackingData?.totalPrice ?? ""}",
                                               style: textBodyStyle.copyWith(
                                                   color: Colors.black),
                                             ),
@@ -286,7 +279,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                                              "${AppLocalizations.of(context).translate('₹')} ${orderProvider.orderTrackingData?.totalPrice ?? ""}",
                                               style: textBodyStyle.copyWith(
                                                   color: Colors.black),
                                             ),
@@ -304,7 +297,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                     ),
                   ),
                 ),
-          bottomNavigationBar: order_provider.orderTrackingData?.orderStatus ==
+          bottomNavigationBar: orderProvider.orderTrackingData?.orderStatus ==
                   "pending"
               ? const SizedBox.shrink()
               : Hero(
@@ -318,10 +311,9 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                       height: hp(7.5, context),
                       child: CustomButton(
                         onPressed: () async {
-                          String total_price =
-                              order_provider.orderTrackingData?.totalPrice ??
-                                  "";
-                          double totalPriceDouble = double.parse(total_price);
+                          String totalPrice =
+                              orderProvider.orderTrackingData?.totalPrice ?? "";
+                          double totalPriceDouble = double.parse(totalPrice);
                           String formattedPrice =
                               totalPriceDouble.toInt().toString();
                           Navigator.pushNamed(
@@ -341,7 +333,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
                             ),
                             const Spacer(),
                             Text(
-                              "${AppLocalizations.of(context).translate('₹')} ${order_provider.orderTrackingData?.totalPrice ?? ""}",
+                              "${AppLocalizations.of(context).translate('₹')} ${orderProvider.orderTrackingData?.totalPrice ?? ""}",
                               style:
                                   textBodyStyle.copyWith(color: Colors.white),
                             ),

@@ -20,7 +20,7 @@ void showAddInstructionBottomsheet(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return Consumer<OrderProvider>(
-        builder: (context,order_provider,__){
+        builder: (context, orderProvider, __) {
           return Container(
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -32,19 +32,35 @@ void showAddInstructionBottomsheet(BuildContext context) {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: Row(
+                  child: Column(
                     children: [
-                      SizedBox(width: wp(1, context),),
-                      Text(AppLocalizations.of(context).translate('special_cooking_instruction'),style: textBodyStyle,),
-                      const Spacer(),
-                      IconButton(onPressed: () {
-                        Navigator.of(context).pop();
-                      }, icon: const Icon(Icons.close,color: Colors.black,),)
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: wp(1, context),
+                          ),
+                          Text(
+                            AppLocalizations.of(context)
+                                .translate('special_cooking_instruction'),
+                            style: textBodyStyle,
+                          ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.black,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -54,53 +70,119 @@ void showAddInstructionBottomsheet(BuildContext context) {
                 SizedBox(
                   height: hp(1, context),
                 ),
+                orderProvider.cookingInstruction.isNotEmpty
+                    ? Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: wp(2, context)),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: wp(0.5, context),
+                              vertical: hp(0.3, context)),
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              border: Border.all(color: Colors.black, width: 1),
+                              borderRadius: const BorderRadius.all(
+                                  Radius.circular(BORDER_RADIUS))),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(orderProvider.cookingInstruction,
+                                    style: textRegularStyle,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.clip),
+                              ),
+                              SizedBox(
+                                width: wp(2, context),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  orderProvider.updateCookingInstruction("");
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                SizedBox(
+                  height: hp(1, context),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: CustomTextFormField().getCustomEditTextArea(
-                      labelValue: AppLocalizations.of(context).translate('label_cooking_instruction'),
-                      hintValue: AppLocalizations.of(context).translate('hint_cooking_instruction'),
-                      controller: order_provider.instructionController,
-                      prefixicon: const Icon(Icons.edit_note_outlined),
-                      obscuretext: false,
-                      onchanged: (value){},
-                      textInputAction: TextInputAction.done,
-                      maxLength: 100,
-                      textStyle: textRegularStyle,
-                      validator: (value) =>  validateField(context,value)),
+                  child: SizedBox(
+                    width: wp(100, context),
+                    height: hp(13, context),
+                    child: CustomTextFormField().getCustomEditTextArea(
+                        labelValue: AppLocalizations.of(context)
+                            .translate('label_cooking_instruction'),
+                        hintValue: AppLocalizations.of(context)
+                            .translate('hint_cooking_instruction'),
+                        controller: orderProvider.instructionController,
+                        prefixicon: const Icon(Icons.edit_note_outlined),
+                        obscuretext: false,
+                        onchanged: (value) {},
+                        textInputAction: TextInputAction.done,
+                        maxLength: 100,
+                        textStyle: textRegularStyle,
+                        validator: (value) => validateField(context, value)),
+                  ),
                 ),
                 SizedBox(height: hp(0.5, context)),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: CustomText(text: AppLocalizations.of(context).translate('cooking_instruction_text1'),color: Colors.red,size: 12),
+                  child: CustomText(
+                      alignment: TextAlign.start,
+                      text: AppLocalizations.of(context)
+                          .translate('cooking_instruction_text1'),
+                      color: Colors.red,
+                      size: 12),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: CustomText(text: AppLocalizations.of(context).translate('cooking_instruction_text2'),color: Colors.red,size: 12,),
+                  child: CustomText(
+                    alignment: TextAlign.start,
+                    text: AppLocalizations.of(context)
+                        .translate('cooking_instruction_text2'),
+                    color: Colors.red,
+                    size: 12,
+                  ),
                 ),
-                SizedBox(height: hp(2, context),),
+                SizedBox(
+                  height: hp(2, context),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: wp(2, context)),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple.shade400,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                  child: SizedBox(
+                    height: hp(7.5, context),
+                    width: wp(100, context),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        orderProvider.updateCookingInstruction(
+                            orderProvider.instructionController.text);
+                        orderProvider.instructionController.clear();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.purple.shade400,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(BORDER_RADIUS),
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: Text(
-                        AppLocalizations.of(context).translate('add_text'),
-                        style: textRegularStyle.copyWith(
-                            fontSize: 16, color: Colors.white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: Text(
+                          AppLocalizations.of(context).translate('add_text'),
+                          style: textRegularStyle.copyWith(
+                              fontSize: 16, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: hp(2, context),),
+                SizedBox(
+                  height: hp(2, context),
+                ),
               ],
             ),
           );

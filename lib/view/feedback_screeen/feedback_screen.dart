@@ -11,13 +11,13 @@ import '../../utils/widgets/custom_button.dart';
 import '../../view_model/order_provider.dart';
 
 class FeedbackScreen extends StatelessWidget {
-  const FeedbackScreen({super.key,this.orderID});
+  const FeedbackScreen({super.key, this.orderID});
   final int? orderID;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderProvider>(
-      builder: (context,order_provider,__){
+      builder: (context, orderProvider, __) {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -47,7 +47,8 @@ class FeedbackScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          AppLocalizations.of(context).translate('rate_your_food'),
+                          AppLocalizations.of(context)
+                              .translate('rate_your_food'),
                           style: smallTitleTextStyle,
                         ),
                       ],
@@ -56,7 +57,8 @@ class FeedbackScreen extends StatelessWidget {
                       height: hp(2, context),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('how_was_your_food'),
+                      AppLocalizations.of(context)
+                          .translate('how_was_your_food'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -105,14 +107,15 @@ class FeedbackScreen extends StatelessWidget {
                         }
                       },
                       onRatingUpdate: (rating) {
-                        order_provider.updateFoodRating(rating);
+                        orderProvider.updateFoodRating(rating);
                       },
                     ),
                     SizedBox(
                       height: hp(2, context),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('how_was_our_service'),
+                      AppLocalizations.of(context)
+                          .translate('how_was_our_service'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -161,14 +164,15 @@ class FeedbackScreen extends StatelessWidget {
                         }
                       },
                       onRatingUpdate: (rating) {
-                        order_provider.updateServiceRating(rating);
+                        orderProvider.updateServiceRating(rating);
                       },
                     ),
                     SizedBox(
                       height: hp(2, context),
                     ),
                     Text(
-                      AppLocalizations.of(context).translate('write_your_feedback'),
+                      AppLocalizations.of(context)
+                          .translate('write_your_feedback'),
                       style: textBodyStyle,
                     ),
                     SizedBox(
@@ -176,9 +180,11 @@ class FeedbackScreen extends StatelessWidget {
                     ),
                     CustomTextFormField().getCustomEditTextArea(
                         maxLines: 5,
-                        labelValue: AppLocalizations.of(context).translate('feedback'),
-                        hintValue: AppLocalizations.of(context).translate('hint_enter_feedback'),
-                        controller: order_provider.feedbackController,
+                        labelValue:
+                            AppLocalizations.of(context).translate('feedback'),
+                        hintValue: AppLocalizations.of(context)
+                            .translate('hint_enter_feedback'),
+                        controller: orderProvider.feedbackController,
                         obscuretext: false,
                         onchanged: (value) {},
                         textInputAction: TextInputAction.done,
@@ -201,8 +207,9 @@ class FeedbackScreen extends StatelessWidget {
               height: hp(7.5, context),
               child: CustomButton(
                 onPressed: () {
-                  order_provider.feedback(orderID!,context);
-                  Navigator.popAndPushNamed(context, RoutesName.HOME_SCREEN_ROUTE);
+                  orderProvider.feedback(orderID!, context);
+                  Navigator.popAndPushNamed(
+                      context, RoutesName.HOME_SCREEN_ROUTE);
                 },
                 child: Text(
                   AppLocalizations.of(context).translate('submit'),
