@@ -17,7 +17,7 @@ import 'package:table_menu_customer/utils/routes/routes.dart';
 import 'package:table_menu_customer/utils/routes/routes_name.dart';
 import 'package:table_menu_customer/utils/services/notification_service.dart';
 import 'package:table_menu_customer/view/home_screen.dart';
-import 'package:table_menu_customer/view/login_screen.dart';
+import 'package:table_menu_customer/view/welcome_screen.dart';
 import 'package:table_menu_customer/view_model/auth_provider.dart';
 import 'package:table_menu_customer/view_model/cart_provider.dart';
 import 'package:table_menu_customer/view_model/connectivity_provider.dart';
@@ -28,6 +28,7 @@ import 'package:table_menu_customer/view_model/order_provider.dart';
 import 'package:table_menu_customer/view_model/qr_provider.dart';
 
 import 'app_localizations.dart';
+import 'data/db_provider.dart';
 import 'firebase_options.dart';
 import 'view_model/app_language_provider.dart';
 
@@ -55,6 +56,10 @@ Future<void> main() async {
   String loggedIn = await authRepository.isLoggedIn();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
+  DatabaseProvider databaseProvider = DatabaseProvider();
+  String deviceId = await databaseProvider.getDeviceId();
+  log("device id : $deviceId");
+  await databaseProvider.saveDeviceId(deviceId);
   runApp(MyApp(
     loggedIn: loggedIn,
     appLanguage: appLanguage,
@@ -111,7 +116,7 @@ class _MyAppState extends State<MyApp> {
               home: AnimatedSplashScreen(
                 nextRoute: widget.loggedIn != ''
                     ? RoutesName.HOME_SCREEN_ROUTE
-                    : RoutesName.LOGIN_SCREEN_ROUTE,
+                    : RoutesName.WELCOME_SCREEN_ROUTE,
                 duration: 3000,
                 splashTransition: SplashTransition.scaleTransition,
                 backgroundColor: Colors.white,
@@ -124,8 +129,9 @@ class _MyAppState extends State<MyApp> {
                     width: 300,
                   ),
                 ),
-                nextScreen:
-                    widget.loggedIn != '' ? const HomeScreen() : LoginScreen(),
+                nextScreen: widget.loggedIn != ''
+                    ? const HomeScreen()
+                    : const WelcomeScreen(),
               ),
               onGenerateRoute: Routes.generateRoute,
               navigatorKey: AppContext.navigatorKey,

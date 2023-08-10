@@ -24,6 +24,11 @@ class AssetsUtils {
   static String ASSETS_FOOD_PREPARING_ANIMATION =
       "assets/lotti_animation/food_preparing.json";
 
+  static String ASSETS_ONBOARDING_BROWSE =
+      "assets/images/onboarding_browse.svg";
+  static String ASSETS_ONBOARDING_ENJOY = "assets/images/onboarding_enjoy.svg";
+  static String ASSETS_ONBOARDING_ORDER = "assets/images/onboarding_order.svg";
+
   static List<String> bannerImageList = [
     "assets/images/banner.png",
     "assets/images/banner1.jpg",
